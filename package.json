@@ -1,0 +1,23 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "inc": "hardhat inc",
+    "propose:counter-upgrade-safe": "hardhat run scripts/propose-counter-upgrade-safe-example.ts"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^3.1.5",
+    "@nomicfoundation/hardhat-toolbox-viem": "^5.0.5",
+    "@openzeppelin/contracts": "^5.0.0",
+    "@openzeppelin/contracts-upgradeable": "^5.0.0",
+    "@safe-global/api-kit": "^4.1.0",
+    "@safe-global/protocol-kit": "^7.1.0",
+    "@types/node": "^22.8.5",
+    "dotenv": "^16.4.5",
+    "forge-std": "github:foundry-rs/forge-std#v1.9.4",
+    "hardhat": "^3.4.5",
+    "typescript": "~5.8.0",
+    "viem": "^2.47.6"
+  }
+}
