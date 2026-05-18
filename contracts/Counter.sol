@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.28;
 
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
@@ -9,13 +9,9 @@ contract Counter is Initializable, OwnableUpgradeable {
 
   event Increment(uint256 by);
 
-  /// @custom:oz-upgrades-unsafe-allow constructor
-  constructor() {
-    _disableInitializers();
-  }
-
-  function initialize(address initialOwner) public initializer {
+  function initialize(address initialOwner, uint256 _x) public initializer {
     __Ownable_init(initialOwner);
+    x = _x;
   }
 
   function inc() public {
