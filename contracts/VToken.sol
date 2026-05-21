@@ -143,8 +143,13 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         }
 
         if (pendingDeleteAmount > 0) {
-            _withdrawals[_withdrawals.length - 1].pending -= pendingDeleteAmount;
-            _withdrawals[_withdrawals.length - 1].queued += pendingDeleteAmount;
+            uint256 lastIdx = _withdrawals.length - 1;
+            Withdrawal memory w = _withdrawals[lastIdx];
+            unchecked {
+                w.pending -= pendingDeleteAmount;
+                w.queued += pendingDeleteAmount;
+            }
+            _withdrawals[lastIdx] = w;
         }
 
         completedWithdrawal += totalAvailableAmount;

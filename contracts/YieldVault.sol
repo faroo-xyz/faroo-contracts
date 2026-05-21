@@ -14,19 +14,106 @@ interface IYieldVaultFactory {
     function paused() external view returns (bool);
 }
 
+/**
+ * @title YieldVault
+ * @notice 每期独立的 stPROS 收益 Vault（ERC-4626），由 {YieldVaultFactory} 经 BeaconProxy 部署并 initialize。
+ *
+ * ## Phase 状态转移图
+ *
+ *   Factory.createYieldVault → initialize
+ *              │
+ *              ▼
+ *        ┌─────────────┐
+ *        │ SUBSCRIBING │◄──────────────────────────────────┐
+ *        └──────┬──────┘                                   │
+ *               │ deposit/mint 满仓 → _closeSubscription() │
+ *               │ closeSubscription()（到期或已满 cap）    │
+ *               │ Factory.emergencyCancel → emergencyCancel│
+ *               ▼                                          │
+ *        ┌─────────────┐                                   │
+ *        │   LOCKED    │───────────────────────────────────┤
+ *        └──────┬──────┘                                   │
+ *               │ proposeSettlement（lockDuration 到期后）  │
+ *               ▼                                          │
+ *        ┌─────────────┐                                   │
+ *        │SETTLE_PROPOSED│                                 │
+ *        └──────┬──────┘                                   │
+ *               │ cancelProposedSettlement / replace 撤回  │
+ *               ├──────────────────────────────────────────┘
+ *               │ finalize（时间锁满 && profitFunded）
+ *               ▼
+ *        ┌─────────────┐
+ *        │   SETTLED   │  （终态，无 phase 回退）
+ *        └─────────────┘
+ *
+ *   SUBSCRIBING ── emergencyCancel ──► CANCELLED（终态，1:1 退本金）
+ *
+ * SETTLE_PROPOSED 内 proposeSettlement 替换流程：先 _cancelProposedSettlement（盈利已付则退款）→ 再写新提议。
+ *
+ * ## 合约调用链路（工厂 → 本期结束）
+ *
+ * 【工厂 YieldVaultFactory — 治理 / 创建】
+ *   initialize(owner)
+ *   addCounterpartyToWhitelist / removeCounterpartyToWhitelist
+ *   createYieldVault(InitParams) ──► BeaconProxy + YieldVault.initialize ──► phase = SUBSCRIBING
+ *   pause / unpause ──► Vault 读 factory.paused()，阻断 deposit / mint / fundProfit
+ *   emergencyCancel(vault) ──► vault.emergencyCancel() ──► CANCELLED
+ *   upgradeBeaconTo(impl) ──► 所有 BeaconProxy 同步升级逻辑
+ *
+ * 【① 申购期 SUBSCRIBING】
+ *   用户: asset.approve(vault) → deposit(assets, receiver) | mint(shares, receiver)
+ *   任意人: closeSubscription()（subscriptionDeadline 已到 或 totalUserPrincipal == epochCap）
+ *   份额: ERC-20 transfer / transferFrom（全周期可用，接盘方 redeem 时按当前 holder 结算）
+ *
+ * 【② 锁定期 LOCKED】
+ *   （无必选链上调用；等待 lockedAt + lockDuration）
+ *   SETTLER: proposeSettlement(PROFIT|LOSS, amount, fundFrom)
+ *     - PROFIT + fundFrom≠0: 同笔 transferFrom 注资，profitFunded=true
+ *     - PROFIT + fundFrom=0: 公示期内需 fundProfit()
+ *     - LOSS: fundFrom 必须为 0，profitFunded=true（无需链上付款）
+ *
+ * 【③ 结算公示期 SETTLE_PROPOSED】
+ *   SETTLER: cancelProposedSettlement() → LOCKED（盈利已付则退 profitFunder）
+ *   SETTLER: proposeSettlement() 覆盖旧提议（内部先撤回 + 可能退款，settleProposedAt 重计）
+ *   任意人: fundProfit()（仅 PROFIT 且 !profitFunded；需 approve settleAmount）
+ *   任意人: finalize()（now ≥ settleProposedAt + settleTimelockWindow 且 profitFunded）
+ *     - PROFIT: 预扣 performanceFeeBps → feeRecipient，快照 settledTotalClaimableAssets
+ *     - LOSS: settledTotalClaimableAssets = totalUserPrincipal - settleAmount
+ *
+ * 【④ 兑付期 SETTLED / CANCELLED】
+ *   用户: redeem(shares, receiver, owner) | withdraw(assets, receiver, owner)
+ *   counterparty（仅 SETTLED + LOSS）: claimCounterpartyProceeds()
+ *
+ * ## 各 Phase 可调用的外部入口
+ *
+ * | Phase            | YieldVault 入口                                              | 不受 factory.pause 影响 |
+ * |------------------|--------------------------------------------------------------|-------------------------|
+ * | SUBSCRIBING      | deposit, mint, closeSubscription; emergencyCancel(仅工厂)  | closeSubscription 等    |
+ * | LOCKED           | proposeSettlement                                            | 是                      |
+ * | SETTLE_PROPOSED  | proposeSettlement, fundProfit, cancelProposedSettlement, finalize | finalize 等        |
+ * | SETTLED          | redeem, withdraw, claimCounterpartyProceeds(LOSS)            | 是                      |
+ * | CANCELLED        | redeem, withdraw                                             | 是                      |
+ *
+ * factory.pause 时：deposit / mint / fundProfit revert；redeem / withdraw / finalize /
+ * proposeSettlement / cancelProposedSettlement / claimCounterpartyProceeds / ERC-20 转账仍可用。
+ */
 contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeable, ReentrancyGuard {
     using SafeERC20 for IERC20;
     using Math for uint256;
 
     bytes32 public constant SETTLER_ROLE = keccak256("SETTLER_ROLE");
 
-    /// @notice 每期 Vault 业务阶段
+    /// @notice 每期 Vault 业务阶段（转移关系见合约顶部的 Phase 状态转移图）
+    /// @dev SUBSCRIBING → LOCKED：closeSubscription / deposit 满仓
+    /// @dev LOCKED ⇄ SETTLE_PROPOSED：proposeSettlement / cancel / replace
+    /// @dev SETTLE_PROPOSED → SETTLED：finalize
+    /// @dev SUBSCRIBING → CANCELLED：Factory.emergencyCancel → emergencyCancel
     enum Phase {
-        SUBSCRIBING, // 申购期：允许 deposit/mint
-        LOCKED, // 锁定期：不允许赎回，等待到期结算
-        SETTLE_PROPOSED, // 结算公示期：已提议结算，等待时间锁与盈利资金到位
-        SETTLED, // 兑付期：允许用户赎回、亏损模式允许对手方领取切扣
-        CANCELLED // 取消期：紧急取消后按本金口径兑付
+        SUBSCRIBING, // 申购期：deposit / mint；可 emergencyCancel
+        LOCKED, // 锁定期：不可 redeem；到期后 proposeSettlement
+        SETTLE_PROPOSED, // 结算公示期：fundProfit / cancel / finalize
+        SETTLED, // 兑付期：redeem / withdraw；LOSS 下 claimCounterpartyProceeds
+        CANCELLED // 紧急取消终态：redeem / withdraw（1:1 本金）
     }
 
     /// @notice 结算模式

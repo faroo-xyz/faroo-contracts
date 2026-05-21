@@ -36,13 +36,7 @@ contract StPROS is VToken, ReentrancyGuard {
         // Convert PHRS to V_PHRS (V_PHRS will be sent to this contract)
         IWETH(address(asset())).deposit{value: msg.value}();
 
-        currentCycleMintTokenAmount += msg.value;
-        uint256 vTokenAmount = previewDeposit(msg.value);
-        currentCycleMintVTokenAmount += vTokenAmount;
-
-        _mint(msg.sender, vTokenAmount);
-        emit Deposit(msg.sender, msg.sender, msg.value, vTokenAmount);
-        return vTokenAmount;
+        return super.deposit(msg.value, msg.sender);
     }
 
     function withdrawCompleteToPROS() external whenNotPaused nonReentrant returns (uint256) {
