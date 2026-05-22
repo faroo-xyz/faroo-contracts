@@ -27,7 +27,7 @@ interface IYieldVaultFactory {
  *        │ SUBSCRIBING │◄──────────────────────────────────┐
  *        └──────┬──────┘                                   │
  *               │ deposit/mint 满仓 → _closeSubscription() │
- *               │ closeSubscription()（到期或已满 cap）    │
+ *               │ closeSubscription()（到期且已满 cap）    │
  *               │ Factory.emergencyCancel → emergencyCancel│
  *               ▼                                          │
  *        ┌─────────────┐                                   │
@@ -62,7 +62,7 @@ interface IYieldVaultFactory {
  *
  * 【① 申购期 SUBSCRIBING】
  *   用户: asset.approve(vault) → deposit(assets, receiver) | mint(shares, receiver)
- *   任意人: closeSubscription()（subscriptionDeadline 已到 或 totalUserPrincipal == epochCap）
+ *   任意人: closeSubscription()（subscriptionDeadline 已到 且 totalUserPrincipal == epochCap）
  *   份额: ERC-20 transfer / transferFrom（全周期可用，接盘方 redeem 时按当前 holder 结算）
  *
  * 【② 锁定期 LOCKED】
@@ -130,8 +130,6 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         address factory;
         /// @notice 默认管理员（DEFAULT_ADMIN_ROLE）
         address admin;
-        /// @notice 结算角色地址（SETTLER_ROLE）
-        address settler;
         /// @notice 本期绑定对手方地址
         address counterparty;
         /// @notice 盈利分成手续费接收地址
@@ -318,7 +316,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     function initialize(InitParams calldata p) external initializer {
         // 核心地址不可为零地址
         if (
-            p.asset == address(0) || p.factory == address(0) || p.admin == address(0) || p.settler == address(0)
+            p.asset == address(0) || p.factory == address(0) || p.admin == address(0)
                 || p.counterparty == address(0) || p.feeRecipient == address(0)
         ) {
             revert InvalidAddress();
@@ -337,8 +335,6 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
 
         // 授予默认管理员
         _grantRole(DEFAULT_ADMIN_ROLE, p.admin);
-        // 授予结算角色
-        _grantRole(SETTLER_ROLE, p.settler);
 
         factory = p.factory;
         counterparty = p.counterparty;

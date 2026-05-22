@@ -7,14 +7,14 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 contract StPROS is VToken, ReentrancyGuard {
-    /// @notice Thrown when PHRS is not sent
-    error EthNotSent();
+    /// @notice Thrown when PROS is not sent
+    error PROSNotSent();
 
-    /// @notice Thrown when PHRS transfer failed
-    error EthTransferFailed();
+    /// @notice Thrown when PROS transfer failed
+    error TransferFailed();
 
-    /// @notice Emitted when PHRS is received
-    event EthReceived(address indexed sender, uint256 amount);
+    /// @notice Emitted when PROS is received
+    event PROSReceived(address indexed sender, uint256 amount);
 
     /// @notice Override initialize to include reentrancy guard (for new deployments)
     function initialize(IERC20 asset, address owner, string memory name, string memory symbol)
@@ -24,16 +24,16 @@ contract StPROS is VToken, ReentrancyGuard {
         __VToken_init(asset, owner, name, symbol);
     }
 
-    /// @notice Receive PHRS from V_PHRS withdrawal
+    /// @notice Receive PROS from V_PROS withdrawal
     receive() external payable {
-        emit EthReceived(_msgSender(), msg.value);
+        emit PROSReceived(_msgSender(), msg.value);
     }
 
     function depositWithPROS() external payable whenNotPaused nonReentrant returns (uint256) {
         if (msg.value == 0) {
-            revert EthNotSent();
+            revert PROSNotSent();
         }
-        // Convert PHRS to V_PHRS (V_PHRS will be sent to this contract)
+        // Convert PROS to V_PROS (V_PROS will be sent to this contract)
         IWETH(address(asset())).deposit{value: msg.value}();
 
         return super.deposit(msg.value, msg.sender);
@@ -44,7 +44,7 @@ contract StPROS is VToken, ReentrancyGuard {
         IWETH(address(asset())).withdraw(amount);
         (bool success,) = msg.sender.call{value: amount}("");
         if (!success) {
-            revert EthTransferFailed();
+            revert TransferFailed();
         }
         return amount;
     }

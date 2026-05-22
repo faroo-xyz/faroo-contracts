@@ -8,9 +8,6 @@ import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Pau
 contract Oracle is OwnableUpgradeable, PausableUpgradeable {
     using Math for uint256;
 
-    /// @notice Fee denominator
-    uint16 private constant FEE_DENOMINATOR = 10000;
-
     struct PoolInfo {
         uint256 tokenAmount;
         uint256 vTokenAmount;
