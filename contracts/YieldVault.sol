@@ -401,6 +401,10 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         if (mode == SettleMode.PROFIT) {
             // 若传入即时付款地址且金额大于0，则同笔拉取收益资金
             if (fundFrom != address(0) && amount > 0) {
+                // 仅允许结算员使用自己的余额注资，禁止动用第三方授权
+                if (fundFrom != _msgSender()) {
+                    revert InvalidSettlementInput();
+                }
                 IERC20(address(asset())).safeTransferFrom(fundFrom, address(this), amount);
                 // 标记已注资
                 profitFunded = true;
