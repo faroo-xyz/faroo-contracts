@@ -87,6 +87,9 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     /// @notice 新赎回请求使用的全局等待期（秒）
     uint256 public unbondingPeriod;
 
+    /// @notice 内部跟踪账本，仅由合约内 mint/burn 驱动，不受外部直转资产影响
+    uint256 internal _tracked;
+
     // =================== Events ===================
 
     /// @notice 触发器地址更新事件
@@ -395,12 +398,23 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         emit Withdraw(caller, receiver, owner, assets, shares);
     }
 
-    /// @notice INV-1：PROS 余额必须等于 stPROS 总供应
+    /// @notice 覆盖 ERC20 更新逻辑，内部维护 INV-1 的跟踪账本
+    function _update(address from, address to, uint256 value) internal virtual override {
+        if (from == address(0)) {
+            _tracked += value;
+        }
+        if (to == address(0)) {
+            _tracked -= value;
+        }
+        super._update(from, to, value);
+    }
+
+    /// @notice INV-1：内部跟踪账本必须等于 stPROS 总供应
     function _assertInv1() internal view {
-        uint256 prosBalance = IERC20(address(asset())).balanceOf(address(this));
         uint256 stProsSupply = totalSupply();
-        if (prosBalance != stProsSupply) {
-            revert Inv1Violation(prosBalance, stProsSupply);
+        uint256 trackedAmount = _tracked;
+        if (trackedAmount != stProsSupply) {
+            revert Inv1Violation(trackedAmount, stProsSupply);
         }
     }
 
