@@ -4,9 +4,9 @@ pragma solidity ^0.8.28;
 import {VToken} from "./VToken.sol";
 import {IWETH} from "./IWETH.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import {ReentrancyGuardTransient} from "@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol";
 
-contract StPROS is VToken, ReentrancyGuard {
+contract StPROS is VToken, ReentrancyGuardTransient {
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();

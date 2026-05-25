@@ -7,7 +7,7 @@ import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {ERC4626Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC4626Upgradeable.sol";
 import {AccessControlUpgradeable} from "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
-import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import {ReentrancyGuardTransient} from "@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol";
 
 interface IYieldVaultFactory {
     /// @notice 工厂全局暂停开关；true 时禁止申购与盈利补款
@@ -97,7 +97,7 @@ interface IYieldVaultFactory {
  * factory.pause 时：deposit / mint / fundProfit revert；redeem / withdraw / finalize /
  * proposeSettlement / cancelProposedSettlement / claimCounterpartyProceeds / ERC-20 转账仍可用。
  */
-contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeable, ReentrancyGuard {
+contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeable, ReentrancyGuardTransient {
     using SafeERC20 for IERC20;
     using Math for uint256;
 
