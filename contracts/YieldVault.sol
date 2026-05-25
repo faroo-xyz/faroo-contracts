@@ -229,6 +229,11 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     /// @notice 紧急取消本期
     /// @param at 取消时间戳
     event EmergencyCancelled(uint256 at);
+    /// @notice 申购截止时间延长
+    /// @param oldDeadline 原截止时间
+    /// @param newDeadline 新截止时间
+    /// @param additionalTime 本次延长时长（秒）
+    event SubscriptionDeadlineExtended(uint256 oldDeadline, uint256 newDeadline, uint256 additionalTime);
 
     // =================== State ===================
     /// @notice 工厂合约地址，用于读取全局暂停状态并触发紧急取消
@@ -358,14 +363,26 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         subscriptionDeadline = block.timestamp + p.subscriptionWindow;
     }
 
-    /// @notice 申购期结束后，任何人可主动推进到 LOCKED
-    function closeSubscription() external onlyPhase(Phase.SUBSCRIBING) {
+    /// @notice 申购期结束后，结算员可主动推进到 LOCKED
+    function closeSubscription() external onlyRole(SETTLER_ROLE) onlyPhase(Phase.SUBSCRIBING) {
         // 未到截止时间且未满仓时，不能提前关申购
         if (block.timestamp < subscriptionDeadline && totalUserPrincipal < epochCap) {
             revert SubscriptionNotExpired();
         }
         // 满足条件后推进到锁定期
         _closeSubscription();
+    }
+
+    /// @notice 结算员延长申购截止时间（仅 SUBSCRIBING 阶段）
+    /// @param additionalTime 本次增加的时间（秒）
+    function extendSubscriptionDeadline(uint256 additionalTime)
+        external
+        onlyRole(SETTLER_ROLE)
+        onlyPhase(Phase.SUBSCRIBING)
+    {
+        uint256 oldDeadline = subscriptionDeadline;
+        subscriptionDeadline = oldDeadline + additionalTime;
+        emit SubscriptionDeadlineExtended(oldDeadline, subscriptionDeadline, additionalTime);
     }
 
     /// @notice 结算员提交结算提议，支持盈利/亏损两种模式

@@ -136,6 +136,7 @@ contract YieldVaultTest is Test {
         vm.prank(alice);
         vault.deposit(100 ether, alice);
 
+        vm.prank(settler);
         vm.expectRevert(YieldVault.SubscriptionNotExpired.selector);
         vault.closeSubscription();
     }
@@ -146,8 +147,30 @@ contract YieldVaultTest is Test {
         vault.deposit(100 ether, alice);
         vm.warp(block.timestamp + SUBSCRIPTION_WINDOW + 1);
 
+        vm.prank(settler);
         vault.closeSubscription();
         assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.LOCKED), "lock after window");
+    }
+
+    /// @dev @test 结算员可在申购期延长 subscriptionDeadline
+    function test_ExtendSubscriptionDeadline_BySettler_ShouldUpdateAndEmit() external {
+        uint256 oldDeadline = vault.subscriptionDeadline();
+        uint256 extension = 1 days;
+
+        vm.expectEmit(true, true, true, true);
+        emit YieldVault.SubscriptionDeadlineExtended(oldDeadline, oldDeadline + extension, extension);
+
+        vm.prank(settler);
+        vault.extendSubscriptionDeadline(extension);
+
+        assertEq(vault.subscriptionDeadline(), oldDeadline + extension, "deadline should be extended");
+    }
+
+    /// @dev @test 非结算员调用延长截止时间应回滚
+    function test_ExtendSubscriptionDeadline_ByNonSettler_ShouldRevert() external {
+        vm.prank(alice);
+        vm.expectRevert();
+        vault.extendSubscriptionDeadline(1 days);
     }
 
     /// @dev @test 锁定期未到时提交结算应回滚
