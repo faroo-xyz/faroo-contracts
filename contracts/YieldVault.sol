@@ -555,17 +555,14 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         emit CounterpartyProceedsClaimed(counterparty, settleAmount);
     }
 
-    function maxDeposit(address) public view override returns (uint256) {
+    function maxDeposit(address receiver) public view override returns (uint256) {
         // 非申购期或工厂暂停时，不允许继续申购
         if (phase != Phase.SUBSCRIBING || IYieldVaultFactory(factory).paused()) {
             return 0;
         }
-        // 满仓后不可再申购
-        if (totalUserPrincipal >= epochCap) {
-            return 0;
-        }
-        // 可申购空间 = 总容量 - 已申购本金
-        return epochCap - totalUserPrincipal;
+        uint256 epochLeft = epochCap > totalUserPrincipal ? epochCap - totalUserPrincipal : 0;
+        uint256 userLeft = perAddressCap > userPrincipal[receiver] ? perAddressCap - userPrincipal[receiver] : 0;
+        return Math.min(epochLeft, userLeft);
     }
 
     function maxMint(address receiver) public view override returns (uint256) {
