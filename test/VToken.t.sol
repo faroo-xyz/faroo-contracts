@@ -233,7 +233,7 @@ contract VTokenTest is Test {
         assertEq(vtoken.balanceOf(alice), 101 ether, "deposit should still work");
     }
 
-    /// @dev @test 方案B：caller!=owner 时，赎回队列归 owner 且领取按提交时 receiver 打款
+    /// @dev @test caller!=owner 时，赎回队列归 owner，领取时由 owner 指定 receiver
     function test_WithdrawQueue_ShouldBindOwnerAndReceiver_WhenCallerUsesAllowance() external {
         vm.prank(owner);
         vtoken.setUnbondingPeriod(0);
@@ -250,17 +250,15 @@ contract VTokenTest is Test {
         VToken.Withdrawal[] memory bobQueue = vtoken.getWithdrawals(bob);
         assertEq(aliceQueue.length, 1, "queue should belong to owner");
         assertEq(bobQueue.length, 0, "caller should not own queue");
-        assertEq(aliceQueue[0].receiver, charlie, "receiver should be snapshotted");
-
         vm.prank(bob);
         uint256 bobClaim = vtoken.withdrawComplete();
         assertEq(bobClaim, 0, "caller cannot drain owner's queue");
 
         uint256 charlieBefore = pros.balanceOf(charlie);
         vm.prank(alice);
-        uint256 claimed = vtoken.withdrawComplete();
+        uint256 claimed = vtoken.withdrawComplete(charlie);
         assertEq(claimed, 100 ether, "owner can process own queue");
-        assertEq(pros.balanceOf(charlie) - charlieBefore, 100 ether, "payout goes to snapshotted receiver");
+        assertEq(pros.balanceOf(charlie) - charlieBefore, 100 ether, "payout goes to owner-selected receiver");
     }
 
     /// @dev @test 已有历史完成量时，累计基线应允许后续可领取金额

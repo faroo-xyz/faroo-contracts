@@ -60,8 +60,6 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         uint256 createdAt;
         /// @notice 提交时快照的等待期（秒）
         uint256 unbondingPeriod;
-        /// @notice 提交赎回时指定的资产接收地址
-        address receiver;
     }
 
     // =================== State variables ===================
@@ -198,16 +196,31 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         _unpause();
     }
 
-    /// @notice 完成可领取赎回（默认尝试处理全部记录）
+    /// @notice 完成可领取赎回（默认尝试处理全部记录，默认领取到调用者）
     /// @return amount 实际领取资产
     function withdrawComplete() public returns (uint256) {
-        return withdrawComplete(type(uint8).max);
+        return withdrawComplete(msg.sender, type(uint8).max);
     }
 
-    /// @notice 按批次完成可领取赎回，支持控制单笔 gas
+    /// @notice 按批次完成可领取赎回（默认领取到调用者）
     /// @param maxRecords 本次最多处理的完整记录数（0 代表不设上限）
     /// @return amount 实际领取资产
     function withdrawComplete(uint256 maxRecords) public returns (uint256) {
+        return withdrawComplete(msg.sender, maxRecords);
+    }
+
+    /// @notice 完成可领取赎回（默认尝试处理全部记录）
+    /// @param receiver 资产接收地址
+    /// @return amount 实际领取资产
+    function withdrawComplete(address receiver) public returns (uint256) {
+        return withdrawComplete(receiver, type(uint8).max);
+    }
+
+    /// @notice 按批次完成可领取赎回，支持控制单笔 gas
+    /// @param receiver 资产接收地址
+    /// @param maxRecords 本次最多处理的完整记录数（0 代表不设上限）
+    /// @return amount 实际领取资产
+    function withdrawComplete(address receiver, uint256 maxRecords) public returns (uint256) {
         (uint256 totalAvailableAmount, uint256 fullyConsumedCount, uint256 partialConsumedAmount) =
             canWithdrawalAmount(msg.sender, maxRecords);
 
@@ -215,20 +228,9 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
             return 0;
         }
 
-        uint256 payoutCount = fullyConsumedCount + (partialConsumedAmount > 0 ? 1 : 0);
-        address[] memory payoutReceivers = new address[](payoutCount);
-        uint256[] memory payoutAmounts = new uint256[](payoutCount);
-        uint256 payoutIndex = 0;
-
         // 删除被完整消费的记录并前移头指针
         uint256 head = withdrawalHead[msg.sender];
         for (uint256 i = 0; i < fullyConsumedCount; i++) {
-            Withdrawal storage consumed = withdrawals[msg.sender][head + i];
-            payoutReceivers[payoutIndex] = consumed.receiver;
-            payoutAmounts[payoutIndex] = consumed.pending;
-            unchecked {
-                payoutIndex += 1;
-            }
             delete withdrawals[msg.sender][head + i];
         }
         unchecked {
@@ -239,22 +241,18 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         // 处理最后一条“部分消费”的记录
         if (partialConsumedAmount > 0) {
             Withdrawal storage w = withdrawals[msg.sender][head];
-            payoutReceivers[payoutIndex] = w.receiver;
-            payoutAmounts[payoutIndex] = partialConsumedAmount;
             unchecked {
                 w.pending -= partialConsumedAmount;
                 w.queued += partialConsumedAmount;
             }
         }
 
-        // 先更新累计账本并销毁托管份额，再按记录接收地址转账
+        // 更新累计账本并转账
         completedWithdrawal += totalAvailableAmount;
         totalCanWithdrawAmount -= totalAvailableAmount;
         _burn(address(this), totalAvailableAmount);
-        for (uint256 i = 0; i < payoutCount; i++) {
-            IERC20(address(asset())).safeTransfer(payoutReceivers[i], payoutAmounts[i]);
-            emit WithdrawalCompleted(msg.sender, payoutReceivers[i], payoutAmounts[i]);
-        }
+        IERC20(address(asset())).safeTransfer(receiver, totalAvailableAmount);
+        emit WithdrawalCompleted(msg.sender, receiver, totalAvailableAmount);
         return totalAvailableAmount;
     }
 
@@ -426,8 +424,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
             queued: queuedWithdrawal,
             pending: assets,
             createdAt: block.timestamp,
-            unbondingPeriod: unbondingPeriod,
-            receiver: receiver
+            unbondingPeriod: unbondingPeriod
         });
         withdrawalTail[owner] = tail + 1;
         // 发起赎回即计入储备额度（当前阶段无外部回款）
