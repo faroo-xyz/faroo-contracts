@@ -8,6 +8,8 @@ import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Pau
 contract Oracle is OwnableUpgradeable, PausableUpgradeable {
     using Math for uint256;
 
+    error InvalidAddress();
+
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
@@ -24,6 +26,9 @@ contract Oracle is OwnableUpgradeable, PausableUpgradeable {
     event SetTokenAmount(address, uint256, uint256);
 
     function initialize(address owner) public initializer {
+        if (owner == address(0)) {
+            revert InvalidAddress();
+        }
         __Ownable_init(owner);
         __Pausable_init();
     }
