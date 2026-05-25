@@ -57,6 +57,7 @@ contract YieldVaultTest is Test {
             name: "Yield Vault Share",
             symbol: "YVS",
             lockDuration: LOCK_DURATION,
+            subscriptionStartAt: block.timestamp,
             subscriptionWindow: SUBSCRIPTION_WINDOW,
             epochCap: EPOCH_CAP,
             perAddressCap: PER_ADDRESS_CAP,
@@ -104,6 +105,39 @@ contract YieldVaultTest is Test {
         assertEq(vault.epochCap(), EPOCH_CAP, "epoch cap");
         assertEq(vault.minSubscription(), MIN_SUBSCRIPTION, "min sub");
         assertEq(vault.subscriptionDeadline(), vault.subscriptionStartedAt() + SUBSCRIPTION_WINDOW, "sub deadline");
+    }
+
+    /// @dev @test 开始时间未到前，deposit 应回滚
+    function test_Deposit_Revert_WhenSubscriptionNotStarted() external {
+        uint256 delayedStart = block.timestamp + 1 days;
+        YieldVault.InitParams memory params = YieldVault.InitParams({
+            asset: address(asset),
+            factory: address(factory),
+            admin: admin,
+            counterparty: counterparty,
+            feeRecipient: feeRecipient,
+            name: "Yield Vault Share 2",
+            symbol: "YVS2",
+            lockDuration: LOCK_DURATION,
+            subscriptionStartAt: delayedStart,
+            subscriptionWindow: SUBSCRIPTION_WINDOW,
+            epochCap: EPOCH_CAP,
+            perAddressCap: PER_ADDRESS_CAP,
+            minSubscription: MIN_SUBSCRIPTION,
+            performanceFeeBps: FEE_BPS,
+            settleTimelockWindow: SETTLE_TIMELOCK
+        });
+        YieldVault implementation = new YieldVault();
+        bytes memory initData = abi.encodeWithSelector(YieldVault.initialize.selector, params);
+        ERC1967Proxy proxy = new ERC1967Proxy(address(implementation), initData);
+        YieldVault futureVault = YieldVault(address(proxy));
+
+        vm.prank(alice);
+        asset.approve(address(futureVault), type(uint256).max);
+
+        vm.prank(alice);
+        vm.expectRevert(abi.encodeWithSelector(YieldVault.SubscriptionNotStarted.selector, delayedStart));
+        futureVault.deposit(100 ether, alice);
     }
 
     /// @dev @test 申购达到总容量上限时自动关闭到 LOCKED

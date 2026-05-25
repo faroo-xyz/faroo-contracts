@@ -145,6 +145,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         string symbol;
         /// @notice 锁定期时长（秒）
         uint256 lockDuration;
+        /// @notice 申购开始时间（时间戳）
+        uint256 subscriptionStartAt;
         /// @notice 申购窗口时长（秒）
         uint256 subscriptionWindow;
         /// @notice 本期申购总上限（资产单位）
@@ -174,6 +176,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     error ExceedPerAddressCap(uint256 cap, uint256 nextAmount);
     /// @notice 申购期尚未到截止时间，且总额尚未满仓
     error SubscriptionNotExpired();
+    /// @notice 申购期尚未开始
+    error SubscriptionNotStarted(uint256 startAt);
     /// @notice 锁定期未到期，暂不能提交结算提议
     error VaultNotMatured();
     /// @notice 结算输入参数不合法
@@ -332,7 +336,10 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
             revert InvalidAddress();
         }
         // 参数边界校验：费率不超过100%，容量与最小申购必须大于0
-        if (p.performanceFeeBps > 10_000 || p.epochCap == 0 || p.perAddressCap == 0 || p.minSubscription == 0) {
+        if (
+            p.performanceFeeBps > 10_000 || p.epochCap == 0 || p.perAddressCap == 0 || p.minSubscription == 0
+                || p.subscriptionStartAt == 0
+        ) {
             revert InvalidSettlementInput();
         }
 
@@ -351,6 +358,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         feeRecipient = p.feeRecipient;
 
         lockDuration = p.lockDuration;
+        subscriptionStartedAt = p.subscriptionStartAt;
         subscriptionWindow = p.subscriptionWindow;
         epochCap = p.epochCap;
         perAddressCap = p.perAddressCap;
@@ -359,8 +367,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         settleTimelockWindow = p.settleTimelockWindow;
 
         phase = Phase.SUBSCRIBING;
-        subscriptionStartedAt = block.timestamp;
-        subscriptionDeadline = block.timestamp + p.subscriptionWindow;
+        subscriptionDeadline = p.subscriptionStartAt + p.subscriptionWindow;
     }
 
     /// @notice 申购期结束后，结算员可主动推进到 LOCKED
@@ -647,6 +654,9 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         nonReentrant
         returns (uint256)
     {
+        if (block.timestamp < subscriptionStartedAt) {
+            revert SubscriptionNotStarted(subscriptionStartedAt);
+        }
         // 申购前执行额度校验
         _checkSubscribeLimit(receiver, assets);
         // 调用 ERC4626 标准存入逻辑（转资产+铸份额）
@@ -671,6 +681,9 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         nonReentrant
         returns (uint256)
     {
+        if (block.timestamp < subscriptionStartedAt) {
+            revert SubscriptionNotStarted(subscriptionStartedAt);
+        }
         // 根据目标份额预估所需资产
         uint256 assets = previewMint(shares);
         // 申购前执行额度校验
