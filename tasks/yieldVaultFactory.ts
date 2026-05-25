@@ -162,7 +162,7 @@ export const yvfAddCounterpartyTask = task(
 )
   /**
    * Usage:
-   * pnpm hardhat yvf:add-counterparty --network testnet <factoryAddress> <counterpartyAddress>
+   * pnpm hardhat yvf:add-counterparty --network testnet 0xc096F8e4B1cc222899752a5504fDE557A147c57b <counterpartyAddress>
    *
    * Example:
    * pnpm hardhat yvf:add-counterparty --network testnet \
@@ -225,7 +225,7 @@ export const yvfRemoveCounterpartyTask = task(
 )
   /**
    * Usage:
-   * pnpm hardhat yvf:remove-counterparty --network testnet <factoryAddress> <counterpartyAddress>
+   * pnpm hardhat yvf:remove-counterparty --network testnet 0xc096F8e4B1cc222899752a5504fDE557A147c57b <counterpartyAddress>
    *
    * Example:
    * pnpm hardhat yvf:remove-counterparty --network testnet \
@@ -288,8 +288,8 @@ export const yvfCreateTask = task(
 )
   /**
    * Usage:
-   * pnpm hardhat yvf:create --network testnet <factoryAddress> \
-   *   --asset <stPROSAddress> \
+   * pnpm hardhat yvf:create --network testnet 0xc096F8e4B1cc222899752a5504fDE557A147c57b \
+   *   --asset 0x5Dc91D0b17f1c5c60cAF2eAA7D93840Ce488dbB4 \
    *   --admin <adminAddress> \
    *   --counterparty <counterpartyAddress> \
    *   --feeRecipient <feeRecipientAddress> \

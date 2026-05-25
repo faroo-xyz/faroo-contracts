@@ -3,23 +3,11 @@ import "dotenv/config";
 import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
 import { configVariable, defineConfig } from "hardhat/config";
 
-import { exampleTask } from "./tasks/example.js";
-import { stProsSetOracleTask } from "./tasks/stPros.js";
-import {
-  yvfAddCounterpartyTask,
-  yvfCreateTask,
-  yvfRemoveCounterpartyTask,
-} from "./tasks/yieldVaultFactory.js";
+import { appTasks } from "./tasks/index.js";
 
 export default defineConfig({
   plugins: [hardhatToolboxViemPlugin],
-  tasks: [
-    exampleTask,
-    stProsSetOracleTask,
-    yvfAddCounterpartyTask,
-    yvfRemoveCounterpartyTask,
-    yvfCreateTask,
-  ],
+  tasks: appTasks,
   solidity: {
     profiles: {
       default: {

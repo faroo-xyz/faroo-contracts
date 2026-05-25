@@ -12,7 +12,7 @@ import {
  *   pnpm hardhat run scripts/deploy-stpros.ts --network testnet
  *
  * Example:
- * STPROS_ASSET=0x838800b758277cc111b2d48ab01e5e164f8e9471 \
+ * STPROS_ASSET=0x838800b758277CC111B2d48Ab01e5E164f8E9471 \
  * STPROS_OWNER=0xB50C9E6DdEDbb1046a6134ad731d5B80481571f3 \
  * pnpm hardhat run scripts/deploy-stpros.ts --network testnet
  *
