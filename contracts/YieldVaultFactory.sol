@@ -38,6 +38,11 @@ contract YieldVaultFactory is Initializable, OwnableUpgradeable, PausableUpgrade
     event CounterpartyWhitelistUpdated(address indexed counterparty, bool allowed);
     event EmergencyCancelled(address indexed vault, address indexed operator);
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
+
     function initialize(address initialOwner) external initializer {
         __Ownable_init(initialOwner);
         __Pausable_init();

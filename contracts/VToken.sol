@@ -44,6 +44,11 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     using Math for uint256;
     using SafeERC20 for IERC20;
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
+
     // =================== Type declarations ===================
     /// @notice 单条赎回请求
     struct Withdrawal {

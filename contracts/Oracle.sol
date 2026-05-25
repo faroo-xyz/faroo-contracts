@@ -8,6 +8,11 @@ import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Pau
 contract Oracle is OwnableUpgradeable, PausableUpgradeable {
     using Math for uint256;
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
+
     struct PoolInfo {
         uint256 tokenAmount;
         uint256 vTokenAmount;

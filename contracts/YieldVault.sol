@@ -101,6 +101,11 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     using SafeERC20 for IERC20;
     using Math for uint256;
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
+
     bytes32 public constant SETTLER_ROLE = keccak256("SETTLER_ROLE");
 
     /// @notice 每期 Vault 业务阶段（转移关系见合约顶部的 Phase 状态转移图）
