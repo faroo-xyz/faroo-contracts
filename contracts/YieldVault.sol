@@ -607,6 +607,11 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     }
 
     // =================== ERC4626 ===================
+    /// @notice ERC4626 总资产口径使用用户本金台账，避免外部捐赠影响申购期份额换算
+    function totalAssets() public view override returns (uint256) {
+        return totalUserPrincipal;
+    }
+
     /// @notice 提高 ERC4626 虚拟份额精度，降低 first-deposit inflation 攻击可行性
     /// @dev OZ v5 默认 offset=0；此处固定为 6 以显著抬升操纵成本
     function _decimalsOffset() internal pure override returns (uint8) {
