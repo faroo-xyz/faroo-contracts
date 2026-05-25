@@ -92,6 +92,12 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     /// @notice 新赎回请求使用的全局等待期（秒）
     uint256 public unbondingPeriod;
 
+    /// @notice 初始化默认每地址最大排队条数，避免默认 0 导致赎回入口永久不可用
+    uint256 internal constant DEFAULT_MAX_WITHDRAW_COUNT = 10;
+
+    /// @notice 初始化默认等待期
+    uint256 internal constant DEFAULT_UNBONDING_PERIOD = 7 days;
+
     /// @notice 内部跟踪账本，仅由合约内 mint/burn 驱动，不受外部直转资产影响
     uint256 internal _tracked;
 
@@ -142,6 +148,11 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         __Ownable_init(_owner);
         __Pausable_init();
         __ERC165_init();
+
+        // 显式设置安全默认值，防止 maxWithdrawCount 默认 0 卡死赎回流程
+        maxWithdrawCount = DEFAULT_MAX_WITHDRAW_COUNT;
+        // 显式设置默认等待期，避免因默认 0 改变经济/监管假设
+        unbondingPeriod = DEFAULT_UNBONDING_PERIOD;
     }
 
     /// @notice 设置预言机地址（仅 owner）
