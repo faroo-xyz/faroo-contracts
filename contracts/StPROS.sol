@@ -36,7 +36,10 @@ contract StPROS is VToken, ReentrancyGuard {
         // Convert PROS to V_PROS (V_PROS will be sent to this contract)
         IWETH(address(asset())).deposit{value: msg.value}();
 
-        return super.deposit(msg.value, msg.sender);
+        uint256 shares = previewDeposit(msg.value);
+        _mint(msg.sender, shares);          // 资产已在合约内，直接铸份额，跳过 transferFrom
+        emit Deposit(msg.sender, msg.sender, msg.value, shares);
+        return shares;
     }
 
     function withdrawCompleteToPROS() external whenNotPaused nonReentrant returns (uint256) {
