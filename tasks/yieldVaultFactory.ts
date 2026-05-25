@@ -178,7 +178,7 @@ export const yvfAddCounterpartyTask = task(
     description: "Counterparty address to whitelist",
   })
   .setInlineAction(async ({ factory, counterparty }, hre) => {
-    const connection = await hre.network.connect();
+    const connection = await hre.network.getOrCreate();
 
     try {
       const [signer] = await connection.viem.getWalletClients();
@@ -241,7 +241,7 @@ export const yvfRemoveCounterpartyTask = task(
     description: "Counterparty address to remove",
   })
   .setInlineAction(async ({ factory, counterparty }, hre) => {
-    const connection = await hre.network.connect();
+    const connection = await hre.network.getOrCreate();
 
     try {
       const [signer] = await connection.viem.getWalletClients();
@@ -276,6 +276,53 @@ export const yvfRemoveCounterpartyTask = task(
       console.log(`[yvf:remove-counterparty] factory=${factoryAddress}`);
       console.log(`[yvf:remove-counterparty] counterparty=${counterpartyAddress}`);
       console.log(`[yvf:remove-counterparty] txHash=${hash}`);
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
+export const yvfListProxiesTask = task(
+  "yvf:list-proxies",
+  "List all YieldVault proxy addresses created by the factory",
+)
+  /**
+   * Usage:
+   * pnpm hardhat yvf:list-proxies --network testnet 0xc096F8e4B1cc222899752a5504fDE557A147c57b
+   *
+   * Example:
+   * pnpm hardhat yvf:list-proxies --network testnet \
+   *   0xc096F8e4B1cc222899752a5504fDE557A147c57b
+   */
+  .addPositionalArgument({
+    name: "factory",
+    description: "YieldVaultFactory proxy address",
+  })
+  .setInlineAction(async ({ factory }, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const factoryAddress = getRequiredAddress(factory, "factory address");
+      const factoryContract = await connection.viem.getContractAt(
+        "YieldVaultFactory",
+        factoryAddress,
+      );
+      const [totalProxies, proxies] = await Promise.all([
+        factoryContract.read.totalProxies(),
+        factoryContract.read.getAllProxies(),
+      ]);
+
+      console.log(`[yvf:list-proxies] factory=${factoryAddress}`);
+      console.log(`[yvf:list-proxies] total=${totalProxies}`);
+
+      if (proxies.length === 0) {
+        console.log("[yvf:list-proxies] proxies=none");
+        return;
+      }
+
+      proxies.forEach((proxy, index) => {
+        console.log(`[yvf:list-proxies] proxy[${index}]=${proxy}`);
+      });
     } finally {
       await connection.close();
     }
@@ -385,7 +432,7 @@ export const yvfCreateTask = task(
     defaultValue: "",
   })
   .setInlineAction(async (taskArgs, hre) => {
-    const connection = await hre.network.connect();
+    const connection = await hre.network.getOrCreate();
 
     try {
       const [signer] = await connection.viem.getWalletClients();

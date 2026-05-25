@@ -1,5 +1,6 @@
 import * as exampleTasksModule from "./example.js";
 import * as stProsTasksModule from "./stPros.js";
+import * as yieldVaultTasksModule from "./yieldVault.js";
 import * as yieldVaultFactoryTasksModule from "./yieldVaultFactory.js";
 import type { TaskDefinition } from "hardhat/types/tasks";
 
@@ -20,10 +21,12 @@ function collectTasks(moduleExports: Record<string, unknown>): TaskDefinition[] 
 
 export * from "./example.js";
 export * from "./stPros.js";
+export * from "./yieldVault.js";
 export * from "./yieldVaultFactory.js";
 
 export const appTasks = [
   ...collectTasks(exampleTasksModule),
   ...collectTasks(stProsTasksModule),
+  ...collectTasks(yieldVaultTasksModule),
   ...collectTasks(yieldVaultFactoryTasksModule),
 ];
