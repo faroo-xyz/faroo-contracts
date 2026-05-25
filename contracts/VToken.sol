@@ -97,6 +97,8 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
 
     /// @notice 初始化默认等待期
     uint256 internal constant DEFAULT_UNBONDING_PERIOD = 7 days;
+    /// @notice 等待期治理上限，防止配置过大导致新赎回长期不可领取
+    uint256 public constant MAX_UNBONDING = 30 days;
 
     /// @notice 内部跟踪账本，仅由合约内 mint/burn 驱动，不受外部直转资产影响
     uint256 internal _tracked;
@@ -128,6 +130,8 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
 
     /// @notice INV-1 不变量被破坏：PROS 余额 != stPROS 供应
     error Inv1Violation(uint256 prosBalance, uint256 stProsSupply);
+    /// @notice 等待期参数超过治理上限
+    error UnbondingPeriodTooLong(uint256 value, uint256 maxValue);
 
     // =================== Modifiers ===================
 
@@ -174,6 +178,9 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     /// @notice 设置全局等待期（仅 owner）
     /// @dev 仅影响后续新提交赎回，历史记录按快照执行
     function setUnbondingPeriod(uint256 _unbondingPeriod) external onlyOwner {
+        if (_unbondingPeriod > MAX_UNBONDING) {
+            revert UnbondingPeriodTooLong(_unbondingPeriod, MAX_UNBONDING);
+        }
         uint256 oldUnbondingPeriod = unbondingPeriod;
         unbondingPeriod = _unbondingPeriod;
         emit UnbondingPeriodChanged(oldUnbondingPeriod, _unbondingPeriod);
