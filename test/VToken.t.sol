@@ -4,6 +4,7 @@ pragma solidity ^0.8.28;
 import {Test} from "forge-std/Test.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 
 import {Oracle} from "../contracts/Oracle.sol";
 import {VToken} from "../contracts/VToken.sol";
@@ -50,11 +51,15 @@ contract VTokenTest is Test {
     function setUp() external {
         pros = new MockProsToken();
 
-        oracle = new MockOracleForVToken();
-        oracle.initialize(owner);
+        MockOracleForVToken oracleImplementation = new MockOracleForVToken();
+        bytes memory oracleInitData = abi.encodeWithSelector(Oracle.initialize.selector, owner);
+        ERC1967Proxy oracleProxy = new ERC1967Proxy(address(oracleImplementation), oracleInitData);
+        oracle = MockOracleForVToken(address(oracleProxy));
 
-        vtoken = new VTokenHarness();
-        vtoken.initialize(address(pros), owner, address(oracle));
+        VTokenHarness vtokenImplementation = new VTokenHarness();
+        bytes memory vtokenInitData = abi.encodeWithSelector(VTokenHarness.initialize.selector, address(pros), owner, address(oracle));
+        ERC1967Proxy vtokenProxy = new ERC1967Proxy(address(vtokenImplementation), vtokenInitData);
+        vtoken = VTokenHarness(address(vtokenProxy));
 
         vm.prank(owner);
         vtoken.setMaxWithdrawCount(3);

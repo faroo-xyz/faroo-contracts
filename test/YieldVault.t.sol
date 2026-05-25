@@ -3,6 +3,7 @@ pragma solidity ^0.8.28;
 
 import {Test} from "forge-std/Test.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import {YieldVault} from "../contracts/YieldVault.sol";
 
 contract MockYieldAsset is ERC20 {
@@ -45,13 +46,12 @@ contract YieldVaultTest is Test {
     function setUp() external {
         asset = new MockYieldAsset();
         factory = new MockYieldFactory();
-        vault = new YieldVault();
+        YieldVault implementation = new YieldVault();
 
         YieldVault.InitParams memory params = YieldVault.InitParams({
             asset: address(asset),
             factory: address(factory),
             admin: admin,
-            settler: settler,
             counterparty: counterparty,
             feeRecipient: feeRecipient,
             name: "Yield Vault Share",
@@ -65,7 +65,11 @@ contract YieldVaultTest is Test {
             settleTimelockWindow: SETTLE_TIMELOCK
         });
 
-        vault.initialize(params);
+        bytes memory initData = abi.encodeWithSelector(YieldVault.initialize.selector, params);
+        ERC1967Proxy proxy = new ERC1967Proxy(address(implementation), initData);
+        vault = YieldVault(address(proxy));
+        vm.prank(admin);
+        vault.grantRole(vault.SETTLER_ROLE(), settler);
 
         asset.mint(alice, 10_000 ether);
         asset.mint(bob, 10_000 ether);
