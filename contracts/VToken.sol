@@ -93,7 +93,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     uint256 public unbondingPeriod;
 
     /// @notice 初始化默认每地址最大排队条数，避免默认 0 导致赎回入口永久不可用
-    uint256 internal constant DEFAULT_MAX_WITHDRAW_COUNT = 10;
+    uint256 internal constant DEFAULT_MAX_WITHDRAW_COUNT = 5;
 
     /// @notice 初始化默认等待期
     uint256 internal constant DEFAULT_UNBONDING_PERIOD = 7 days;

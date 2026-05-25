@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "inc": "hardhat inc",
-    "propose:counter-upgrade-safe": "hardhat run scripts/propose-counter-upgrade-safe-example.ts"
+    "deploy:yield-vault-factory": "hardhat run scripts/deploy-yield-vault-factory.ts",
+    "propose:counter-upgrade-safe": "hardhat run scripts/propose-counter-upgrade-safe-example.ts",
+    "deploy:stpros": "hardhat run scripts/deploy-stpros.ts"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^3.1.5",

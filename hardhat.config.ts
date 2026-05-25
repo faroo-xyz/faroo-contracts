@@ -4,10 +4,20 @@ import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
 import { configVariable, defineConfig } from "hardhat/config";
 
 import { exampleTask } from "./tasks/example.js";
+import {
+  yvfAddCounterpartyTask,
+  yvfCreateTask,
+  yvfRemoveCounterpartyTask,
+} from "./tasks/yieldVaultFactory.js";
 
 export default defineConfig({
   plugins: [hardhatToolboxViemPlugin],
-  tasks: [exampleTask],
+  tasks: [
+    exampleTask,
+    yvfAddCounterpartyTask,
+    yvfRemoveCounterpartyTask,
+    yvfCreateTask,
+  ],
   solidity: {
     profiles: {
       default: {
@@ -42,6 +52,13 @@ export default defineConfig({
       chainType: "l1",
       url: configVariable("SEPOLIA_RPC_URL"),
       accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+    },
+    testnet: {
+      type: "http",
+      chainType: "l1",
+      url: "https://atlantic.dplabs-internal.com",
+      chainId: 688689,
+      accounts: [configVariable("TESTNET_PRIVATE_KEY")],
     },
   }
 });
