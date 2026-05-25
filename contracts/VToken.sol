@@ -248,7 +248,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     /// @return fullyConsumedCount 可完整消费条数
     /// @return partialConsumedAmount 最后一条可部分消费金额
     function canWithdrawalAmount(address target) public view returns (uint256, uint256, uint256) {
-        return canWithdrawalAmount(target, type(uint256).max);
+        return canWithdrawalAmount(target, type(uint8).max);
     }
 
     /// @notice 预览某地址可领取额度（支持 maxRecords 分页）
@@ -261,7 +261,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         uint256 cumulativeAvailableAmount = completedWithdrawal + totalCanWithdrawAmount;
         uint256 head = withdrawalHead[target];
         uint256 tail = withdrawalTail[target];
-        uint256 limit = maxRecords == 0 ? type(uint256).max : maxRecords;
+        uint256 limit = maxRecords == 0 ? type(uint8).max : maxRecords;
 
         // 队列按提交顺序处理：一旦前序记录未到期/额度不足，后续也不能提前领取
         for (uint256 index = head; index < tail && fullyConsumedCount < limit; index++) {
