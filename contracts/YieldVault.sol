@@ -601,6 +601,12 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     }
 
     // =================== ERC4626 ===================
+    /// @notice 提高 ERC4626 虚拟份额精度，降低 first-deposit inflation 攻击可行性
+    /// @dev OZ v5 默认 offset=0；此处固定为 6 以显著抬升操纵成本
+    function _decimalsOffset() internal pure override returns (uint8) {
+        return 6;
+    }
+
     /// @notice 申购入口，仅 SUBSCRIBING 阶段可用；触发容量、个人限额与最小额校验
     /// @param assets 存入资产金额（stPROS）
     /// @param receiver 份额接收地址
