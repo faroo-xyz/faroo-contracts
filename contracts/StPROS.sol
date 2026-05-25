@@ -17,6 +17,8 @@ contract StPROS is VToken, ReentrancyGuard {
 
     /// @notice Thrown when PROS transfer failed
     error TransferFailed();
+    /// @notice Thrown when ETH is sent from non-asset address
+    error OnlyAssetCanSendETH();
 
     /// @notice Emitted when PROS is received
     event PROSReceived(address indexed sender, uint256 amount);
@@ -31,6 +33,9 @@ contract StPROS is VToken, ReentrancyGuard {
 
     /// @notice Receive PROS from V_PROS withdrawal
     receive() external payable {
+        if (msg.sender != address(asset())) {
+            revert OnlyAssetCanSendETH();
+        }
         emit PROSReceived(_msgSender(), msg.value);
     }
 
