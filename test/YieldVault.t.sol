@@ -200,11 +200,38 @@ contract YieldVaultTest is Test {
         assertEq(vault.subscriptionDeadline(), oldDeadline + extension, "deadline should be extended");
     }
 
+    /// @dev @test 延长截止时间为 0 应回滚
+    function test_ExtendSubscriptionDeadline_ShouldRevert_WhenZeroAdditionalTime() external {
+        vm.prank(settler);
+        vm.expectRevert(YieldVault.InvalidSettlementInput.selector);
+        vault.extendSubscriptionDeadline(0);
+    }
+
+    /// @dev @test 延长截止时间超过上限应回滚
+    function test_ExtendSubscriptionDeadline_ShouldRevert_WhenAdditionalTimeTooLong() external {
+        vm.prank(settler);
+        vm.expectRevert(YieldVault.InvalidSettlementInput.selector);
+        vault.extendSubscriptionDeadline(31 days);
+    }
+
     /// @dev @test 非结算员调用延长截止时间应回滚
     function test_ExtendSubscriptionDeadline_ByNonSettler_ShouldRevert() external {
         vm.prank(alice);
         vm.expectRevert();
         vault.extendSubscriptionDeadline(1 days);
+    }
+
+    /// @dev @test 申购截止后，deposit/mint 都应回滚
+    function test_DepositAndMint_ShouldRevert_WhenSubscriptionExpired() external {
+        vm.warp(vault.subscriptionDeadline());
+
+        vm.prank(alice);
+        vm.expectRevert(YieldVault.SubscriptionExpired.selector);
+        vault.deposit(100 ether, alice);
+
+        vm.prank(alice);
+        vm.expectRevert(YieldVault.SubscriptionExpired.selector);
+        vault.mint(100 ether, alice);
     }
 
     /// @dev @test 锁定期未到时提交结算应回滚

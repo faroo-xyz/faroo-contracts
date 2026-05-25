@@ -178,6 +178,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     error SubscriptionNotExpired();
     /// @notice 申购期尚未开始
     error SubscriptionNotStarted(uint256 startAt);
+    /// @notice 申购期已截止
+    error SubscriptionExpired();
     /// @notice 锁定期未到期，暂不能提交结算提议
     error VaultNotMatured();
     /// @notice 结算输入参数不合法
@@ -251,6 +253,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     uint256 public lockDuration;
     /// @notice 申购窗口时长（秒）
     uint256 public subscriptionWindow;
+    /// @notice 单次延长申购截止时间上限
+    uint256 public constant MAX_EXTEND_TIME = 30 days;
     /// @notice 本期总申购上限
     uint256 public epochCap;
     /// @notice 单地址累计申购上限
@@ -387,6 +391,9 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         onlyRole(SETTLER_ROLE)
         onlyPhase(Phase.SUBSCRIBING)
     {
+        if (additionalTime == 0 || additionalTime > MAX_EXTEND_TIME) {
+            revert InvalidSettlementInput();
+        }
         uint256 oldDeadline = subscriptionDeadline;
         subscriptionDeadline = oldDeadline + additionalTime;
         emit SubscriptionDeadlineExtended(oldDeadline, subscriptionDeadline, additionalTime);
@@ -657,6 +664,9 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         if (block.timestamp < subscriptionStartedAt) {
             revert SubscriptionNotStarted(subscriptionStartedAt);
         }
+        if (block.timestamp >= subscriptionDeadline) {
+            revert SubscriptionExpired();
+        }
         // 申购前执行额度校验
         _checkSubscribeLimit(receiver, assets);
         // 调用 ERC4626 标准存入逻辑（转资产+铸份额）
@@ -683,6 +693,9 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     {
         if (block.timestamp < subscriptionStartedAt) {
             revert SubscriptionNotStarted(subscriptionStartedAt);
+        }
+        if (block.timestamp >= subscriptionDeadline) {
+            revert SubscriptionExpired();
         }
         // 根据目标份额预估所需资产
         uint256 assets = previewMint(shares);
