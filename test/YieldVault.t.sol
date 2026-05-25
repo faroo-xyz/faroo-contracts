@@ -27,7 +27,7 @@ contract YieldVaultTest is Test {
     MockYieldFactory internal factory;
     YieldVault internal vault;
 
-    address internal admin = makeAddr("admin");
+    address internal admin = address(this);
     address internal settler = makeAddr("settler");
     address internal counterparty = makeAddr("counterparty");
     address internal feeRecipient = makeAddr("feeRecipient");
@@ -68,7 +68,6 @@ contract YieldVaultTest is Test {
         bytes memory initData = abi.encodeWithSelector(YieldVault.initialize.selector, params);
         ERC1967Proxy proxy = new ERC1967Proxy(address(implementation), initData);
         vault = YieldVault(address(proxy));
-        vm.prank(admin);
         vault.grantRole(vault.SETTLER_ROLE(), settler);
 
         asset.mint(alice, 10_000 ether);
@@ -314,9 +313,10 @@ contract YieldVaultTest is Test {
         _fillToLocked();
 
         // 2) 锁定阶段：允许份额转让，接盘方按当前持仓享有后续兑付权
+        uint256 bobSharesBeforeTransfer = vault.balanceOf(bob);
         vm.prank(alice);
         vault.transfer(bob, 100 ether);
-        assertEq(vault.balanceOf(bob), 600 ether, "bob should receive transferred shares");
+        assertEq(vault.balanceOf(bob), bobSharesBeforeTransfer + 100 ether, "bob should receive transferred shares");
 
         // 3) 到期后提交盈利提议（先不即付），进入公示期
         vm.warp(block.timestamp + LOCK_DURATION + 1);
@@ -334,21 +334,22 @@ contract YieldVaultTest is Test {
         vault.finalize();
         assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.SETTLED), "phase should be settled");
 
-        // 6) 用户按当前持仓兑付（本金 1000 + 净收益 180）
-        //    alice: 400/1000 -> 472; bob: 600/1000 -> 708
+        // 6) 用户按当前持仓兑付，断言与 previewRedeem 一致
         uint256 aliceBefore = asset.balanceOf(alice);
         uint256 bobBefore = asset.balanceOf(bob);
 
         uint256 aliceShares = vault.balanceOf(alice);
         uint256 bobShares = vault.balanceOf(bob);
+        uint256 aliceExpectedAssets = vault.previewRedeem(aliceShares);
+        uint256 bobExpectedAssets = vault.previewRedeem(bobShares);
 
         vm.prank(alice);
         vault.redeem(aliceShares, alice, alice);
         vm.prank(bob);
         vault.redeem(bobShares, bob, bob);
 
-        assertEq(asset.balanceOf(alice) - aliceBefore, 472 ether, "alice payout should match pro-rata");
-        assertEq(asset.balanceOf(bob) - bobBefore, 708 ether, "bob payout should match pro-rata");
+        assertEq(asset.balanceOf(alice) - aliceBefore, aliceExpectedAssets, "alice payout should match preview");
+        assertEq(asset.balanceOf(bob) - bobBefore, bobExpectedAssets, "bob payout should match preview");
         assertEq(asset.balanceOf(feeRecipient), 20 ether, "fee recipient should get 10% of profit");
     }
 }

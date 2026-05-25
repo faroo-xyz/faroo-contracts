@@ -45,6 +45,7 @@ contract VTokenTest is Test {
     address internal alice = makeAddr("alice");
     address internal bob = makeAddr("bob");
     address internal attacker = makeAddr("attacker");
+    address internal charlie = makeAddr("charlie");
 
     uint256 internal constant BASE_AMOUNT = 100 ether;
 
@@ -84,8 +85,9 @@ contract VTokenTest is Test {
 
     /// @dev @test owner 可配置固定赎回等待期并触发事件
     function test_SetUnbondingPeriod_ByOwner_ShouldUpdateAndEmit() external {
+        uint256 oldUnbondingPeriod = vtoken.unbondingPeriod();
         vm.expectEmit(true, true, true, true);
-        emit VToken.UnbondingPeriodChanged(0, 3 days);
+        emit VToken.UnbondingPeriodChanged(oldUnbondingPeriod, 3 days);
 
         vm.prank(owner);
         vtoken.setUnbondingPeriod(3 days);
@@ -130,7 +132,7 @@ contract VTokenTest is Test {
 
         // _withdraw 内会自动增加 totalCanWithdrawAmount，但未到等待期仍应不可领
         vm.warp(block.timestamp + 1 days);
-        uint256 available = vtoken.withdrawComplete(alice);
+        uint256 available = vtoken.withdrawComplete();
         assertEq(available, 0, "not matured yet");
     }
 
@@ -147,7 +149,7 @@ contract VTokenTest is Test {
 
         uint256 before = pros.balanceOf(alice);
         vm.prank(alice);
-        uint256 got = vtoken.withdrawComplete(alice);
+        uint256 got = vtoken.withdrawComplete();
 
         assertEq(got, 40 ether, "full payout");
         assertEq(pros.balanceOf(alice) - before, 40 ether, "receiver balance");
@@ -173,13 +175,13 @@ contract VTokenTest is Test {
 
         // 首次仅处理 1 条记录
         vm.prank(alice);
-        uint256 first = vtoken.withdrawComplete(alice, 1);
+        uint256 first = vtoken.withdrawComplete(1);
         assertEq(first, 50 ether, "first batch");
         assertEq(vtoken.getWithdrawals(alice).length, 2, "two records left");
 
         // 再处理剩余记录
         vm.prank(alice);
-        uint256 second = vtoken.withdrawComplete(alice, 10);
+        uint256 second = vtoken.withdrawComplete(10);
         assertEq(second, 70 ether, "second batch");
         assertEq(vtoken.getWithdrawals(alice).length, 0, "queue drained");
     }
@@ -216,17 +218,49 @@ contract VTokenTest is Test {
         vtoken.withdraw(10 ether, alice, alice);
     }
 
-    /// @dev @test INV-1 失衡后，带 checkInv1 的入口应回滚
-    function test_CheckInv1Modifier_ShouldRevert_WhenInvariantBroken() external {
+    /// @dev @test 外部直转资产不应破坏 INV-1（已改为内部跟踪账本校验）
+    function test_CheckInv1Modifier_ShouldIgnoreExternalAssetTransfer() external {
         _aliceDeposit(100 ether);
 
-        // 人为制造失衡：把合约里的 PROS 偷走 1 wei
-        pros.forceTransfer(address(vtoken), attacker, 1);
+        // 外部地址向金库直转资产，不应导致后续 deposit 入口被永久阻断
+        pros.mint(attacker, 1 ether);
+        vm.prank(attacker);
+        pros.transfer(address(vtoken), 1 ether);
 
         pros.mint(alice, 1 ether);
         vm.prank(alice);
-        vm.expectRevert();
         vtoken.deposit(1 ether, alice);
+        assertEq(vtoken.balanceOf(alice), 101 ether, "deposit should still work");
+    }
+
+    /// @dev @test 方案B：caller!=owner 时，赎回队列归 owner 且领取按提交时 receiver 打款
+    function test_WithdrawQueue_ShouldBindOwnerAndReceiver_WhenCallerUsesAllowance() external {
+        vm.prank(owner);
+        vtoken.setUnbondingPeriod(0);
+
+        _aliceDeposit(200 ether);
+
+        vm.prank(alice);
+        vtoken.approve(bob, 100 ether);
+
+        vm.prank(bob);
+        vtoken.redeem(100 ether, charlie, alice);
+
+        VToken.Withdrawal[] memory aliceQueue = vtoken.getWithdrawals(alice);
+        VToken.Withdrawal[] memory bobQueue = vtoken.getWithdrawals(bob);
+        assertEq(aliceQueue.length, 1, "queue should belong to owner");
+        assertEq(bobQueue.length, 0, "caller should not own queue");
+        assertEq(aliceQueue[0].receiver, charlie, "receiver should be snapshotted");
+
+        vm.prank(bob);
+        uint256 bobClaim = vtoken.withdrawComplete();
+        assertEq(bobClaim, 0, "caller cannot drain owner's queue");
+
+        uint256 charlieBefore = pros.balanceOf(charlie);
+        vm.prank(alice);
+        uint256 claimed = vtoken.withdrawComplete();
+        assertEq(claimed, 100 ether, "owner can process own queue");
+        assertEq(pros.balanceOf(charlie) - charlieBefore, 100 ether, "payout goes to snapshotted receiver");
     }
 
     /// @dev @test 已有历史完成量时，累计基线应允许后续可领取金额
@@ -239,7 +273,7 @@ contract VTokenTest is Test {
         vm.prank(alice);
         vtoken.withdraw(50 ether, alice, alice);
         vm.prank(alice);
-        vtoken.withdrawComplete(alice);
+        vtoken.withdrawComplete();
 
         // 再次赎回：queued = 50，totalCanWithdrawAmount = 10，需依赖 completed + reserve 累计基线放行
         vm.prank(alice);
@@ -282,14 +316,14 @@ contract VTokenTest is Test {
         // 3) 未到等待期，不能领取
         vm.warp(block.timestamp + 1 days);
         vm.prank(alice);
-        uint256 early = vtoken.withdrawComplete(alice);
+        uint256 early = vtoken.withdrawComplete();
         assertEq(early, 0, "should not withdraw before unlock");
 
         // 4) 到期后可领取
         vm.warp(block.timestamp + 1 days + 1);
         uint256 before = pros.balanceOf(alice);
         vm.prank(alice);
-        uint256 got = vtoken.withdrawComplete(alice);
+        uint256 got = vtoken.withdrawComplete();
 
         assertEq(got, 50 ether, "withdraw complete amount");
         assertEq(pros.balanceOf(alice) - before, 50 ether, "token transfer to user");

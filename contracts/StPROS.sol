@@ -53,7 +53,7 @@ contract StPROS is VToken, ReentrancyGuard {
     }
 
     function withdrawCompleteToPROS() external whenNotPaused nonReentrant returns (uint256) {
-        uint256 amount = super.withdrawComplete(address(this));
+        uint256 amount = super.withdrawComplete();
         IWETH(address(asset())).withdraw(amount);
         (bool success,) = msg.sender.call{value: amount}("");
         if (!success) {
