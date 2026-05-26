@@ -215,3 +215,81 @@ export const stProsPreviewWithdrawTask = task(
     }
   })
   .build();
+
+export const stProsDepositWithProsTask = task(
+  "stpros:deposit-with-pros",
+  "Deposit native PROS into StPROS through depositWithPROS",
+)
+  /**
+   * Usage:
+   * pnpm hardhat stpros:deposit-with-pros --network testnet <stProsAddress> <amount>
+   *
+   * Example:
+   * pnpm hardhat stpros:deposit-with-pros --network testnet \
+   *   0x5Dc91D0b17f1c5c60cAF2eAA7D93840Ce488dbB4 \
+   *   1000000000000000000
+   *
+   * Notes:
+   * - amount must be passed in raw native-token units.
+   * - 1000000000000000000 means 1 PROS when decimals = 18.
+   * - The caller pays native PROS as transaction value.
+   */
+  .addPositionalArgument({
+    name: "stPros",
+    description: "StPROS proxy address",
+  })
+  .addPositionalArgument({
+    name: "amount",
+    description: "Native PROS amount in raw units",
+  })
+  .setInlineAction(async ({ stPros, amount }, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const publicClient = await connection.viem.getPublicClient();
+      const [signer] = await connection.viem.getWalletClients();
+
+      if (signer?.account?.address === undefined) {
+        throw new Error("No signer account available for the selected network");
+      }
+
+      const stProsAddress = getRequiredAddress(stPros, "stPros address");
+      const amountRaw = getRequiredBigInt(amount, "amount");
+      const stProsContract = await connection.viem.getContractAt("StPROS", stProsAddress, {
+        client: {
+          wallet: signer,
+        },
+      });
+      const [assetAddress, shareDecimals, expectedShares] = await Promise.all([
+        stProsContract.read.asset(),
+        stProsContract.read.decimals(),
+        stProsContract.read.previewDeposit([amountRaw]),
+      ]);
+      const assetDecimals = await publicClient.readContract({
+        address: assetAddress,
+        abi: ERC20_METADATA_ABI,
+        functionName: "decimals",
+      });
+      const hash = await stProsContract.write.depositWithPROS({
+        value: amountRaw,
+      });
+
+      await publicClient.waitForTransactionReceipt({ hash });
+
+      console.log(`[stpros:deposit-with-pros] stPROS=${stProsAddress}`);
+      console.log(`[stpros:deposit-with-pros] asset=${assetAddress}`);
+      console.log(`[stpros:deposit-with-pros] caller=${signer.account.address}`);
+      console.log(`[stpros:deposit-with-pros] amountRaw=${amountRaw}`);
+      console.log(
+        `[stpros:deposit-with-pros] amountFormatted=${formatUnits(amountRaw, assetDecimals)}`,
+      );
+      console.log(`[stpros:deposit-with-pros] expectedSharesRaw=${expectedShares}`);
+      console.log(
+        `[stpros:deposit-with-pros] expectedSharesFormatted=${formatUnits(expectedShares, shareDecimals)}`,
+      );
+      console.log(`[stpros:deposit-with-pros] txHash=${hash}`);
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();

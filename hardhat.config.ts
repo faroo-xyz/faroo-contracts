@@ -46,8 +46,7 @@ export default defineConfig({
     testnet: {
       type: "http",
       chainType: "l1",
-      url: "https://atlantic.dplabs-internal.com",
-      chainId: 688689,
+      url: configVariable("PHAROS_TESTNET_RPC_URL"),
       accounts: [configVariable("TESTNET_PRIVATE_KEY")],
     },
   }

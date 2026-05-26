@@ -18,6 +18,29 @@ const ERC20_METADATA_ABI = [
   },
 ] as const;
 
+const ERC20_APPROVE_ABI = [
+  {
+    type: "function",
+    name: "approve",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "spender", type: "address" },
+      { name: "amount", type: "uint256" },
+    ],
+    outputs: [{ name: "", type: "bool" }],
+  },
+  {
+    type: "function",
+    name: "allowance",
+    stateMutability: "view",
+    inputs: [
+      { name: "owner", type: "address" },
+      { name: "spender", type: "address" },
+    ],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+] as const;
+
 const FACTORY_PAUSED_ABI = [
   {
     type: "function",
@@ -38,6 +61,18 @@ const PHASE_NAMES = [
   "CANCELLED",
 ] as const;
 const SETTLE_MODE_NAMES = ["PROFIT", "LOSS"] as const;
+
+function getOptionalAddress(value: string | undefined, label: string): Address | undefined {
+  if (value === undefined || value === "") {
+    return undefined;
+  }
+
+  if (!isAddress(value)) {
+    throw new Error(`Invalid ${label}: ${value}`);
+  }
+
+  return value;
+}
 
 function getRequiredAddress(value: string | undefined, label: string): Address {
   if (value === undefined || value === "") {
@@ -73,7 +108,7 @@ export const yieldVaultInfoTask = task(
    *
    * Example:
    * pnpm hardhat yv:info --network testnet \
-   *   0xYourYieldVaultAddress
+   *   0x422afe88191dE8df3b30852E6aa166250E7AA8D1
    */
   .addPositionalArgument({
     name: "vault",
@@ -266,7 +301,7 @@ export const yieldVaultAccountTask = task(
    *
    * Example:
    * pnpm hardhat yv:account --network testnet \
-   *   0xYourYieldVaultAddress \
+   *   0x422afe88191dE8df3b30852E6aa166250E7AA8D1 \
    *   0xYourAccountAddress
    */
   .addPositionalArgument({
@@ -369,7 +404,7 @@ export const yieldVaultPreviewDepositTask = task(
    *
    * Example:
    * pnpm hardhat yv:preview-deposit --network testnet \
-   *   0xYourYieldVaultAddress \
+   *   0x422afe88191dE8df3b30852E6aa166250E7AA8D1 \
    *   1000000000000000000
    */
   .addPositionalArgument({
@@ -428,7 +463,7 @@ export const yieldVaultPreviewWithdrawTask = task(
    *
    * Example:
    * pnpm hardhat yv:preview-withdraw --network testnet \
-   *   0xYourYieldVaultAddress \
+   *   0x422afe88191dE8df3b30852E6aa166250E7AA8D1 \
    *   1000000000000000000
    */
   .addPositionalArgument({
@@ -471,6 +506,195 @@ export const yieldVaultPreviewWithdrawTask = task(
       console.log(
         `[yv:preview-withdraw] sharesFormatted=${formatUnits(shares, shareDecimals)}`,
       );
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
+export const yieldVaultApproveTask = task(
+  "yv:approve",
+  "Approve a YieldVault to spend its underlying asset",
+)
+  /**
+   * Usage:
+   * pnpm hardhat yv:approve --network testnet <vaultAddress> <amount>
+   *
+   * Example:
+   * pnpm hardhat yv:approve --network testnet \
+   *   0x422afe88191dE8df3b30852E6aa166250E7AA8D1 \
+   *   1000000000000000000
+   *
+   * Notes:
+   * - amount must be passed in raw asset units.
+   * - The spender is the vault address itself.
+   * - Call this before yv:deposit.
+   */
+  .addPositionalArgument({
+    name: "vault",
+    description: "YieldVault proxy address",
+  })
+  .addPositionalArgument({
+    name: "amount",
+    description: "Approval amount in raw units",
+  })
+  .setInlineAction(async ({ vault, amount }, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const publicClient = await connection.viem.getPublicClient();
+      const [signer] = await connection.viem.getWalletClients();
+
+      if (signer?.account?.address === undefined) {
+        throw new Error("No signer account available for the selected network");
+      }
+
+      const vaultAddress = getRequiredAddress(vault, "vault address");
+      const amountRaw = getRequiredBigInt(amount, "amount");
+      const vaultContract = await connection.viem.getContractAt("YieldVault", vaultAddress);
+      const assetAddress = await vaultContract.read.asset();
+      const [assetDecimals, assetSymbol, allowanceBefore] = await Promise.all([
+        publicClient.readContract({
+          address: assetAddress,
+          abi: ERC20_METADATA_ABI,
+          functionName: "decimals",
+        }),
+        publicClient.readContract({
+          address: assetAddress,
+          abi: ERC20_METADATA_ABI,
+          functionName: "symbol",
+        }),
+        publicClient.readContract({
+          address: assetAddress,
+          abi: ERC20_APPROVE_ABI,
+          functionName: "allowance",
+          args: [signer.account.address, vaultAddress],
+        }),
+      ]);
+      const hash = await signer.writeContract({
+        address: assetAddress,
+        abi: ERC20_APPROVE_ABI,
+        functionName: "approve",
+        args: [vaultAddress, amountRaw],
+        account: signer.account,
+      });
+
+      await publicClient.waitForTransactionReceipt({ hash });
+
+      const allowanceAfter = await publicClient.readContract({
+        address: assetAddress,
+        abi: ERC20_APPROVE_ABI,
+        functionName: "allowance",
+        args: [signer.account.address, vaultAddress],
+      });
+
+      console.log(`[yv:approve] vault=${vaultAddress}`);
+      console.log(`[yv:approve] asset=${assetAddress}`);
+      console.log(`[yv:approve] assetSymbol=${assetSymbol}`);
+      console.log(`[yv:approve] owner=${signer.account.address}`);
+      console.log(`[yv:approve] spender=${vaultAddress}`);
+      console.log(`[yv:approve] amountRaw=${amountRaw}`);
+      console.log(`[yv:approve] amountFormatted=${formatUnits(amountRaw, assetDecimals)}`);
+      console.log(`[yv:approve] allowanceBeforeRaw=${allowanceBefore}`);
+      console.log(
+        `[yv:approve] allowanceBeforeFormatted=${formatUnits(allowanceBefore, assetDecimals)}`,
+      );
+      console.log(`[yv:approve] allowanceAfterRaw=${allowanceAfter}`);
+      console.log(
+        `[yv:approve] allowanceAfterFormatted=${formatUnits(allowanceAfter, assetDecimals)}`,
+      );
+      console.log(`[yv:approve] txHash=${hash}`);
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
+export const yieldVaultDepositTask = task(
+  "yv:deposit",
+  "Deposit asset into a YieldVault",
+)
+  /**
+   * Usage:
+   * pnpm hardhat yv:deposit --network testnet <vaultAddress> <assets> [--receiver <receiverAddress>]
+   *
+   * Example:
+   * pnpm hardhat yv:deposit --network testnet \
+   *   0x422afe88191dE8df3b30852E6aa166250E7AA8D1 \
+   *   1000000000000000000 \
+   *   --receiver 0xYourReceiverAddress
+   *
+   * Notes:
+   * - assets must be passed in raw asset units.
+   * - The caller must approve the vault to spend the asset before calling deposit.
+   * - receiver defaults to the current signer if omitted.
+   */
+  .addPositionalArgument({
+    name: "vault",
+    description: "YieldVault proxy address",
+  })
+  .addPositionalArgument({
+    name: "assets",
+    description: "Asset amount in raw units",
+  })
+  .addOption({
+    name: "receiver",
+    description: "Receiver address, defaults to signer",
+    defaultValue: "",
+  })
+  .setInlineAction(async ({ vault, assets, receiver }, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const publicClient = await connection.viem.getPublicClient();
+      const [signer] = await connection.viem.getWalletClients();
+
+      if (signer?.account?.address === undefined) {
+        throw new Error("No signer account available for the selected network");
+      }
+
+      const vaultAddress = getRequiredAddress(vault, "vault address");
+      const assetsAmount = getRequiredBigInt(assets, "assets amount");
+      const receiverAddress =
+        getOptionalAddress(receiver, "receiver address") ?? signer.account.address;
+      const vaultContract = await connection.viem.getContractAt("YieldVault", vaultAddress, {
+        client: {
+          wallet: signer,
+        },
+      });
+      const [assetAddress, shareDecimals, expectedShares] = await Promise.all([
+        vaultContract.read.asset(),
+        vaultContract.read.decimals(),
+        vaultContract.read.previewDeposit([assetsAmount]),
+      ]);
+      const [assetDecimals, assetSymbol] = await Promise.all([
+        publicClient.readContract({
+          address: assetAddress,
+          abi: ERC20_METADATA_ABI,
+          functionName: "decimals",
+        }),
+        publicClient.readContract({
+          address: assetAddress,
+          abi: ERC20_METADATA_ABI,
+          functionName: "symbol",
+        }),
+      ]);
+      const hash = await vaultContract.write.deposit([assetsAmount, receiverAddress]);
+
+      await publicClient.waitForTransactionReceipt({ hash });
+
+      console.log(`[yv:deposit] vault=${vaultAddress}`);
+      console.log(`[yv:deposit] asset=${assetAddress}`);
+      console.log(`[yv:deposit] assetSymbol=${assetSymbol}`);
+      console.log(`[yv:deposit] caller=${signer.account.address}`);
+      console.log(`[yv:deposit] receiver=${receiverAddress}`);
+      console.log(`[yv:deposit] assetsRaw=${assetsAmount}`);
+      console.log(`[yv:deposit] assetsFormatted=${formatUnits(assetsAmount, assetDecimals)}`);
+      console.log(`[yv:deposit] expectedSharesRaw=${expectedShares}`);
+      console.log(
+        `[yv:deposit] expectedSharesFormatted=${formatUnits(expectedShares, shareDecimals)}`,
+      );
+      console.log(`[yv:deposit] txHash=${hash}`);
     } finally {
       await connection.close();
     }
