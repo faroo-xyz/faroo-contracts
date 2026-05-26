@@ -2,11 +2,11 @@ import "dotenv/config";
 
 import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
 import { configVariable, defineConfig } from "hardhat/config";
-
+import HardhatDeploy from "hardhat-deploy";
 import { appTasks } from "./tasks/index.js";
 
 export default defineConfig({
-  plugins: [hardhatToolboxViemPlugin],
+  plugins: [HardhatDeploy, hardhatToolboxViemPlugin],
   tasks: appTasks,
   solidity: {
     profiles: {

@@ -28,3 +28,6 @@
 
 # Snapshot cheatcodes output
 /snapshots
+
+# Generated files
+/generated
