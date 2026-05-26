@@ -16,7 +16,7 @@ contract MockProsToken is ERC20 {
         _mint(to, amount);
     }
 
-    /// @dev 测试专用：直接从指定地址扣款，不走 allowance（用于构造 INV-1 失衡）
+    /// @dev Test-only helper: transfer directly from an address without allowance to simulate INV-1 imbalance
     function forceTransfer(address from, address to, uint256 amount) external {
         _transfer(from, to, amount);
     }
@@ -66,7 +66,7 @@ contract VTokenTest is Test {
         vtoken.setMaxWithdrawCount(3);
 
         vm.prank(owner);
-        // 1:1 汇率，便于测试与断言
+        // Use a 1:1 rate to keep tests and assertions straightforward.
         oracle.setPoolInfoExternal(address(pros), 1e18, 1e18);
 
         pros.mint(alice, 10_000 ether);
@@ -83,7 +83,7 @@ contract VTokenTest is Test {
         vtoken.deposit(amount, alice);
     }
 
-    /// @dev @test owner 可配置固定赎回等待期并触发事件
+    /// @dev @test Owner can configure the unbonding period and emit the event
     function test_SetUnbondingPeriod_ByOwner_ShouldUpdateAndEmit() external {
         uint256 oldUnbondingPeriod = vtoken.unbondingPeriod();
         vm.expectEmit(true, true, true, true);
@@ -95,14 +95,14 @@ contract VTokenTest is Test {
         assertEq(vtoken.unbondingPeriod(), 3 days, "unbonding updated");
     }
 
-    /// @dev @test 非 owner 配置等待期应回滚
+    /// @dev @test Non-owner updates to the unbonding period should revert
     function test_SetUnbondingPeriod_ByNonOwner_ShouldRevert() external {
         vm.prank(alice);
         vm.expectRevert();
         vtoken.setUnbondingPeriod(1 days);
     }
 
-    /// @dev @test 每条赎回记录应快照提交时等待期，后续参数修改不影响历史
+    /// @dev @test Each withdrawal record should snapshot the waiting period at submission time
     function test_WithdrawalRecord_ShouldSnapshotUnbondingPeriod() external {
         vm.prank(owner);
         vtoken.setUnbondingPeriod(3 days);
@@ -121,7 +121,7 @@ contract VTokenTest is Test {
         assertEq(vtoken.unbondingPeriod(), 10 days, "global updated");
     }
 
-    /// @dev @test 未到等待期时，即使 totalCanWithdrawAmount 已到位也不能领取
+    /// @dev @test Claiming should fail before the waiting period ends even if reserve is available
     function test_WithdrawComplete_ShouldRequireWaitingTime() external {
         vm.prank(owner);
         vtoken.setUnbondingPeriod(2 days);
@@ -130,13 +130,13 @@ contract VTokenTest is Test {
         vm.prank(alice);
         vtoken.withdraw(30 ether, alice, alice);
 
-        // _withdraw 内会自动增加 totalCanWithdrawAmount，但未到等待期仍应不可领
+        // `_withdraw` increases `totalCanWithdrawAmount` immediately, but claims should still fail before maturity.
         vm.warp(block.timestamp + 1 days);
         uint256 available = vtoken.withdrawComplete();
         assertEq(available, 0, "not matured yet");
     }
 
-    /// @dev @test 达到等待期且储备足够时应可完整领取
+    /// @dev @test Full withdrawal completion should succeed after maturity when reserve is sufficient
     function test_WithdrawComplete_ShouldSucceed_WhenMaturedAndFunded() external {
         vm.prank(owner);
         vtoken.setUnbondingPeriod(1 days);
@@ -157,7 +157,7 @@ contract VTokenTest is Test {
         assertEq(vtoken.completedWithdrawal(), 40 ether, "completed updated");
     }
 
-    /// @dev @test 支持按 maxRecords 分批处理，单笔 gas 可控
+    /// @dev @test Supports batched completion by `maxRecords` to keep per-call gas manageable
     function test_WithdrawComplete_ShouldSupportBatchByMaxRecords() external {
         vm.prank(owner);
         vtoken.setUnbondingPeriod(0);
@@ -173,20 +173,20 @@ contract VTokenTest is Test {
         vm.prank(alice);
         vtoken.withdraw(30 ether, alice, alice);
 
-        // 首次仅处理 1 条记录
+        // Process only one record in the first call.
         vm.prank(alice);
         uint256 first = vtoken.withdrawComplete(1);
         assertEq(first, 50 ether, "first batch");
         assertEq(vtoken.getWithdrawals(alice).length, 2, "two records left");
 
-        // 再处理剩余记录
+        // Then process the remaining records.
         vm.prank(alice);
         uint256 second = vtoken.withdrawComplete(10);
         assertEq(second, 70 ether, "second batch");
         assertEq(vtoken.getWithdrawals(alice).length, 0, "queue drained");
     }
 
-    /// @dev @test withdraw 时应立即增加 totalCanWithdrawAmount，且写入队列字段
+    /// @dev @test `withdraw` should immediately increase `totalCanWithdrawAmount` and write the queue record
     function test_Withdraw_ShouldQueueRecordAndIncreaseReserveAmount() external {
         vm.prank(owner);
         vtoken.setUnbondingPeriod(5 days);
@@ -203,7 +203,7 @@ contract VTokenTest is Test {
         assertEq(vtoken.totalCanWithdrawAmount(), 25 ether, "reserve increases on withdraw");
     }
 
-    /// @dev @test 超过最大排队条数时应回滚（极值边界）
+    /// @dev @test Exceeding the max queued withdrawal count should revert
     function test_Withdraw_ShouldRevert_WhenExceedMaxWithdrawCount() external {
         _aliceDeposit(300 ether);
 
@@ -218,11 +218,11 @@ contract VTokenTest is Test {
         vtoken.withdraw(10 ether, alice, alice);
     }
 
-    /// @dev @test 外部直转资产不应破坏 INV-1（已改为内部跟踪账本校验）
+    /// @dev @test External direct transfers should not break INV-1 because the contract now uses internal accounting
     function test_CheckInv1Modifier_ShouldIgnoreExternalAssetTransfer() external {
         _aliceDeposit(100 ether);
 
-        // 外部地址向金库直转资产，不应导致后续 deposit 入口被永久阻断
+        // A direct transfer into the vault should not permanently block later deposits.
         pros.mint(attacker, 1 ether);
         vm.prank(attacker);
         pros.transfer(address(vtoken), 1 ether);
@@ -233,7 +233,7 @@ contract VTokenTest is Test {
         assertEq(vtoken.balanceOf(alice), 101 ether, "deposit should still work");
     }
 
-    /// @dev @test caller!=owner 时，赎回队列归 owner，领取时由 owner 指定 receiver
+    /// @dev @test When caller != owner, the withdrawal queue belongs to the owner and the owner chooses the receiver
     function test_WithdrawQueue_ShouldBindOwnerAndReceiver_WhenCallerUsesAllowance() external {
         vm.prank(owner);
         vtoken.setUnbondingPeriod(0);
@@ -261,19 +261,19 @@ contract VTokenTest is Test {
         assertEq(pros.balanceOf(charlie) - charlieBefore, 100 ether, "payout goes to owner-selected receiver");
     }
 
-    /// @dev @test 已有历史完成量时，累计基线应允许后续可领取金额
+    /// @dev @test Historical completed amounts should contribute to the cumulative baseline for later claims
     function test_CanWithdrawalAmount_ShouldIncludeCompletedWithdrawalBaseline() external {
         vm.prank(owner);
         vtoken.setUnbondingPeriod(0);
 
-        // 第一次赎回并领取后，completedWithdrawal 增加
+        // After the first withdrawal is completed, `completedWithdrawal` increases.
         _aliceDeposit(60 ether);
         vm.prank(alice);
         vtoken.withdraw(50 ether, alice, alice);
         vm.prank(alice);
         vtoken.withdrawComplete();
 
-        // 再次赎回：queued = 50，totalCanWithdrawAmount = 10，需依赖 completed + reserve 累计基线放行
+        // Second withdrawal: `queued = 50`, `totalCanWithdrawAmount = 10`, so the cumulative `completed + reserve` baseline must unlock it.
         vm.prank(alice);
         vtoken.withdraw(10 ether, alice, alice);
 
@@ -281,7 +281,7 @@ contract VTokenTest is Test {
         assertEq(available, 10 ether, "completed + reserve baseline should unlock second request");
     }
 
-    /// @dev @test mint 路径在 1:1 下应返回等量资产消耗并通过 INV-1 检查
+    /// @dev @test Under a 1:1 rate, `mint` should consume the same amount of assets and pass INV-1 checks
     function test_Mint_ShouldCostExpectedAssets() external {
         vm.prank(bob);
         uint256 costAssets = vtoken.mint(12 ether, bob);
@@ -289,20 +289,20 @@ contract VTokenTest is Test {
         assertEq(costAssets, 12 ether, "mint cost");
     }
 
-    /// @dev @test 正确流程：存入 -> 发起赎回 -> 等待期到期 -> 领取成功（含快照验证）
+    /// @dev @test Happy path: deposit -> queue withdrawal -> wait -> complete withdrawal, including snapshot verification
     function test_HappyPath_DepositWithdrawComplete_EndToEnd() external {
-        // 1) 设置等待期并存入
+        // 1) Set the waiting period and deposit.
         vm.prank(owner);
         vtoken.setUnbondingPeriod(2 days);
 
         _aliceDeposit(120 ether);
         assertEq(vtoken.balanceOf(alice), 120 ether, "shares after deposit");
 
-        // 2) 发起第一笔赎回（快照 2 days）
+        // 2) Queue the first withdrawal and snapshot `2 days`.
         vm.prank(alice);
         vtoken.withdraw(50 ether, alice, alice);
 
-        // 调整全局等待期，不影响历史记录
+        // Change the global waiting period without affecting historical records.
         vm.prank(owner);
         vtoken.setUnbondingPeriod(5 days);
 
@@ -311,13 +311,13 @@ contract VTokenTest is Test {
         assertEq(ws[0].unbondingPeriod, 2 days, "record should keep snapshot period");
         assertEq(vtoken.totalCanWithdrawAmount(), 50 ether, "reserve amount should increase immediately");
 
-        // 3) 未到等待期，不能领取
+        // 3) Before the waiting period ends, claiming should fail.
         vm.warp(block.timestamp + 1 days);
         vm.prank(alice);
         uint256 early = vtoken.withdrawComplete();
         assertEq(early, 0, "should not withdraw before unlock");
 
-        // 4) 到期后可领取
+        // 4) Once matured, the withdrawal can be completed.
         vm.warp(block.timestamp + 1 days + 1);
         uint256 before = pros.balanceOf(alice);
         vm.prank(alice);

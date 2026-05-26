@@ -14,31 +14,41 @@ import {Oracle} from "./Oracle.sol";
 
 /**
  * @title VToken
- * @notice stPROS 主体金库（ERC-4626），负责申购、排队赎回与完成领取。
+ * @notice Core stPROS vault (ERC-4626) responsible for subscriptions, queued
+ * redemptions, and withdrawal completion.
  *
- * 铸造流程（当前主网阶段）：
- * 1) 用户通过 deposit/mint 存入底层资产 PROS（或其封装资产）；
- * 2) 份额换算由 Oracle 提供，主网当前阶段按 1:1 铸造（assets == shares）；
- * 3) INV-1 约束持续成立：合约内 PROS 余额与 stPROS 总供应保持一致。
+ * Mint flow in the current mainnet phase:
+ * 1) Users deposit the underlying PROS asset (or its wrapped form) through
+ *    `deposit` / `mint`.
+ * 2) Share conversion is provided by {Oracle}; the current mainnet setup uses
+ *    a 1:1 ratio (`assets == shares`).
+ * 3) The INV-1 invariant must always hold: the internal PROS accounting must
+ *    match the total stPROS supply.
  *
- * 赎回流程（当前主网阶段）：
- * 1) 用户调用 withdraw/redeem，记录进入队列，不立即到账；
- * 2) 每条记录保存提交时等待期快照（unbondingPeriod）；
- * 3) withdrawComplete 时同时检查“等待期到期 + 储备可用”；
- * 4) 支持按 maxRecords 分批处理，降低单笔 gas 压力。
+ * Redemption flow in the current mainnet phase:
+ * 1) Users call `withdraw` / `redeem`, which enqueues the request instead of
+ *    paying out immediately.
+ * 2) Each queue item snapshots the waiting period (`unbondingPeriod`) at the
+ *    time of submission.
+ * 3) `withdrawComplete` checks both "waiting period elapsed" and "reserve is
+ *    available".
+ * 4) Batched processing via `maxRecords` helps keep gas usage manageable.
  *
- * 安全约束：
- * - INV-1：PROS 余额必须等于 stPROS 总供应；
- * - 队列使用 head/tail 游标实现 O(1) 入队，避免数组整体搬移。
+ * Safety properties:
+ * - INV-1: internal PROS accounting must equal the stPROS total supply.
+ * - The queue uses head / tail cursors for O(1) enqueue operations and avoids
+ *   shifting entire arrays.
  *
- * 与 Oracle 的铸造/赎回换算关系：
- * - 本合约所有 ERC4626 换算都委托给 {Oracle}：
- *   - assets -> shares: oracle.getVTokenAmountByToken(...)
- *   - shares -> assets: oracle.getTokenAmountByVToken(...)
- * - 主网当前阶段约定 Oracle 始终配置为 1:1（tokenAmount == vTokenAmount）：
- *   - deposit/mint 按 1:1 铸造；
- *   - withdraw/redeem 按 1:1 赎回；
- * - 若未来 Oracle 配置改为非 1:1，本合约会自动按新汇率执行，无需改 VToken 代码。
+ * Oracle-based mint / redeem conversion:
+ * - All ERC-4626 conversions in this contract are delegated to {Oracle}:
+ *   - assets -> shares: `oracle.getVTokenAmountByToken(...)`
+ *   - shares -> assets: `oracle.getTokenAmountByVToken(...)`
+ * - In the current mainnet phase the Oracle is expected to remain configured
+ *   at 1:1 (`tokenAmount == vTokenAmount`):
+ *   - `deposit` / `mint` behave as 1:1 minting
+ *   - `withdraw` / `redeem` behave as 1:1 redemption
+ * - If the Oracle is reconfigured away from 1:1 in the future, this contract
+ *   automatically follows the new rate without requiring VToken changes.
  */
 contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, ERC165Upgradeable {
     using Math for uint256;
@@ -50,31 +60,31 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     }
 
     // =================== Type declarations ===================
-    /// @notice 单条赎回请求
+    /// @notice A single queued redemption request
     struct Withdrawal {
-        /// @notice 提交时的累计排队基线（用于和累计可用额度比较）
+        /// @notice Cumulative queued baseline at submission time
         uint256 queued;
-        /// @notice 当前记录尚未领取的资产数量
+        /// @notice Remaining asset amount that has not yet been claimed
         uint256 pending;
-        /// @notice 提交时间戳
+        /// @notice Submission timestamp
         uint256 createdAt;
-        /// @notice 提交时快照的等待期（秒）
+        /// @notice Waiting period snapshot taken at submission time, in seconds
         uint256 unbondingPeriod;
     }
 
     // =================== State variables ===================
 
-    /// @notice 汇率预言机（token 与 vToken 换算）
-    /// @dev 主网当前阶段应保持 1:1 配置（tokenAmount=vTokenAmount）
+    /// @notice Rate oracle for token <-> vToken conversion
+    /// @dev In the current mainnet phase it is expected to stay at 1:1
     Oracle public oracle;
 
-    /// @notice 当前可用于领取的储备额度（会随领取减少）
+    /// @notice Reserve currently available for completion, decreases on claim
     uint256 public totalCanWithdrawAmount;
 
-    /// @notice 历史累计排队总量（单调递增）
+    /// @notice Historical total queued amount, monotonically increasing
     uint256 public queuedWithdrawal;
 
-    /// @notice 历史累计完成领取总量（单调递增）
+    /// @notice Historical total completed amount, monotonically increasing
     uint256 public completedWithdrawal;
 
     /// @notice Withdraw queue head index per user (inclusive)
@@ -86,63 +96,63 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     /// @notice Withdraw queue storage per user and index
     mapping(address => mapping(uint256 => Withdrawal)) internal withdrawals;
 
-    /// @notice 单地址允许存在的最大未完成赎回记录数
+    /// @notice Maximum number of outstanding withdrawal records per address
     uint256 public maxWithdrawCount;
 
-    /// @notice 新赎回请求使用的全局等待期（秒）
+    /// @notice Global waiting period used for new withdrawal requests, in seconds
     uint256 public unbondingPeriod;
 
-    /// @notice 初始化默认每地址最大排队条数，避免默认 0 导致赎回入口永久不可用
+    /// @notice Safe default max queue length per address to avoid a locked withdrawal path
     uint256 internal constant DEFAULT_MAX_WITHDRAW_COUNT = 5;
 
-    /// @notice 初始化默认等待期
+    /// @notice Default waiting period set during initialization
     uint256 internal constant DEFAULT_UNBONDING_PERIOD = 7 days;
-    /// @notice 等待期治理上限，防止配置过大导致新赎回长期不可领取
+    /// @notice Governance cap on the waiting period to avoid excessive lockups
     uint256 public constant MAX_UNBONDING = 30 days;
 
-    /// @notice 内部跟踪账本，仅由合约内 mint/burn 驱动，不受外部直转资产影响
+    /// @notice Internal accounting driven only by mint / burn, ignoring direct transfers
     uint256 internal _tracked;
 
     // =================== Events ===================
 
-    /// @notice 触发器地址更新事件
+    /// @notice Trigger address update event
     event TriggerAddressChanged(address indexed oldAddress, address indexed newAddress);
 
-    /// @notice 预言机地址更新事件
+    /// @notice Oracle address update event
     event OracleChanged(address indexed oldOracle, address indexed newOracle);
 
-    /// @notice 领取成功事件
+    /// @notice Successful withdrawal completion event
     event WithdrawalCompleted(address indexed caller, address indexed receiver, uint256 tokenAmount);
 
-    /// @notice 最大排队条数更新事件
+    /// @notice Max queue length update event
     event MaxWithdrawCountChanged(uint256 maxWithdrawCount);
 
-    /// @notice 全局等待期更新事件（仅影响后续新请求）
+    /// @notice Global waiting period update event for future requests only
     event UnbondingPeriodChanged(uint256 oldUnbondingPeriod, uint256 newUnbondingPeriod);
 
     // =================== Errors ===================
 
-    /// @notice 未完成赎回记录数超过限制
+    /// @notice Outstanding withdrawal records exceed the configured limit
     error ExceedMaxWithdrawCount(uint256 withdrawCount);
 
-    /// @notice 非法地址参数（如零地址）
+    /// @notice Invalid address parameter such as the zero address
     error InvalidAddress();
 
-    /// @notice INV-1 不变量被破坏：PROS 余额 != stPROS 供应
+    /// @notice INV-1 is broken: tracked PROS amount != stPROS supply
     error Inv1Violation(uint256 prosBalance, uint256 stProsSupply);
-    /// @notice 等待期参数超过治理上限
+    /// @notice Waiting period exceeds the governance cap
     error UnbondingPeriodTooLong(uint256 value, uint256 maxValue);
 
     // =================== Modifiers ===================
 
-    /// @notice 在关键入口执行前后都校验 INV-1
+    /// @notice Validate INV-1 before and after critical entry points
     modifier checkInv1() {
         _assertInv1();
         _;
         _assertInv1();
     }
 
-    /// @notice 初始化 ERC20/ERC4626/权限模块
+    /// @notice Initialize ERC20 / ERC4626 / access-control modules
     function __VToken_init(IERC20 _asset, address _owner, string memory _name, string memory _symbol)
         internal
         onlyInitializing
@@ -153,13 +163,13 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         __Pausable_init();
         __ERC165_init();
 
-        // 显式设置安全默认值，防止 maxWithdrawCount 默认 0 卡死赎回流程
+        // Set a safe explicit default so withdrawals don't get disabled by a zero value.
         maxWithdrawCount = DEFAULT_MAX_WITHDRAW_COUNT;
-        // 显式设置默认等待期，避免因默认 0 改变经济/监管假设
+        // Set an explicit default waiting period to preserve the intended economics.
         unbondingPeriod = DEFAULT_UNBONDING_PERIOD;
     }
 
-    /// @notice 设置预言机地址（仅 owner）
+    /// @notice Set the oracle address, owner only
     function setOracle(address _oracle) external onlyOwner {
       if(_oracle == address(0)) {
         revert InvalidAddress();
@@ -169,14 +179,14 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         emit OracleChanged(oldOracle, _oracle);
     }
 
-    /// @notice 设置单地址最大排队条数（仅 owner）
+    /// @notice Set the max number of queued records per address, owner only
     function setMaxWithdrawCount(uint256 _maxWithdrawCount) external onlyOwner {
         maxWithdrawCount = _maxWithdrawCount;
         emit MaxWithdrawCountChanged(_maxWithdrawCount);
     }
 
-    /// @notice 设置全局等待期（仅 owner）
-    /// @dev 仅影响后续新提交赎回，历史记录按快照执行
+    /// @notice Set the global waiting period, owner only
+    /// @dev Only affects future requests; historical records keep their snapshots
     function setUnbondingPeriod(uint256 _unbondingPeriod) external onlyOwner {
         if (_unbondingPeriod > MAX_UNBONDING) {
             revert UnbondingPeriodTooLong(_unbondingPeriod, MAX_UNBONDING);
@@ -186,40 +196,40 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         emit UnbondingPeriodChanged(oldUnbondingPeriod, _unbondingPeriod);
     }
 
-    /// @notice 暂停可暂停入口（仅 owner）
+    /// @notice Pause pausable entry points, owner only
     function pause() external onlyOwner {
         _pause();
     }
 
-    /// @notice 解除暂停（仅 owner）
+    /// @notice Unpause, owner only
     function unpause() external onlyOwner {
         _unpause();
     }
 
-    /// @notice 完成可领取赎回（默认尝试处理全部记录，默认领取到调用者）
-    /// @return amount 实际领取资产
+    /// @notice Complete claimable withdrawals, processing all records by default
+    /// @return amount Actual assets claimed
     function withdrawComplete() public returns (uint256) {
         return withdrawComplete(msg.sender, type(uint8).max);
     }
 
-    /// @notice 按批次完成可领取赎回（默认领取到调用者）
-    /// @param maxRecords 本次最多处理的完整记录数（0 代表不设上限）
-    /// @return amount 实际领取资产
+    /// @notice Complete claimable withdrawals in batches, paying the caller by default
+    /// @param maxRecords Maximum number of fully consumed records to process; 0 means no limit
+    /// @return amount Actual assets claimed
     function withdrawComplete(uint256 maxRecords) public returns (uint256) {
         return withdrawComplete(msg.sender, maxRecords);
     }
 
-    /// @notice 完成可领取赎回（默认尝试处理全部记录）
-    /// @param receiver 资产接收地址
-    /// @return amount 实际领取资产
+    /// @notice Complete claimable withdrawals, processing all records by default
+    /// @param receiver Asset receiver
+    /// @return amount Actual assets claimed
     function withdrawComplete(address receiver) public returns (uint256) {
         return withdrawComplete(receiver, type(uint8).max);
     }
 
-    /// @notice 按批次完成可领取赎回，支持控制单笔 gas
-    /// @param receiver 资产接收地址
-    /// @param maxRecords 本次最多处理的完整记录数（0 代表不设上限）
-    /// @return amount 实际领取资产
+    /// @notice Complete claimable withdrawals in batches to control single-call gas
+    /// @param receiver Asset receiver
+    /// @param maxRecords Maximum number of fully consumed records to process; 0 means no limit
+    /// @return amount Actual assets claimed
     function withdrawComplete(address receiver, uint256 maxRecords) public returns (uint256) {
         (uint256 totalAvailableAmount, uint256 fullyConsumedCount, uint256 partialConsumedAmount) =
             canWithdrawalAmount(msg.sender, maxRecords);
@@ -228,7 +238,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
             return 0;
         }
 
-        // 删除被完整消费的记录并前移头指针
+        // Remove fully consumed records and advance the head cursor.
         uint256 head = withdrawalHead[msg.sender];
         for (uint256 i = 0; i < fullyConsumedCount; i++) {
             delete withdrawals[msg.sender][head + i];
@@ -238,7 +248,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         }
         withdrawalHead[msg.sender] = head;
 
-        // 处理最后一条“部分消费”的记录
+        // Handle the final partially consumed record if any.
         if (partialConsumedAmount > 0) {
             Withdrawal storage w = withdrawals[msg.sender][head];
             unchecked {
@@ -247,7 +257,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
             }
         }
 
-        // 更新累计账本并转账
+        // Update cumulative accounting and transfer assets.
         completedWithdrawal += totalAvailableAmount;
         totalCanWithdrawAmount -= totalAvailableAmount;
         _burn(address(this), totalAvailableAmount);
@@ -256,27 +266,27 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         return totalAvailableAmount;
     }
 
-    /// @notice 预览某地址当前可领取额度（不限制处理条数）
-    /// @return totalAvailableAmount 可领取总量
-    /// @return fullyConsumedCount 可完整消费条数
-    /// @return partialConsumedAmount 最后一条可部分消费金额
+    /// @notice Preview the currently claimable amount for an address with no record limit
+    /// @return totalAvailableAmount Total claimable amount
+    /// @return fullyConsumedCount Number of fully consumable records
+    /// @return partialConsumedAmount Partially consumable amount in the last record
     function canWithdrawalAmount(address target) public view returns (uint256, uint256, uint256) {
         return canWithdrawalAmount(target, type(uint8).max);
     }
 
-    /// @notice 预览某地址可领取额度（支持 maxRecords 分页）
-    /// @dev 领取条件：等待期到期 + 累计可用额度满足排队基线
+    /// @notice Preview the claimable amount for an address with batched processing
+    /// @dev A record becomes claimable when its waiting period has elapsed and the cumulative available amount clears its queued baseline
     function canWithdrawalAmount(address target, uint256 maxRecords) public view returns (uint256, uint256, uint256) {
         uint256 totalAvailableAmount = 0;
         uint256 fullyConsumedCount = 0;
         uint256 partialConsumedAmount = 0;
-        // 使用“历史已完成 + 当前储备”累计口径，确保分批与一次性结果一致
+        // Use "historical completed + current reserve" so batched and one-shot processing stay consistent.
         uint256 cumulativeAvailableAmount = completedWithdrawal + totalCanWithdrawAmount;
         uint256 head = withdrawalHead[target];
         uint256 tail = withdrawalTail[target];
         uint256 limit = maxRecords == 0 ? type(uint8).max : maxRecords;
 
-        // 队列按提交顺序处理：一旦前序记录未到期/额度不足，后续也不能提前领取
+        // Process in submission order: if an earlier record is not unlocked or underfunded, later ones stay blocked too.
         for (uint256 index = head; index < tail && fullyConsumedCount < limit; index++) {
             Withdrawal memory w = withdrawals[target][index];
             uint256 unlockAt = w.createdAt + w.unbondingPeriod;
@@ -300,7 +310,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         return (totalAvailableAmount, fullyConsumedCount, partialConsumedAmount);
     }
 
-    /// @notice 获取地址当前未完成的赎回记录列表（按队列顺序）
+    /// @notice Return the current outstanding withdrawal records for an address in queue order
     function getWithdrawals(address target) public view returns (Withdrawal[] memory) {
         uint256 head = withdrawalHead[target];
         uint256 tail = withdrawalTail[target];
@@ -313,14 +323,14 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     }
 
     // =================== ERC4626 functions ===================
-    /// @notice ERC4626 总资产口径：通过 oracle 按当前供应量换算
-    /// @dev 1:1 配置下 totalAssets() 与 totalSupply() 数值一致
+    /// @notice ERC4626 total-assets view derived from the oracle and current supply
+    /// @dev Under a 1:1 oracle config, `totalAssets()` equals `totalSupply()`
     function totalAssets() public view virtual override returns (uint256) {
         return oracle.getTokenAmountByVToken(address(asset()), IERC20(address(this)).totalSupply(), Math.Rounding.Floor);
     }
 
-    /// @notice 资产转份额（oracle 换算）
-    /// @dev 主网当前阶段 1:1：assets == shares
+    /// @notice Convert assets to shares through the oracle
+    /// @dev In the current mainnet phase, 1:1 means `assets == shares`
     function _convertToShares(uint256 assets, Math.Rounding rounding)
         internal
         view
@@ -331,8 +341,8 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         return oracle.getVTokenAmountByToken(address(asset()), assets, rounding);
     }
 
-    /// @notice 份额转资产（oracle 换算）
-    /// @dev 主网当前阶段 1:1：shares == assets
+    /// @notice Convert shares to assets through the oracle
+    /// @dev In the current mainnet phase, 1:1 means `shares == assets`
     function _convertToAssets(uint256 shares, Math.Rounding rounding)
         internal
         view
@@ -343,8 +353,8 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         return oracle.getTokenAmountByVToken(address(asset()), shares, rounding);
     }
 
-    /// @notice 存入资产并铸造份额（带 INV-1 校验）
-    /// @dev 在主网当前阶段（Oracle=1:1）下，本入口按 1:1 铸造 stPROS
+    /// @notice Deposit assets and mint shares with INV-1 validation
+    /// @dev In the current mainnet phase (Oracle = 1:1), this path mints stPROS 1:1
     function deposit(uint256 assets, address receiver)
         public
         virtual
@@ -357,8 +367,8 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         return vTokenAmount;
     }
 
-    /// @notice 按目标份额铸造（带 INV-1 校验）
-    /// @dev 在主网当前阶段（Oracle=1:1）下，本入口按 1:1 反推所需资产
+    /// @notice Mint a target number of shares with INV-1 validation
+    /// @dev In the current mainnet phase (Oracle = 1:1), this path back-solves assets 1:1
     function mint(uint256 shares, address receiver)
         public
         virtual
@@ -371,8 +381,8 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         return tokenAmount;
     }
 
-    /// @notice 发起资产赎回（进入排队，不立即到账）
-    /// @dev 在主网当前阶段（Oracle=1:1）下，assets 与被托管 shares 等量
+    /// @notice Start an asset redemption by enqueuing it instead of paying immediately
+    /// @dev In the current mainnet phase (Oracle = 1:1), `assets` match the escrowed shares
     function withdraw(uint256 assets, address receiver, address owner)
         public
         virtual
@@ -384,8 +394,8 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         return super.withdraw(assets, receiver, owner);
     }
 
-    /// @notice 发起份额赎回（进入排队，不立即到账）
-    /// @dev 在主网当前阶段（Oracle=1:1）下，shares 对应 assets 等量
+    /// @notice Start a share redemption by enqueuing it instead of paying immediately
+    /// @dev In the current mainnet phase (Oracle = 1:1), `shares` map to equal `assets`
     function redeem(uint256 shares, address receiver, address owner)
         public
         virtual
@@ -402,16 +412,16 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         virtual
         override
     {
-        // 非 owner 代操作时，先消耗 allowance
+        // Spend allowance first when the caller is acting on behalf of the owner.
         if (caller != owner) {
             _spendAllowance(owner, caller, shares);
         }
 
-        // 将用户份额转入合约托管，待领取时对应销毁
+        // Move the user's shares into contract custody so they can be burned on completion.
         _burn(owner, shares);
         _mint(address(this), shares);
 
-        // O(1) 入队：写 tail 并右移 tail 指针
+        // O(1) enqueue: write at tail and advance the tail cursor.
         uint256 head = withdrawalHead[owner];
         uint256 tail = withdrawalTail[owner];
         uint256 length = tail - head;
@@ -427,14 +437,14 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
             unbondingPeriod: unbondingPeriod
         });
         withdrawalTail[owner] = tail + 1;
-        // 发起赎回即计入储备额度（当前阶段无外部回款）
+        // Count the request toward the reserve immediately; there is no external refill in the current phase.
         queuedWithdrawal += assets;
         totalCanWithdrawAmount += assets;
 
         emit Withdraw(caller, receiver, owner, assets, shares);
     }
 
-    /// @notice 覆盖 ERC20 更新逻辑，内部维护 INV-1 的跟踪账本
+    /// @notice Override ERC20 update logic to maintain INV-1 internal accounting
     function _update(address from, address to, uint256 value) internal virtual override {
         if (from == address(0)) {
             _tracked += value;
@@ -445,7 +455,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         super._update(from, to, value);
     }
 
-    /// @notice INV-1：内部跟踪账本必须等于 stPROS 总供应
+    /// @notice INV-1: internal accounting must equal total stPROS supply
     function _assertInv1() internal view {
         uint256 stProsSupply = totalSupply();
         uint256 trackedAmount = _tracked;
@@ -454,7 +464,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         }
     }
 
-    /// @notice ERC165 接口声明：IERC4626 + IERC20 + 父类
+    /// @notice ERC165 interface declaration for IERC4626 + IERC20 + parent interfaces
     function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
         return interfaceId == type(IERC4626).interfaceId || interfaceId == type(IERC20).interfaceId
             || super.supportsInterface(interfaceId);

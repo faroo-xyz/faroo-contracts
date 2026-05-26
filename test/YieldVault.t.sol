@@ -99,7 +99,7 @@ contract YieldVaultTest is Test {
         vm.warp(block.timestamp + LOCK_DURATION + 1);
     }
 
-    /// @dev @test 初始化参数与初始状态正确
+    /// @dev @test Initialization parameters and initial state should be correct
     function test_Initialize_State_ShouldBeCorrect() external view {
         assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.SUBSCRIBING), "init phase");
         assertEq(vault.epochCap(), EPOCH_CAP, "epoch cap");
@@ -107,7 +107,7 @@ contract YieldVaultTest is Test {
         assertEq(vault.subscriptionDeadline(), vault.subscriptionStartedAt() + SUBSCRIPTION_WINDOW, "sub deadline");
     }
 
-    /// @dev @test 开始时间未到前，deposit 应回滚
+    /// @dev @test `deposit` should revert before the subscription start time
     function test_Deposit_Revert_WhenSubscriptionNotStarted() external {
         uint256 delayedStart = block.timestamp + 1 days;
         YieldVault.InitParams memory params = YieldVault.InitParams({
@@ -140,13 +140,13 @@ contract YieldVaultTest is Test {
         futureVault.deposit(100 ether, alice);
     }
 
-    /// @dev @test 申购达到总容量上限时自动关闭到 LOCKED
+    /// @dev @test Reaching the epoch cap should auto-close into LOCKED
     function test_Deposit_AutoClose_WhenCapReached() external {
         _fillToLocked();
         assertEq(vault.totalUserPrincipal(), EPOCH_CAP, "principal equals cap");
     }
 
-    /// @dev @test 小于最小申购额时应回滚
+    /// @dev @test Deposits below the minimum subscription should revert
     function test_Deposit_Revert_WhenBelowMinSubscription() external {
         vm.prank(alice);
         vm.expectRevert(
@@ -155,7 +155,7 @@ contract YieldVaultTest is Test {
         vault.deposit(MIN_SUBSCRIPTION - 1, alice);
     }
 
-    /// @dev @test 单地址累计申购超过上限时应回滚
+    /// @dev @test Deposits exceeding the per-address cap should revert
     function test_Deposit_Revert_WhenExceedPerAddressCap() external {
         vm.prank(alice);
         vault.deposit(600 ether, alice);
@@ -165,7 +165,7 @@ contract YieldVaultTest is Test {
         vault.deposit(150 ether, alice);
     }
 
-    /// @dev @test 未到期且未满仓时 closeSubscription 应回滚
+    /// @dev @test `closeSubscription` should revert when the window is not expired and the cap is not full
     function test_CloseSubscription_Revert_WhenNotExpiredAndNotFull() external {
         vm.prank(alice);
         vault.deposit(100 ether, alice);
@@ -175,7 +175,7 @@ contract YieldVaultTest is Test {
         vault.closeSubscription();
     }
 
-    /// @dev @test 申购窗口到期后可手动关闭申购期
+    /// @dev @test Subscription can be closed manually after the window expires
     function test_CloseSubscription_Success_AfterWindowExpired() external {
         vm.prank(alice);
         vault.deposit(100 ether, alice);
@@ -186,7 +186,7 @@ contract YieldVaultTest is Test {
         assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.LOCKED), "lock after window");
     }
 
-    /// @dev @test 结算员可在申购期延长 subscriptionDeadline
+    /// @dev @test Settler can extend `subscriptionDeadline` during the subscription phase
     function test_ExtendSubscriptionDeadline_BySettler_ShouldUpdateAndEmit() external {
         uint256 oldDeadline = vault.subscriptionDeadline();
         uint256 extension = 1 days;
@@ -200,28 +200,28 @@ contract YieldVaultTest is Test {
         assertEq(vault.subscriptionDeadline(), oldDeadline + extension, "deadline should be extended");
     }
 
-    /// @dev @test 延长截止时间为 0 应回滚
+    /// @dev @test Extending by zero should revert
     function test_ExtendSubscriptionDeadline_ShouldRevert_WhenZeroAdditionalTime() external {
         vm.prank(settler);
         vm.expectRevert(YieldVault.InvalidSettlementInput.selector);
         vault.extendSubscriptionDeadline(0);
     }
 
-    /// @dev @test 延长截止时间超过上限应回滚
+    /// @dev @test Extending beyond the maximum allowed amount should revert
     function test_ExtendSubscriptionDeadline_ShouldRevert_WhenAdditionalTimeTooLong() external {
         vm.prank(settler);
         vm.expectRevert(YieldVault.InvalidSettlementInput.selector);
         vault.extendSubscriptionDeadline(31 days);
     }
 
-    /// @dev @test 非结算员调用延长截止时间应回滚
+    /// @dev @test Non-settler calls to extend the deadline should revert
     function test_ExtendSubscriptionDeadline_ByNonSettler_ShouldRevert() external {
         vm.prank(alice);
         vm.expectRevert();
         vault.extendSubscriptionDeadline(1 days);
     }
 
-    /// @dev @test 申购截止后，deposit/mint 都应回滚
+    /// @dev @test `deposit` and `mint` should both revert after the subscription deadline
     function test_DepositAndMint_ShouldRevert_WhenSubscriptionExpired() external {
         vm.warp(vault.subscriptionDeadline());
 
@@ -234,7 +234,7 @@ contract YieldVaultTest is Test {
         vault.mint(100 ether, alice);
     }
 
-    /// @dev @test 锁定期未到时提交结算应回滚
+    /// @dev @test Proposing settlement before maturity should revert
     function test_ProposeSettlement_Revert_WhenNotMatured() external {
         _fillToLocked();
         vm.prank(settler);
@@ -242,7 +242,7 @@ contract YieldVaultTest is Test {
         vault.proposeSettlement(YieldVault.SettleMode.LOSS, 10 ether, address(0));
     }
 
-    /// @dev @test 亏损模式 fundFrom 非零应回滚，亏损超过本金应回滚
+    /// @dev @test In LOSS mode, non-zero `fundFrom` should revert and loss above principal should also revert
     function test_ProposeSettlement_LossInputValidation() external {
         _fillAndMatureLocked();
 
@@ -255,7 +255,7 @@ contract YieldVaultTest is Test {
         vault.proposeSettlement(YieldVault.SettleMode.LOSS, EPOCH_CAP + 1, address(0));
     }
 
-    /// @dev @test 盈利异步补款时需满足工厂未暂停且只能补一次
+    /// @dev @test Async profit funding requires the factory to be unpaused and can only happen once
     function test_FundProfit_ShouldRespectPauseAndSingleFundRule() external {
         _fillAndMatureLocked();
 
@@ -277,7 +277,7 @@ contract YieldVaultTest is Test {
         vault.fundProfit();
     }
 
-    /// @dev @test finalize 需要同时满足时间锁到期与 profitFunded=true
+    /// @dev @test `finalize` requires both timelock expiry and `profitFunded=true`
     function test_Finalize_ShouldRequireTimelockAndFunding() external {
         _fillAndMatureLocked();
 
@@ -297,7 +297,7 @@ contract YieldVaultTest is Test {
         assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.SETTLED), "finalize settled");
     }
 
-    /// @dev @test 覆盖提议时应先退旧款并重置计时
+    /// @dev @test Replacing a proposal should refund the previous funding and reset the timer
     function test_ReplaceProposal_ShouldRefundOldAndResetTimestamp() external {
         _fillAndMatureLocked();
 
@@ -316,7 +316,7 @@ contract YieldVaultTest is Test {
         assertEq(uint256(vault.settleMode()), uint256(YieldVault.SettleMode.LOSS), "new mode active");
     }
 
-    /// @dev @test 盈利结算下手续费与用户兑付金额应正确
+    /// @dev @test Under profit settlement, fee accounting and user redemption math should be correct
     function test_ProfitSettlement_FeeAndRedeemMath_ShouldBeCorrect() external {
         _fillAndMatureLocked();
 
@@ -335,7 +335,7 @@ contract YieldVaultTest is Test {
         assertEq(asset.balanceOf(alice) - aliceBefore, 545 ether, "alice payout");
     }
 
-    /// @dev @test 亏损结算下仅对手方可领且仅能领取一次
+    /// @dev @test Under loss settlement, only the counterparty can claim and only once
     function test_LossSettlement_CounterpartyClaim_RoleAndSingleClaim() external {
         _fillAndMatureLocked();
 
@@ -358,7 +358,7 @@ contract YieldVaultTest is Test {
         vault.claimCounterpartyProceeds();
     }
 
-    /// @dev @test 紧急取消仅工厂可触发，取消后用户按本金兑付
+    /// @dev @test Emergency cancel is factory-only and redeems user principal afterward
     function test_EmergencyCancel_OnlyFactoryAndRedeemPrincipal() external {
         vm.prank(alice);
         vault.deposit(100 ether, alice);
@@ -378,7 +378,7 @@ contract YieldVaultTest is Test {
         assertEq(asset.balanceOf(alice) - before, 100 ether, "cancel redeem 1:1");
     }
 
-    /// @dev @test 非兑付阶段 maxRedeem/maxWithdraw 应为 0，兑付阶段应返回正值
+    /// @dev @test `maxRedeem` and `maxWithdraw` should be zero outside payout phases and positive during payout phases
     function test_MaxRedeemAndMaxWithdraw_ShouldMatchPhase() external {
         vm.prank(alice);
         vault.deposit(100 ether, alice);
@@ -391,34 +391,34 @@ contract YieldVaultTest is Test {
         assertEq(vault.maxWithdraw(alice), 100 ether, "maxWithdraw in cancelled");
     }
 
-    /// @dev @test 正确流程（盈利）：申购 -> 锁定 -> 公示异步补款 -> 结算生效 -> 用户兑付
+    /// @dev @test Happy path (profit): subscribe -> lock -> async funding -> settle -> user redemption
     function test_HappyPath_Profit_EndToEnd() external {
-        // 1) 申购阶段：两位用户各申购 500，达到容量后自动进入 LOCKED
+        // 1) During subscription, two users each deposit 500 and the vault auto-enters LOCKED at the cap.
         _fillToLocked();
 
-        // 2) 锁定阶段：允许份额转让，接盘方按当前持仓享有后续兑付权
+        // 2) During the locked phase, shares remain transferable and the current holder receives the later payout rights.
         uint256 bobSharesBeforeTransfer = vault.balanceOf(bob);
         vm.prank(alice);
         vault.transfer(bob, 100 ether);
         assertEq(vault.balanceOf(bob), bobSharesBeforeTransfer + 100 ether, "bob should receive transferred shares");
 
-        // 3) 到期后提交盈利提议（先不即付），进入公示期
+        // 3) After maturity, submit a profit proposal without immediate funding and enter the proposal phase.
         vm.warp(block.timestamp + LOCK_DURATION + 1);
         vm.prank(settler);
         vault.proposeSettlement(YieldVault.SettleMode.PROFIT, 200 ether, address(0));
         assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.SETTLE_PROPOSED), "phase should be proposed");
 
-        // 4) 公示期由第三方代付盈利资金
+        // 4) A third party funds the profit during the proposal window.
         vm.prank(payer);
         vault.fundProfit();
         assertTrue(vault.profitFunded(), "profit funding should be completed");
 
-        // 5) 时间锁到期后 finalize，进入兑付期
+        // 5) Finalize after the timelock and enter the payout phase.
         vm.warp(block.timestamp + SETTLE_TIMELOCK + 1);
         vault.finalize();
         assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.SETTLED), "phase should be settled");
 
-        // 6) 用户按当前持仓兑付，断言与 previewRedeem 一致
+        // 6) Users redeem based on current balances and the result should match `previewRedeem`.
         uint256 aliceBefore = asset.balanceOf(alice);
         uint256 bobBefore = asset.balanceOf(bob);
 

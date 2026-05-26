@@ -47,7 +47,7 @@ contract StPROS is VToken, ReentrancyGuardTransient {
         IWETH(address(asset())).deposit{value: msg.value}();
 
         uint256 shares = previewDeposit(msg.value);
-        _mint(msg.sender, shares);          // 资产已在合约内，直接铸份额，跳过 transferFrom
+        _mint(msg.sender, shares);          // Assets are already held by the contract, so mint shares directly and skip transferFrom.
         emit Deposit(msg.sender, msg.sender, msg.value, shares);
         return shares;
     }
