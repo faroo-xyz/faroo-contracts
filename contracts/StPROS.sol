@@ -2,7 +2,7 @@
 pragma solidity ^0.8.28;
 
 import {VToken} from "./VToken.sol";
-import {IWETH} from "./IWETH.sol";
+import {IWPROS} from "./IWPROS.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {ReentrancyGuardTransient} from "@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol";
 
@@ -44,7 +44,7 @@ contract StPROS is VToken, ReentrancyGuardTransient {
             revert PROSNotSent();
         }
         // Convert PROS to V_PROS (V_PROS will be sent to this contract)
-        IWETH(address(asset())).deposit{value: msg.value}();
+        IWPROS(address(asset())).deposit{value: msg.value}();
 
         uint256 shares = previewDeposit(msg.value);
         _mint(msg.sender, shares);          // Assets are already held by the contract, so mint shares directly and skip transferFrom.
@@ -54,7 +54,7 @@ contract StPROS is VToken, ReentrancyGuardTransient {
 
     function withdrawCompleteToPROS() external whenNotPaused nonReentrant returns (uint256) {
         uint256 amount = super.withdrawComplete(address(this));
-        IWETH(address(asset())).withdraw(amount);
+        IWPROS(address(asset())).withdraw(amount);
         (bool success,) = msg.sender.call{value: amount}("");
         if (!success) {
             revert TransferFailed();
@@ -64,7 +64,7 @@ contract StPROS is VToken, ReentrancyGuardTransient {
 
     function withdrawCompleteToPROS(uint256 maxRecords) external whenNotPaused nonReentrant returns (uint256) {
         uint256 amount = super.withdrawComplete(address(this), maxRecords);
-        IWETH(address(asset())).withdraw(amount);
+        IWPROS(address(asset())).withdraw(amount);
         (bool success,) = msg.sender.call{value: amount}("");
         if (!success) {
             revert TransferFailed();
