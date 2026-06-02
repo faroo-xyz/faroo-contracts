@@ -54,11 +54,10 @@ const FACTORY_PAUSED_ABI = [
 const DEFAULT_ADMIN_ROLE =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 const PHASE_NAMES = [
-  "SUBSCRIBING",
+  "OPEN",
   "LOCKED",
   "SETTLE_PROPOSED",
   "SETTLED",
-  "CANCELLED",
 ] as const;
 const SETTLE_MODE_NAMES = ["PROFIT", "LOSS"] as const;
 
@@ -123,7 +122,7 @@ export const yieldVaultInfoTask = task(
       const vaultContract = await connection.viem.getContractAt(
         "YieldVault",
         vaultAddress,
-      );
+      ) as any;
 
       const [
         name,
@@ -133,32 +132,29 @@ export const yieldVaultInfoTask = task(
         factory,
         counterparty,
         feeRecipient,
+        roundIndex,
+        vaultClosed,
+        openWindow,
         lockDuration,
-        subscriptionWindow,
-        epochCap,
+        roundCap,
         perAddressCap,
         minSubscription,
         performanceFeeBps,
         settleTimelockWindow,
+        yieldTarget,
         phase,
         settleMode,
-        subscriptionStartedAt,
-        subscriptionDeadline,
+        openedAt,
+        openDeadline,
         lockedAt,
         settleProposedAt,
         settledAt,
         settleAmount,
         profitFunded,
         profitFunder,
-        totalUserPrincipal,
-        settledTotalShares,
-        settledTotalClaimableAssets,
-        settledFeeAmount,
-        settledNetProfit,
-        counterpartyClaimed,
+        totalManagedAssets,
         totalSupply,
         totalAssets,
-        settlerRole,
       ] = await Promise.all([
         vaultContract.read.name(),
         vaultContract.read.symbol(),
@@ -167,32 +163,29 @@ export const yieldVaultInfoTask = task(
         vaultContract.read.factory(),
         vaultContract.read.counterparty(),
         vaultContract.read.feeRecipient(),
+        vaultContract.read.roundIndex(),
+        vaultContract.read.vaultClosed(),
+        vaultContract.read.openWindow(),
         vaultContract.read.lockDuration(),
-        vaultContract.read.subscriptionWindow(),
-        vaultContract.read.epochCap(),
+        vaultContract.read.roundCap(),
         vaultContract.read.perAddressCap(),
         vaultContract.read.minSubscription(),
         vaultContract.read.performanceFeeBps(),
         vaultContract.read.settleTimelockWindow(),
+        vaultContract.read.yieldTarget(),
         vaultContract.read.phase(),
         vaultContract.read.settleMode(),
-        vaultContract.read.subscriptionStartedAt(),
-        vaultContract.read.subscriptionDeadline(),
+        vaultContract.read.openedAt(),
+        vaultContract.read.openDeadline(),
         vaultContract.read.lockedAt(),
         vaultContract.read.settleProposedAt(),
         vaultContract.read.settledAt(),
         vaultContract.read.settleAmount(),
         vaultContract.read.profitFunded(),
         vaultContract.read.profitFunder(),
-        vaultContract.read.totalUserPrincipal(),
-        vaultContract.read.settledTotalShares(),
-        vaultContract.read.settledTotalClaimableAssets(),
-        vaultContract.read.settledFeeAmount(),
-        vaultContract.read.settledNetProfit(),
-        vaultContract.read.counterpartyClaimed(),
+        vaultContract.read.totalManagedAssets(),
         vaultContract.read.totalSupply(),
         vaultContract.read.totalAssets(),
-        vaultContract.read.SETTLER_ROLE(),
       ]);
 
       const [assetDecimals, assetSymbol, factoryPaused, block] = await Promise.all([
@@ -225,21 +218,23 @@ export const yieldVaultInfoTask = task(
       console.log(`[yv:info] factoryPaused=${factoryPaused}`);
       console.log(`[yv:info] counterparty=${counterparty}`);
       console.log(`[yv:info] feeRecipient=${feeRecipient}`);
+      console.log(`[yv:info] roundIndex=${roundIndex}`);
       console.log(`[yv:info] phase=${phase} (${getEnumName(PHASE_NAMES, Number(phase))})`);
+      console.log(`[yv:info] vaultClosed=${vaultClosed}`);
       console.log(
         `[yv:info] settleMode=${settleMode} (${getEnumName(SETTLE_MODE_NAMES, Number(settleMode))})`,
       );
       console.log(`[yv:info] currentTimestamp=${block.timestamp}`);
-      console.log(`[yv:info] subscriptionStartedAt=${subscriptionStartedAt}`);
-      console.log(`[yv:info] subscriptionDeadline=${subscriptionDeadline}`);
+      console.log(`[yv:info] openedAt=${openedAt}`);
+      console.log(`[yv:info] openDeadline=${openDeadline}`);
       console.log(`[yv:info] lockedAt=${lockedAt}`);
       console.log(`[yv:info] settleProposedAt=${settleProposedAt}`);
       console.log(`[yv:info] settledAt=${settledAt}`);
+      console.log(`[yv:info] openWindow=${openWindow}`);
       console.log(`[yv:info] lockDuration=${lockDuration}`);
-      console.log(`[yv:info] subscriptionWindow=${subscriptionWindow}`);
       console.log(`[yv:info] settleTimelockWindow=${settleTimelockWindow}`);
-      console.log(`[yv:info] epochCapRaw=${epochCap}`);
-      console.log(`[yv:info] epochCapFormatted=${formatUnits(epochCap, assetDecimals)}`);
+      console.log(`[yv:info] roundCapRaw=${roundCap}`);
+      console.log(`[yv:info] roundCapFormatted=${formatUnits(roundCap, assetDecimals)}`);
       console.log(`[yv:info] perAddressCapRaw=${perAddressCap}`);
       console.log(
         `[yv:info] perAddressCapFormatted=${formatUnits(perAddressCap, assetDecimals)}`,
@@ -255,9 +250,10 @@ export const yieldVaultInfoTask = task(
       console.log(
         `[yv:info] settleAmountFormatted=${formatUnits(settleAmount, assetDecimals)}`,
       );
-      console.log(`[yv:info] totalUserPrincipalRaw=${totalUserPrincipal}`);
+      console.log(`[yv:info] yieldTarget=${yieldTarget}`);
+      console.log(`[yv:info] totalManagedAssetsRaw=${totalManagedAssets}`);
       console.log(
-        `[yv:info] totalUserPrincipalFormatted=${formatUnits(totalUserPrincipal, assetDecimals)}`,
+        `[yv:info] totalManagedAssetsFormatted=${formatUnits(totalManagedAssets, assetDecimals)}`,
       );
       console.log(`[yv:info] totalSupplyRaw=${totalSupply}`);
       console.log(`[yv:info] totalSupplyFormatted=${formatUnits(totalSupply, shareDecimals)}`);
@@ -265,26 +261,6 @@ export const yieldVaultInfoTask = task(
       console.log(
         `[yv:info] totalAssetsFormatted=${formatUnits(totalAssets, assetDecimals)}`,
       );
-      console.log(`[yv:info] settledTotalSharesRaw=${settledTotalShares}`);
-      console.log(
-        `[yv:info] settledTotalSharesFormatted=${formatUnits(settledTotalShares, shareDecimals)}`,
-      );
-      console.log(
-        `[yv:info] settledTotalClaimableAssetsRaw=${settledTotalClaimableAssets}`,
-      );
-      console.log(
-        `[yv:info] settledTotalClaimableAssetsFormatted=${formatUnits(settledTotalClaimableAssets, assetDecimals)}`,
-      );
-      console.log(`[yv:info] settledFeeAmountRaw=${settledFeeAmount}`);
-      console.log(
-        `[yv:info] settledFeeAmountFormatted=${formatUnits(settledFeeAmount, assetDecimals)}`,
-      );
-      console.log(`[yv:info] settledNetProfitRaw=${settledNetProfit}`);
-      console.log(
-        `[yv:info] settledNetProfitFormatted=${formatUnits(settledNetProfit, assetDecimals)}`,
-      );
-      console.log(`[yv:info] counterpartyClaimed=${counterpartyClaimed}`);
-      console.log(`[yv:info] settlerRole=${settlerRole}`);
     } finally {
       await connection.close();
     }
@@ -323,10 +299,9 @@ export const yieldVaultAccountTask = task(
         "YieldVault",
         vaultAddress,
       );
-      const [assetAddress, shareDecimals, settlerRole] = await Promise.all([
+      const [assetAddress, shareDecimals] = await Promise.all([
         vaultContract.read.asset(),
         vaultContract.read.decimals(),
-        vaultContract.read.SETTLER_ROLE(),
       ]);
       const [assetDecimals, assetSymbol] = await Promise.all([
         publicClient.readContract({
@@ -342,22 +317,20 @@ export const yieldVaultAccountTask = task(
       ]);
       const [
         shareBalance,
-        userPrincipal,
+        accountAssets,
         maxDeposit,
         maxMint,
         maxRedeem,
         maxWithdraw,
         isAdmin,
-        isSettler,
       ] = await Promise.all([
         vaultContract.read.balanceOf([accountAddress]),
-        vaultContract.read.userPrincipal([accountAddress]),
+        vaultContract.read.convertToAssets([await vaultContract.read.balanceOf([accountAddress])]),
         vaultContract.read.maxDeposit([accountAddress]),
         vaultContract.read.maxMint([accountAddress]),
         vaultContract.read.maxRedeem([accountAddress]),
         vaultContract.read.maxWithdraw([accountAddress]),
         vaultContract.read.hasRole([DEFAULT_ADMIN_ROLE, accountAddress]),
-        vaultContract.read.hasRole([settlerRole, accountAddress]),
       ]);
 
       console.log(`[yv:account] vault=${vaultAddress}`);
@@ -368,9 +341,9 @@ export const yieldVaultAccountTask = task(
       console.log(
         `[yv:account] shareBalanceFormatted=${formatUnits(shareBalance, shareDecimals)}`,
       );
-      console.log(`[yv:account] userPrincipalRaw=${userPrincipal}`);
+      console.log(`[yv:account] accountAssetsRaw=${accountAssets}`);
       console.log(
-        `[yv:account] userPrincipalFormatted=${formatUnits(userPrincipal, assetDecimals)}`,
+        `[yv:account] accountAssetsFormatted=${formatUnits(accountAssets, assetDecimals)}`,
       );
       console.log(`[yv:account] maxDepositRaw=${maxDeposit}`);
       console.log(
@@ -387,7 +360,6 @@ export const yieldVaultAccountTask = task(
         `[yv:account] maxWithdrawFormatted=${formatUnits(maxWithdraw, assetDecimals)}`,
       );
       console.log(`[yv:account] defaultAdmin=${isAdmin}`);
-      console.log(`[yv:account] settler=${isSettler}`);
     } finally {
       await connection.close();
     }

@@ -9,18 +9,20 @@ type YieldVaultInitParams = {
   feeRecipient: Address;
   name: string;
   symbol: string;
-  lockDuration: bigint;
-  subscriptionStartAt: bigint;
-  subscriptionWindow: bigint;
-  epochCap: bigint;
-  perAddressCap: bigint;
-  minSubscription: bigint;
-  performanceFeeBps: bigint;
-  settleTimelockWindow: bigint;
+  firstRound: {
+    openWindow: bigint;
+    lockDuration: bigint;
+    settleTimelockWindow: bigint;
+    roundCap: bigint;
+    perAddressCap: bigint;
+    minSubscription: bigint;
+    performanceFeeBps: bigint;
+    yieldTarget: bigint;
+  };
 };
 
 function getOptionalAddress(value: string | undefined, label: string): Address | undefined {
-  if (value === undefined) {
+  if (value === undefined || value === "") {
     return undefined;
   }
 
@@ -97,13 +99,13 @@ function resolveCreateYieldVaultParams(
     name: string | undefined;
     symbol: string | undefined;
     lockDuration: string | undefined;
-    subscriptionStartAt: string | undefined;
     subscriptionWindow: string | undefined;
     epochCap: string | undefined;
     perAddressCap: string | undefined;
     minSubscription: string | undefined;
     performanceFeeBps: string | undefined;
     settleTimelockWindow: string | undefined;
+    yieldTarget: string | undefined;
   },
   signerAddress: Address,
 ): YieldVaultInitParams {
@@ -133,26 +135,25 @@ function resolveCreateYieldVaultParams(
 
       return value;
     })(),
-    lockDuration: getRequiredBigInt(taskArgs.lockDuration, "lockDuration"),
-    subscriptionStartAt: getRequiredBigInt(
-      taskArgs.subscriptionStartAt,
-      "subscriptionStartAt",
-    ),
-    subscriptionWindow: getRequiredBigInt(
-      taskArgs.subscriptionWindow,
-      "subscriptionWindow",
-    ),
-    epochCap: getRequiredBigInt(taskArgs.epochCap, "epochCap"),
-    perAddressCap: getRequiredBigInt(taskArgs.perAddressCap, "perAddressCap"),
-    minSubscription: getRequiredBigInt(taskArgs.minSubscription, "minSubscription"),
-    performanceFeeBps: getRequiredBigInt(
-      taskArgs.performanceFeeBps,
-      "performanceFeeBps",
-    ),
-    settleTimelockWindow: getRequiredBigInt(
-      taskArgs.settleTimelockWindow,
-      "settleTimelockWindow",
-    ),
+    firstRound: {
+      openWindow: getRequiredBigInt(
+        taskArgs.subscriptionWindow,
+        "subscriptionWindow",
+      ),
+      lockDuration: getRequiredBigInt(taskArgs.lockDuration, "lockDuration"),
+      settleTimelockWindow: getRequiredBigInt(
+        taskArgs.settleTimelockWindow,
+        "settleTimelockWindow",
+      ),
+      roundCap: getRequiredBigInt(taskArgs.epochCap, "epochCap"),
+      perAddressCap: getRequiredBigInt(taskArgs.perAddressCap, "perAddressCap"),
+      minSubscription: getRequiredBigInt(taskArgs.minSubscription, "minSubscription"),
+      performanceFeeBps: getRequiredBigInt(
+        taskArgs.performanceFeeBps,
+        "performanceFeeBps",
+      ),
+      yieldTarget: getOptionalBigInt(taskArgs.yieldTarget, "yieldTarget") ?? 0n,
+    },
   };
 }
 
@@ -329,6 +330,61 @@ export const yvfListProxiesTask = task(
   })
   .build();
 
+export const yvfCloseSubscriptionTask = task(
+  "yvf:close-subscription",
+  "Close a YieldVault open period and move it to LOCKED",
+)
+  /**
+   * Usage:
+   * pnpm hardhat yvf:close-subscription --network testnet 0xYieldVaultProxyAddress
+   *
+   * Example:
+   * pnpm hardhat yvf:close-subscription --network testnet \
+   *   0xYieldVaultProxyAddress
+   *
+   * - vault is the YieldVault proxy address.
+   * - caller must have DEFAULT_ADMIN_ROLE on the target vault.
+   * - this task calls closeOpenPeriod(), which persists OPEN -> LOCKED after the open window elapses.
+   */
+  .addPositionalArgument({
+    name: "vault",
+    description: "YieldVault proxy address",
+  })
+  .setInlineAction(async ({ vault }, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const [signer] = await connection.viem.getWalletClients();
+
+      if (signer?.account?.address === undefined) {
+        throw new Error("No signer account available for the selected network");
+      }
+
+      const vaultAddress = getRequiredAddress(vault, "vault address");
+      const vaultContract = await connection.viem.getContractAt(
+        "YieldVault",
+        vaultAddress,
+        {
+          client: {
+            wallet: signer,
+          },
+        },
+      ) as any;
+      const hash = await vaultContract.write.closeOpenPeriod();
+      const publicClient = await connection.viem.getPublicClient();
+
+      await publicClient.waitForTransactionReceipt({ hash });
+
+      console.log(`[yvf:close-subscription] vault=${vaultAddress}`);
+      console.log(`[yvf:close-subscription] caller=${signer.account.address}`);
+      console.log(`[yvf:close-subscription] action=closeOpenPeriod`);
+      console.log(`[yvf:close-subscription] txHash=${hash}`);
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
 export const yvfCreateTask = task(
   "yvf:create",
   "Create a YieldVault from a factory proxy",
@@ -343,13 +399,13 @@ export const yvfCreateTask = task(
    *   --name "Faroo Yield Vault 001" \
    *   --symbol "FYV001" \
    *   --lockDuration 2592000 \
-   *   --subscriptionStartAt 1748188800 \
    *   --subscriptionWindow 604800 \
    *   --epochCap 1000000000000000000000 \
    *   --perAddressCap 100000000000000000000 \
    *   --minSubscription 1000000000000000000 \
    *   --performanceFeeBps 1000 \
-   *   --settleTimelockWindow 86400
+   *   --settleTimelockWindow 86400 \
+   *   --yieldTarget 3800
    *
    * Notes:
    * - factory is the YieldVaultFactory proxy address.
@@ -397,13 +453,8 @@ export const yvfCreateTask = task(
     defaultValue: "",
   })
   .addOption({
-    name: "subscriptionStartAt",
-    description: "Subscription start timestamp",
-    defaultValue: "",
-  })
-  .addOption({
     name: "subscriptionWindow",
-    description: "Subscription window in seconds",
+    description: "Open window in seconds",
     defaultValue: "",
   })
   .addOption({
@@ -431,6 +482,11 @@ export const yvfCreateTask = task(
     description: "Settlement timelock window in seconds",
     defaultValue: "",
   })
+  .addOption({
+    name: "yieldTarget",
+    description: "Informational yield target for the first round",
+    defaultValue: "",
+  })
   .setInlineAction(async (taskArgs, hre) => {
     const connection = await hre.network.getOrCreate();
 
@@ -454,7 +510,7 @@ export const yvfCreateTask = task(
             wallet: signer,
           },
         },
-      );
+      ) as any;
       const hash = await factoryContract.write.createYieldVault([params]);
       const publicClient = await connection.viem.getPublicClient();
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
@@ -473,6 +529,14 @@ export const yvfCreateTask = task(
       console.log(`[yvf:create] feeRecipient=${params.feeRecipient}`);
       console.log(`[yvf:create] name=${params.name}`);
       console.log(`[yvf:create] symbol=${params.symbol}`);
+      console.log(`[yvf:create] firstRound.openWindow=${params.firstRound.openWindow}`);
+      console.log(`[yvf:create] firstRound.lockDuration=${params.firstRound.lockDuration}`);
+      console.log(`[yvf:create] firstRound.roundCap=${params.firstRound.roundCap}`);
+      console.log(`[yvf:create] firstRound.perAddressCap=${params.firstRound.perAddressCap}`);
+      console.log(`[yvf:create] firstRound.minSubscription=${params.firstRound.minSubscription}`);
+      console.log(`[yvf:create] firstRound.performanceFeeBps=${params.firstRound.performanceFeeBps}`);
+      console.log(`[yvf:create] firstRound.settleTimelockWindow=${params.firstRound.settleTimelockWindow}`);
+      console.log(`[yvf:create] firstRound.yieldTarget=${params.firstRound.yieldTarget}`);
       console.log(`[yvf:create] txHash=${hash}`);
 
       if (vaultAddress !== undefined) {
