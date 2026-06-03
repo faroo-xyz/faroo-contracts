@@ -163,6 +163,11 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     /// @param openDeadline Open period end timestamp
     /// @param roundCap Total running cap for this round
     event RoundOpened(uint256 indexed roundIndex, uint256 openedAt, uint256 openDeadline, uint256 roundCap);
+    /// @notice Open period deadline extended by governance
+    /// @param roundIndex Round index
+    /// @param previousOpenDeadline Previous open period end timestamp
+    /// @param newOpenDeadline New open period end timestamp
+    event OpenPeriodExtended(uint256 indexed roundIndex, uint256 previousOpenDeadline, uint256 newOpenDeadline);
     /// @notice Open period closed; round entered lock period
     /// @param roundIndex Round index
     /// @param lockedAt Lock period start timestamp
@@ -310,6 +315,25 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
             revert InvalidPhase(currentPhase);
         }
         _openRound(params);
+    }
+
+    /// @notice Governance extends the active open period by a duration in seconds
+    /// @dev Callable only by admin / multisig before the current open window expires.
+    /// @param extension Additional seconds to add to the current open window
+    function extendOpenPeriod(uint256 extension) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        Phase currentPhase = _currentPhase();
+        if (currentPhase != Phase.OPEN) {
+            revert InvalidPhase(currentPhase);
+        }
+        if (extension == 0) {
+            revert InvalidRoundParams();
+        }
+
+        uint256 previousOpenDeadline = openDeadline;
+        openWindow += extension;
+        openDeadline = previousOpenDeadline + extension;
+
+        emit OpenPeriodExtended(roundIndex, previousOpenDeadline, openDeadline);
     }
 
     /// @notice Governance submits a settlement proposal for a matured locked round

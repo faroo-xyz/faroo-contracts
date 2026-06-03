@@ -134,6 +134,27 @@ contract YieldVaultTest is Test {
         vault.redeem(1 ether, alice, alice);
     }
 
+    function test_ExtendOpenPeriod_ShouldExtendActiveOpenWindow() external {
+        uint256 previousDeadline = vault.openDeadline();
+
+        vault.extendOpenPeriod(1 days);
+
+        assertEq(vault.openWindow(), OPEN_WINDOW + 1 days, "window extended");
+        assertEq(vault.openDeadline(), previousDeadline + 1 days, "deadline extended");
+
+        vm.warp(previousDeadline + 1);
+        assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.OPEN), "still open after old deadline");
+
+        _deposit(alice, MIN_SUBSCRIPTION);
+    }
+
+    function test_ExtendOpenPeriodAfterExpiry_ShouldRevert() external {
+        vm.warp(vault.openDeadline() + 1);
+
+        vm.expectRevert(abi.encodeWithSelector(YieldVault.InvalidPhase.selector, YieldVault.Phase.LOCKED));
+        vault.extendOpenPeriod(1 days);
+    }
+
     function test_UnredeemedPrincipal_ShouldRemainHeldAfterAutoLock() external {
         _deposit(alice, 100 ether);
         uint256 shares = vault.balanceOf(alice);
