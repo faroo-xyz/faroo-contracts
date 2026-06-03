@@ -84,8 +84,7 @@ contract YieldVaultTest is Test {
             roundCap: cap,
             perAddressCap: PER_ADDRESS_CAP,
             minSubscription: MIN_SUBSCRIPTION,
-            performanceFeeBps: FEE_BPS,
-            yieldTarget: 3800
+            performanceFeeBps: FEE_BPS
         });
     }
 
@@ -96,7 +95,6 @@ contract YieldVaultTest is Test {
 
     function _syncToLocked() internal {
         vm.warp(vault.openDeadline() + 1);
-        vault.closeOpenPeriod();
     }
 
     function _lockAndMature() internal {
@@ -120,27 +118,11 @@ contract YieldVaultTest is Test {
         assertEq(vault.openDeadline(), vault.openedAt() + OPEN_WINDOW, "open deadline");
     }
 
-    function test_OpenWindowElapsed_ShouldRequireAdminCloseOpenPeriodToLock() external {
+    function test_OpenWindowElapsed_ShouldAutoLock() external {
         _deposit(alice, 100 ether);
         vm.warp(vault.openDeadline() + 1);
 
-        assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.OPEN), "still open until admin close");
-
-        vm.prank(alice);
-        vm.expectRevert();
-        vault.closeOpenPeriod();
-
-        vm.prank(alice);
-        vm.expectRevert(YieldVault.OpenPeriodExpired.selector);
-        vault.deposit(10 ether, alice);
-
-        vm.prank(alice);
-        vm.expectRevert(YieldVault.OpenPeriodExpired.selector);
-        vault.redeem(1 ether, alice, alice);
-
-        vault.closeOpenPeriod();
-
-        assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.LOCKED), "stored locked");
+        assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.LOCKED), "auto locked");
         assertEq(vault.lockedAt(), vault.openDeadline(), "locked at deadline");
 
         vm.prank(alice);
@@ -339,21 +321,16 @@ contract YieldVaultTest is Test {
         assertEq(vault.previewRedeem(vault.balanceOf(alice)), 400 ether, "loss reflected");
     }
 
-    function test_TerminalSettled_ShouldStayRedeemableWithFixedRatio() external {
+    function test_Settled_ShouldStayRedeemableWithFixedRatio() external {
         _deposit(alice, 100 ether);
         _settleProfit(10 ether);
 
         uint256 shares = vault.balanceOf(alice);
         uint256 assetsBefore = vault.previewRedeem(shares);
 
-        vault.closeVault();
         vm.warp(block.timestamp + 365 days);
 
-        assertTrue(vault.vaultClosed(), "closed");
         assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.SETTLED), "settled");
         assertEq(vault.previewRedeem(shares), assetsBefore, "fixed ratio");
-
-        vm.expectRevert(YieldVault.VaultClosed.selector);
-        vault.openNextRound(_roundParams(1_500 ether));
     }
 }

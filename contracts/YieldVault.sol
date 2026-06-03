@@ -23,7 +23,7 @@ interface IYieldVaultFactory {
  *
  * ## Per-round phase state machine
  *
- *        ┌──────────┐  governance advances after open window expires
+ *        ┌──────────┐  openDeadline reached automatically
  *        │   OPEN   │ ───────────────────────────────► LOCKED
  *        └────┬─────┘
  *             │ deposit + redeem allowed
@@ -47,10 +47,11 @@ interface IYieldVaultFactory {
  * is allowed only in `OPEN`.
  *
  * ## Governance-driven transitions
- * - Governance (admin / multisig): (1) after the open window expires, `closeOpenPeriod`
- *   advances `OPEN → LOCKED` and unredeemed principal continues to be held and reinvested;
- *   (2) after lock maturity, `proposeSettlement` advances `LOCKED → SETTLE_PROPOSED`;
- *   (3) `openNextRound` advances `SETTLED → OPEN` with that round's parameters.
+ * - The open window automatically becomes `LOCKED` once `openDeadline` is reached; unredeemed
+ *   principal continues to be held and reinvested.
+ * - Governance (admin / multisig): (1) after lock maturity, `proposeSettlement` advances
+ *   `LOCKED → SETTLE_PROPOSED`; (2) `openNextRound` advances `SETTLED → OPEN` with that
+ *   round's parameters.
  * - `finalize` advances `SETTLE_PROPOSED → SETTLED` once the timelock has elapsed and
  *   (in PROFIT mode) profit has been funded; permissionless.
  *
@@ -63,8 +64,7 @@ interface IYieldVaultFactory {
  *
  * ## Terminal state
  * When governance stops opening new rounds, the vault remains in `SETTLED`: redemption stays
- * open and the share / asset exchange rate is frozen. An explicit `closeVault()` flag marks
- * a clear "ended" state for frontends without introducing a new phase.
+ * open and the share / asset exchange rate is frozen.
  */
 contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeable, ReentrancyGuardTransient {
     using SafeERC20 for IERC20;
@@ -80,7 +80,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
 
     /// @notice Per-round lifecycle phase (see state diagram in contract docs)
     enum Phase {
-        OPEN, // Open period: deposit + redeem allowed; governance advances to LOCKED after window expires
+        OPEN, // Open period: deposit + redeem allowed until openDeadline, then automatically LOCKED
         LOCKED, // Lock period: deposit / redeem blocked; stays until governance submits settlement proposal
         SETTLE_PROPOSED, // Settlement proposal window: fundProfit / cancel / finalize
         SETTLED // Redemption period: redeem allowed; stays until governance opens the next round
@@ -108,8 +108,6 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         uint256 minSubscription;
         /// @notice Performance fee rate in basis points, where 10000 = 100%
         uint256 performanceFeeBps;
-        /// @notice Informational yield target for this round (e.g. notional / shares); not enforced on-chain
-        uint256 yieldTarget;
     }
 
     /// @notice Initialization parameters written once at vault creation
@@ -143,10 +141,6 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     error BelowMinSubscription(uint256 amount, uint256 min);
     /// @notice Lock period has not matured yet
     error VaultNotMatured();
-    /// @notice Open window has not expired yet; cannot advance to lock period
-    error OpenPeriodNotExpired(uint256 openDeadline);
-    /// @notice Open window has expired; deposit and redeem are no longer allowed
-    error OpenPeriodExpired();
     /// @notice Invalid settlement input
     error InvalidSettlementInput();
     /// @notice Loss amount exceeds total managed assets
@@ -161,8 +155,6 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     error InvalidSettleMode();
     /// @notice Invalid round parameters
     error InvalidRoundParams();
-    /// @notice Vault is permanently closed; cannot open new rounds
-    error VaultClosed();
 
     // =================== Events ===================
     /// @notice New round entered the open period
@@ -215,10 +207,6 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     /// @notice Vault emergency-cancelled and left in SETTLED
     /// @param at Cancellation timestamp
     event EmergencyCancelled(uint256 at);
-    /// @notice Vault permanently closed; no further rounds can be opened
-    /// @param at Close timestamp
-    event VaultPermanentlyClosed(uint256 at);
-
     // =================== State ===================
     /// @notice Factory address for reading global pause state and triggering emergency cancel
     address public factory;
@@ -230,9 +218,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     /// @notice Current round index (starts at 1 after the first round opens)
     uint256 public roundIndex;
     /// @notice Current business phase
-    Phase public phase;
-    /// @notice True after governance permanently closes the vault (no new rounds)
-    bool public vaultClosed;
+    Phase private _phase;
 
     // --- Current round parameters (set at open, immutable within the round) ---
     /// @notice Current round open period duration in seconds
@@ -249,16 +235,14 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     uint256 public minSubscription;
     /// @notice Current round performance fee rate in bps
     uint256 public performanceFeeBps;
-    /// @notice Current round informational yield target
-    uint256 public yieldTarget;
 
     // --- Current round timeline ---
     /// @notice Current open period start timestamp
     uint256 public openedAt;
-    /// @notice Current open period end timestamp (governance advances to lock after this)
+    /// @notice Current open period end timestamp
     uint256 public openDeadline;
     /// @notice Current lock period start timestamp
-    uint256 public lockedAt;
+    uint256 private _lockedAt;
     /// @notice Current settlement proposal submission timestamp
     uint256 public settleProposedAt;
     /// @notice Timestamp when the current round finalized into SETTLED
@@ -318,14 +302,12 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     }
 
     /// @notice Governance opens the next round with new parameters while in SETTLED
-    /// @dev Callable only by admin / multisig. Reverts if the vault is permanently closed.
+    /// @dev Callable only by admin / multisig. Reverts after factory emergency cancellation.
     /// @param params Parameters for the round being opened
     function openNextRound(RoundParams calldata params) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        if (phase != Phase.SETTLED) {
-            revert InvalidPhase(phase);
-        }
-        if (vaultClosed) {
-            revert VaultClosed();
+        Phase currentPhase = _currentPhase();
+        if (currentPhase != Phase.SETTLED) {
+            revert InvalidPhase(currentPhase);
         }
         _openRound(params);
     }
@@ -340,15 +322,17 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         onlyRole(DEFAULT_ADMIN_ROLE)
         nonReentrant
     {
-        if (phase != Phase.LOCKED && phase != Phase.SETTLE_PROPOSED) {
-            revert InvalidPhase(phase);
+        _syncOpenPeriodIfNeeded();
+        Phase currentPhase = _phase;
+        if (currentPhase != Phase.LOCKED && currentPhase != Phase.SETTLE_PROPOSED) {
+            revert InvalidPhase(currentPhase);
         }
         // When proposing from LOCKED, the lock period must have matured first.
-        if (phase == Phase.LOCKED && block.timestamp < lockedAt + lockDuration) {
+        if (currentPhase == Phase.LOCKED && block.timestamp < _lockedAt + lockDuration) {
             revert VaultNotMatured();
         }
         // Replacing an existing proposal: refund first, then overwrite.
-        if (phase == Phase.SETTLE_PROPOSED) {
+        if (currentPhase == Phase.SETTLE_PROPOSED) {
             _cancelProposedSettlement(false);
         }
 
@@ -382,14 +366,14 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
             revert InvalidSettleMode();
         }
 
-        phase = Phase.SETTLE_PROPOSED;
+        _phase = Phase.SETTLE_PROPOSED;
         emit SettlementProposed(roundIndex, mode, amount, settleProposedAt, profitFunded, profitFunder);
     }
 
     /// @notice Anyone may fund a PROFIT proposal once
     function fundProfit() external whenFactoryNotPaused nonReentrant {
-        if (phase != Phase.SETTLE_PROPOSED) {
-            revert InvalidPhase(phase);
+        if (_phase != Phase.SETTLE_PROPOSED) {
+            revert InvalidPhase(_phase);
         }
         if (settleMode != SettleMode.PROFIT) {
             revert InvalidSettleMode();
@@ -407,8 +391,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
 
     /// @notice Governance cancels the current proposal; any funded profit is refunded
     function cancelProposedSettlement() external onlyRole(DEFAULT_ADMIN_ROLE) nonReentrant {
-        if (phase != Phase.SETTLE_PROPOSED) {
-            revert InvalidPhase(phase);
+        if (_phase != Phase.SETTLE_PROPOSED) {
+            revert InvalidPhase(_phase);
         }
         _cancelProposedSettlement(true);
     }
@@ -416,8 +400,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     /// @notice Finalize settlement after timelock expiry; permissionless
     /// @dev Applies settlement accounting and advances the round to SETTLED.
     function finalize() external nonReentrant {
-        if (phase != Phase.SETTLE_PROPOSED) {
-            revert InvalidPhase(phase);
+        if (_phase != Phase.SETTLE_PROPOSED) {
+            revert InvalidPhase(_phase);
         }
         uint256 unlockAt = settleProposedAt + settleTimelockWindow;
         if (block.timestamp < unlockAt) {
@@ -427,7 +411,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
             revert ProfitNotFunded();
         }
 
-        phase = Phase.SETTLED;
+        _phase = Phase.SETTLED;
         settledAt = block.timestamp;
 
         uint256 fee;
@@ -456,43 +440,18 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     /// @notice Factory-triggered emergency cancel; leaves vault in SETTLED at principal pro-rata
     /// @dev Callable before settlement. No profit / loss is applied, so redemption returns principal.
     function emergencyCancel() external onlyFactory nonReentrant {
-        if (phase == Phase.SETTLED) {
-            revert InvalidPhase(phase);
+        Phase currentPhase = _currentPhase();
+        if (currentPhase == Phase.SETTLED) {
+            revert InvalidPhase(currentPhase);
         }
         // Refund any funded profit proposal before settling into SETTLED.
-        if (phase == Phase.SETTLE_PROPOSED) {
+        if (_phase == Phase.SETTLE_PROPOSED) {
             _cancelProposedSettlement(false);
         }
 
-        phase = Phase.SETTLED;
+        _phase = Phase.SETTLED;
         settledAt = block.timestamp;
-        vaultClosed = true;
         emit EmergencyCancelled(block.timestamp);
-    }
-
-    /// @notice Governance permanently closes the vault; vault stays in SETTLED and remains redeemable
-    /// @dev Callable only by admin / multisig. No new rounds can be opened afterward.
-    function closeVault() external onlyRole(DEFAULT_ADMIN_ROLE) {
-        if (phase != Phase.SETTLED) {
-            revert InvalidPhase(phase);
-        }
-        vaultClosed = true;
-        emit VaultPermanentlyClosed(block.timestamp);
-    }
-
-    /// @notice Governance closes the open period and advances to LOCKED after the open window expires
-    /// @dev Callable only by admin / multisig.
-    function closeOpenPeriod() external onlyRole(DEFAULT_ADMIN_ROLE) {
-        if (phase != Phase.OPEN) {
-            revert InvalidPhase(phase);
-        }
-        if (block.timestamp < openDeadline) {
-            revert OpenPeriodNotExpired(openDeadline);
-        }
-        phase = Phase.LOCKED;
-        // Lock period starts deterministically from the open window end.
-        lockedAt = openDeadline;
-        emit RoundLocked(roundIndex, lockedAt, lockedAt + lockDuration);
     }
 
     // =================== ERC4626 ===================
@@ -504,6 +463,16 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     /// @notice Increase virtual share precision to reduce first-depositor inflation attack feasibility
     function _decimalsOffset() internal pure override returns (uint8) {
         return 6;
+    }
+
+    /// @notice Current business phase, with OPEN treated as LOCKED after openDeadline.
+    function phase() public view returns (Phase) {
+        return _currentPhase();
+    }
+
+    /// @notice Current lock period start timestamp, set to openDeadline once OPEN has expired.
+    function lockedAt() public view returns (uint256) {
+        return _currentLockedAt();
     }
 
     function maxDeposit(address receiver) public view override returns (uint256) {
@@ -525,14 +494,14 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     }
 
     function maxRedeem(address owner) public view override returns (uint256) {
-        if (_isOpenPeriodActive() || phase == Phase.SETTLED) {
+        if (_isOpenPeriodActive() || _currentPhase() == Phase.SETTLED) {
             return balanceOf(owner);
         }
         return 0;
     }
 
     function maxWithdraw(address owner) public view override returns (uint256) {
-        if (!_isOpenPeriodActive() && phase != Phase.SETTLED) {
+        if (!_isOpenPeriodActive() && _currentPhase() != Phase.SETTLED) {
             return 0;
         }
         return previewRedeem(balanceOf(owner));
@@ -546,11 +515,9 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         nonReentrant
         returns (uint256)
     {
-        if (phase != Phase.OPEN) {
-            revert InvalidPhase(phase);
-        }
-        if (block.timestamp >= openDeadline) {
-            revert OpenPeriodExpired();
+        Phase currentPhase = _currentPhase();
+        if (currentPhase != Phase.OPEN) {
+            revert InvalidPhase(currentPhase);
         }
         if (assets < minSubscription) {
             revert BelowMinSubscription(assets, minSubscription);
@@ -566,11 +533,9 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         nonReentrant
         returns (uint256)
     {
-        if (phase != Phase.OPEN) {
-            revert InvalidPhase(phase);
-        }
-        if (block.timestamp >= openDeadline) {
-            revert OpenPeriodExpired();
+        Phase currentPhase = _currentPhase();
+        if (currentPhase != Phase.OPEN) {
+            revert InvalidPhase(currentPhase);
         }
         uint256 assets = previewMint(shares);
         if (assets < minSubscription) {
@@ -586,11 +551,9 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         nonReentrant
         returns (uint256)
     {
-        if (phase != Phase.OPEN && phase != Phase.SETTLED) {
-            revert InvalidPhase(phase);
-        }
-        if (phase == Phase.OPEN && block.timestamp >= openDeadline) {
-            revert OpenPeriodExpired();
+        Phase currentPhase = _currentPhase();
+        if (currentPhase != Phase.OPEN && currentPhase != Phase.SETTLED) {
+            revert InvalidPhase(currentPhase);
         }
         return super.redeem(shares, receiver, owner);
     }
@@ -602,11 +565,9 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         nonReentrant
         returns (uint256)
     {
-        if (phase != Phase.OPEN && phase != Phase.SETTLED) {
-            revert InvalidPhase(phase);
-        }
-        if (phase == Phase.OPEN && block.timestamp >= openDeadline) {
-            revert OpenPeriodExpired();
+        Phase currentPhase = _currentPhase();
+        if (currentPhase != Phase.OPEN && currentPhase != Phase.SETTLED) {
+            revert InvalidPhase(currentPhase);
         }
         return super.withdraw(assets, receiver, owner);
     }
@@ -629,7 +590,32 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
 
     /// @dev Whether the vault is still within the active open subscription window.
     function _isOpenPeriodActive() internal view returns (bool) {
-        return phase == Phase.OPEN && block.timestamp < openDeadline;
+        return _phase == Phase.OPEN && block.timestamp < openDeadline;
+    }
+
+    /// @dev Effective phase used by views and entry-point validation.
+    function _currentPhase() internal view returns (Phase) {
+        if (_phase == Phase.OPEN && block.timestamp >= openDeadline) {
+            return Phase.LOCKED;
+        }
+        return _phase;
+    }
+
+    /// @dev Effective lock start used by views before the lazy state write happens.
+    function _currentLockedAt() internal view returns (uint256) {
+        if (_phase == Phase.OPEN && block.timestamp >= openDeadline) {
+            return openDeadline;
+        }
+        return _lockedAt;
+    }
+
+    /// @dev Persist OPEN -> LOCKED on the first successful transition after openDeadline.
+    function _syncOpenPeriodIfNeeded() internal {
+        if (_phase == Phase.OPEN && block.timestamp >= openDeadline) {
+            _phase = Phase.LOCKED;
+            _lockedAt = openDeadline;
+            emit RoundLocked(roundIndex, _lockedAt, _lockedAt + lockDuration);
+        }
     }
 
     /// @dev Validate and apply round parameters, then enter the open period.
@@ -654,11 +640,10 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         perAddressCap = params.perAddressCap;
         minSubscription = params.minSubscription;
         performanceFeeBps = params.performanceFeeBps;
-        yieldTarget = params.yieldTarget;
 
         openedAt = block.timestamp;
         openDeadline = block.timestamp + params.openWindow;
-        lockedAt = 0;
+        _lockedAt = 0;
         settleProposedAt = 0;
         settledAt = 0;
 
@@ -667,7 +652,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         profitFunded = false;
         profitFunder = address(0);
 
-        phase = Phase.OPEN;
+        _phase = Phase.OPEN;
         emit RoundOpened(roundIndex, openedAt, openDeadline, roundCap);
     }
 
@@ -683,7 +668,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         profitFunded = false;
         profitFunder = address(0);
 
-        phase = Phase.LOCKED;
+        _phase = Phase.LOCKED;
 
         if (emitEvent) {
             emit SettlementCancelled(roundIndex, block.timestamp);

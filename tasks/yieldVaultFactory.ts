@@ -17,7 +17,6 @@ type YieldVaultInitParams = {
     perAddressCap: bigint;
     minSubscription: bigint;
     performanceFeeBps: bigint;
-    yieldTarget: bigint;
   };
 };
 
@@ -105,7 +104,6 @@ function resolveCreateYieldVaultParams(
     minSubscription: string | undefined;
     performanceFeeBps: string | undefined;
     settleTimelockWindow: string | undefined;
-    yieldTarget: string | undefined;
   },
   signerAddress: Address,
 ): YieldVaultInitParams {
@@ -151,8 +149,7 @@ function resolveCreateYieldVaultParams(
       performanceFeeBps: getRequiredBigInt(
         taskArgs.performanceFeeBps,
         "performanceFeeBps",
-      ),
-      yieldTarget: getOptionalBigInt(taskArgs.yieldTarget, "yieldTarget") ?? 0n,
+      )
     },
   };
 }
@@ -330,61 +327,6 @@ export const yvfListProxiesTask = task(
   })
   .build();
 
-export const yvfCloseSubscriptionTask = task(
-  "yvf:close-subscription",
-  "Close a YieldVault open period and move it to LOCKED",
-)
-  /**
-   * Usage:
-   * pnpm hardhat yvf:close-subscription --network testnet 0xYieldVaultProxyAddress
-   *
-   * Example:
-   * pnpm hardhat yvf:close-subscription --network testnet \
-   *   0xYieldVaultProxyAddress
-   *
-   * - vault is the YieldVault proxy address.
-   * - caller must have DEFAULT_ADMIN_ROLE on the target vault.
-   * - this task calls closeOpenPeriod(), which persists OPEN -> LOCKED after the open window elapses.
-   */
-  .addPositionalArgument({
-    name: "vault",
-    description: "YieldVault proxy address",
-  })
-  .setInlineAction(async ({ vault }, hre) => {
-    const connection = await hre.network.getOrCreate();
-
-    try {
-      const [signer] = await connection.viem.getWalletClients();
-
-      if (signer?.account?.address === undefined) {
-        throw new Error("No signer account available for the selected network");
-      }
-
-      const vaultAddress = getRequiredAddress(vault, "vault address");
-      const vaultContract = await connection.viem.getContractAt(
-        "YieldVault",
-        vaultAddress,
-        {
-          client: {
-            wallet: signer,
-          },
-        },
-      ) as any;
-      const hash = await vaultContract.write.closeOpenPeriod();
-      const publicClient = await connection.viem.getPublicClient();
-
-      await publicClient.waitForTransactionReceipt({ hash });
-
-      console.log(`[yvf:close-subscription] vault=${vaultAddress}`);
-      console.log(`[yvf:close-subscription] caller=${signer.account.address}`);
-      console.log(`[yvf:close-subscription] action=closeOpenPeriod`);
-      console.log(`[yvf:close-subscription] txHash=${hash}`);
-    } finally {
-      await connection.close();
-    }
-  })
-  .build();
-
 export const yvfCreateTask = task(
   "yvf:create",
   "Create a YieldVault from a factory proxy",
@@ -404,8 +346,7 @@ export const yvfCreateTask = task(
    *   --perAddressCap 100000000000000000000 \
    *   --minSubscription 1000000000000000000 \
    *   --performanceFeeBps 1000 \
-   *   --settleTimelockWindow 86400 \
-   *   --yieldTarget 3800
+   *   --settleTimelockWindow 86400
    *
    * Notes:
    * - factory is the YieldVaultFactory proxy address.
@@ -482,11 +423,6 @@ export const yvfCreateTask = task(
     description: "Settlement timelock window in seconds",
     defaultValue: "",
   })
-  .addOption({
-    name: "yieldTarget",
-    description: "Informational yield target for the first round",
-    defaultValue: "",
-  })
   .setInlineAction(async (taskArgs, hre) => {
     const connection = await hre.network.getOrCreate();
 
@@ -536,7 +472,6 @@ export const yvfCreateTask = task(
       console.log(`[yvf:create] firstRound.minSubscription=${params.firstRound.minSubscription}`);
       console.log(`[yvf:create] firstRound.performanceFeeBps=${params.firstRound.performanceFeeBps}`);
       console.log(`[yvf:create] firstRound.settleTimelockWindow=${params.firstRound.settleTimelockWindow}`);
-      console.log(`[yvf:create] firstRound.yieldTarget=${params.firstRound.yieldTarget}`);
       console.log(`[yvf:create] txHash=${hash}`);
 
       if (vaultAddress !== undefined) {
