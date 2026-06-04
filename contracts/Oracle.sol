@@ -50,7 +50,6 @@ contract Oracle is OwnableUpgradeable, PausableUpgradeable {
     function getVTokenAmountByToken(address _token, uint256 _tokenAmount, Math.Rounding _rounding)
         public
         view
-        whenNotPaused
         returns (uint256)
     {
         PoolInfo memory pool = poolInfo[_token];
@@ -69,7 +68,6 @@ contract Oracle is OwnableUpgradeable, PausableUpgradeable {
     function getTokenAmountByVToken(address _token, uint256 _vTokenAmount, Math.Rounding _rounding)
         public
         view
-        whenNotPaused
         returns (uint256)
     {
         PoolInfo memory pool = poolInfo[_token];

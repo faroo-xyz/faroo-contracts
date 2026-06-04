@@ -55,6 +55,16 @@ interface IYieldVaultFactory {
  * - `finalize` advances `SETTLE_PROPOSED → SETTLED` once the timelock has elapsed and
  *   (in PROFIT mode) profit has been funded; permissionless.
  *
+ * ## Operational assumptions
+ * - The proposal / public notice period (`SETTLE_PROPOSED`) intentionally blocks redemption by
+ *   business requirement; users may redeem only before lock or after settlement. Admin and
+ *   factory owner operations are expected to be controlled by multisigs.
+ * - Governance may open the next round immediately after `finalize`; this is an intended rolling
+ *   vault workflow, not a cooldown-based withdrawal window.
+ * - Governance is expected to call `proposeSettlement` for every round. That call persists the
+ *   time-based `OPEN → LOCKED` transition through `_syncOpenPeriodIfNeeded()` and emits
+ *   `RoundLocked` for indexers before the settlement proposal is recorded.
+ *
  * ## Accounting model
  * Value is tracked by a single cumulative managed-asset figure `totalManagedAssets`,
  * which backs ERC-4626 `totalAssets()`. Deposits increase it, redemptions decrease it;
@@ -77,6 +87,14 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
 
     /// @notice Maximum performance fee rate in basis points (100%)
     uint256 public constant MAX_PERFORMANCE_FEE_BPS = 10_000;
+    /// @notice Minimum lock period duration for each round
+    uint256 public constant MIN_LOCK_DURATION = 1 days;
+    /// @notice Minimum settlement timelock duration for each round
+    uint256 public constant MIN_SETTLE_TIMELOCK = 1 days;
+    /// @notice Maximum single extension allowed for an active open period
+    uint256 public constant MAX_OPEN_EXTENSION = 30 days;
+    /// @notice Maximum single-round loss rate in basis points
+    uint256 public constant MAX_LOSS_BPS = 5_000;
 
     /// @notice Per-round lifecycle phase (see state diagram in contract docs)
     enum Phase {
@@ -102,7 +120,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         uint256 settleTimelockWindow;
         /// @notice Total running cap for this round, in asset units (cumulative inventory cap)
         uint256 roundCap;
-        /// @notice Per-address holding cap in asset units; 0 means no limit
+        /// @notice Per-address subscription cap in asset units; 0 means no limit
         uint256 perAddressCap;
         /// @notice Minimum subscription size per transaction, in asset units
         uint256 minSubscription;
@@ -143,7 +161,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     error VaultNotMatured();
     /// @notice Invalid settlement input
     error InvalidSettlementInput();
-    /// @notice Loss amount exceeds total managed assets
+    /// @notice Loss amount exceeds the allowed managed-asset loss
     error LossExceedManaged(uint256 loss, uint256 managed);
     /// @notice Profit proposal has already been funded
     error ProfitAlreadyFunded();
@@ -234,7 +252,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     uint256 public settleTimelockWindow;
     /// @notice Current round total running cap in asset units
     uint256 public roundCap;
-    /// @notice Per-address holding cap in asset units (0 = no limit)
+    /// @notice Per-address subscription cap in asset units (0 = no limit)
     uint256 public perAddressCap;
     /// @notice Current round minimum subscription size
     uint256 public minSubscription;
@@ -325,7 +343,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         if (currentPhase != Phase.OPEN) {
             revert InvalidPhase(currentPhase);
         }
-        if (extension == 0) {
+        if (extension == 0 || extension > MAX_OPEN_EXTENSION) {
             revert InvalidRoundParams();
         }
 
@@ -382,7 +400,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
             if (fundFrom != address(0)) {
                 revert InvalidSettlementInput();
             }
-            if (amount > totalManagedAssets) {
+            if (amount > totalManagedAssets.mulDiv(MAX_LOSS_BPS, MAX_PERFORMANCE_FEE_BPS, Math.Rounding.Floor)) {
                 revert LossExceedManaged(amount, totalManagedAssets);
             }
             profitFunded = true;
@@ -518,7 +536,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     }
 
     function maxRedeem(address owner) public view override returns (uint256) {
-        if (_isOpenPeriodActive() || _currentPhase() == Phase.SETTLED) {
+        if ((_isOpenPeriodActive() || _currentPhase() == Phase.SETTLED) && totalManagedAssets > 0) {
             return balanceOf(owner);
         }
         return 0;
@@ -645,8 +663,9 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     /// @dev Validate and apply round parameters, then enter the open period.
     function _openRound(RoundParams calldata params) internal {
         if (
-            params.openWindow == 0 || params.roundCap == 0 || params.minSubscription == 0
-                || params.performanceFeeBps > MAX_PERFORMANCE_FEE_BPS
+            params.openWindow == 0 || params.lockDuration < MIN_LOCK_DURATION
+                || params.settleTimelockWindow < MIN_SETTLE_TIMELOCK || params.roundCap == 0
+                || params.minSubscription == 0 || params.performanceFeeBps > MAX_PERFORMANCE_FEE_BPS
         ) {
             revert InvalidRoundParams();
         }

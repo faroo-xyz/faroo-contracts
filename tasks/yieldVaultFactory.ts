@@ -405,7 +405,7 @@ export const yvfCreateTask = task(
   })
   .addOption({
     name: "perAddressCap",
-    description: "Per-address cap in asset units",
+    description: "Per-address subscription cap in asset units",
     defaultValue: "",
   })
   .addOption({

@@ -203,6 +203,18 @@ contract VTokenTest is Test {
         assertEq(vtoken.totalCanWithdrawAmount(), 25 ether, "reserve increases on withdraw");
     }
 
+    /// @dev @test Oracle pause should not break ERC-4626 pricing views
+    function test_OraclePause_ShouldNotBreakPricingViews() external {
+        _aliceDeposit(100 ether);
+
+        vm.prank(owner);
+        oracle.pause();
+
+        assertEq(vtoken.totalAssets(), 100 ether, "total assets remains readable");
+        assertEq(vtoken.convertToAssets(10 ether), 10 ether, "asset conversion remains readable");
+        assertEq(vtoken.convertToShares(10 ether), 10 ether, "share conversion remains readable");
+    }
+
     /// @dev @test Exceeding the max queued withdrawal count should revert
     function test_Withdraw_ShouldRevert_WhenExceedMaxWithdrawCount() external {
         _aliceDeposit(300 ether);

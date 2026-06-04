@@ -105,8 +105,10 @@ contract YieldVaultTest is Test {
     function _settleProfit(uint256 profit) internal {
         _lockAndMature();
         vault.proposeSettlement(YieldVault.SettleMode.PROFIT, profit, address(0));
-        vm.prank(payer);
-        vault.fundProfit();
+        if (profit > 0) {
+            vm.prank(payer);
+            vault.fundProfit();
+        }
         vm.warp(vault.settleProposedAt() + SETTLE_TIMELOCK + 1);
         vault.finalize();
     }
@@ -153,6 +155,13 @@ contract YieldVaultTest is Test {
 
         vm.expectRevert(abi.encodeWithSelector(YieldVault.InvalidPhase.selector, YieldVault.Phase.LOCKED));
         vault.extendOpenPeriod(1 days);
+    }
+
+    function test_ExtendOpenPeriodAboveLimit_ShouldRevert() external {
+        uint256 tooLong = vault.MAX_OPEN_EXTENSION() + 1;
+
+        vm.expectRevert(YieldVault.InvalidRoundParams.selector);
+        vault.extendOpenPeriod(tooLong);
     }
 
     function test_UnredeemedPrincipal_ShouldRemainHeldAfterAutoLock() external {
@@ -223,6 +232,28 @@ contract YieldVaultTest is Test {
         assertEq(vault.roundIndex(), 2, "round 2");
         assertEq(vault.roundCap(), 1_500 ether, "new cap");
         assertEq(vault.openWindow(), 3 days, "new window");
+    }
+
+    function test_OpenNextRoundWithShortLockDuration_ShouldRevert() external {
+        _deposit(alice, 100 ether);
+        _settleProfit(10 ether);
+
+        YieldVault.RoundParams memory next = _roundParams(1_500 ether);
+        next.lockDuration = vault.MIN_LOCK_DURATION() - 1;
+
+        vm.expectRevert(YieldVault.InvalidRoundParams.selector);
+        vault.openNextRound(next);
+    }
+
+    function test_OpenNextRoundWithShortSettleTimelock_ShouldRevert() external {
+        _deposit(alice, 100 ether);
+        _settleProfit(10 ether);
+
+        YieldVault.RoundParams memory next = _roundParams(1_500 ether);
+        next.settleTimelockWindow = vault.MIN_SETTLE_TIMELOCK() - 1;
+
+        vm.expectRevert(YieldVault.InvalidRoundParams.selector);
+        vault.openNextRound(next);
     }
 
     function test_DepositOnlyOpen_RedeemOnlyOpenAndSettled() external {
@@ -342,6 +373,16 @@ contract YieldVaultTest is Test {
         assertEq(vault.previewRedeem(vault.balanceOf(alice)), 400 ether, "loss reflected");
     }
 
+    function test_LossSettlementAboveLimit_ShouldRevert() external {
+        _deposit(alice, 500 ether);
+        _lockAndMature();
+
+        uint256 maxLoss = vault.totalManagedAssets() * vault.MAX_LOSS_BPS() / vault.MAX_PERFORMANCE_FEE_BPS();
+
+        vm.expectRevert(abi.encodeWithSelector(YieldVault.LossExceedManaged.selector, maxLoss + 1, 500 ether));
+        vault.proposeSettlement(YieldVault.SettleMode.LOSS, maxLoss + 1, address(0));
+    }
+
     function test_Settled_ShouldStayRedeemableWithFixedRatio() external {
         _deposit(alice, 100 ether);
         _settleProfit(10 ether);
@@ -353,5 +394,17 @@ contract YieldVaultTest is Test {
 
         assertEq(uint256(vault.phase()), uint256(YieldVault.Phase.SETTLED), "settled");
         assertEq(vault.previewRedeem(shares), assetsBefore, "fixed ratio");
+    }
+
+    function test_MaxRedeem_ShouldReturnZeroWhenManagedAssetsAreZero() external {
+        _deposit(alice, 100 ether);
+        _settleProfit(0);
+
+        uint256 shares = vault.balanceOf(alice);
+        vm.prank(alice);
+        vault.redeem(shares, alice, alice);
+
+        assertEq(vault.totalManagedAssets(), 0, "managed fully redeemed");
+        assertEq(vault.maxRedeem(alice), 0, "max redeem is zero");
     }
 }
