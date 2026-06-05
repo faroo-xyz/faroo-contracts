@@ -1,4 +1,5 @@
 import { artifacts, deployScript } from "../rocketh/deploy.js";
+import { TESTNET } from "../contants/index.js";
 
 const DEFAULT_STPROS_NAME = "Faroo Staked PROS";
 const DEFAULT_STPROS_SYMBOL = "stPROS";
@@ -17,7 +18,7 @@ export default deployScript(
   async ({ deployViaProxy, namedAccounts, viem }) => {
     const { deployer, owner } = namedAccounts;
 
-    const asset = getRequiredEnv("STPROS_ASSET") as `0x${string}`;
+    const asset = TESTNET.STPROS;
     const name = process.env.STPROS_NAME ?? DEFAULT_STPROS_NAME;
     const symbol = process.env.STPROS_SYMBOL ?? DEFAULT_STPROS_SYMBOL;
 

@@ -1,6 +1,10 @@
 import { task } from "hardhat/config";
 import { isAddress, parseEventLogs, type Address } from "viem";
 
+const MAX_PERFORMANCE_FEE_BPS = 10_000n;
+const MIN_LOCK_DURATION = 86_400n;
+const MIN_SETTLE_TIMELOCK = 86_400n;
+
 type YieldVaultInitParams = {
   asset: Address;
   factory: Address;
@@ -69,7 +73,12 @@ function getOptionalBigInt(
       throw new Error(`Invalid ${label}: empty string`);
     }
 
-    return BigInt(rawValue);
+    const value = BigInt(rawValue);
+    if (value < 0n) {
+      throw new Error(`Invalid ${label}: ${rawValue}`);
+    }
+
+    return value;
   }
 
   throw new Error(`Invalid ${label}: ${String(rawValue)}`);
@@ -108,6 +117,37 @@ function resolveCreateYieldVaultParams(
   signerAddress: Address,
 ): YieldVaultInitParams {
   const factory = getRequiredAddress(taskArgs.factory, "factory address");
+  const openWindow = getRequiredBigInt(
+    taskArgs.subscriptionWindow,
+    "subscriptionWindow",
+  );
+  const lockDuration = getRequiredBigInt(taskArgs.lockDuration, "lockDuration");
+  const settleTimelockWindow = getRequiredBigInt(
+    taskArgs.settleTimelockWindow,
+    "settleTimelockWindow",
+  );
+  const roundCap = getRequiredBigInt(taskArgs.epochCap, "epochCap");
+  const perAddressCap = getRequiredBigInt(taskArgs.perAddressCap, "perAddressCap");
+  const minSubscription = getRequiredBigInt(taskArgs.minSubscription, "minSubscription");
+  const performanceFeeBps = getRequiredBigInt(
+    taskArgs.performanceFeeBps,
+    "performanceFeeBps",
+  );
+
+  if (
+    openWindow === 0n ||
+    lockDuration < MIN_LOCK_DURATION ||
+    settleTimelockWindow < MIN_SETTLE_TIMELOCK ||
+    roundCap === 0n ||
+    minSubscription === 0n ||
+    performanceFeeBps > MAX_PERFORMANCE_FEE_BPS
+  ) {
+    throw new Error(
+      "Invalid round params: subscriptionWindow/epochCap/minSubscription must be > 0, " +
+      `lockDuration >= ${MIN_LOCK_DURATION}, settleTimelockWindow >= ${MIN_SETTLE_TIMELOCK}, ` +
+      `performanceFeeBps <= ${MAX_PERFORMANCE_FEE_BPS}`,
+    );
+  }
 
   return {
     asset: getRequiredAddress(taskArgs.asset, "asset address"),
@@ -134,22 +174,13 @@ function resolveCreateYieldVaultParams(
       return value;
     })(),
     firstRound: {
-      openWindow: getRequiredBigInt(
-        taskArgs.subscriptionWindow,
-        "subscriptionWindow",
-      ),
-      lockDuration: getRequiredBigInt(taskArgs.lockDuration, "lockDuration"),
-      settleTimelockWindow: getRequiredBigInt(
-        taskArgs.settleTimelockWindow,
-        "settleTimelockWindow",
-      ),
-      roundCap: getRequiredBigInt(taskArgs.epochCap, "epochCap"),
-      perAddressCap: getRequiredBigInt(taskArgs.perAddressCap, "perAddressCap"),
-      minSubscription: getRequiredBigInt(taskArgs.minSubscription, "minSubscription"),
-      performanceFeeBps: getRequiredBigInt(
-        taskArgs.performanceFeeBps,
-        "performanceFeeBps",
-      )
+      openWindow,
+      lockDuration,
+      settleTimelockWindow,
+      roundCap,
+      perAddressCap,
+      minSubscription,
+      performanceFeeBps,
     },
   };
 }
@@ -353,6 +384,7 @@ export const yvfCreateTask = task(
    * - asset is usually the deployed stPROS proxy address.
    * - admin defaults to the current signer if omitted.
    * - numeric values should be passed in raw integer form.
+   * - lockDuration and settleTimelockWindow must each be at least 86400 seconds.
    */
   .addPositionalArgument({
     name: "factory",
