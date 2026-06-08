@@ -18,7 +18,7 @@ export default deployScript(
   async ({ deployViaProxy, namedAccounts, viem }) => {
     const { deployer, owner } = namedAccounts;
 
-    const asset = TESTNET.STPROS;
+    const asset = TESTNET.WPROS;
     const name = process.env.STPROS_NAME ?? DEFAULT_STPROS_NAME;
     const symbol = process.env.STPROS_SYMBOL ?? DEFAULT_STPROS_SYMBOL;
 
