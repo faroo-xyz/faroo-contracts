@@ -51,6 +51,9 @@ const FACTORY_PAUSED_ABI = [
   },
 ] as const;
 
+const MAX_PERFORMANCE_FEE_BPS = 10_000n;
+const MIN_LOCK_DURATION = 1n;
+const MIN_SETTLE_TIMELOCK = 1n;
 const DEFAULT_ADMIN_ROLE =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 const PHASE_NAMES = [
@@ -93,8 +96,105 @@ function getRequiredBigInt(value: string | undefined, label: string): bigint {
   return BigInt(value);
 }
 
+function getOptionalBigInt(value: string | undefined, label: string): bigint | undefined {
+  if (value === undefined || value.trim() === "") {
+    return undefined;
+  }
+
+  return BigInt(value);
+}
+
 function getEnumName(names: readonly string[], index: number): string {
   return names[index] ?? `UNKNOWN(${index})`;
+}
+
+type RoundParams = {
+  openWindow: bigint;
+  lockDuration: bigint;
+  settleTimelockWindow: bigint;
+  roundCap: bigint;
+  perAddressCap: bigint;
+  minSubscription: bigint;
+  performanceFeeBps: bigint;
+  maxLossBps: bigint;
+  openedAt: bigint;
+};
+
+function resolveOpenNextRoundParams(taskArgs: {
+  lockDuration: string | undefined;
+  subscriptionWindow: string | undefined;
+  epochCap: string | undefined;
+  perAddressCap: string | undefined;
+  minSubscription: string | undefined;
+  performanceFeeBps: string | undefined;
+  maxLossBps: string | undefined;
+  settleTimelockWindow: string | undefined;
+  openedAt: string | undefined;
+}): RoundParams {
+  const openWindow = getRequiredBigInt(taskArgs.subscriptionWindow, "subscriptionWindow");
+  const lockDuration = getRequiredBigInt(taskArgs.lockDuration, "lockDuration");
+  const settleTimelockWindow = getRequiredBigInt(
+    taskArgs.settleTimelockWindow,
+    "settleTimelockWindow",
+  );
+  const roundCap = getRequiredBigInt(taskArgs.epochCap, "epochCap");
+  const perAddressCap = getRequiredBigInt(taskArgs.perAddressCap, "perAddressCap");
+  const minSubscription = getRequiredBigInt(taskArgs.minSubscription, "minSubscription");
+  const performanceFeeBps = getRequiredBigInt(
+    taskArgs.performanceFeeBps,
+    "performanceFeeBps",
+  );
+  const maxLossBps = getRequiredBigInt(taskArgs.maxLossBps, "maxLossBps");
+
+  if (
+    openWindow === 0n ||
+    lockDuration < MIN_LOCK_DURATION ||
+    settleTimelockWindow < MIN_SETTLE_TIMELOCK ||
+    roundCap === 0n ||
+    minSubscription === 0n ||
+    performanceFeeBps > MAX_PERFORMANCE_FEE_BPS ||
+    maxLossBps > MAX_PERFORMANCE_FEE_BPS
+  ) {
+    throw new Error(
+      "Invalid round params: subscriptionWindow/epochCap/minSubscription must be > 0, " +
+      `lockDuration >= ${MIN_LOCK_DURATION}, settleTimelockWindow >= ${MIN_SETTLE_TIMELOCK}, ` +
+      `performanceFeeBps/maxLossBps <= ${MAX_PERFORMANCE_FEE_BPS}`,
+    );
+  }
+
+  return {
+    openWindow,
+    lockDuration,
+    settleTimelockWindow,
+    roundCap,
+    perAddressCap,
+    minSubscription,
+    performanceFeeBps,
+    maxLossBps,
+    openedAt: getOptionalBigInt(taskArgs.openedAt, "openedAt") ?? 0n,
+  };
+}
+
+function parsePhase(value: string): number {
+  const normalized = value.trim().toUpperCase();
+  const index = PHASE_NAMES.indexOf(normalized as (typeof PHASE_NAMES)[number]);
+
+  if (index !== -1) {
+    return index;
+  }
+
+  if (!/^\d+$/.test(value.trim())) {
+    throw new Error(
+      `Invalid phase: ${value}. Use one of ${PHASE_NAMES.join(", ")} or 0-3.`,
+    );
+  }
+
+  const numeric = Number(value);
+  if (numeric < 0 || numeric > 3) {
+    throw new Error(`Invalid phase index: ${value}. Must be between 0 and 3.`);
+  }
+
+  return numeric;
 }
 
 export const yieldVaultInfoTask = task(
@@ -667,6 +767,235 @@ export const yieldVaultDepositTask = task(
         `[yv:deposit] expectedSharesFormatted=${formatUnits(expectedShares, shareDecimals)}`,
       );
       console.log(`[yv:deposit] txHash=${hash}`);
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
+export const yieldVaultOpenNextRoundTask = task(
+  "yv:open-next-round",
+  "Open the next YieldVault round after settlement",
+)
+  /**
+   * Usage:
+   * pnpm hardhat yv:open-next-round --network testnet <vaultAddress> \
+   *   --lockDuration 2592000 \
+   *   --subscriptionWindow 604800 \
+   *   --epochCap 1000000000000000000000 \
+   *   --perAddressCap 100000000000000000000 \
+   *   --minSubscription 1000000000000000000 \
+   *   --performanceFeeBps 1000 \
+   *   --maxLossBps 5000 \
+   *   --settleTimelockWindow 86400
+   *
+   * Example:
+   * pnpm hardhat yv:open-next-round --network testnet \
+   *   0x422afe88191dE8df3b30852E6aa166250E7AA8D1 \
+   *   --lockDuration 2592000 \
+   *   --subscriptionWindow 604800 \
+   *   --epochCap 1000000000000000000000 \
+   *   --perAddressCap 100000000000000000000 \
+   *   --minSubscription 1000000000000000000 \
+   *   --performanceFeeBps 1000 \
+   *   --maxLossBps 5000 \
+   *   --settleTimelockWindow 86400
+   *
+   * Notes:
+   * - Callable only by vault admin (DEFAULT_ADMIN_ROLE).
+   * - Vault must be in SETTLED phase.
+   * - epochCap must be >= current totalManagedAssets.
+   * - numeric values should be passed in raw integer form.
+   */
+  .addPositionalArgument({
+    name: "vault",
+    description: "YieldVault proxy address",
+  })
+  .addOption({
+    name: "lockDuration",
+    description: "Lock duration in seconds",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "subscriptionWindow",
+    description: "Open window in seconds",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "epochCap",
+    description: "Round cap in asset units",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "perAddressCap",
+    description: "Per-address subscription cap in asset units",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "minSubscription",
+    description: "Minimum subscription amount",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "performanceFeeBps",
+    description: "Performance fee in basis points",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "maxLossBps",
+    description: "Maximum loss in basis points",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "settleTimelockWindow",
+    description: "Settlement timelock window in seconds",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "openedAt",
+    description: "Open period start timestamp; 0 opens immediately",
+    defaultValue: "",
+  })
+  .setInlineAction(async (taskArgs, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const publicClient = await connection.viem.getPublicClient();
+      const [signer] = await connection.viem.getWalletClients();
+
+      if (signer?.account?.address === undefined) {
+        throw new Error("No signer account available for the selected network");
+      }
+
+      const vaultAddress = getRequiredAddress(taskArgs.vault, "vault address");
+      const params = resolveOpenNextRoundParams(
+        taskArgs as Parameters<typeof resolveOpenNextRoundParams>[0],
+      );
+      const vaultContract = await connection.viem.getContractAt("YieldVault", vaultAddress, {
+        client: {
+          wallet: signer,
+        },
+      });
+      const [previousPhase, previousRoundIndex, totalManagedAssets] = await Promise.all([
+        vaultContract.read.phase(),
+        vaultContract.read.roundIndex(),
+        vaultContract.read.totalManagedAssets(),
+      ]);
+
+      if (previousPhase !== 3) {
+        throw new Error(
+          `Vault must be SETTLED before opening the next round; current phase=${previousPhase} (${getEnumName(PHASE_NAMES, Number(previousPhase))})`,
+        );
+      }
+
+      if (params.roundCap < totalManagedAssets) {
+        throw new Error(
+          `epochCap (${params.roundCap}) must be >= totalManagedAssets (${totalManagedAssets})`,
+        );
+      }
+
+      const hash = await vaultContract.write.openNextRound([params]);
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      const [
+        roundIndex,
+        phase,
+        openedAt,
+        openDeadline,
+        roundCap,
+      ] = await Promise.all([
+        vaultContract.read.roundIndex(),
+        vaultContract.read.phase(),
+        vaultContract.read.openedAt(),
+        vaultContract.read.openDeadline(),
+        vaultContract.read.roundCap(),
+      ]);
+
+      console.log(`[yv:open-next-round] vault=${vaultAddress}`);
+      console.log(`[yv:open-next-round] caller=${signer.account.address}`);
+      console.log(`[yv:open-next-round] previousRoundIndex=${previousRoundIndex}`);
+      console.log(`[yv:open-next-round] roundIndex=${roundIndex}`);
+      console.log(
+        `[yv:open-next-round] phase=${phase} (${getEnumName(PHASE_NAMES, Number(phase))})`,
+      );
+      console.log(`[yv:open-next-round] openWindow=${params.openWindow}`);
+      console.log(`[yv:open-next-round] lockDuration=${params.lockDuration}`);
+      console.log(`[yv:open-next-round] settleTimelockWindow=${params.settleTimelockWindow}`);
+      console.log(`[yv:open-next-round] roundCapRaw=${roundCap}`);
+      console.log(`[yv:open-next-round] perAddressCapRaw=${params.perAddressCap}`);
+      console.log(`[yv:open-next-round] minSubscriptionRaw=${params.minSubscription}`);
+      console.log(`[yv:open-next-round] performanceFeeBps=${params.performanceFeeBps}`);
+      console.log(`[yv:open-next-round] maxLossBps=${params.maxLossBps}`);
+      console.log(`[yv:open-next-round] scheduledOpenedAt=${params.openedAt}`);
+      console.log(`[yv:open-next-round] openedAt=${openedAt}`);
+      console.log(`[yv:open-next-round] openDeadline=${openDeadline}`);
+      console.log(`[yv:open-next-round] txHash=${hash}`);
+      console.log(`[yv:open-next-round] blockNumber=${receipt.blockNumber}`);
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
+export const yieldVaultSetPhaseTask = task(
+  "yv:set-phase",
+  "Manually set YieldVault business phase",
+)
+  /**
+   * Usage:
+   * pnpm hardhat yv:set-phase --network testnet <vaultAddress> <phase>
+   *
+   * Example:
+   * pnpm hardhat yv:set-phase --network testnet \
+   *   0x422afe88191dE8df3b30852E6aa166250E7AA8D1 \
+   *   LOCKED
+   *
+   * Notes:
+   * - phase accepts OPEN, LOCKED, SETTLE_PROPOSED, SETTLED, or numeric index 0-3.
+   * - This writes the stored phase directly and does not apply settlement accounting.
+   * - If setting OPEN after openDeadline, also extend the open window or views may still show LOCKED.
+   * - Leaving SETTLE_PROPOSED refunds any funded profit proposal.
+   */
+  .addPositionalArgument({
+    name: "vault",
+    description: "YieldVault proxy address",
+  })
+  .addPositionalArgument({
+    name: "phase",
+    description: "Target phase name or index",
+  })
+  .setInlineAction(async ({ vault, phase }, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const publicClient = await connection.viem.getPublicClient();
+      const [signer1, signer2] = await connection.viem.getWalletClients();
+
+      // if (signer?.account?.address === undefined) {
+      //   throw new Error("No signer account available for the selected network");
+      // }
+
+      const vaultAddress = getRequiredAddress(vault, "vault address");
+      const phaseIndex = parsePhase(phase);
+      const vaultContract = await connection.viem.getContractAt("YieldVault", vaultAddress, {
+        client: {
+          wallet: signer2,
+        },
+      }) as any;
+      const previousPhase = await vaultContract.read.phase();
+      const hash = await vaultContract.write.setPhase([phaseIndex]);
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      const currentPhase = await vaultContract.read.phase();
+
+      console.log(`[yv:set-phase] vault=${vaultAddress}`);
+      console.log(`[yv:set-phase] caller=${signer2.account.address}`);
+      console.log(
+        `[yv:set-phase] previousPhase=${previousPhase} (${getEnumName(PHASE_NAMES, Number(previousPhase))})`,
+      );
+      console.log(
+        `[yv:set-phase] newPhase=${currentPhase} (${getEnumName(PHASE_NAMES, Number(currentPhase))})`,
+      );
+      console.log(`[yv:set-phase] txHash=${hash}`);
+      console.log(`[yv:set-phase] blockNumber=${receipt.blockNumber}`);
     } finally {
       await connection.close();
     }

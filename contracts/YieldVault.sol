@@ -61,6 +61,8 @@ interface IYieldVaultFactory {
  *   factory owner operations are expected to be controlled by multisigs.
  * - Governance may open the next round immediately after `finalize`; this is an intended rolling
  *   vault workflow, not a cooldown-based withdrawal window.
+ * - Initialization accepts an optional `RoundParams.openedAt` timestamp to schedule the open
+ *   period; `0` opens immediately. Deposit and redeem stay blocked until `openedAt`.
  * - Governance is expected to call `proposeSettlement` for every round. That call persists the
  *   time-based `OPEN → LOCKED` transition through `_syncOpenPeriodIfNeeded()` and emits
  *   `RoundLocked` for indexers before the settlement proposal is recorded.
@@ -88,14 +90,11 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     /// @notice Maximum performance fee rate in basis points (100%)
     uint256 public constant MAX_PERFORMANCE_FEE_BPS = 10_000;
     /// @notice Minimum lock period duration for each round
-    uint256 public constant MIN_LOCK_DURATION = 1 days;
+    uint256 public constant MIN_LOCK_DURATION = 1;
     /// @notice Minimum settlement timelock duration for each round
-    uint256 public constant MIN_SETTLE_TIMELOCK = 1 days;
+    uint256 public constant MIN_SETTLE_TIMELOCK = 1;
     /// @notice Maximum single extension allowed for an active open period
     uint256 public constant MAX_OPEN_EXTENSION = 30 days;
-    /// @notice Maximum single-round loss rate in basis points
-    uint256 public constant MAX_LOSS_BPS = 5_000;
-
     /// @notice Per-round lifecycle phase (see state diagram in contract docs)
     enum Phase {
         OPEN, // Open period: deposit + redeem allowed until openDeadline, then automatically LOCKED
@@ -126,6 +125,10 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         uint256 minSubscription;
         /// @notice Performance fee rate in basis points, where 10000 = 100%
         uint256 performanceFeeBps;
+        /// @notice Maximum single-round loss rate in basis points
+        uint256 maxLossBps;
+        /// @notice Open period start timestamp; 0 starts immediately when the round is opened
+        uint256 openedAt;
     }
 
     /// @notice Initialization parameters written once at vault creation
@@ -144,7 +147,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         string name;
         /// @notice Vault share token symbol
         string symbol;
-        /// @notice First-round parameters; the first round opens during initialization
+        /// @notice First-round parameters; the first round is configured during initialization
         RoundParams firstRound;
     }
 
@@ -258,6 +261,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     uint256 public minSubscription;
     /// @notice Current round performance fee rate in bps
     uint256 public performanceFeeBps;
+    /// @notice Current round maximum loss rate in bps
+    uint256 public maxLossBps;
 
     // --- Current round timeline ---
     /// @notice Current open period start timestamp
@@ -320,7 +325,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         counterparty = p.counterparty;
         feeRecipient = p.feeRecipient;
 
-        // Open the first round (roundIndex becomes 1).
+        // Configure the first round (roundIndex becomes 1).
         _openRound(p.firstRound);
     }
 
@@ -339,9 +344,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
     /// @dev Callable only by admin / multisig before the current open window expires.
     /// @param extension Additional seconds to add to the current open window
     function extendOpenPeriod(uint256 extension) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        Phase currentPhase = _currentPhase();
-        if (currentPhase != Phase.OPEN) {
-            revert InvalidPhase(currentPhase);
+        if (_phase != Phase.OPEN || block.timestamp >= openDeadline) {
+            revert InvalidPhase(_currentPhase());
         }
         if (extension == 0 || extension > MAX_OPEN_EXTENSION) {
             revert InvalidRoundParams();
@@ -400,7 +404,7 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
             if (fundFrom != address(0)) {
                 revert InvalidSettlementInput();
             }
-            if (amount > totalManagedAssets.mulDiv(MAX_LOSS_BPS, MAX_PERFORMANCE_FEE_BPS, Math.Rounding.Floor)) {
+            if (amount > totalManagedAssets.mulDiv(maxLossBps, MAX_PERFORMANCE_FEE_BPS, Math.Rounding.Floor)) {
                 revert LossExceedManaged(amount, totalManagedAssets);
             }
             profitFunded = true;
@@ -557,9 +561,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         nonReentrant
         returns (uint256)
     {
-        Phase currentPhase = _currentPhase();
-        if (currentPhase != Phase.OPEN) {
-            revert InvalidPhase(currentPhase);
+        if (!_isOpenPeriodActive()) {
+            revert InvalidPhase(_currentPhase());
         }
         if (assets < minSubscription) {
             revert BelowMinSubscription(assets, minSubscription);
@@ -575,9 +578,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         nonReentrant
         returns (uint256)
     {
-        Phase currentPhase = _currentPhase();
-        if (currentPhase != Phase.OPEN) {
-            revert InvalidPhase(currentPhase);
+        if (!_isOpenPeriodActive()) {
+            revert InvalidPhase(_currentPhase());
         }
         uint256 assets = previewMint(shares);
         if (assets < minSubscription) {
@@ -593,9 +595,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         nonReentrant
         returns (uint256)
     {
-        Phase currentPhase = _currentPhase();
-        if (currentPhase != Phase.OPEN && currentPhase != Phase.SETTLED) {
-            revert InvalidPhase(currentPhase);
+        if (!_isOpenPeriodActive() && _currentPhase() != Phase.SETTLED) {
+            revert InvalidPhase(_currentPhase());
         }
         return super.redeem(shares, receiver, owner);
     }
@@ -607,9 +608,8 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         nonReentrant
         returns (uint256)
     {
-        Phase currentPhase = _currentPhase();
-        if (currentPhase != Phase.OPEN && currentPhase != Phase.SETTLED) {
-            revert InvalidPhase(currentPhase);
+        if (!_isOpenPeriodActive() && _currentPhase() != Phase.SETTLED) {
+            revert InvalidPhase(_currentPhase());
         }
         return super.withdraw(assets, receiver, owner);
     }
@@ -630,9 +630,9 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         super._withdraw(caller, receiver, owner, assets, shares);
     }
 
-    /// @dev Whether the vault is still within the active open subscription window.
+    /// @dev Whether the vault is within the active open subscription / redemption window.
     function _isOpenPeriodActive() internal view returns (bool) {
-        return _phase == Phase.OPEN && block.timestamp < openDeadline;
+        return _phase == Phase.OPEN && block.timestamp >= openedAt && block.timestamp < openDeadline;
     }
 
     /// @dev Effective phase used by views and entry-point validation.
@@ -660,12 +660,13 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         }
     }
 
-    /// @dev Validate and apply round parameters, then enter the open period.
+    /// @dev Validate and apply round parameters, then enter (or schedule) the open period.
     function _openRound(RoundParams calldata params) internal {
         if (
             params.openWindow == 0 || params.lockDuration < MIN_LOCK_DURATION
                 || params.settleTimelockWindow < MIN_SETTLE_TIMELOCK || params.roundCap == 0
                 || params.minSubscription == 0 || params.performanceFeeBps > MAX_PERFORMANCE_FEE_BPS
+                || params.maxLossBps > MAX_PERFORMANCE_FEE_BPS
         ) {
             revert InvalidRoundParams();
         }
@@ -683,9 +684,17 @@ contract YieldVault is Initializable, ERC4626Upgradeable, AccessControlUpgradeab
         perAddressCap = params.perAddressCap;
         minSubscription = params.minSubscription;
         performanceFeeBps = params.performanceFeeBps;
+        maxLossBps = params.maxLossBps;
 
-        openedAt = block.timestamp;
-        openDeadline = block.timestamp + params.openWindow;
+        if (params.openedAt == 0) {
+            openedAt = block.timestamp;
+        } else {
+            if (params.openedAt < block.timestamp) {
+                revert InvalidRoundParams();
+            }
+            openedAt = params.openedAt;
+        }
+        openDeadline = openedAt + params.openWindow;
         _lockedAt = 0;
         settleProposedAt = 0;
         settledAt = 0;

@@ -41,6 +41,7 @@ contract YieldVaultTest is Test {
     uint256 internal constant PER_ADDRESS_CAP = 700 ether;
     uint256 internal constant MIN_SUBSCRIPTION = 10 ether;
     uint256 internal constant FEE_BPS = 1_000; // 10%
+    uint256 internal constant MAX_LOSS_BPS = 5_000; // 50%
 
     function setUp() external {
         asset = new MockYieldAsset();
@@ -77,6 +78,10 @@ contract YieldVaultTest is Test {
     }
 
     function _roundParams(uint256 cap) internal pure returns (YieldVault.RoundParams memory) {
+        return _roundParams(cap, 0);
+    }
+
+    function _roundParams(uint256 cap, uint256 openedAt) internal pure returns (YieldVault.RoundParams memory) {
         return YieldVault.RoundParams({
             openWindow: OPEN_WINDOW,
             lockDuration: LOCK_DURATION,
@@ -84,7 +89,9 @@ contract YieldVaultTest is Test {
             roundCap: cap,
             perAddressCap: PER_ADDRESS_CAP,
             minSubscription: MIN_SUBSCRIPTION,
-            performanceFeeBps: FEE_BPS
+            performanceFeeBps: FEE_BPS,
+            maxLossBps: MAX_LOSS_BPS,
+            openedAt: openedAt
         });
     }
 
@@ -118,6 +125,73 @@ contract YieldVaultTest is Test {
         assertEq(vault.roundIndex(), 1, "round");
         assertEq(vault.roundCap(), ROUND_CAP, "cap");
         assertEq(vault.openDeadline(), vault.openedAt() + OPEN_WINDOW, "open deadline");
+    }
+
+    function test_InitializeWithFutureOpenedAt_ShouldScheduleFirstRound() external {
+        uint256 scheduledOpen = block.timestamp + 1 days;
+        YieldVault scheduledVault = _deployVault(scheduledOpen);
+
+        assertEq(uint256(scheduledVault.phase()), uint256(YieldVault.Phase.OPEN), "phase");
+        assertEq(scheduledVault.openedAt(), scheduledOpen, "openedAt");
+        assertEq(scheduledVault.openDeadline(), scheduledOpen + OPEN_WINDOW, "open deadline");
+        assertEq(scheduledVault.maxDeposit(alice), 0, "deposit blocked before open");
+
+        vm.prank(alice);
+        vm.expectRevert(abi.encodeWithSelector(YieldVault.InvalidPhase.selector, YieldVault.Phase.OPEN));
+        scheduledVault.deposit(MIN_SUBSCRIPTION, alice);
+
+        vm.warp(scheduledOpen);
+
+        vm.prank(alice);
+        asset.approve(address(scheduledVault), type(uint256).max);
+
+        assertEq(scheduledVault.maxDeposit(alice), PER_ADDRESS_CAP, "deposit allowed at open");
+
+        _depositOn(scheduledVault, alice, MIN_SUBSCRIPTION);
+        assertEq(scheduledVault.balanceOf(alice), scheduledVault.previewDeposit(MIN_SUBSCRIPTION), "shares minted");
+    }
+
+    function test_InitializeWithPastOpenedAt_ShouldRevert() external {
+        vm.warp(10 days);
+
+        YieldVault implementation = new YieldVault();
+        YieldVault.InitParams memory params = YieldVault.InitParams({
+            asset: address(asset),
+            factory: address(factory),
+            admin: admin,
+            counterparty: counterparty,
+            feeRecipient: feeRecipient,
+            name: "Yield Vault Share",
+            symbol: "YVS",
+            firstRound: _roundParams(ROUND_CAP, block.timestamp - 1)
+        });
+
+        bytes memory initData = abi.encodeWithSelector(YieldVault.initialize.selector, params);
+        vm.expectRevert(YieldVault.InvalidRoundParams.selector);
+        new ERC1967Proxy(address(implementation), initData);
+    }
+
+    function _deployVault(uint256 openedAt) internal returns (YieldVault deployed) {
+        YieldVault implementation = new YieldVault();
+        YieldVault.InitParams memory params = YieldVault.InitParams({
+            asset: address(asset),
+            factory: address(factory),
+            admin: admin,
+            counterparty: counterparty,
+            feeRecipient: feeRecipient,
+            name: "Yield Vault Share",
+            symbol: "YVS",
+            firstRound: _roundParams(ROUND_CAP, openedAt)
+        });
+
+        bytes memory initData = abi.encodeWithSelector(YieldVault.initialize.selector, params);
+        ERC1967Proxy proxy = new ERC1967Proxy(address(implementation), initData);
+        deployed = YieldVault(address(proxy));
+    }
+
+    function _depositOn(YieldVault target, address user, uint256 amount) internal {
+        vm.prank(user);
+        target.deposit(amount, user);
     }
 
     function test_OpenWindowElapsed_ShouldAutoLock() external {
@@ -377,7 +451,7 @@ contract YieldVaultTest is Test {
         _deposit(alice, 500 ether);
         _lockAndMature();
 
-        uint256 maxLoss = vault.totalManagedAssets() * vault.MAX_LOSS_BPS() / vault.MAX_PERFORMANCE_FEE_BPS();
+        uint256 maxLoss = vault.totalManagedAssets() * vault.maxLossBps() / vault.MAX_PERFORMANCE_FEE_BPS();
 
         vm.expectRevert(abi.encodeWithSelector(YieldVault.LossExceedManaged.selector, maxLoss + 1, 500 ether));
         vault.proposeSettlement(YieldVault.SettleMode.LOSS, maxLoss + 1, address(0));

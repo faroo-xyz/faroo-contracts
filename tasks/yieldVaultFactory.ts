@@ -2,8 +2,18 @@ import { task } from "hardhat/config";
 import { isAddress, parseEventLogs, type Address } from "viem";
 
 const MAX_PERFORMANCE_FEE_BPS = 10_000n;
-const MIN_LOCK_DURATION = 86_400n;
-const MIN_SETTLE_TIMELOCK = 86_400n;
+const MIN_LOCK_DURATION = 1n;
+const MIN_SETTLE_TIMELOCK = 1n;
+const PHASE_NAMES = [
+  "OPEN",
+  "LOCKED",
+  "SETTLE_PROPOSED",
+  "SETTLED",
+] as const;
+
+function getEnumName(names: readonly string[], index: number): string {
+  return names[index] ?? `UNKNOWN(${index})`;
+}
 
 type YieldVaultInitParams = {
   asset: Address;
@@ -21,6 +31,8 @@ type YieldVaultInitParams = {
     perAddressCap: bigint;
     minSubscription: bigint;
     performanceFeeBps: bigint;
+    maxLossBps: bigint;
+    openedAt: bigint;
   };
 };
 
@@ -112,7 +124,9 @@ function resolveCreateYieldVaultParams(
     perAddressCap: string | undefined;
     minSubscription: string | undefined;
     performanceFeeBps: string | undefined;
+    maxLossBps: string | undefined;
     settleTimelockWindow: string | undefined;
+    openedAt: string | undefined;
   },
   signerAddress: Address,
 ): YieldVaultInitParams {
@@ -133,6 +147,7 @@ function resolveCreateYieldVaultParams(
     taskArgs.performanceFeeBps,
     "performanceFeeBps",
   );
+  const maxLossBps = getRequiredBigInt(taskArgs.maxLossBps, "maxLossBps");
 
   if (
     openWindow === 0n ||
@@ -140,12 +155,13 @@ function resolveCreateYieldVaultParams(
     settleTimelockWindow < MIN_SETTLE_TIMELOCK ||
     roundCap === 0n ||
     minSubscription === 0n ||
-    performanceFeeBps > MAX_PERFORMANCE_FEE_BPS
+    performanceFeeBps > MAX_PERFORMANCE_FEE_BPS ||
+    maxLossBps > MAX_PERFORMANCE_FEE_BPS
   ) {
     throw new Error(
       "Invalid round params: subscriptionWindow/epochCap/minSubscription must be > 0, " +
       `lockDuration >= ${MIN_LOCK_DURATION}, settleTimelockWindow >= ${MIN_SETTLE_TIMELOCK}, ` +
-      `performanceFeeBps <= ${MAX_PERFORMANCE_FEE_BPS}`,
+      `performanceFeeBps/maxLossBps <= ${MAX_PERFORMANCE_FEE_BPS}`,
     );
   }
 
@@ -181,6 +197,8 @@ function resolveCreateYieldVaultParams(
       perAddressCap,
       minSubscription,
       performanceFeeBps,
+      maxLossBps,
+      openedAt: getOptionalBigInt(taskArgs.openedAt, "openedAt") ?? 0n,
     },
   };
 }
@@ -377,6 +395,7 @@ export const yvfCreateTask = task(
    *   --perAddressCap 100000000000000000000 \
    *   --minSubscription 1000000000000000000 \
    *   --performanceFeeBps 1000 \
+   *   --maxLossBps 5000 \
    *   --settleTimelockWindow 86400
    *
    * Notes:
@@ -384,7 +403,7 @@ export const yvfCreateTask = task(
    * - asset is usually the deployed stPROS proxy address.
    * - admin defaults to the current signer if omitted.
    * - numeric values should be passed in raw integer form.
-   * - lockDuration and settleTimelockWindow must each be at least 86400 seconds.
+   * - lockDuration and settleTimelockWindow must each be at least 1 second.
    */
   .addPositionalArgument({
     name: "factory",
@@ -451,8 +470,18 @@ export const yvfCreateTask = task(
     defaultValue: "",
   })
   .addOption({
+    name: "maxLossBps",
+    description: "Maximum loss in basis points",
+    defaultValue: "",
+  })
+  .addOption({
     name: "settleTimelockWindow",
     description: "Settlement timelock window in seconds",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "openedAt",
+    description: "First round open period start timestamp; 0 opens immediately",
     defaultValue: "",
   })
   .setInlineAction(async (taskArgs, hre) => {
@@ -497,18 +526,273 @@ export const yvfCreateTask = task(
       console.log(`[yvf:create] feeRecipient=${params.feeRecipient}`);
       console.log(`[yvf:create] name=${params.name}`);
       console.log(`[yvf:create] symbol=${params.symbol}`);
+      console.log(`[yvf:create] firstRound.openedAt=${params.firstRound.openedAt}`);
       console.log(`[yvf:create] firstRound.openWindow=${params.firstRound.openWindow}`);
       console.log(`[yvf:create] firstRound.lockDuration=${params.firstRound.lockDuration}`);
       console.log(`[yvf:create] firstRound.roundCap=${params.firstRound.roundCap}`);
       console.log(`[yvf:create] firstRound.perAddressCap=${params.firstRound.perAddressCap}`);
       console.log(`[yvf:create] firstRound.minSubscription=${params.firstRound.minSubscription}`);
       console.log(`[yvf:create] firstRound.performanceFeeBps=${params.firstRound.performanceFeeBps}`);
+      console.log(`[yvf:create] firstRound.maxLossBps=${params.firstRound.maxLossBps}`);
       console.log(`[yvf:create] firstRound.settleTimelockWindow=${params.firstRound.settleTimelockWindow}`);
       console.log(`[yvf:create] txHash=${hash}`);
 
       if (vaultAddress !== undefined) {
         console.log(`[yvf:create] vault=${vaultAddress}`);
       }
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
+export const yvfEmergencyCancelTask = task(
+  "yvf:emergency-cancel",
+  "Emergency-cancel a YieldVault and enable principal redemption",
+)
+  /**
+   * Usage:
+   * pnpm hardhat yvf:emergency-cancel --network testnet <factoryAddress> <vaultAddress>
+   *
+   * Example:
+   * pnpm hardhat yvf:emergency-cancel --network testnet \
+   *   0xFactoryProxyAddress \
+   *   0xVaultProxyAddress
+   *
+   * Notes:
+   * - Callable only by the factory owner.
+   * - Vault must have been created by the factory.
+   * - Vault enters SETTLED without profit/loss; users can redeem principal pro-rata.
+   * - Any funded settlement proposal is refunded before cancellation.
+   */
+  .addPositionalArgument({
+    name: "factory",
+    description: "YieldVaultFactory proxy address",
+  })
+  .addPositionalArgument({
+    name: "vault",
+    description: "YieldVault proxy address to emergency-cancel",
+  })
+  .setInlineAction(async ({ factory, vault }, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const [signer] = await connection.viem.getWalletClients();
+
+      if (signer?.account?.address === undefined) {
+        throw new Error("No signer account available for the selected network");
+      }
+
+      const factoryAddress = getRequiredAddress(factory, "factory address");
+      const vaultAddress = getRequiredAddress(vault, "vault address");
+      const factoryContract = await connection.viem.getContractAt(
+        "YieldVaultFactory",
+        factoryAddress,
+        {
+          client: {
+            wallet: signer,
+          },
+        },
+      );
+      const vaultContract = await connection.viem.getContractAt(
+        "YieldVault",
+        vaultAddress,
+      );
+      const isFactoryVault = await factoryContract.read.isFactoryVault([vaultAddress]);
+
+      if (!isFactoryVault) {
+        throw new Error(
+          `Vault ${vaultAddress} was not created by factory ${factoryAddress}`,
+        );
+      }
+
+      const previousPhase = await vaultContract.read.phase();
+
+      if (previousPhase === 3) {
+        throw new Error(
+          `Vault is already SETTLED (phase=${previousPhase}); emergency cancel is not allowed`,
+        );
+      }
+
+      const hash = await factoryContract.write.emergencyCancel([vaultAddress]);
+      const publicClient = await connection.viem.getPublicClient();
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      const currentPhase = await vaultContract.read.phase();
+
+      console.log(`[yvf:emergency-cancel] factory=${factoryAddress}`);
+      console.log(`[yvf:emergency-cancel] vault=${vaultAddress}`);
+      console.log(`[yvf:emergency-cancel] caller=${signer.account.address}`);
+      console.log(
+        `[yvf:emergency-cancel] previousPhase=${previousPhase} (${getEnumName(PHASE_NAMES, Number(previousPhase))})`,
+      );
+      console.log(
+        `[yvf:emergency-cancel] newPhase=${currentPhase} (${getEnumName(PHASE_NAMES, Number(currentPhase))})`,
+      );
+      console.log(`[yvf:emergency-cancel] txHash=${hash}`);
+      console.log(`[yvf:emergency-cancel] blockNumber=${receipt.blockNumber}`);
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
+export const yvfTransferOwnerTask = task(
+  "yvf:transfer-owner",
+  "Transfer YieldVaultFactory ownership to a new address",
+)
+  /**
+   * Usage:
+   * pnpm hardhat yvf:transfer-owner --network testnet <factoryAddress> <newOwnerAddress>
+   *
+   * Example:
+   * pnpm hardhat yvf:transfer-owner --network testnet \
+   *   0xFactoryProxyAddress \
+   *   0xNewOwnerAddress
+   *
+   * Notes:
+   * - Callable only by the current factory owner.
+   * - Transfers Ownable permissions: createYieldVault, upgradeBeaconTo, emergencyCancel, etc.
+   */
+  .addPositionalArgument({
+    name: "factory",
+    description: "YieldVaultFactory proxy address",
+  })
+  .addPositionalArgument({
+    name: "newOwner",
+    description: "New owner address",
+  })
+  .setInlineAction(async ({ factory, newOwner }, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const [signer] = await connection.viem.getWalletClients();
+
+      if (signer?.account?.address === undefined) {
+        throw new Error("No signer account available for the selected network");
+      }
+
+      const factoryAddress = getRequiredAddress(factory, "factory address");
+      const newOwnerAddress = getRequiredAddress(newOwner, "new owner address");
+
+      if (newOwnerAddress === "0x0000000000000000000000000000000000000000") {
+        throw new Error("newOwner cannot be the zero address");
+      }
+
+      const factoryContract = await connection.viem.getContractAt(
+        "YieldVaultFactory",
+        factoryAddress,
+        {
+          client: {
+            wallet: signer,
+          },
+        },
+      );
+      const previousOwner = await factoryContract.read.owner();
+
+      if (previousOwner.toLowerCase() === newOwnerAddress.toLowerCase()) {
+        throw new Error(`Factory owner is already ${newOwnerAddress}`);
+      }
+
+      const hash = await factoryContract.write.transferOwnership([newOwnerAddress]);
+      const publicClient = await connection.viem.getPublicClient();
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      const currentOwner = await factoryContract.read.owner();
+
+      console.log(`[yvf:transfer-owner] factory=${factoryAddress}`);
+      console.log(`[yvf:transfer-owner] caller=${signer.account.address}`);
+      console.log(`[yvf:transfer-owner] previousOwner=${previousOwner}`);
+      console.log(`[yvf:transfer-owner] newOwner=${currentOwner}`);
+      console.log(`[yvf:transfer-owner] txHash=${hash}`);
+      console.log(`[yvf:transfer-owner] blockNumber=${receipt.blockNumber}`);
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
+export const yvfUpgradeBeaconTask = task(
+  "yvf:upgrade-beacon",
+  "Upgrade YieldVault beacon to a new implementation",
+)
+  /**
+   * Usage:
+   * pnpm hardhat yvf:upgrade-beacon --network testnet <factoryAddress> <implementationAddress>
+   * 0x181b0b0f4fde940e9fa18ead2d813ff95cd15c49
+   * Example:
+   * pnpm hardhat yvf:upgrade-beacon --network testnet \
+   *   0xFactoryProxyAddress \
+   *   0xNewYieldVaultImplementationAddress
+   *
+   * Notes:
+   * - Callable only by the factory owner.
+   * - Upgrades all existing YieldVault beacon proxies to the new implementation.
+   * - Deploy the new YieldVault implementation first, then pass its address here.
+   */
+  .addPositionalArgument({
+    name: "factory",
+    description: "YieldVaultFactory proxy address",
+  })
+  .addPositionalArgument({
+    name: "implementation",
+    description: "New YieldVault implementation address",
+  })
+  .setInlineAction(async ({ factory, implementation }, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const [signer] = await connection.viem.getWalletClients();
+
+      if (signer?.account?.address === undefined) {
+        throw new Error("No signer account available for the selected network");
+      }
+
+      const factoryAddress = getRequiredAddress(factory, "factory address");
+      const implementationAddress = getRequiredAddress(
+        implementation,
+        "implementation address",
+      );
+      const factoryContract = await connection.viem.getContractAt(
+        "YieldVaultFactory",
+        factoryAddress,
+        {
+          client: {
+            wallet: signer,
+          },
+        },
+      );
+      const [oldImplementation, beacon, totalProxies] = await Promise.all([
+        factoryContract.read.currentImplementation(),
+        factoryContract.read.beacon(),
+        factoryContract.read.totalProxies(),
+      ]);
+
+      if (
+        oldImplementation.toLowerCase() === implementationAddress.toLowerCase()
+      ) {
+        console.log(`[yvf:upgrade-beacon] factory=${factoryAddress}`);
+        console.log(`[yvf:upgrade-beacon] beacon=${beacon}`);
+        console.log(
+          `[yvf:upgrade-beacon] implementation already ${implementationAddress}; no upgrade sent`,
+        );
+        console.log(`[yvf:upgrade-beacon] totalProxies=${totalProxies}`);
+        return;
+      }
+
+      const hash = await factoryContract.write.upgradeBeaconTo([
+        implementationAddress,
+      ]);
+      const publicClient = await connection.viem.getPublicClient();
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      const newImplementation = await factoryContract.read.currentImplementation();
+
+      console.log(`[yvf:upgrade-beacon] factory=${factoryAddress}`);
+      console.log(`[yvf:upgrade-beacon] caller=${signer.account.address}`);
+      console.log(`[yvf:upgrade-beacon] beacon=${beacon}`);
+      console.log(`[yvf:upgrade-beacon] oldImplementation=${oldImplementation}`);
+      console.log(`[yvf:upgrade-beacon] newImplementation=${newImplementation}`);
+      console.log(`[yvf:upgrade-beacon] totalProxies=${totalProxies}`);
+      console.log(`[yvf:upgrade-beacon] txHash=${hash}`);
+      console.log(`[yvf:upgrade-beacon] blockNumber=${receipt.blockNumber}`);
     } finally {
       await connection.close();
     }

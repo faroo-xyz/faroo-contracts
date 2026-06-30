@@ -21,14 +21,6 @@ export default deployScript(
         },
       },
     );
-
-    const oracle = viem.getContract(deployment);
-    const deployedOwner = await oracle.read.owner();
-    const paused = await oracle.read.paused();
-
-    console.log(
-      `[Oracle] proxy=${deployment.address} owner=${deployedOwner} paused=${paused}`,
-    );
   },
   { tags: ["Oracle", "Oracle_deploy"] },
 );

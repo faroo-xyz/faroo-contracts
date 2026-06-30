@@ -4,6 +4,7 @@ import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
 import { configVariable, defineConfig } from "hardhat/config";
 import HardhatDeploy from "hardhat-deploy";
 import { appTasks } from "./tasks/index.js";
+import { mainnet } from "viem/chains";
 
 export default defineConfig({
   plugins: [HardhatDeploy, hardhatToolboxViemPlugin],
@@ -47,7 +48,13 @@ export default defineConfig({
       type: "http",
       chainType: "l1",
       url: configVariable("PHAROS_TESTNET_RPC_URL"),
-      accounts: [configVariable("TESTNET_PRIVATE_KEY")],
+      accounts: [configVariable("TEST_PRIVATE_KEY")],
+    },
+    mainnet: {
+      type: "http",
+      chainType: "l1",
+      url: configVariable("PHAROS_MAINNET_RPC_URL"),
+      accounts: [configVariable("MAINNET_PRIVATE_KEY")],
     },
   }
 });
