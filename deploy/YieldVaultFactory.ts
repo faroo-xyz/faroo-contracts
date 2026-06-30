@@ -7,7 +7,7 @@ export default deployScript(
     const { deployer, owner } = namedAccounts;
 
     const deployment = await deployViaProxy(
-      "YieldVaultFactory_test",
+      "YieldVaultFactory",
       {
         account: deployer,
         artifact: artifacts.YieldVaultFactory as any,
@@ -26,7 +26,7 @@ export default deployScript(
     );
 
     const yieldVaultImplementation = await deploy(
-      "YieldVault_test",
+      "YieldVault",
       {
         account: deployer,
         artifact: artifacts.YieldVault as any,
@@ -66,5 +66,5 @@ export default deployScript(
       console.log(`[YieldVaultFactory] proxy[${index}]=${proxy}`);
     });
   },
-  { tags: ["YieldVaultFactory_test", "YieldVaultFactory_test_deploy"] },
+  { tags: ["YieldVaultFactory", "YieldVaultFactory_deploy"] },
 );
