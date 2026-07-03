@@ -22,12 +22,6 @@ contract MockProsToken is ERC20 {
     }
 }
 
-contract MockOracleForVToken is Oracle {
-    function setPoolInfoExternal(address token, uint256 tokenAmount, uint256 vTokenAmount) external onlyOwner {
-        setPoolInfo(token, tokenAmount, vTokenAmount);
-    }
-}
-
 contract VTokenHarness is VToken {
     function initialize(address asset_, address owner_, address oracle_) external initializer {
         __VToken_init(IERC20(asset_), owner_, "Staked PROS", "stPROS");
@@ -38,7 +32,7 @@ contract VTokenHarness is VToken {
 
 contract VTokenTest is Test {
     MockProsToken internal pros;
-    MockOracleForVToken internal oracle;
+    Oracle internal oracle;
     VTokenHarness internal vtoken;
 
     address internal owner = makeAddr("owner");
@@ -52,10 +46,10 @@ contract VTokenTest is Test {
     function setUp() external {
         pros = new MockProsToken();
 
-        MockOracleForVToken oracleImplementation = new MockOracleForVToken();
+        Oracle oracleImplementation = new Oracle();
         bytes memory oracleInitData = abi.encodeWithSelector(Oracle.initialize.selector, owner);
         ERC1967Proxy oracleProxy = new ERC1967Proxy(address(oracleImplementation), oracleInitData);
-        oracle = MockOracleForVToken(address(oracleProxy));
+        oracle = Oracle(address(oracleProxy));
 
         VTokenHarness vtokenImplementation = new VTokenHarness();
         bytes memory vtokenInitData = abi.encodeWithSelector(VTokenHarness.initialize.selector, address(pros), owner, address(oracle));
@@ -67,7 +61,7 @@ contract VTokenTest is Test {
 
         vm.prank(owner);
         // Use a 1:1 rate to keep tests and assertions straightforward.
-        oracle.setPoolInfoExternal(address(pros), 1e18, 1e18);
+        oracle.setPoolInfo(address(pros), 1e18, 1e18);
 
         pros.mint(alice, 10_000 ether);
         pros.mint(bob, 10_000 ether);

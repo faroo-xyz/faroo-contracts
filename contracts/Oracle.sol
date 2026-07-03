@@ -37,7 +37,7 @@ contract Oracle is OwnableUpgradeable, PausableUpgradeable {
     /// @param _token The token address
     /// @param _tokenAmount The token amount
     /// @param _vTokenAmount The vToken amount
-    function setPoolInfo(address _token, uint256 _tokenAmount, uint256 _vTokenAmount) internal {
+    function setPoolInfo(address _token, uint256 _tokenAmount, uint256 _vTokenAmount) external onlyOwner {
         poolInfo[_token] = PoolInfo({tokenAmount: _tokenAmount, vTokenAmount: _vTokenAmount});
         emit SetTokenAmount(_token, _tokenAmount, _vTokenAmount); 
     }

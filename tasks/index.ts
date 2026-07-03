@@ -2,6 +2,7 @@ import * as exampleTasksModule from "./example.js";
 import * as stProsTasksModule from "./stPros.js";
 import * as yieldVaultTasksModule from "./yieldVault.js";
 import * as yieldVaultFactoryTasksModule from "./yieldVaultFactory.js";
+import * as oracleTasksModule from "./oracle.js";
 import * as permissionsTasksModule from "./permissions.js";
 import type { TaskDefinition } from "hardhat/types/tasks";
 
@@ -25,6 +26,7 @@ export * from "./stPros.js";
 export * from "./yieldVault.js";
 export * from "./yieldVaultFactory.js";
 export * from "./permissions.js";
+export * from "./oracle.js";
 
 export const appTasks = [
   ...collectTasks(exampleTasksModule),
@@ -32,4 +34,5 @@ export const appTasks = [
   ...collectTasks(yieldVaultTasksModule),
   ...collectTasks(yieldVaultFactoryTasksModule),
   ...collectTasks(permissionsTasksModule),
+  ...collectTasks(oracleTasksModule),
 ];
