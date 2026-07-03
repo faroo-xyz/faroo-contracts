@@ -2,6 +2,7 @@ import * as exampleTasksModule from "./example.js";
 import * as stProsTasksModule from "./stPros.js";
 import * as yieldVaultTasksModule from "./yieldVault.js";
 import * as yieldVaultFactoryTasksModule from "./yieldVaultFactory.js";
+import * as permissionsTasksModule from "./permissions.js";
 import type { TaskDefinition } from "hardhat/types/tasks";
 
 function isTaskDefinitionLike(value: unknown): value is TaskDefinition {
@@ -23,10 +24,12 @@ export * from "./example.js";
 export * from "./stPros.js";
 export * from "./yieldVault.js";
 export * from "./yieldVaultFactory.js";
+export * from "./permissions.js";
 
 export const appTasks = [
   ...collectTasks(exampleTasksModule),
   ...collectTasks(stProsTasksModule),
   ...collectTasks(yieldVaultTasksModule),
   ...collectTasks(yieldVaultFactoryTasksModule),
+  ...collectTasks(permissionsTasksModule),
 ];

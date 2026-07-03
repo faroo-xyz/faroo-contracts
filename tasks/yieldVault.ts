@@ -197,6 +197,36 @@ function parsePhase(value: string): number {
   return numeric;
 }
 
+function parseRole(role: string | undefined): `0x${string}` {
+  if (role === undefined || role.trim() === "") {
+    return DEFAULT_ADMIN_ROLE as `0x${string}`;
+  }
+
+  const normalized = role.trim().toLowerCase();
+  if (
+    normalized === "admin" ||
+    normalized === "default_admin" ||
+    normalized === "default-admin"
+  ) {
+    return DEFAULT_ADMIN_ROLE as `0x${string}`;
+  }
+
+  const value = role.trim();
+  if (!/^0x[0-9a-fA-F]{64}$/.test(value)) {
+    throw new Error(`Invalid role: ${role}. Use "admin" or a bytes32 hex value.`);
+  }
+
+  return value as `0x${string}`;
+}
+
+function getRoleLabel(role: `0x${string}`): string {
+  if (role.toLowerCase() === DEFAULT_ADMIN_ROLE.toLowerCase()) {
+    return "DEFAULT_ADMIN_ROLE";
+  }
+
+  return role;
+}
+
 export const yieldVaultInfoTask = task(
   "yv:info",
   "Query core YieldVault state and configuration",
@@ -996,6 +1026,165 @@ export const yieldVaultSetPhaseTask = task(
       );
       console.log(`[yv:set-phase] txHash=${hash}`);
       console.log(`[yv:set-phase] blockNumber=${receipt.blockNumber}`);
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
+export const yieldVaultGrantRoleTask = task(
+  "yv:grant-role",
+  "Grant an AccessControl role on a YieldVault",
+)
+  /**
+   * Usage:
+   * pnpm hardhat yv:grant-role --network mainnet <vaultAddress> <accountAddress> \
+   *   --role admin
+   *
+   * Example:
+   * pnpm hardhat yv:grant-role --network mainnet \
+   *   0xVaultProxyAddress \
+   *   0xNewAdminAddress \
+   *   --role admin
+   *
+   * Notes:
+   * - Callable only by an account that already administers the target role.
+   * - --role defaults to admin (DEFAULT_ADMIN_ROLE).
+   * - --role also accepts a raw bytes32 hex value.
+   */
+  .addPositionalArgument({
+    name: "vault",
+    description: "YieldVault proxy address",
+  })
+  .addPositionalArgument({
+    name: "account",
+    description: "Address to grant the role to",
+  })
+  .addOption({
+    name: "role",
+    description: 'Role to grant: "admin" or bytes32 hex (default: admin)',
+    defaultValue: "",
+  })
+  .setInlineAction(async (taskArgs, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const [signer] = await connection.viem.getWalletClients();
+
+      if (signer?.account?.address === undefined) {
+        throw new Error("No signer account available for the selected network");
+      }
+
+      const vaultAddress = getRequiredAddress(taskArgs.vault, "vault address");
+      const accountAddress = getRequiredAddress(taskArgs.account, "account address");
+      const role = parseRole(taskArgs.role);
+
+      if (accountAddress === "0x0000000000000000000000000000000000000000") {
+        throw new Error("account cannot be the zero address");
+      }
+
+      const vaultContract = await connection.viem.getContractAt("YieldVault", vaultAddress, {
+        client: {
+          wallet: signer,
+        },
+      });
+      const alreadyHasRole = await vaultContract.read.hasRole([role, accountAddress]);
+
+      if (alreadyHasRole) {
+        throw new Error(
+          `Account ${accountAddress} already has ${getRoleLabel(role)} on vault ${vaultAddress}`,
+        );
+      }
+
+      const hash = await vaultContract.write.grantRole([role, accountAddress]);
+      const publicClient = await connection.viem.getPublicClient();
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      const hasRole = await vaultContract.read.hasRole([role, accountAddress]);
+
+      console.log(`[yv:grant-role] vault=${vaultAddress}`);
+      console.log(`[yv:grant-role] caller=${signer.account.address}`);
+      console.log(`[yv:grant-role] account=${accountAddress}`);
+      console.log(`[yv:grant-role] role=${getRoleLabel(role)}`);
+      console.log(`[yv:grant-role] hasRole=${hasRole}`);
+      console.log(`[yv:grant-role] txHash=${hash}`);
+      console.log(`[yv:grant-role] blockNumber=${receipt.blockNumber}`);
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
+export const yieldVaultRevokeRoleTask = task(
+  "yv:revoke-role",
+  "Revoke an AccessControl role from a YieldVault account",
+)
+  /**
+   * Usage:
+   * pnpm hardhat yv:revoke-role --network mainnet <vaultAddress> <accountAddress> \
+   *   --role admin
+   *
+   * Example:
+   * pnpm hardhat yv:revoke-role --network mainnet \
+   *   0xVaultProxyAddress \
+   *   0xOldAdminAddress \
+   *   --role admin
+   *
+   * Notes:
+   * - Callable only by an account that administers the target role.
+   * - --role defaults to admin (DEFAULT_ADMIN_ROLE).
+   * - Grant the new admin first, then revoke the old admin.
+   */
+  .addPositionalArgument({
+    name: "vault",
+    description: "YieldVault proxy address",
+  })
+  .addPositionalArgument({
+    name: "account",
+    description: "Address to revoke the role from",
+  })
+  .addOption({
+    name: "role",
+    description: 'Role to revoke: "admin" or bytes32 hex (default: admin)',
+    defaultValue: "",
+  })
+  .setInlineAction(async (taskArgs, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const [signer] = await connection.viem.getWalletClients();
+
+      if (signer?.account?.address === undefined) {
+        throw new Error("No signer account available for the selected network");
+      }
+
+      const vaultAddress = getRequiredAddress(taskArgs.vault, "vault address");
+      const accountAddress = getRequiredAddress(taskArgs.account, "account address");
+      const role = parseRole(taskArgs.role);
+      const vaultContract = await connection.viem.getContractAt("YieldVault", vaultAddress, {
+        client: {
+          wallet: signer,
+        },
+      });
+      const hadRole = await vaultContract.read.hasRole([role, accountAddress]);
+
+      if (!hadRole) {
+        throw new Error(
+          `Account ${accountAddress} does not have ${getRoleLabel(role)} on vault ${vaultAddress}`,
+        );
+      }
+
+      const hash = await vaultContract.write.revokeRole([role, accountAddress]);
+      const publicClient = await connection.viem.getPublicClient();
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      const hasRole = await vaultContract.read.hasRole([role, accountAddress]);
+
+      console.log(`[yv:revoke-role] vault=${vaultAddress}`);
+      console.log(`[yv:revoke-role] caller=${signer.account.address}`);
+      console.log(`[yv:revoke-role] account=${accountAddress}`);
+      console.log(`[yv:revoke-role] role=${getRoleLabel(role)}`);
+      console.log(`[yv:revoke-role] hasRole=${hasRole}`);
+      console.log(`[yv:revoke-role] txHash=${hash}`);
+      console.log(`[yv:revoke-role] blockNumber=${receipt.blockNumber}`);
     } finally {
       await connection.close();
     }
