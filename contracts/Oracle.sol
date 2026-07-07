@@ -6,7 +6,7 @@ import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 
-import {IOracle} from "./IOracle.sol";
+import {IOracle} from "./interfaces/IOracle.sol";
 
 contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
     using Math for uint256;

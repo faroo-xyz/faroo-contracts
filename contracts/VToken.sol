@@ -12,7 +12,7 @@ import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Pau
 import {ERC165Upgradeable} from "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol";
 import {Oracle} from "./Oracle.sol";
 import {BridgeVault} from "./BridgeVault.sol";
-import {IWPROS} from "./IWPROS.sol";
+import {IWPROS} from "./interfaces/IWPROS.sol";
 
 /**
  * @title VToken
