@@ -1,5 +1,5 @@
 import { task } from "hardhat/config";
-import { formatUnits, isAddress, type Address } from "viem";
+import { encodeFunctionData, formatUnits, isAddress, type Address } from "viem";
 
 const ERC20_METADATA_ABI = [
   {
@@ -291,5 +291,103 @@ export const stProsDepositWithProsTask = task(
     } finally {
       await connection.close();
     }
+  })
+  .build();
+
+const PROXY_ADMIN_UPGRADE_AND_CALL_ABI = [
+  {
+    type: "function",
+    name: "upgradeAndCall",
+    stateMutability: "payable",
+    inputs: [
+      { name: "proxy", type: "address" },
+      { name: "implementation", type: "address" },
+      { name: "data", type: "bytes" },
+    ],
+    outputs: [],
+  },
+] as const;
+
+const STPROS_INITIALIZE_V2_ABI = [
+  {
+    type: "function",
+    name: "initializeV2",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "_slp", type: "address" },
+      { name: "_bridgeVault", type: "address" },
+    ],
+    outputs: [],
+  },
+] as const;
+
+export const stProsUpgradeV2Task = task(
+  "stpros:upgrade-v2",
+  "Print calldata for upgrading StPROS and calling initializeV2 atomically",
+)
+  /**
+   * Usage:
+   * pnpm hardhat stpros:upgrade-v2 --network mainnet \
+   *   <stProsProxy> <newImplementation> <slp> <bridgeVault>
+   *
+   * Owner multisig one-shot:
+   * 1) oracle.setVToken(stProsProxy, true)
+   * 2) ProxyAdmin.upgradeAndCall(stProsProxy, implementation, initializeV2(slp, bridgeVault))
+   *    initializeV2 seeds oracle pool info from totalSupply() and the current oracle rate
+   */
+  .addPositionalArgument({
+    name: "stProsProxy",
+    description: "StPROS transparent proxy address",
+  })
+  .addPositionalArgument({
+    name: "implementation",
+    description: "New StPROS implementation address",
+  })
+  .addPositionalArgument({
+    name: "slp",
+    description: "SLP address that receives unwrapped PROS",
+  })
+  .addPositionalArgument({
+    name: "bridgeVault",
+    description: "BridgeVault address that funds redemptions",
+  })
+  .addOption({
+    name: "proxyAdmin",
+    description: "ProxyAdmin contract address",
+    defaultValue: "0x4238ea4adfa2bd6a5fc9b5e245dc1900cf0258aa",
+  })
+  .setAction(async (taskArgs, hre) => {
+    const connection = await hre.network.connect();
+
+    const stProsProxy = getRequiredAddress(taskArgs.stProsProxy, "stProsProxy");
+    const implementation = getRequiredAddress(taskArgs.implementation, "implementation");
+    const slp = getRequiredAddress(taskArgs.slp, "slp");
+    const bridgeVault = getRequiredAddress(taskArgs.bridgeVault, "bridgeVault");
+    const proxyAdmin = getRequiredAddress(taskArgs.proxyAdmin, "proxyAdmin");
+
+    const initData = encodeFunctionData({
+      abi: STPROS_INITIALIZE_V2_ABI,
+      functionName: "initializeV2",
+      args: [slp, bridgeVault],
+    });
+
+    const upgradeAndCallData = encodeFunctionData({
+      abi: PROXY_ADMIN_UPGRADE_AND_CALL_ABI,
+      functionName: "upgradeAndCall",
+      args: [stProsProxy, implementation, initData],
+    });
+
+    console.log(`[stpros:upgrade-v2] stProsProxy=${stProsProxy}`);
+    console.log(`[stpros:upgrade-v2] implementation=${implementation}`);
+    console.log(`[stpros:upgrade-v2] slp=${slp}`);
+    console.log(`[stpros:upgrade-v2] bridgeVault=${bridgeVault}`);
+    console.log(`[stpros:upgrade-v2] proxyAdmin=${proxyAdmin}`);
+    console.log(`[stpros:upgrade-v2] initializeV2Calldata=${initData}`);
+    console.log(`[stpros:upgrade-v2] upgradeAndCallCalldata=${upgradeAndCallData}`);
+    console.log(
+      "[stpros:upgrade-v2] multisig tx.to=ProxyAdmin function=upgradeAndCall(proxy, implementation, initializeV2Data)",
+    );
+
+    await connection.close();
   })
   .build();
