@@ -32,8 +32,8 @@ function resolveIsWeth(): boolean {
 export default deployScript(
   async ({ deployViaProxy, namedAccounts, viem }) => {
     const { deployer, owner } = namedAccounts;
-    const vToken = resolveVTokenProxy();
-    const isWeth = resolveIsWeth();
+    const vToken = TESTNET.STPROS as Address;
+    const isWeth = true;
 
     const deployment = await deployViaProxy(
       "BridgeVault",
