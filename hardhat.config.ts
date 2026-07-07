@@ -4,7 +4,6 @@ import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
 import { configVariable, defineConfig } from "hardhat/config";
 import HardhatDeploy from "hardhat-deploy";
 import { appTasks } from "./tasks/index.js";
-import { mainnet } from "viem/chains";
 
 export default defineConfig({
   plugins: [HardhatDeploy, hardhatToolboxViemPlugin],

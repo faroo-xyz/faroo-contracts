@@ -10,6 +10,7 @@ import {ERC4626Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC2
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 import {ERC165Upgradeable} from "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol";
+import {ReentrancyGuardTransient} from "@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol";
 import {Oracle} from "./Oracle.sol";
 import {BridgeVault} from "./BridgeVault.sol";
 import {IWPROS} from "./interfaces/IWPROS.sol";
@@ -39,7 +40,7 @@ import {IWPROS} from "./interfaces/IWPROS.sol";
  * - assets -> shares: `oracle.getVTokenAmountByToken(...)`
  * - shares -> assets: `oracle.getTokenAmountByVToken(...)`
  */
-contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, ERC165Upgradeable {
+contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, ERC165Upgradeable, ReentrancyGuardTransient {
     using Math for uint256;
     using SafeERC20 for IERC20;
 
@@ -221,7 +222,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
 
     /// @notice Complete all currently claimable withdrawals for the caller
     /// @return amount Actual assets claimed
-    function withdrawComplete() public returns (uint256) {
+    function withdrawComplete() public nonReentrant returns (uint256) {
         if (address(bridgeVault) == address(0)) {
             revert InvalidBridgeVault();
         }

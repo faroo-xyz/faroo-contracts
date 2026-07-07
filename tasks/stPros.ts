@@ -1,6 +1,8 @@
 import { task } from "hardhat/config";
 import { encodeFunctionData, formatUnits, isAddress, type Address } from "viem";
 
+import { Mainnet, TESTNET } from "../contants/index.js";
+
 const ERC20_METADATA_ABI = [
   {
     type: "function",
@@ -29,6 +31,58 @@ function getRequiredBigInt(value: string | undefined, label: string): bigint {
   }
 
   return BigInt(value);
+}
+
+function getOptionalAddress(value: string | undefined, label: string): Address | undefined {
+  if (value === undefined || value === "") {
+    return undefined;
+  }
+
+  if (!isAddress(value)) {
+    throw new Error(`Invalid ${label}: ${value}`);
+  }
+
+  return value;
+}
+
+function getNetworkStPros(networkName: string): Address | undefined {
+  if (networkName === "mainnet") {
+    return Mainnet.STPROS;
+  }
+
+  if (networkName === "testnet") {
+    return TESTNET.STPROS;
+  }
+
+  return undefined;
+}
+
+function getNetworkSlp(networkName: string): Address | undefined {
+  if (networkName === "testnet") {
+    return TESTNET.SLP as Address;
+  }
+
+  return undefined;
+}
+
+function getNetworkBridgeVault(networkName: string): Address | undefined {
+  if (networkName === "testnet") {
+    return TESTNET.BRIDGE_VAULT as Address;
+  }
+
+  return undefined;
+}
+
+function getNetworkProxyAdmin(networkName: string): Address | undefined {
+  if (networkName === "mainnet") {
+    return "0x4238ea4adfa2bd6a5fc9b5e245dc1900cf0258aa";
+  }
+
+  if (networkName === "testnet") {
+    return "0x79d6028229f2d819a1a4bb52a05bc97f5f37d667";
+  }
+
+  return undefined;
 }
 
 export const stProsSetOracleTask = task(
@@ -389,5 +443,141 @@ export const stProsUpgradeV2Task = task(
     );
 
     await connection.close();
+  })
+  .build();
+
+export const stProsExecuteUpgradeV2Task = task(
+  "stpros:execute-upgrade-v2",
+  "Upgrade StPROS via ProxyAdmin.upgradeAndCall and initializeV2",
+)
+  /**
+   * Usage (testnet defaults from contants/index.ts):
+   * pnpm hardhat stpros:execute-upgrade-v2 --network testnet <implementation>
+   *
+   * Full override:
+   * pnpm hardhat stpros:execute-upgrade-v2 --network testnet \
+   *   <implementation> \
+   *   --st-pros 0xb1437aeea18189eb6d02dc46cd4d28613d582e9a \
+   *   --slp 0x464017CDC3c2af2b5B525FDe03Ac93F15172Db43 \
+   *   --bridge-vault 0xb79db65038a11fa8f5a361e5ff265842b3619ddc \
+   *   --proxy-admin 0x79d6028229f2d819a1a4bb52a05bc97f5f37d667
+   *
+   * Requires ProxyAdmin owner signer. Run after oracle:execute-upgrade-v2.
+   */
+  .addPositionalArgument({
+    name: "implementation",
+    description: "New StPROS implementation address",
+  })
+  .addOption({
+    name: "stPros",
+    description: "StPROS proxy address; defaults to contants/index.ts on mainnet/testnet",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "slp",
+    description: "SLP address; defaults to TESTNET.SLP on testnet",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "bridgeVault",
+    description: "BridgeVault address; defaults to TESTNET.BRIDGE_VAULT on testnet",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "proxyAdmin",
+    description: "ProxyAdmin contract address",
+    defaultValue: "",
+  })
+  .setInlineAction(async (taskArgs, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const [signer] = await connection.viem.getWalletClients();
+
+      if (signer?.account?.address === undefined) {
+        throw new Error("No signer account available for the selected network");
+      }
+
+      const networkName = connection.networkName;
+      const implementation = getRequiredAddress(taskArgs.implementation, "implementation");
+      const stProsProxy =
+        getOptionalAddress(taskArgs.stPros, "stPros address")
+        ?? getNetworkStPros(networkName);
+      const slp =
+        getOptionalAddress(taskArgs.slp, "slp address")
+        ?? getNetworkSlp(networkName);
+      const bridgeVault =
+        getOptionalAddress(taskArgs.bridgeVault, "bridgeVault address")
+        ?? getNetworkBridgeVault(networkName);
+      const proxyAdmin =
+        getOptionalAddress(taskArgs.proxyAdmin, "proxyAdmin address")
+        ?? getNetworkProxyAdmin(networkName);
+
+      if (stProsProxy === undefined) {
+        throw new Error("Missing stPros proxy. Pass --st-pros or use mainnet/testnet.");
+      }
+
+      if (slp === undefined) {
+        throw new Error("Missing slp address. Pass --slp or use testnet defaults.");
+      }
+
+      if (bridgeVault === undefined) {
+        throw new Error("Missing bridgeVault address. Pass --bridge-vault or use testnet defaults.");
+      }
+
+      if (proxyAdmin === undefined) {
+        throw new Error("Missing proxyAdmin address. Pass --proxy-admin or use mainnet/testnet.");
+      }
+
+      const initData = encodeFunctionData({
+        abi: STPROS_INITIALIZE_V2_ABI,
+        functionName: "initializeV2",
+        args: [slp, bridgeVault],
+      });
+
+      const proxyAdminContract = await connection.viem.getContractAt(
+        "ProxyAdmin",
+        proxyAdmin,
+        {
+          client: {
+            wallet: signer,
+          },
+        },
+      );
+      const publicClient = await connection.viem.getPublicClient();
+      const proxyAdminOwner = await proxyAdminContract.read.owner();
+
+      if (proxyAdminOwner.toLowerCase() !== signer.account.address.toLowerCase()) {
+        throw new Error(
+          `Signer ${signer.account.address} is not ProxyAdmin owner ${proxyAdminOwner}`,
+        );
+      }
+
+      const hash = await proxyAdminContract.write.upgradeAndCall([
+        stProsProxy,
+        implementation,
+        initData,
+      ]);
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      const stProsContract = await connection.viem.getContractAt("StPROS", stProsProxy);
+      const [slpOnChain, bridgeVaultOnChain, totalCanWithdrawAmount] = await Promise.all([
+        stProsContract.read.slp(),
+        stProsContract.read.bridgeVault(),
+        stProsContract.read.totalCanWithdrawAmount(),
+      ]);
+
+      console.log(`[stpros:execute-upgrade-v2] stProsProxy=${stProsProxy}`);
+      console.log(`[stpros:execute-upgrade-v2] implementation=${implementation}`);
+      console.log(`[stpros:execute-upgrade-v2] proxyAdmin=${proxyAdmin}`);
+      console.log(`[stpros:execute-upgrade-v2] caller=${signer.account.address}`);
+      console.log(`[stpros:execute-upgrade-v2] slp=${slpOnChain}`);
+      console.log(`[stpros:execute-upgrade-v2] bridgeVault=${bridgeVaultOnChain}`);
+      console.log(`[stpros:execute-upgrade-v2] totalCanWithdrawAmount=${totalCanWithdrawAmount}`);
+      console.log(`[stpros:execute-upgrade-v2] initializeV2Calldata=${initData}`);
+      console.log(`[stpros:execute-upgrade-v2] txHash=${hash}`);
+      console.log(`[stpros:execute-upgrade-v2] blockNumber=${receipt.blockNumber}`);
+    } finally {
+      await connection.close();
+    }
   })
   .build();

@@ -22,7 +22,10 @@ export default deployScript(
       "[StPROS_Implementation] owner multisig: ProxyAdmin.upgradeAndCall(stProsProxy, implementation, initializeV2(slp, bridgeVault))",
     );
     console.log(
-      "[StPROS_Implementation] helper: pnpm hardhat stpros:upgrade-v2 --network <network> <stProsProxy> <implementation> <slp> <bridgeVault>",
+      "[StPROS_Implementation] helper calldata: pnpm hardhat stpros:upgrade-v2 --network <network> <stProsProxy> <implementation> <slp> <bridgeVault>",
+    );
+    console.log(
+      "[StPROS_Implementation] helper execute: pnpm hardhat stpros:execute-upgrade-v2 --network <network> <implementation>",
     );
   },
   { tags: ["implementations", "StPROS_impl"] },

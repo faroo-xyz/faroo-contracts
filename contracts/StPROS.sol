@@ -5,9 +5,8 @@ import {VToken} from "./VToken.sol";
 import {IWPROS} from "./interfaces/IWPROS.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
-import {ReentrancyGuardTransient} from "@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol";
 
-contract StPROS is VToken, ReentrancyGuardTransient {
+contract StPROS is VToken {
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
@@ -18,9 +17,6 @@ contract StPROS is VToken, ReentrancyGuardTransient {
 
     /// @notice Thrown when ETH is sent from non-asset address
     error OnlyAssetCanSendETH();
-
-    /// @notice Emitted when PROS is received
-    event PROSReceived(address indexed sender, uint256 amount);
 
     /// @notice Override initialize to include reentrancy guard (for new deployments)
     function initialize(IERC20 asset, address owner, string memory name, string memory symbol)
@@ -74,12 +70,13 @@ contract StPROS is VToken, ReentrancyGuardTransient {
         }
     }
 
-    /// @notice Receive PROS from V_PROS withdrawal
+    /// @notice Receive native PROS from WPROS unwrapping.
+    /// @dev WPROS/WETH-style `withdraw` pays out via `transfer`, forwarding only 2300 gas.
+    /// Do not emit here or `withdraw` / `initializeV2` will revert.
     receive() external payable override {
         if (msg.sender != address(asset())) {
             revert OnlyAssetCanSendETH();
         }
-        emit PROSReceived(_msgSender(), msg.value);
     }
 
     function depositWithPROS() external payable whenNotPaused nonReentrant returns (uint256) {
