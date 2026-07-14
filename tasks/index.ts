@@ -4,6 +4,7 @@ import * as yieldVaultTasksModule from "./yieldVault.js";
 import * as yieldVaultFactoryTasksModule from "./yieldVaultFactory.js";
 import * as oracleTasksModule from "./oracle.js";
 import * as permissionsTasksModule from "./permissions.js";
+import * as upgradeTasksModule from "./upgrade.js";
 import * as verifySocialscanTasksModule from "./verifySocialscan.js";
 import type { TaskDefinition } from "hardhat/types/tasks";
 
@@ -28,6 +29,7 @@ export * from "./yieldVault.js";
 export * from "./yieldVaultFactory.js";
 export * from "./permissions.js";
 export * from "./oracle.js";
+export * from "./upgrade.js";
 export * from "./verifySocialscan.js";
 
 export const appTasks = [
@@ -37,5 +39,6 @@ export const appTasks = [
   ...collectTasks(yieldVaultFactoryTasksModule),
   ...collectTasks(permissionsTasksModule),
   ...collectTasks(oracleTasksModule),
+  ...collectTasks(upgradeTasksModule),
   ...collectTasks(verifySocialscanTasksModule),
 ];
