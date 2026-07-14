@@ -40,7 +40,13 @@ import {IWPROS} from "./interfaces/IWPROS.sol";
  * - assets -> shares: `oracle.getVTokenAmountByToken(...)`
  * - shares -> assets: `oracle.getTokenAmountByVToken(...)`
  */
-contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, ERC165Upgradeable, ReentrancyGuardTransient {
+contract VToken is
+    ERC4626Upgradeable,
+    OwnableUpgradeable,
+    PausableUpgradeable,
+    ERC165Upgradeable,
+    ReentrancyGuardTransient
+{
     using Math for uint256;
     using SafeERC20 for IERC20;
 
@@ -132,6 +138,9 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     /// @notice Global waiting period update event for future requests only
     event UnbondingPeriodChanged(uint256 oldUnbondingPeriod, uint256 newUnbondingPeriod);
 
+    /// @notice Commission shares minted by the configured oracle
+    event CommissionMinted(address indexed caller, address indexed account, uint256 shares);
+
     // =================== Errors ===================
 
     /// @notice Outstanding withdrawal records exceed the configured limit
@@ -148,6 +157,12 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
 
     /// @notice Native PROS transfer failed
     error TransferFailed();
+
+    /// @notice Caller is not the configured oracle
+    error NotOracle(address caller);
+
+    /// @notice Mint amount is zero
+    error ZeroShares();
 
     // =================== Initialization ===================
 
@@ -167,7 +182,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     }
 
     /// @notice Accept native PROS from WPROS unwrapping during deposits
-    receive() external payable virtual { }
+    receive() external payable virtual {}
 
     // =================== Admin Functions ===================
 
@@ -216,6 +231,23 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
     /// @notice Unpause, owner only
     function unpause() external onlyOwner {
         _unpause();
+    }
+
+    /// @notice Mint commission shares to the configured commission account, oracle only
+    /// @dev This intentionally does not call `oracle.onMint`; Oracle updates pool.vTokenAmount itself.
+    function mintCommission(address account, uint256 shares) external whenNotPaused {
+        if (msg.sender != address(oracle)) {
+            revert NotOracle(msg.sender);
+        }
+        if (account == address(0)) {
+            revert InvalidAddress();
+        }
+        if (shares == 0) {
+            revert ZeroShares();
+        }
+
+        _mint(account, shares);
+        emit CommissionMinted(msg.sender, account, shares);
     }
 
     // =================== Withdrawal Completion ===================
@@ -355,23 +387,11 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         return oracle.getTokenAmountByVToken(address(asset()), shares, rounding);
     }
 
-    function deposit(uint256 assets, address receiver)
-        public
-        virtual
-        override
-        whenNotPaused
-        returns (uint256)
-    {
+    function deposit(uint256 assets, address receiver) public virtual override whenNotPaused returns (uint256) {
         return super.deposit(assets, receiver);
     }
 
-    function mint(uint256 shares, address receiver)
-        public
-        virtual
-        override
-        whenNotPaused
-        returns (uint256)
-    {
+    function mint(uint256 shares, address receiver) public virtual override whenNotPaused returns (uint256) {
         return super.mint(shares, receiver);
     }
 
@@ -395,11 +415,7 @@ contract VToken is ERC4626Upgradeable, OwnableUpgradeable, PausableUpgradeable, 
         return super.redeem(shares, receiver, owner);
     }
 
-    function _deposit(address caller, address receiver, uint256 assets, uint256 shares)
-        internal
-        virtual
-        override
-    {
+    function _deposit(address caller, address receiver, uint256 assets, uint256 shares) internal virtual override {
         IERC20(asset()).safeTransferFrom(caller, address(this), assets);
         _mint(receiver, shares);
         oracle.onMint(address(asset()), assets, shares);

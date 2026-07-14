@@ -25,6 +25,7 @@ contract OracleTest is Test {
     address internal owner = makeAddr("owner");
     address internal slp = makeAddr("slp");
     address internal alice = makeAddr("alice");
+    address internal commissionAccount = makeAddr("commissionAccount");
 
     uint256 internal constant MAX_UPDATE = 100 ether;
     uint256 internal constant UPDATE_INTERVAL = 1 hours;
@@ -38,9 +39,8 @@ contract OracleTest is Test {
         oracle = Oracle(address(oracleProxy));
 
         OracleVTokenHarness vtokenImplementation = new OracleVTokenHarness();
-        bytes memory vtokenInitData = abi.encodeWithSelector(
-            OracleVTokenHarness.initialize.selector, address(wpros), owner, address(oracle)
-        );
+        bytes memory vtokenInitData =
+            abi.encodeWithSelector(OracleVTokenHarness.initialize.selector, address(wpros), owner, address(oracle));
         ERC1967Proxy vtokenProxy = new ERC1967Proxy(address(vtokenImplementation), vtokenInitData);
         vtoken = OracleVTokenHarness(payable(address(vtokenProxy)));
 
@@ -51,6 +51,19 @@ contract OracleTest is Test {
     function _upgradeOracleToV2() internal {
         vm.prank(owner);
         oracle.initializeV2(slp, address(vtoken), MAX_UPDATE, UPDATE_INTERVAL);
+    }
+
+    function _commissionMappings() internal view returns (address[] memory tokens, address[] memory vTokens) {
+        tokens = new address[](1);
+        vTokens = new address[](1);
+        tokens[0] = address(wpros);
+        vTokens[0] = address(vtoken);
+    }
+
+    function _upgradeOracleToV3(uint256 ratePpm) internal {
+        (address[] memory tokens, address[] memory vTokens) = _commissionMappings();
+        vm.prank(owner);
+        oracle.initializeV3(commissionAccount, ratePpm, tokens, vTokens);
     }
 
     function test_InitializeV2_ShouldConfigureSlpVTokenAndLimits() external {
@@ -70,6 +83,32 @@ contract OracleTest is Test {
         oracle.initializeV2(slp, address(vtoken), MAX_UPDATE, UPDATE_INTERVAL);
     }
 
+    function test_InitializeV3_ShouldConfigureCommission() external {
+        _upgradeOracleToV2();
+        _upgradeOracleToV3(1_000);
+
+        assertEq(oracle.commissionAccount(), commissionAccount, "commission account");
+        assertEq(oracle.commissionRatePpm(), 1_000, "commission rate");
+        assertEq(oracle.tokenToVToken(address(wpros)), address(vtoken), "commission vToken");
+    }
+
+    function test_InitializeV2AndV3_ShouldConfigureBothVersions() external {
+        (address[] memory tokens, address[] memory vTokens) = _commissionMappings();
+
+        vm.prank(owner);
+        oracle.initializeV2AndV3(
+            slp, address(vtoken), MAX_UPDATE, UPDATE_INTERVAL, commissionAccount, 10_000, tokens, vTokens
+        );
+
+        assertEq(oracle.slp(), slp, "slp");
+        assertTrue(oracle.vTokenAddresses(address(vtoken)), "registered");
+        assertEq(oracle.maxUpdateAmount(), MAX_UPDATE, "max update");
+        assertEq(oracle.updateInterval(), UPDATE_INTERVAL, "interval");
+        assertEq(oracle.commissionAccount(), commissionAccount, "commission account");
+        assertEq(oracle.commissionRatePpm(), 10_000, "commission rate");
+        assertEq(oracle.tokenToVToken(address(wpros)), address(vtoken), "commission vToken");
+    }
+
     function test_Update_ShouldIncreaseTokenAmount_WhenCalledBySlp() external {
         _upgradeOracleToV2();
         vm.warp(UPDATE_INTERVAL + 1);
@@ -82,6 +121,66 @@ contract OracleTest is Test {
         (uint256 tokenAmount,) = oracle.poolInfo(address(wpros));
         assertEq(tokenAmount, 1_010 ether, "token amount increased");
         assertEq(oracle.lastUpdateAt(address(wpros)), block.timestamp, "timestamp updated");
+    }
+
+    function test_Update_ShouldMintCommissionUsingPreUpdateRate() external {
+        _upgradeOracleToV2();
+        _upgradeOracleToV3(10_000);
+        vm.prank(owner);
+        oracle.setPoolInfo(address(wpros), 2_000 ether, 1_000 ether);
+        vm.warp(UPDATE_INTERVAL + 1);
+
+        vm.prank(slp);
+        oracle.update(address(wpros), 100 ether);
+
+        (uint256 tokenAmount, uint256 vTokenAmount) = oracle.poolInfo(address(wpros));
+        assertEq(tokenAmount, 2_100 ether, "token side uses full update amount");
+        assertEq(vTokenAmount, 1_000 ether + 0.5 ether, "vToken side adds commission shares");
+        assertEq(vtoken.balanceOf(commissionAccount), 0.5 ether, "commission minted");
+    }
+
+    function test_Update_ShouldRevert_WhenCommissionMappingMissing() external {
+        _upgradeOracleToV2();
+        vm.prank(owner);
+        oracle.initializeV3(commissionAccount, 10_000, new address[](0), new address[](0));
+        vm.warp(UPDATE_INTERVAL + 1);
+
+        assertFalse(oracle.canUpdate(address(wpros), 100 ether), "missing commission mapping");
+
+        vm.prank(slp);
+        vm.expectRevert(abi.encodeWithSelector(Oracle.MissingCommissionVToken.selector, address(wpros)));
+        oracle.update(address(wpros), 100 ether);
+    }
+
+    function test_Update_ShouldNotMintCommission_WhenRoundedToZero() external {
+        _upgradeOracleToV2();
+        _upgradeOracleToV3(10);
+        vm.warp(UPDATE_INTERVAL + 1);
+
+        vm.prank(slp);
+        oracle.update(address(wpros), 1);
+
+        (, uint256 vTokenAmount) = oracle.poolInfo(address(wpros));
+        assertEq(vTokenAmount, 1_000 ether, "vToken side unchanged");
+        assertEq(vtoken.balanceOf(commissionAccount), 0, "no commission minted");
+    }
+
+    function test_SetCommissionConfig_ShouldRevert_WhenRateAboveMax() external {
+        _upgradeOracleToV2();
+
+        vm.prank(owner);
+        vm.expectRevert(abi.encodeWithSelector(Oracle.InvalidCommissionRate.selector, 1_000_001, 1_000_000));
+        oracle.initializeV3(commissionAccount, 1_000_001, new address[](0), new address[](0));
+    }
+
+    function test_SetCommissionVToken_ShouldValidateAsset() external {
+        _upgradeOracleToV2();
+        address wrongToken = makeAddr("wrongToken");
+        address expectedAsset = IERC4626(address(vtoken)).asset();
+
+        vm.prank(owner);
+        vm.expectRevert(abi.encodeWithSelector(Oracle.InvalidVTokenAsset.selector, wrongToken, expectedAsset));
+        oracle.setCommissionVToken(wrongToken, address(vtoken));
     }
 
     function test_Update_ShouldRevert_WhenNotSlp() external {
@@ -208,9 +307,7 @@ contract OracleTest is Test {
 
         vm.startPrank(address(vtoken));
         vm.expectRevert(
-            abi.encodeWithSelector(
-                Oracle.InvalidVTokenAsset.selector, wrongToken, IERC4626(address(vtoken)).asset()
-            )
+            abi.encodeWithSelector(Oracle.InvalidVTokenAsset.selector, wrongToken, IERC4626(address(vtoken)).asset())
         );
         oracle.setPoolInfo(wrongToken, 1 ether, 1 ether);
         vm.stopPrank();

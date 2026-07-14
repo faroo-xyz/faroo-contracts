@@ -41,6 +41,7 @@ contract VTokenTest is Test {
     address internal bob = makeAddr("bob");
     address internal slp = makeAddr("slp");
     address internal charlie = makeAddr("charlie");
+    address internal commissionAccount = makeAddr("commissionAccount");
 
     uint256 internal constant BASE_AMOUNT = 100 ether;
 
@@ -59,9 +60,8 @@ contract VTokenTest is Test {
         vtoken = VTokenHarness(payable(address(vtokenProxy)));
 
         BridgeVault bridgeVaultImplementation = new BridgeVault();
-        bytes memory bridgeVaultInitData = abi.encodeWithSelector(
-            BridgeVault.initialize.selector, owner, address(vtoken), false
-        );
+        bytes memory bridgeVaultInitData =
+            abi.encodeWithSelector(BridgeVault.initialize.selector, owner, address(vtoken), false);
         ERC1967Proxy bridgeVaultProxy = new ERC1967Proxy(address(bridgeVaultImplementation), bridgeVaultInitData);
         bridgeVault = BridgeVault(payable(address(bridgeVaultProxy)));
 
@@ -229,6 +229,25 @@ contract VTokenTest is Test {
         assertEq(vtoken.convertToShares(10 ether), 10 ether, "share conversion remains readable");
     }
 
+    function test_MintCommission_ShouldMint_WhenCalledByOracle() external {
+        vm.prank(address(oracle));
+        vtoken.mintCommission(commissionAccount, 3 ether);
+
+        assertEq(vtoken.balanceOf(commissionAccount), 3 ether, "commission shares");
+    }
+
+    function test_MintCommission_ShouldRevert_WhenCallerIsNotOracle() external {
+        vm.prank(alice);
+        vm.expectRevert(abi.encodeWithSelector(VToken.NotOracle.selector, alice));
+        vtoken.mintCommission(commissionAccount, 1 ether);
+    }
+
+    function test_MintCommission_ShouldRevert_WhenSharesAreZero() external {
+        vm.prank(address(oracle));
+        vm.expectRevert(VToken.ZeroShares.selector);
+        vtoken.mintCommission(commissionAccount, 0);
+    }
+
     function test_Withdraw_ShouldRevert_WhenExceedMaxWithdrawCount() external {
         _aliceDeposit(300 ether);
 
@@ -386,8 +405,7 @@ contract VTokenTest is Test {
 
     function test_WithdrawComplete_ShouldPayNative_WhenBridgeVaultIsWeth() external {
         BridgeVault nativeVaultImplementation = new BridgeVault();
-        bytes memory initData =
-            abi.encodeWithSelector(BridgeVault.initialize.selector, owner, address(vtoken), true);
+        bytes memory initData = abi.encodeWithSelector(BridgeVault.initialize.selector, owner, address(vtoken), true);
         ERC1967Proxy nativeVaultProxy = new ERC1967Proxy(address(nativeVaultImplementation), initData);
         BridgeVault nativeVault = BridgeVault(payable(address(nativeVaultProxy)));
 

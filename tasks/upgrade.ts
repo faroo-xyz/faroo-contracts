@@ -55,6 +55,40 @@ const ORACLE_INITIALIZE_V2_ABI = [
   },
 ] as const;
 
+const ORACLE_INITIALIZE_V3_ABI = [
+  {
+    type: "function",
+    name: "initializeV3",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "_commissionAccount", type: "address" },
+      { name: "_commissionRatePpm", type: "uint256" },
+      { name: "_tokens", type: "address[]" },
+      { name: "_vTokens", type: "address[]" },
+    ],
+    outputs: [],
+  },
+] as const;
+
+const ORACLE_INITIALIZE_V2_AND_V3_ABI = [
+  {
+    type: "function",
+    name: "initializeV2AndV3",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "_slp", type: "address" },
+      { name: "_vToken", type: "address" },
+      { name: "_maxUpdateAmount", type: "uint256" },
+      { name: "_updateInterval", type: "uint256" },
+      { name: "_commissionAccount", type: "address" },
+      { name: "_commissionRatePpm", type: "uint256" },
+      { name: "_tokens", type: "address[]" },
+      { name: "_vTokens", type: "address[]" },
+    ],
+    outputs: [],
+  },
+] as const;
+
 const STPROS_INITIALIZE_V2_ABI = [
   {
     type: "function",
@@ -111,6 +145,50 @@ function getRequiredBigInt(value: string | undefined, label: string): bigint {
   }
 
   return BigInt(value);
+}
+
+function getOptionalAddressList(value: string | undefined, label: string): Address[] | undefined {
+  if (value === undefined || value.trim() === "") {
+    return undefined;
+  }
+
+  return value.split(",").map((item, index) => {
+    const address = item.trim();
+
+    if (!isAddress(address)) {
+      throw new Error(`Invalid ${label}[${index}]: ${address}`);
+    }
+
+    return address;
+  });
+}
+
+function getDefaultCommissionTokens(networkName: string): Address[] | undefined {
+  if (networkName === "mainnet") {
+    return [Mainnet.WPROS as Address];
+  }
+
+  if (networkName === "testnet") {
+    return [TESTNET.WPROS as Address];
+  }
+
+  return undefined;
+}
+
+function getDefaultCommissionVTokens(networkName: string): Address[] | undefined {
+  const stPros = getNetworkStPros(networkName);
+
+  if (stPros === undefined) {
+    return undefined;
+  }
+
+  return [stPros];
+}
+
+function requireSameLength<T, U>(left: T[], right: U[], leftLabel: string, rightLabel: string): void {
+  if (left.length !== right.length) {
+    throw new Error(`${leftLabel} length ${left.length} must equal ${rightLabel} length ${right.length}`);
+  }
 }
 
 function getNetworkOracle(networkName: string): Address | undefined {
@@ -523,6 +601,182 @@ export const oracleUpgradeV2Task = task(
           console.log(`[oracle:upgrade-v2] maxUpdateAmount=${maxOnChain}`);
           console.log(`[oracle:upgrade-v2] updateInterval=${intervalOnChain}`);
         },
+      });
+    } finally {
+      await connection.close();
+    }
+  })
+  .build();
+
+export const oracleUpgradeV3Task = task(
+  "oracle:upgrade-v3",
+  "Upgrade Oracle for commission V3, or print Safe calldata on mainnet",
+)
+  /**
+   * Testnet path:
+   * pnpm hardhat oracle:upgrade-v3 --network testnet <implementation> \
+   *   --commission-account <account> --commission-rate-ppm <rate>
+   *
+   * Mainnet path:
+   * pnpm hardhat oracle:upgrade-v3 --network mainnet <implementation> \
+   *   --slp <slp> --commission-account <account> --commission-rate-ppm <rate>
+   *
+   * Notes:
+   * - testnet is already V2, so this task calls initializeV3(...).
+   * - mainnet is still V1, so this task calls initializeV2AndV3(...).
+   * - --tokens and --v-tokens are comma-separated address lists; defaults to WPROS/STPROS.
+   */
+  .addPositionalArgument({
+    name: "implementation",
+    description: "New Oracle implementation address",
+  })
+  .addOption({
+    name: "proxy",
+    description: "Oracle proxy address; defaults to contants/index.ts on mainnet/testnet",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "commissionAccount",
+    description: "Global commission account that receives minted vTokens",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "commissionRatePpm",
+    description: "Commission rate in PPM, where 1_000_000 is 100%",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "tokens",
+    description: "Comma-separated token addresses for commission mapping; defaults to WPROS",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "vTokens",
+    description: "Comma-separated vToken addresses for commission mapping; defaults to STPROS",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "slp",
+    description: "SLP address for mainnet initializeV2AndV3; defaults to TESTNET.SLP on testnet",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "vToken",
+    description: "VToken address for mainnet initializeV2AndV3; defaults to STPROS",
+    defaultValue: "",
+  })
+  .addOption({
+    name: "maxUpdateAmount",
+    description: "Maximum token amount per update for mainnet initializeV2AndV3",
+    defaultValue: "100000000000000000000",
+  })
+  .addOption({
+    name: "updateInterval",
+    description: "Minimum seconds between updates per token for mainnet initializeV2AndV3",
+    defaultValue: "3600",
+  })
+  .addOption({
+    name: "proxyAdmin",
+    description: "ProxyAdmin contract address",
+    defaultValue: "",
+  })
+  .setInlineAction(async (taskArgs, hre) => {
+    const connection = await hre.network.getOrCreate();
+
+    try {
+      const networkName = connection.networkName;
+      const implementation = getRequiredAddress(taskArgs.implementation, "implementation");
+      const proxy =
+        getOptionalAddress(taskArgs.proxy, "oracle proxy")
+        ?? getNetworkOracle(networkName);
+      const commissionAccount = getRequiredAddress(
+        taskArgs.commissionAccount,
+        "commissionAccount",
+      );
+      const commissionRatePpm = getRequiredBigInt(
+        taskArgs.commissionRatePpm,
+        "commissionRatePpm",
+      );
+      const tokens =
+        getOptionalAddressList(taskArgs.tokens, "tokens")
+        ?? getDefaultCommissionTokens(networkName);
+      const vTokens =
+        getOptionalAddressList(taskArgs.vTokens, "vTokens")
+        ?? getDefaultCommissionVTokens(networkName);
+      const slp =
+        getOptionalAddress(taskArgs.slp, "slp address")
+        ?? getNetworkSlp(networkName);
+      const vToken =
+        getOptionalAddress(taskArgs.vToken, "vToken address")
+        ?? getNetworkStPros(networkName);
+      const maxUpdateAmount = getRequiredBigInt(taskArgs.maxUpdateAmount, "maxUpdateAmount");
+      const updateInterval = getRequiredBigInt(taskArgs.updateInterval, "updateInterval");
+      const proxyAdmin =
+        getOptionalAddress(taskArgs.proxyAdmin, "proxyAdmin address")
+        ?? getNetworkProxyAdmin(networkName);
+
+      if (proxy === undefined) {
+        throw new Error("Missing oracle proxy. Pass --proxy or use mainnet/testnet.");
+      }
+
+      if (tokens === undefined || vTokens === undefined) {
+        throw new Error("Missing commission token mapping. Pass --tokens and --v-tokens.");
+      }
+
+      requireSameLength(tokens, vTokens, "tokens", "vTokens");
+
+      if (proxyAdmin === undefined) {
+        throw new Error("Missing proxyAdmin address. Pass --proxy-admin or use mainnet/testnet.");
+      }
+
+      let initData: `0x${string}`;
+      if (networkName === "mainnet") {
+        if (slp === undefined) {
+          throw new Error("Missing slp address. Pass --slp for mainnet V1 -> V3.");
+        }
+
+        if (vToken === undefined) {
+          throw new Error("Missing vToken address. Pass --v-token or use mainnet/testnet.");
+        }
+
+        initData = encodeFunctionData({
+          abi: ORACLE_INITIALIZE_V2_AND_V3_ABI,
+          functionName: "initializeV2AndV3",
+          args: [
+            slp,
+            vToken,
+            maxUpdateAmount,
+            updateInterval,
+            commissionAccount,
+            commissionRatePpm,
+            tokens,
+            vTokens,
+          ],
+        });
+      } else {
+        initData = encodeFunctionData({
+          abi: ORACLE_INITIALIZE_V3_ABI,
+          functionName: "initializeV3",
+          args: [commissionAccount, commissionRatePpm, tokens, vTokens],
+        });
+      }
+
+      const [signer] = networkName === "testnet"
+        ? await connection.viem.getWalletClients()
+        : [];
+      const publicClient = networkName === "testnet"
+        ? await connection.viem.getPublicClient()
+        : undefined;
+
+      await runUpgrade({
+        taskLabel: "oracle:upgrade-v3",
+        networkName,
+        proxy,
+        implementation,
+        proxyAdmin,
+        initData,
+        publicClient,
+        signer,
       });
     } finally {
       await connection.close();

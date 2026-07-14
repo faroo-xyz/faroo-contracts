@@ -8,8 +8,15 @@ import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Pau
 
 import {IOracle} from "./interfaces/IOracle.sol";
 
+interface IVTokenCommission is IERC4626 {
+    function mintCommission(address account, uint256 shares) external;
+}
+
 contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
     using Math for uint256;
+
+    /// @notice Commission rate denominator. 1_000_000 = 100%.
+    uint256 public constant COMMISSION_RATE_DENOMINATOR = 1_000_000;
 
     /// @notice Thrown when a required address is zero
     error InvalidAddress();
@@ -34,6 +41,15 @@ contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
 
     /// @notice Thrown when a redeem update exceeds the tracked pool balance
     error InsufficientPoolAmount();
+
+    /// @notice Thrown when commission rate is greater than 100%
+    error InvalidCommissionRate(uint256 rate, uint256 maxRate);
+
+    /// @notice Thrown when commission token/vToken arrays have different lengths
+    error InvalidCommissionMappingLength();
+
+    /// @notice Thrown when commission is due but no vToken is configured for the token
+    error MissingCommissionVToken(address token);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -62,6 +78,15 @@ contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
     /// @notice Last successful `update` timestamp per token
     mapping(address => uint256) public lastUpdateAt;
 
+    /// @notice Global account receiving minted commission vTokens
+    address public commissionAccount;
+
+    /// @notice Commission rate in parts per million. 1_000_000 = 100%.
+    uint256 public commissionRatePpm;
+
+    /// @notice Token to commission-mint vToken mapping, independent from `vTokenAddresses`
+    mapping(address => address) public tokenToVToken;
+
     /// @notice Emitted when pool info is set
     event SetTokenAmount(address indexed token, uint256 tokenAmount, uint256 vTokenAmount);
 
@@ -78,8 +103,21 @@ contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
     event TokenAmountUpdated(address indexed token, uint256 addedAmount, uint256 newTokenAmount);
 
     /// @notice Emitted when pool amounts change due to mint or redeem
-    event PoolUpdated(
-        address indexed token, uint256 tokenAmount, uint256 vTokenAmount, bool isMint
+    event PoolUpdated(address indexed token, uint256 tokenAmount, uint256 vTokenAmount, bool isMint);
+
+    /// @notice Emitted when commission configuration changes
+    event CommissionConfigChanged(address indexed account, uint256 ratePpm);
+
+    /// @notice Emitted when token to commission vToken mapping changes
+    event CommissionVTokenSet(address indexed token, address indexed vToken);
+
+    /// @notice Emitted when commission vTokens are minted from an SLP update
+    event CommissionMinted(
+        address indexed token,
+        address indexed vToken,
+        address indexed account,
+        uint256 tokenAmount,
+        uint256 vTokenAmount
     );
 
     function initialize(address owner) public initializer {
@@ -97,15 +135,40 @@ contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
     /// @param _vToken vToken contract allowed to manage its own asset pool
     /// @param _maxUpdateAmount Maximum `_tokenAmount` per `update`; 0 disables `update`
     /// @param _updateInterval Minimum seconds between updates per token; 0 disables the interval check
-    function initializeV2(
+    function initializeV2(address _slp, address _vToken, uint256 _maxUpdateAmount, uint256 _updateInterval)
+        external
+        reinitializer(2)
+    {
+        _initializeV2(_slp, _vToken, _maxUpdateAmount, _updateInterval);
+    }
+
+    /// @notice One-time migration initializer after upgrading from v2 to v3 logic.
+    /// @param _commissionAccount Global account receiving minted commission vTokens
+    /// @param _commissionRatePpm Commission rate in parts per million; 1_000_000 = 100%
+    /// @param _tokens Pool token addresses for commission minting
+    /// @param _vTokens vToken addresses paired with `_tokens`
+    function initializeV3(
+        address _commissionAccount,
+        uint256 _commissionRatePpm,
+        address[] calldata _tokens,
+        address[] calldata _vTokens
+    ) external reinitializer(3) {
+        _initializeV3(_commissionAccount, _commissionRatePpm, _tokens, _vTokens);
+    }
+
+    /// @notice One-time migration initializer for proxies upgrading directly from v1 to v3 logic.
+    function initializeV2AndV3(
         address _slp,
         address _vToken,
         uint256 _maxUpdateAmount,
-        uint256 _updateInterval
-    ) external reinitializer(2) {
-        _setSlp(_slp);
-        _setVToken(_vToken, true);
-        _setUpdateLimits(_maxUpdateAmount, _updateInterval);
+        uint256 _updateInterval,
+        address _commissionAccount,
+        uint256 _commissionRatePpm,
+        address[] calldata _tokens,
+        address[] calldata _vTokens
+    ) external reinitializer(3) {
+        _initializeV2(_slp, _vToken, _maxUpdateAmount, _updateInterval);
+        _initializeV3(_commissionAccount, _commissionRatePpm, _tokens, _vTokens);
     }
 
     /// @notice Set pool info for a token, owner or registered vToken only
@@ -143,6 +206,20 @@ contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
         _setUpdateLimits(_maxUpdateAmount, _updateInterval);
     }
 
+    /// @notice Set global commission account and rate, owner only
+    /// @param _account Global account receiving minted commission vTokens
+    /// @param _ratePpm Commission rate in parts per million; 1_000_000 = 100%
+    function setCommissionConfig(address _account, uint256 _ratePpm) external onlyOwner {
+        _setCommissionConfig(_account, _ratePpm);
+    }
+
+    /// @notice Set or clear the commission vToken for a token, owner only
+    /// @param _token Pool token address
+    /// @param _vToken vToken address; zero clears the mapping
+    function setCommissionVToken(address _token, address _vToken) external onlyOwner {
+        _setCommissionVToken(_token, _vToken);
+    }
+
     /// @notice Increase pool `tokenAmount`, SLP only
     /// @param _token Pool token address
     /// @param _tokenAmount Amount to add to the pool's `tokenAmount`
@@ -163,8 +240,18 @@ contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
             revert UpdateTooFrequent(lastUpdateAt[_token] + updateInterval);
         }
 
+        (uint256 commissionTokenAmount, uint256 commissionVTokenAmount, address commissionVToken) =
+            _previewCommission(_token, _tokenAmount);
+
         PoolInfo storage pool = poolInfo[_token];
         pool.tokenAmount += _tokenAmount;
+        if (commissionVTokenAmount != 0) {
+            pool.vTokenAmount += commissionVTokenAmount;
+            IVTokenCommission(commissionVToken).mintCommission(commissionAccount, commissionVTokenAmount);
+            emit CommissionMinted(
+                _token, commissionVToken, commissionAccount, commissionTokenAmount, commissionVTokenAmount
+            );
+        }
         lastUpdateAt[_token] = block.timestamp;
 
         emit TokenAmountUpdated(_token, _tokenAmount, pool.tokenAmount);
@@ -186,6 +273,13 @@ contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
         }
         if (updateInterval != 0 && block.timestamp < lastUpdateAt[token] + updateInterval) {
             return false;
+        }
+        uint256 commissionTokenAmount =
+            tokenAmount.mulDiv(commissionRatePpm, COMMISSION_RATE_DENOMINATOR, Math.Rounding.Floor);
+        if (commissionTokenAmount != 0) {
+            if (commissionAccount == address(0) || tokenToVToken[token] == address(0)) {
+                return false;
+            }
         }
         return true;
     }
@@ -312,5 +406,87 @@ contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
         maxUpdateAmount = _maxUpdateAmount;
         updateInterval = _updateInterval;
         emit UpdateLimitsChanged(_maxUpdateAmount, _updateInterval);
+    }
+
+    function _initializeV2(address _slp, address _vToken, uint256 _maxUpdateAmount, uint256 _updateInterval) internal {
+        _setSlp(_slp);
+        _setVToken(_vToken, true);
+        _setUpdateLimits(_maxUpdateAmount, _updateInterval);
+    }
+
+    function _initializeV3(
+        address _commissionAccount,
+        uint256 _commissionRatePpm,
+        address[] calldata _tokens,
+        address[] calldata _vTokens
+    ) internal {
+        _setCommissionConfig(_commissionAccount, _commissionRatePpm);
+        _setCommissionVTokens(_tokens, _vTokens);
+    }
+
+    function _setCommissionConfig(address _account, uint256 _ratePpm) internal {
+        if (_ratePpm > COMMISSION_RATE_DENOMINATOR) {
+            revert InvalidCommissionRate(_ratePpm, COMMISSION_RATE_DENOMINATOR);
+        }
+        if (_ratePpm != 0 && _account == address(0)) {
+            revert InvalidAddress();
+        }
+
+        commissionAccount = _account;
+        commissionRatePpm = _ratePpm;
+        emit CommissionConfigChanged(_account, _ratePpm);
+    }
+
+    function _setCommissionVTokens(address[] calldata _tokens, address[] calldata _vTokens) internal {
+        if (_tokens.length != _vTokens.length) {
+            revert InvalidCommissionMappingLength();
+        }
+        for (uint256 i = 0; i < _tokens.length; i++) {
+            _setCommissionVToken(_tokens[i], _vTokens[i]);
+        }
+    }
+
+    function _setCommissionVToken(address _token, address _vToken) internal {
+        if (_token == address(0)) {
+            revert InvalidAddress();
+        }
+        if (_vToken == address(0)) {
+            delete tokenToVToken[_token];
+            emit CommissionVTokenSet(_token, address(0));
+            return;
+        }
+
+        address expectedAsset = IERC4626(_vToken).asset();
+        if (_token != expectedAsset) {
+            revert InvalidVTokenAsset(_token, expectedAsset);
+        }
+
+        tokenToVToken[_token] = _vToken;
+        emit CommissionVTokenSet(_token, _vToken);
+    }
+
+    function _previewCommission(address _token, uint256 _tokenAmount)
+        internal
+        view
+        returns (uint256 commissionTokenAmount, uint256 commissionVTokenAmount, address commissionVToken)
+    {
+        if (commissionRatePpm == 0) {
+            return (0, 0, address(0));
+        }
+
+        commissionTokenAmount = _tokenAmount.mulDiv(commissionRatePpm, COMMISSION_RATE_DENOMINATOR, Math.Rounding.Floor);
+        if (commissionTokenAmount == 0) {
+            return (0, 0, address(0));
+        }
+        if (commissionAccount == address(0)) {
+            revert InvalidAddress();
+        }
+
+        commissionVToken = tokenToVToken[_token];
+        if (commissionVToken == address(0)) {
+            revert MissingCommissionVToken(_token);
+        }
+
+        commissionVTokenAmount = getVTokenAmountByToken(_token, commissionTokenAmount, Math.Rounding.Floor);
     }
 }
