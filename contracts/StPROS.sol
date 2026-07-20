@@ -20,9 +20,6 @@ contract StPROS is VToken, ReentrancyGuardTransient {
     /// @notice Thrown when ETH is sent from non-asset address
     error OnlyAssetCanSendETH();
 
-    /// @notice Emitted when PROS is received
-    event PROSReceived(address indexed sender, uint256 amount);
-
     /// @notice Override initialize to include reentrancy guard (for new deployments)
     function initialize(IERC20 asset, address owner, string memory name, string memory symbol)
         public
@@ -36,7 +33,6 @@ contract StPROS is VToken, ReentrancyGuardTransient {
         if (msg.sender != address(asset())) {
             revert OnlyAssetCanSendETH();
         }
-        emit PROSReceived(_msgSender(), msg.value);
     }
 
     function depositWithPROS() external payable whenNotPaused nonReentrant returns (uint256) {
