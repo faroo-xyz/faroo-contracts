@@ -129,8 +129,10 @@ contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
     }
 
     /// @notice One-time migration initializer after upgrading to v2 logic.
-    /// @dev `reinitializer(2)` guarantees this runs at most once. Intended to be invoked atomically
-    /// via `ProxyAdmin.upgradeAndCall(oracleProxy, newImplementation, initializeV2Data)`.
+    /// @dev `reinitializer(2)` guarantees this runs at most once. This migration is intentionally
+    /// executed only through ProxyAdmin.upgradeAndCall with initializeV2 calldata in the same
+    /// transaction as the implementation upgrade. The upgrade authority is held by the multisig;
+    /// do not perform an implementation-only upgrade that leaves this initializer callable.
     /// @param _slp SLP contract allowed to call `update`
     /// @param _vToken vToken contract allowed to manage its own asset pool
     /// @param _maxUpdateAmount Maximum `_tokenAmount` per `update`; 0 disables `update`
@@ -143,6 +145,8 @@ contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
     }
 
     /// @notice One-time migration initializer after upgrading from v2 to v3 logic.
+    /// @dev Must be executed through the multisig-controlled ProxyAdmin.upgradeAndCall path when
+    /// paired with an implementation upgrade, never as a delayed public follow-up call.
     /// @param _commissionAccount Global account receiving minted commission vTokens
     /// @param _commissionRatePpm Commission rate in parts per million; 1_000_000 = 100%
     /// @param _tokens Pool token addresses for commission minting
@@ -157,6 +161,8 @@ contract Oracle is IOracle, OwnableUpgradeable, PausableUpgradeable {
     }
 
     /// @notice One-time migration initializer for proxies upgrading directly from v1 to v3 logic.
+    /// @dev Must be executed through the multisig-controlled ProxyAdmin.upgradeAndCall path in the
+    /// same transaction as the implementation upgrade.
     function initializeV2AndV3(
         address _slp,
         address _vToken,

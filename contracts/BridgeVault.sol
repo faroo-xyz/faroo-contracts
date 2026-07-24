@@ -7,6 +7,7 @@ import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 import {ReentrancyGuardTransient} from "@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol";
+import {IWPROS} from "./interfaces/IWPROS.sol";
 
 /**
  * @title BridgeVault
@@ -208,9 +209,15 @@ contract BridgeVault is OwnableUpgradeable, PausableUpgradeable, ReentrancyGuard
     function _payout(address token, address to, uint256 amount) internal {
         if (_isNativePayout(token)) {
             (bool success,) = to.call{value: amount}("");
-            if (!success) {
+            if (success) {
+                return;
+            }
+            if (token == address(0)) {
                 revert EthTransferFailed();
             }
+            IWPROS(token).deposit{value: amount}();
+            IERC20(token).safeTransfer(to, amount);
+            return;
         } else {
             IERC20(token).safeTransfer(to, amount);
         }

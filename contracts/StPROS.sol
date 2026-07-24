@@ -27,8 +27,10 @@ contract StPROS is VToken {
     }
 
     /// @notice One-time migration initializer after upgrading to v2 logic.
-    /// @dev `reinitializer(2)` guarantees this runs at most once. Intended to be invoked atomically
-    /// via `ProxyAdmin.upgradeAndCall(stProsProxy, newImplementation, initializeV2Data)`.
+    /// @dev `reinitializer(2)` guarantees this runs at most once. This migration is intentionally
+    /// executed only through ProxyAdmin.upgradeAndCall with initializeV2 calldata in the same
+    /// transaction as the implementation upgrade. The upgrade authority is held by the multisig;
+    /// do not perform an implementation-only upgrade that leaves this initializer callable.
     /// Oracle must already register this proxy as a vToken (via `Oracle.initializeV2` or `setVToken`).
     /// Legacy reserve equal to `totalCanWithdrawAmount` is unwrapped and forwarded as native PROS to `_bridgeVault`,
     /// then `totalCanWithdrawAmount` is cleared.

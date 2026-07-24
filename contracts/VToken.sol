@@ -263,7 +263,6 @@ contract VToken is
         uint256 head = withdrawalHead[msg.sender];
         uint256 tail = withdrawalTail[msg.sender];
         uint256 totalSent = 0;
-        uint256 fullyConsumedCount = 0;
 
         for (uint256 index = head; index < tail; index++) {
             Withdrawal storage w = withdrawals[msg.sender][index];
@@ -280,28 +279,29 @@ contract VToken is
             }
 
             address payoutReceiver = w.receiver == address(0) ? msg.sender : w.receiver;
-            bridgeVault.withdrawToken(address(asset()), payoutReceiver, releaseAmount);
-            emit WithdrawalCompleted(msg.sender, payoutReceiver, releaseAmount);
-            totalSent += releaseAmount;
 
             if (releaseAmount < w.pending) {
                 w.pending -= releaseAmount;
                 w.queued += releaseAmount;
+                completedWithdrawal += releaseAmount;
+                totalSent += releaseAmount;
+                bridgeVault.withdrawToken(address(asset()), payoutReceiver, releaseAmount);
+                emit WithdrawalCompleted(msg.sender, payoutReceiver, releaseAmount);
                 break;
             }
 
-            fullyConsumedCount += 1;
+            delete withdrawals[msg.sender][index];
+            withdrawalHead[msg.sender] = index + 1;
+            completedWithdrawal += releaseAmount;
+            totalSent += releaseAmount;
+            bridgeVault.withdrawToken(address(asset()), payoutReceiver, releaseAmount);
+            emit WithdrawalCompleted(msg.sender, payoutReceiver, releaseAmount);
         }
 
         if (totalSent == 0) {
             return 0;
         }
 
-        for (uint256 i = 0; i < fullyConsumedCount; i++) {
-            delete withdrawals[msg.sender][head + i];
-        }
-        withdrawalHead[msg.sender] = head + fullyConsumedCount;
-        completedWithdrawal += totalSent;
         return totalSent;
     }
 

@@ -30,6 +30,30 @@ contract VTokenHarness is VToken {
     }
 }
 
+contract RejectNativeReceiver {
+    receive() external payable {
+        revert("reject native");
+    }
+}
+
+contract ObservingNativeReceiver {
+    VToken internal immutable vtoken;
+    address internal immutable queueOwner;
+
+    uint256 public observedCompletedWithdrawal;
+    uint256 public observedQueueLength;
+
+    constructor(VToken vtoken_, address queueOwner_) {
+        vtoken = vtoken_;
+        queueOwner = queueOwner_;
+    }
+
+    receive() external payable {
+        observedCompletedWithdrawal = vtoken.completedWithdrawal();
+        observedQueueLength = vtoken.getWithdrawals(queueOwner).length;
+    }
+}
+
 contract VTokenTest is Test {
     MockWPROS internal wpros;
     Oracle internal oracle;
@@ -427,5 +451,61 @@ contract VTokenTest is Test {
 
         assertEq(claimed, 25 ether, "claimed amount");
         assertEq(alice.balance - aliceBefore, 25 ether, "native payout");
+    }
+
+    function test_WithdrawComplete_ShouldFallbackToWpros_WhenNativeReceiverRejects() external {
+        BridgeVault nativeVaultImplementation = new BridgeVault();
+        bytes memory initData = abi.encodeWithSelector(BridgeVault.initialize.selector, owner, address(vtoken), true);
+        ERC1967Proxy nativeVaultProxy = new ERC1967Proxy(address(nativeVaultImplementation), initData);
+        BridgeVault nativeVault = BridgeVault(payable(address(nativeVaultProxy)));
+        RejectNativeReceiver rejectReceiver = new RejectNativeReceiver();
+
+        vm.prank(owner);
+        vtoken.setBridgeVault(payable(address(nativeVault)));
+
+        vm.prank(owner);
+        vtoken.setUnbondingPeriod(0);
+
+        _aliceDeposit(60 ether);
+        vm.deal(address(nativeVault), 25 ether);
+
+        vm.prank(alice);
+        vtoken.withdraw(25 ether, address(rejectReceiver), alice);
+
+        vm.prank(alice);
+        uint256 claimed = vtoken.withdrawComplete();
+
+        assertEq(claimed, 25 ether, "claimed amount");
+        assertEq(address(rejectReceiver).balance, 0, "native rejected");
+        assertEq(wpros.balanceOf(address(rejectReceiver)), 25 ether, "fallback WPROS payout");
+        assertEq(vtoken.getWithdrawals(alice).length, 0, "queue drained");
+        assertEq(vtoken.completedWithdrawal(), 25 ether, "completed updated");
+    }
+
+    function test_WithdrawComplete_ShouldUpdateQueueBeforeNativePayoutInteraction() external {
+        BridgeVault nativeVaultImplementation = new BridgeVault();
+        bytes memory initData = abi.encodeWithSelector(BridgeVault.initialize.selector, owner, address(vtoken), true);
+        ERC1967Proxy nativeVaultProxy = new ERC1967Proxy(address(nativeVaultImplementation), initData);
+        BridgeVault nativeVault = BridgeVault(payable(address(nativeVaultProxy)));
+        ObservingNativeReceiver observingReceiver = new ObservingNativeReceiver(vtoken, alice);
+
+        vm.prank(owner);
+        vtoken.setBridgeVault(payable(address(nativeVault)));
+
+        vm.prank(owner);
+        vtoken.setUnbondingPeriod(0);
+
+        _aliceDeposit(60 ether);
+        vm.deal(address(nativeVault), 25 ether);
+
+        vm.prank(alice);
+        vtoken.withdraw(25 ether, address(observingReceiver), alice);
+
+        vm.prank(alice);
+        uint256 claimed = vtoken.withdrawComplete();
+
+        assertEq(claimed, 25 ether, "claimed amount");
+        assertEq(observingReceiver.observedCompletedWithdrawal(), 25 ether, "completed before payout hook");
+        assertEq(observingReceiver.observedQueueLength(), 0, "queue drained before payout hook");
     }
 }
