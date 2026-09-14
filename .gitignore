@@ -32,3 +32,5 @@
 
 # Generated files
 /generated
+
+.DS_Store
