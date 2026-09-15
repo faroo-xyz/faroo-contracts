@@ -12,7 +12,9 @@
 
 已完成实现：[20 · Solvency / Catastrophic Insolvency](20-insolvency-production-implementation.md)。sync/restore及F→四源H→客观mode已实现，Request不改；本地Core90、历史回归64、Python92及全部guards通过。Vault runtime18,910/20,480，剩1,570 bytes（使用92.33%）。INSOLVENCY PRODUCTION LOGIC IMPLEMENTED / VERIFIED；PRODUCTION NO-GO。未实现R/P事故分发或完整月度付款。当前是否继续资金增量以21工程结论为准。
 
-当前审查入口：[21 · Core Bytecode Architecture Review](21-bytecode-architecture-review.md)。已完成51组隔离编译，只采纳等价Timelock检查提取，Vault **18,574 / 20,480，余1,906 bytes**；最终Core91、历史安全64、Python92及完整guards通过。**REQUEST ACCOUNTING IMPLEMENTED / VERIFIED；INSOLVENCY PRODUCTION LOGIC IMPLEMENTED / VERIFIED；BYTECODE ARCHITECTURE REVIEW COMPLETE；SINGLE-VAULT SIZE PATH BLOCKED；ARCHITECTURE / PRODUCT REDUCTION REQUIRED；PRODUCTION NO-GO**。保守Category B组合与产品缩减均需下一轮授权，不宣称READY FOR SETTLEMENT；五个配置stub的mode漂移及未来正确预期见21 §N。
+上一轮审查：[21 · Core Bytecode Architecture Review](21-bytecode-architecture-review.md)。已完成51组隔离编译，只采纳等价Timelock检查提取，Vault **18,574 / 20,480，余1,906 bytes**；该轮Core91、历史安全64、Python92及完整guards通过。五个配置stub的mode漂移及未来正确预期见21 §N。Category B未采纳；产品范围以当前22轮要求为准。
+
+当前审查入口：[22 · STATICCALL Module / GovernanceController Study](22-staticcall-module-architecture-study.md)。**全部已批准V1功能保留，不再建议产品缩减。** 37组隔离编译中，统一MathModule只省737 bytes；五setter Controller反增215，八setter仅省68；完整组合probe仅省290，Vault仍为27,301。生产源码/ABI/storage不变。19项study tests、460组向量及完整本地Core91/历史64/Python97/guards通过；超预算probe记FAIL，不是生产部署证据。**NO — still not credible；STATICCALL MODULE SAVINGS INSUFFICIENT；SINGLE-VAULT FULL-V1 PATH REMAINS BLOCKED；NEW ARCHITECTURE DECISION REQUIRED；PRODUCTION NO-GO。** 无生产迁移或下一资金增量授权。
 
 ## 建议审阅顺序
 
@@ -50,7 +52,7 @@
 - [固定区块Pharos probe](verification/pharos-fork-output.txt)：4项通过；1153节点执行支持已验，真实目标SLP版本缺失仍BLOCKED。
 - [16轮验证记录](verification/insolvency-test-results.json)及[Mode packing实验](verification/insolvency-storage-layout.json)。A/B/C原源码与15轮hash一致；旧C硬验收FAIL是保留的negative evidence，不是当前Core gate。
 
-模型成功不能替代生产I01..24/E01..05全量stateful、V1自定义ABI/未支持ID负向测试、完整目标依赖Pharos fork、storage升级兼容、gas/bytecode、ownership handoff与外审。**当前授权止于21轮字节码架构审查及已验证的Category A减法，不自动继续其他业务或采用Category B。**
+模型成功不能替代生产I01..24/E01..05全量stateful、V1自定义ABI/未支持ID负向测试、完整目标依赖Pharos fork、storage升级兼容、gas/bytecode、ownership handoff与外审。**当前授权止于22轮隔离架构可行性研究，不自动迁移生产、减少V1功能、继续其他业务或采用Category B。**
 
 ## 增量开发验证节奏
 

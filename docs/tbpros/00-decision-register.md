@@ -1,6 +1,6 @@
 # 00 · tbPROS Decision Register
 
-2026-09-15。当前产品V1；Architecture Remediation V2是设计修订编号。最新工程状态见本页21及[Bytecode Review](21-bytecode-architecture-review.md)：Request和Insolvency局部实现已验，完整V1单Vault体积路径仍受阻。权威规则：[Protocol Hard Rules](../../contracts/tbpros/AGENTS.md)、本表、[14 APR Finalization](14-core-architecture-finalization.md)及[16 Insolvency Freeze](16-insolvency-mode-architecture-freeze.md)。根目录[AGENTS router](../../AGENTS.md)已创建；contracts/tbpros已实现19 Request与20客观模式，其余主要资金业务仍为stub。
+2026-09-15。当前产品V1；Architecture Remediation V2是设计修订编号。最新工程状态见本页22及[STATICCALL Study](22-staticcall-module-architecture-study.md)：全部已批准V1功能保留，MathModule/Controller实测收益不足，完整V1单Vault体积路径仍受阻。权威规则：[Protocol Hard Rules](../../contracts/tbpros/AGENTS.md)、本表、[14 APR Finalization](14-core-architecture-finalization.md)及[16 Insolvency Freeze](16-insolvency-mode-architecture-freeze.md)。根目录[AGENTS router](../../AGENTS.md)已创建；contracts/tbpros已实现19 Request与20客观模式，其余主要资金业务仍为stub。
 
 | ID | 当前决定 | 替代/澄清 | 状态 |
 | --- | --- | --- | --- |
@@ -91,7 +91,7 @@ D-27：sync在已insolvent时不读余额直接no-op；正常L>=Q no-op且不分
 
 **INSOLVENCY PRODUCTION LOGIC IMPLEMENTED / VERIFIED；READY FOR NEXT CORE INCREMENT；PRODUCTION NO-GO。** 本地Core90/历史安全64/Python92及全部guards通过；runtime18,910，余1,570 bytes，使用92.33%。下一个增量需独立授权，建议先评估剩余体积预算。
 
-## 21 · Bytecode Architecture Review（当前工程结论）
+## 21 · Bytecode Architecture Review（历史工程审查；产品范围以22为准）
 
 **REQUEST ACCOUNTING IMPLEMENTED / VERIFIED；INSOLVENCY PRODUCTION LOGIC IMPLEMENTED / VERIFIED；BYTECODE ARCHITECTURE REVIEW COMPLETE；SINGLE-VAULT SIZE PATH BLOCKED；ARCHITECTURE / PRODUCT REDUCTION REQUIRED；PRODUCTION NO-GO。**
 
@@ -102,3 +102,13 @@ D-29：**SPEC / STUB GUARD DRIFT**。按16纯配置例外及18参数矩阵，未
 D-30：当前完整批准V1尚无可信20,480-byte单Vault实现路径；这是工程审查结论，不是最终bytes或数学不可能性证明。Category B（metadata/Guardian/optional nextPlanId）实际组合连同A可到17,021、余3,459，但不证明所有剩余资金功能可装入；尚未批准。生产继续OZ ERC20/AccessControl、原metadata与全部58函数，未改schema、未降guard、未加第二writer/外部delegatecall。下轮须先明确architecture/product reduction范围及新的体积证据，不签发READY FOR SETTLEMENT。
 
 具体Option 1/2/3的实际增量节省、权限/ABI/迁移代价见21 §L。没有hosted执行、下一业务实现或部署授权；本轮审查完成后停止。
+
+## 22 · STATICCALL Module / GovernanceController Study（当前工程结论）
+
+D-31：本轮用户明确要求保留全部已批准V1功能；21中的产品缩减方向不再是当前建议。仅允许隔离probe/tool/reference/test/docs，不批准生产Module/Controller迁移、ABI/storage/initializer/dependency修改或下一资金增量。Vault仍是唯一经济writer，safe/普通ERC20/already-mode sync不新增module依赖。
+
+D-32：基于`f3187659eb19a464abfc5bc93e15a3d4e73c7e2b`完成[22研究](22-staticcall-module-architecture-study.md)。37组同profile实编译；单项Settlement/Claim/E01/Yield/Risk均反增，统一六组MathModule仅回收737 bytes，五setter Controller反增215、八setter仅省68，完整组合仅省290，Vault probe为27,301。生产保持18,574，余1,906，ABI/storage及生产源码不改。probe不是完整V1实现或最小体积下界；结论是当前路线缺少足够工程收益，不是理论不可能性证明。
+
+19项study tests、460组独立数学向量及完整生产本地CI通过（Core91、历史64、Python97、全部guards）；预算超限的probe明确记FAIL，不修改20,480限制。cheap bounds不能证明全部返回值正确，已保存错误Claim舍入仍可通过的反例；固定代码身份、历史数学兼容和退出新增依赖必须审查。无实际目标fork、升级语义replay、最终gas/handoff或完整产品证据。
+
+**NO — still not credible。STATICCALL MODULE SAVINGS INSUFFICIENT / SINGLE-VAULT FULL-V1 PATH REMAINS BLOCKED / NEW ARCHITECTURE DECISION REQUIRED / PRODUCTION NO-GO。** 本轮完成后停止；不自动迁移、不删功能、不开始Settlement/Claim/Subscription。

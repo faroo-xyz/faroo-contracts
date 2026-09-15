@@ -70,6 +70,8 @@
       "tools/tbpros/guard-selftest.py": "722d9ddfd19ca3b1dec8b33c4172990314a728222997ce33634c2b9df67bf149",
       "tools/tbpros/hardening-guards.py": "014ea9c35b2f67c5b0e1d20b7ac2d30040cb2ef4c7bcc15a7da2696a1b5bd4b6",
       "tools/tbpros/size-variants.py": "e2eda62ebfb2fc07db786f0e48ae95543b8a1478747fd69693a111eddcf0e0c9",
+      "tools/tbpros/staticcall-architecture-study.py": "dbee7b8ce3e908b9d1cae41e863bc6926fce22448ecc1591bda66c98102db17f",
+      "tools/tbpros/staticcall-study-templates.py": "668cd0869f3c9b55b6d84a5e03732a665436ffb567eea679b2305086039009dc",
       "tools/tbpros/storage-manifest.py": "bc3785a6a348068fc9340e62a674ade8c234d9b486c4063bb6dedee9de7f5531"
     }
   },

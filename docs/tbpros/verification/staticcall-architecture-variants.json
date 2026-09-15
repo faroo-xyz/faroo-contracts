@@ -1,0 +1,3106 @@
+{
+  "base_commit": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+  "compiler": "solc, the solidity compiler commandline interface\nVersion: 0.8.28+commit.7893614a.Darwin.appleclang",
+  "profile": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "viaIR": false,
+    "evmVersion": "cancun"
+  },
+  "tool_sha256": "dbee7b8ce3e908b9d1cae41e863bc6926fce22448ecc1591bda66c98102db17f",
+  "templates_sha256": "668cd0869f3c9b55b6d84a5e03732a665436ffb567eea679b2305086039009dc",
+  "scope": "No production migration. Current Vault plus calculator-only pressure probes and closed config probes; original unimplemented financial bodies remain reverting. Runtime FAIL means this probe exceeds the unchanged 20480 gate, not a compiler failure. No final-product size claim. Gas uses local fixture/proxy calls, not Pharos receipts.",
+  "variants": [
+    {
+      "variant": "A-baseline",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "49cbd1a64169c02cfb767816032caa4553e4f08b3b5b44b3e0b6c0226731053b",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "2fbbe210802fc4eb8c74d438f9eda98805687b66ad4c4271d0fe3ca90024cac7",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "e641e8c7f612f061ee99b1048685f9d9879a96fe06ed81f8e33e47e4cc9b2f61",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 18574,
+      "Vault_initcode_template": 18788,
+      "Module_runtime": {},
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 0,
+      "paired_local": null,
+      "Vault_saving_vs_paired": null,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; no controller"
+      },
+      "groups": [],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 9,
+        "DELEGATECALL": 0,
+        "SSTORE": 53,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "hloss/fixture-first": 45432
+      },
+      "security_category": "MUST_REMAIN_IN_VAULT",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 18574,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "binding-1-control",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "b18719d7aa41c62e3e51fea63b1956d69dfad873e930cd2168e97ca8a3501829",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "1c6682c2fc1536d6225b439c4a33cb9e8a84298dc92c30745664574c3fa77b42",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 18928,
+      "Vault_initcode_template": 19142,
+      "Module_runtime": {
+        "0": 4616
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 354,
+      "paired_local": "A-baseline",
+      "Vault_saving_vs_paired": -354,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [],
+      "assignments": {
+        "settlement": 0,
+        "claim": 0,
+        "mint": 0,
+        "yield": 0,
+        "risk": 0,
+        "plan": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 10,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {},
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Initialization/binding marginal control only; no financial calculator caller.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 23544,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "binding-2-control",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "1f19e701a2b3e8eb51dc52941a27994653b0bbb008ca7513abbd397d07fc94eb",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "784315471c3739f88096d7f7b1d2d89117a9c0ba7358d82a736bfea2bb2e7091",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "0bb929c6c1f3ca5c6ea1a1cf591cd5d55d765870525a6f05fda6947f27ac8816",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "c4bba62dac3fe450067537182034095bba49af59295f86bc9d433ac0469ce0cb",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19190,
+      "Vault_initcode_template": 19404,
+      "Module_runtime": {
+        "0": 2577,
+        "1": 2691
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 616,
+      "paired_local": "A-baseline",
+      "Vault_saving_vs_paired": -616,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[2])"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 2 fixed module addresses; no controller"
+      },
+      "groups": [],
+      "assignments": {
+        "settlement": 0,
+        "claim": 0,
+        "mint": 0,
+        "yield": 1,
+        "risk": 1,
+        "plan": 1
+      },
+      "h_external": false,
+      "external_calls_added": "2 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 55,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {},
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Initialization/binding marginal control only; no financial calculator caller.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 24458,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "binding-3-control",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "cd070836584df4d368824c93c25a732608533e4d916c7de0c5a7a6470c30d56c",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "fe2afae52384279ff99a69ba79c91d64148134f4db9ff56baad68f5cb19af83a",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "3a1774bc187f3db058138a749b0806ae9696121e4510018a32839fb23058faf5",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "5d138b7704d58db0dc142e3da5d8038b926d06ba48eeea171c7b870168ca7013",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19439,
+      "Vault_initcode_template": 19653,
+      "Module_runtime": {
+        "0": 2577,
+        "1": 1231,
+        "2": 1885
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 865,
+      "paired_local": "A-baseline",
+      "Vault_saving_vs_paired": -865,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[3])"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 3 fixed module addresses; no controller"
+      },
+      "groups": [],
+      "assignments": {
+        "settlement": 0,
+        "claim": 0,
+        "mint": 0,
+        "yield": 1,
+        "risk": 2,
+        "plan": 2
+      },
+      "h_external": false,
+      "external_calls_added": "3 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 12,
+        "DELEGATECALL": 0,
+        "SSTORE": 56,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {},
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Initialization/binding marginal control only; no financial calculator caller.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 25132,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "binding-4-control",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "516d0381e5697febdab99bf6fbddbb4ac09972573793daeb10ac25b3328a091a",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "09aa1082df1245246621fce277e286fd88d5af95e9de3cdce984b6d82b38bbba",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "5815c7d0340b8a58c697d9229134d9b858b18ea6f03e28d518e2de753d526e89",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "fceaaf754113383532b44db94cfa6fcf34194f7d5266e790abd0eef7d5954314",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19664,
+      "Vault_initcode_template": 19878,
+      "Module_runtime": {
+        "0": 1726,
+        "1": 1394,
+        "2": 1231,
+        "3": 1885
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1090,
+      "paired_local": "A-baseline",
+      "Vault_saving_vs_paired": -1090,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[4])"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 4 fixed module addresses; no controller"
+      },
+      "groups": [],
+      "assignments": {
+        "settlement": 0,
+        "claim": 0,
+        "mint": 1,
+        "yield": 2,
+        "risk": 3,
+        "plan": 3
+      },
+      "h_external": false,
+      "external_calls_added": "4 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 13,
+        "DELEGATECALL": 0,
+        "SSTORE": 57,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {},
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Initialization/binding marginal control only; no financial calculator caller.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 25900,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "settlement-local",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "0836c3c1275211335cf934546f117f25b9c0965ad91dbae9ee1cd7a0f40c8bea",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "b50b6eea620ea7750c5298ac59ebca0de2b03d707854d411541dbc8f3e7370be",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "e641e8c7f612f061ee99b1048685f9d9879a96fe06ed81f8e33e47e4cc9b2f61",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19609,
+      "Vault_initcode_template": 19823,
+      "Module_runtime": {},
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1035,
+      "paired_local": null,
+      "Vault_saving_vs_paired": null,
+      "ABI_delta": {
+        "removed": [],
+        "added": [
+          "function:studySettlement(uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; no controller"
+      },
+      "groups": [
+        "settlement"
+      ],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 9,
+        "DELEGATECALL": 0,
+        "SSTORE": 53,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "settlement/fixture-first": 13857,
+        "settlement/repeat": 7856
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 19609,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "settlement-static",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "ae0aae04e23caac2981ab08027e8e87e462dd4ea728c6d0ee2461e5910e477ef",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "6b46be5d3f901ac84c5eb72c41c1b6a3b258e4d3a65c38630f0d634088551ee6",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19789,
+      "Vault_initcode_template": 20003,
+      "Module_runtime": {
+        "0": 1091
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1215,
+      "paired_local": "settlement-local",
+      "Vault_saving_vs_paired": -180,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studySettlement(uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "settlement"
+      ],
+      "assignments": {
+        "settlement": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "settlement/fixture-first": 9655,
+        "settlement/repeat": 9654
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 20880,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "claim-local",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "9f0e489c2cec37ccac1283cea13bfd21b475765067c50f381700da90de65cf3e",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "3404b0ac21729d8fb32d745051b928ad0d8dda4874ee8a0f72d3dcf4ddc2bcf7",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "e641e8c7f612f061ee99b1048685f9d9879a96fe06ed81f8e33e47e4cc9b2f61",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19446,
+      "Vault_initcode_template": 19660,
+      "Module_runtime": {},
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 872,
+      "paired_local": null,
+      "Vault_saving_vs_paired": null,
+      "ABI_delta": {
+        "removed": [],
+        "added": [
+          "function:studyClaim(uint64,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; no controller"
+      },
+      "groups": [
+        "claim"
+      ],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 9,
+        "DELEGATECALL": 0,
+        "SSTORE": 53,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "claim/fixture-first": 8092,
+        "claim/repeat": 8091
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 19446,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "claim-static",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "a84eba239a40556da757ef530a71836d5cfa10b45c853c29f0902334124a90e5",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "b02ae8d7b918e64751291a5f78b7cfd64c926578afb91efb3a6f87c678a6454a",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19661,
+      "Vault_initcode_template": 19875,
+      "Module_runtime": {
+        "0": 1105
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1087,
+      "paired_local": "claim-local",
+      "Vault_saving_vs_paired": -215,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studyClaim(uint64,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "claim"
+      ],
+      "assignments": {
+        "claim": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "claim/fixture-first": 10005,
+        "claim/repeat": 10004
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 20766,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "mint-local",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "6a3aaf3fb8a72c6f3a9f22aa82fcb4f1b0dc32fe85010755645d0e69bcd3c566",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "f7eb196932fe0d1a8dc8ded823499bd89bbc60b58850ed061649e6dd4444687b",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "e641e8c7f612f061ee99b1048685f9d9879a96fe06ed81f8e33e47e4cc9b2f61",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 20102,
+      "Vault_initcode_template": 20316,
+      "Module_runtime": {},
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1528,
+      "paired_local": null,
+      "Vault_saving_vs_paired": null,
+      "ABI_delta": {
+        "removed": [],
+        "added": [
+          "function:studyMint(uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; no controller"
+      },
+      "groups": [
+        "mint"
+      ],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 9,
+        "DELEGATECALL": 0,
+        "SSTORE": 53,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "mint/fixture-first": 9200,
+        "mint/repeat": 9199
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 20102,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "mint-static",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "42b5d5ad6099aaf0a6865287fd166adf17a2c2f6088ff0d85314a2bdb3aa486e",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "197716a5280ae338472adc0ebe5116953a66366a669f3b9746ada9e670eb93af",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 20255,
+      "Vault_initcode_template": 20469,
+      "Module_runtime": {
+        "0": 1394
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1681,
+      "paired_local": "mint-local",
+      "Vault_saving_vs_paired": -153,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studyMint(uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "mint"
+      ],
+      "assignments": {
+        "mint": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "mint/fixture-first": 10711,
+        "mint/repeat": 10710
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 21649,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "yield-local",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "956a5690498acf34c62defde38548f03085df73122307c09f3b909bdf3773fa6",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "046471de7ffb957de20e9d46bcee70d9e828efce316dc0254729962509eb855f",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "e641e8c7f612f061ee99b1048685f9d9879a96fe06ed81f8e33e47e4cc9b2f61",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19632,
+      "Vault_initcode_template": 19846,
+      "Module_runtime": {},
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1058,
+      "paired_local": null,
+      "Vault_saving_vs_paired": null,
+      "ABI_delta": {
+        "removed": [],
+        "added": [
+          "function:studyYield(uint64,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; no controller"
+      },
+      "groups": [
+        "yield"
+      ],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 9,
+        "DELEGATECALL": 0,
+        "SSTORE": 53,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "yield/fixture-first": 8562,
+        "yield/repeat": 8561
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 19632,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "yield-static",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "ff24e1f333956623f5c7ebaca500646792d5ff6a9e39ef7a9294d858af7f03c8",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "031192c263f256d3ab942497c63ca88844febadd5ded81eddd3f34fb8e0cb89e",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19878,
+      "Vault_initcode_template": 20092,
+      "Module_runtime": {
+        "0": 1231
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1304,
+      "paired_local": "yield-local",
+      "Vault_saving_vs_paired": -246,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studyYield(uint64,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "yield"
+      ],
+      "assignments": {
+        "yield": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "yield/fixture-first": 10289,
+        "yield/repeat": 10288
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 21109,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "risk-local",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "4e29fbdd32539bbfec94196f5c5628e89710ffd12752c6b63cc7648c68fcbb95",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "9d8acba0fd4ba44913c55d50c539e3ef4b32d1cb913ddee9900a81b9bfe6d416",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "e641e8c7f612f061ee99b1048685f9d9879a96fe06ed81f8e33e47e4cc9b2f61",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19990,
+      "Vault_initcode_template": 20204,
+      "Module_runtime": {},
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1416,
+      "paired_local": null,
+      "Vault_saving_vs_paired": null,
+      "ABI_delta": {
+        "removed": [],
+        "added": [
+          "function:studyRisk(uint8,uint128,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; no controller"
+      },
+      "groups": [
+        "risk"
+      ],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 9,
+        "DELEGATECALL": 0,
+        "SSTORE": 53,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "risk/fixture-first": 7695,
+        "risk/repeat": 5694
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 19990,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "risk-static",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "1ac4b18639555a810f5c5cd7de715f87a4afa76730da53749623f937aa761472",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "f468b422590f1381b5d79bf45615f6b12c147758b623c15f39baf4112f0e1cc1",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 20277,
+      "Vault_initcode_template": 20491,
+      "Module_runtime": {
+        "0": 1242
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1703,
+      "paired_local": "risk-local",
+      "Vault_saving_vs_paired": -287,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studyRisk(uint8,uint128,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "risk"
+      ],
+      "assignments": {
+        "risk": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "risk/fixture-first": 8180,
+        "risk/repeat": 8179
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 21519,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "plan-local",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "bf1c6ee48b8797f5481821adff06a7eb567fb33166e71e170893e0df0395f482",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "a71e28f63ae4389cf49adb41ae46916bcf046fce3c7b0e98e34eea5ac0e96bb5",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "e641e8c7f612f061ee99b1048685f9d9879a96fe06ed81f8e33e47e4cc9b2f61",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19736,
+      "Vault_initcode_template": 19950,
+      "Module_runtime": {},
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1162,
+      "paired_local": null,
+      "Vault_saving_vs_paired": null,
+      "ABI_delta": {
+        "removed": [],
+        "added": [
+          "function:studyPlan((uint128,uint64,uint64),uint64,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; no controller"
+      },
+      "groups": [
+        "plan"
+      ],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 9,
+        "DELEGATECALL": 0,
+        "SSTORE": 53,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "plan/fixture-first": 8629,
+        "plan/repeat": 8628
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 19736,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "plan-static",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "eeac0b3e2ecfdc489efd9eb25ad78161cc086e6817de74511f016adeaf3c5132",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "e5a9c87610e3cd139ca611729dc12e107b21f124dd580276322de226774e6191",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19923,
+      "Vault_initcode_template": 20137,
+      "Module_runtime": {
+        "0": 1197
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1349,
+      "paired_local": "plan-local",
+      "Vault_saving_vs_paired": -187,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studyPlan((uint128,uint64,uint64),uint64,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "plan"
+      ],
+      "assignments": {
+        "plan": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "plan/fixture-first": 11243,
+        "plan/repeat": 11242
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 21120,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "claim-scalar",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "526883dfd3b56129ebfd14d0b414b58eb8f6edf81c752c617e7dbd8cc1ec1010",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "bbedd7ce2d3d193444e6886cfe3f8c096fb0360c0409824eada0f75066aa72d9",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19728,
+      "Vault_initcode_template": 19942,
+      "Module_runtime": {
+        "0": 1111
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1154,
+      "paired_local": "claim-local",
+      "Vault_saving_vs_paired": -282,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studyClaim(uint64,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "claim"
+      ],
+      "assignments": {
+        "claim": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "claim/fixture-first": 9919,
+        "claim/repeat": 9918
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 20839,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "claim-packed",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "da59571be0b28c14731fd5332e23d8faed5e9ecefed313ec2097d198a8890c92",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "983ccb86954f47c352c4fb36d61314fe3559ac40af72ecfc476d07643b25553e",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19833,
+      "Vault_initcode_template": 20047,
+      "Module_runtime": {
+        "0": 1113
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1259,
+      "paired_local": "claim-local",
+      "Vault_saving_vs_paired": -387,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studyClaim(uint64,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "claim"
+      ],
+      "assignments": {
+        "claim": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "claim/fixture-first": 10016,
+        "claim/repeat": 10015
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 20946,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "identity-version",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "531c0410f46ebbb0da16ccfc0fd9563fa99104cc226ec64eddd80427e9074a74",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "78ea543876731d79f3c7a52cc0993d6907fc550d52d6803c514f06b866d2b04c",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19695,
+      "Vault_initcode_template": 19909,
+      "Module_runtime": {
+        "0": 1105
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1121,
+      "paired_local": "claim-local",
+      "Vault_saving_vs_paired": -249,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studyClaim(uint64,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "claim"
+      ],
+      "assignments": {
+        "claim": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "claim/fixture-first": 10005,
+        "claim/repeat": 10004
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 20800,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "identity-hash",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "ee0cad96c6b1fc9efb77167d409318d1b87648e32e79339e235d08d4e13113d2",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "02b0255256b5ca32748243233c5f49486c7eeb5779789d88d2b0d966d5b9113c",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 19810,
+      "Vault_initcode_template": 20024,
+      "Module_runtime": {
+        "0": 1105
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 1236,
+      "paired_local": "claim-local",
+      "Vault_saving_vs_paired": -364,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studyClaim(uint64,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "claim"
+      ],
+      "assignments": {
+        "claim": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "claim/fixture-first": 10005,
+        "claim/repeat": 10004
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 20915,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "combined-local",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "8ef88747e80b063bb89fdd76b12940f4f7afdc22c2a76f301d0145e99146ebbb",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "b58fc5af63016e035ded6850745428252b1544dd9d2212984335fc647a84c67f",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "e641e8c7f612f061ee99b1048685f9d9879a96fe06ed81f8e33e47e4cc9b2f61",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 25029,
+      "Vault_initcode_template": 25243,
+      "Module_runtime": {},
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 6455,
+      "paired_local": null,
+      "Vault_saving_vs_paired": null,
+      "ABI_delta": {
+        "removed": [],
+        "added": [
+          "function:studyClaim(uint64,uint128)",
+          "function:studyMint(uint128)",
+          "function:studyPlan((uint128,uint64,uint64),uint64,uint128)",
+          "function:studyRisk(uint8,uint128,uint128,uint128)",
+          "function:studySettlement(uint128)",
+          "function:studyYield(uint64,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; no controller"
+      },
+      "groups": [
+        "settlement",
+        "claim",
+        "mint",
+        "yield",
+        "risk",
+        "plan"
+      ],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 9,
+        "DELEGATECALL": 0,
+        "SSTORE": 53,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "settlement/fixture-first": 7899,
+        "settlement/repeat": 7898,
+        "claim/fixture-first": 8048,
+        "claim/repeat": 8047,
+        "mint/fixture-first": 9264,
+        "mint/repeat": 9263,
+        "yield/fixture-first": 8496,
+        "yield/repeat": 8495,
+        "risk/fixture-first": 5740,
+        "risk/repeat": 5739,
+        "plan/fixture-first": 8652,
+        "plan/repeat": 8651
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 25029,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22,
+        "5574": 1
+      }
+    },
+    {
+      "variant": "M1-one-core-math",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "394dd8cc269928008c5361d6c392d07838d60fc4fa2d5dbb8b28c03a31ab56a3",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "934889cdcf15a9bf3b5c5ed8e10febfe5bb131e76bbd152109b440c4ebd43cb0",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 24853,
+      "Vault_initcode_template": 25067,
+      "Module_runtime": {
+        "0": 2577
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 6279,
+      "paired_local": "combined-local",
+      "Vault_saving_vs_paired": 176,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studyClaim(uint64,uint128)",
+          "function:studyMint(uint128)",
+          "function:studyPlan((uint128,uint64,uint64),uint64,uint128)",
+          "function:studyRisk(uint8,uint128,uint128,uint128)",
+          "function:studySettlement(uint128)",
+          "function:studyYield(uint64,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "settlement",
+        "claim",
+        "mint",
+        "yield",
+        "risk",
+        "plan"
+      ],
+      "assignments": {
+        "settlement": 0,
+        "claim": 0,
+        "mint": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 13,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "settlement/fixture-first": 9741,
+        "settlement/repeat": 9740,
+        "claim/fixture-first": 10061,
+        "claim/repeat": 10060,
+        "mint/fixture-first": 10775,
+        "mint/repeat": 10774,
+        "yield/fixture-first": 8518,
+        "yield/repeat": 8517,
+        "risk/fixture-first": 5762,
+        "risk/repeat": 5761,
+        "plan/fixture-first": 8585,
+        "plan/repeat": 8584
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 27430,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22,
+        "5574": 1
+      }
+    },
+    {
+      "variant": "M3-unified",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "18eab4088bd5ca52441bf3ef54893e5e35b0deed7473fbe3b880615744721cca",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "235a7f30e77263a264376bff9aa41a5b2405a187c766db9b845d53749e4749ae",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 24292,
+      "Vault_initcode_template": 24506,
+      "Module_runtime": {
+        "0": 4616
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 5718,
+      "paired_local": "combined-local",
+      "Vault_saving_vs_paired": 737,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])",
+          "function:studyClaim(uint64,uint128)",
+          "function:studyMint(uint128)",
+          "function:studyPlan((uint128,uint64,uint64),uint64,uint128)",
+          "function:studyRisk(uint8,uint128,uint128,uint128)",
+          "function:studySettlement(uint128)",
+          "function:studyYield(uint64,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [
+        "settlement",
+        "claim",
+        "mint",
+        "yield",
+        "risk",
+        "plan"
+      ],
+      "assignments": {
+        "settlement": 0,
+        "claim": 0,
+        "mint": 0,
+        "yield": 0,
+        "risk": 0,
+        "plan": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 16,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "settlement/fixture-first": 9764,
+        "settlement/repeat": 9763,
+        "claim/fixture-first": 10205,
+        "claim/repeat": 10204,
+        "mint/fixture-first": 10843,
+        "mint/repeat": 10842,
+        "yield/fixture-first": 10491,
+        "yield/repeat": 10490,
+        "risk/fixture-first": 8452,
+        "risk/repeat": 8451,
+        "plan/fixture-first": 11324,
+        "plan/repeat": 11323
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 28908,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "M2-2-modules",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "e30bec71bb1254ad7238f730ef717967125536fe2bb4500b3a8b2a7cf9b34e40",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "784315471c3739f88096d7f7b1d2d89117a9c0ba7358d82a736bfea2bb2e7091",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "cabee6d24d9489edd0258cef4eba5f73c2853de581c02ed3e67ea86391483902",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "c4bba62dac3fe450067537182034095bba49af59295f86bc9d433ac0469ce0cb",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 24554,
+      "Vault_initcode_template": 24768,
+      "Module_runtime": {
+        "0": 2577,
+        "1": 2691
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 5980,
+      "paired_local": "combined-local",
+      "Vault_saving_vs_paired": 475,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[2])",
+          "function:studyClaim(uint64,uint128)",
+          "function:studyMint(uint128)",
+          "function:studyPlan((uint128,uint64,uint64),uint64,uint128)",
+          "function:studyRisk(uint8,uint128,uint128,uint128)",
+          "function:studySettlement(uint128)",
+          "function:studyYield(uint64,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 2 fixed module addresses; no controller"
+      },
+      "groups": [
+        "settlement",
+        "claim",
+        "mint",
+        "yield",
+        "risk",
+        "plan"
+      ],
+      "assignments": {
+        "settlement": 0,
+        "claim": 0,
+        "mint": 0,
+        "yield": 1,
+        "risk": 1,
+        "plan": 1
+      },
+      "h_external": false,
+      "external_calls_added": "2 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 17,
+        "DELEGATECALL": 0,
+        "SSTORE": 55,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "settlement/fixture-first": 9741,
+        "settlement/repeat": 9740,
+        "claim/fixture-first": 10061,
+        "claim/repeat": 10060,
+        "mint/fixture-first": 10775,
+        "mint/repeat": 10774,
+        "yield/fixture-first": 10414,
+        "yield/repeat": 10413,
+        "risk/fixture-first": 8429,
+        "risk/repeat": 8428,
+        "plan/fixture-first": 11279,
+        "plan/repeat": 11278
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 29822,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "M2-3-modules",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "414ffd48cb17948dcc47150012524d89d6ffc06ad56f1cbc62db999577ff4837",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "fe2afae52384279ff99a69ba79c91d64148134f4db9ff56baad68f5cb19af83a",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "7412e7a090d31f6bd4614b466506c0344838474ea624f41f88aa0f16ccd59433",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "5d138b7704d58db0dc142e3da5d8038b926d06ba48eeea171c7b870168ca7013",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 24803,
+      "Vault_initcode_template": 25017,
+      "Module_runtime": {
+        "0": 2577,
+        "1": 1231,
+        "2": 1885
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 6229,
+      "paired_local": "combined-local",
+      "Vault_saving_vs_paired": 226,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[3])",
+          "function:studyClaim(uint64,uint128)",
+          "function:studyMint(uint128)",
+          "function:studyPlan((uint128,uint64,uint64),uint64,uint128)",
+          "function:studyRisk(uint8,uint128,uint128,uint128)",
+          "function:studySettlement(uint128)",
+          "function:studyYield(uint64,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 3 fixed module addresses; no controller"
+      },
+      "groups": [
+        "settlement",
+        "claim",
+        "mint",
+        "yield",
+        "risk",
+        "plan"
+      ],
+      "assignments": {
+        "settlement": 0,
+        "claim": 0,
+        "mint": 0,
+        "yield": 1,
+        "risk": 2,
+        "plan": 2
+      },
+      "h_external": false,
+      "external_calls_added": "3 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 18,
+        "DELEGATECALL": 0,
+        "SSTORE": 56,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "settlement/fixture-first": 9719,
+        "settlement/repeat": 9718,
+        "claim/fixture-first": 10039,
+        "claim/repeat": 10038,
+        "mint/fixture-first": 10775,
+        "mint/repeat": 10774,
+        "yield/fixture-first": 10290,
+        "yield/repeat": 10289,
+        "risk/fixture-first": 8407,
+        "risk/repeat": 8406,
+        "plan/fixture-first": 11346,
+        "plan/repeat": 11345
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 30496,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22,
+        "5574": 1
+      }
+    },
+    {
+      "variant": "M2-4-modules",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "abb0ec072e3cf9564914b9003187079590260cd68f6a70609ee6a2a169afb2e7",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "09aa1082df1245246621fce277e286fd88d5af95e9de3cdce984b6d82b38bbba",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "f09c4a8a73f65fabc29aaa0fc768677f35412bad422bd3735f0e13ef679cc625",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "fceaaf754113383532b44db94cfa6fcf34194f7d5266e790abd0eef7d5954314",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 25028,
+      "Vault_initcode_template": 25242,
+      "Module_runtime": {
+        "0": 1726,
+        "1": 1394,
+        "2": 1231,
+        "3": 1885
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 6454,
+      "paired_local": "combined-local",
+      "Vault_saving_vs_paired": 1,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[4])",
+          "function:studyClaim(uint64,uint128)",
+          "function:studyMint(uint128)",
+          "function:studyPlan((uint128,uint64,uint64),uint64,uint128)",
+          "function:studyRisk(uint8,uint128,uint128,uint128)",
+          "function:studySettlement(uint128)",
+          "function:studyYield(uint64,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 4 fixed module addresses; no controller"
+      },
+      "groups": [
+        "settlement",
+        "claim",
+        "mint",
+        "yield",
+        "risk",
+        "plan"
+      ],
+      "assignments": {
+        "settlement": 0,
+        "claim": 0,
+        "mint": 1,
+        "yield": 2,
+        "risk": 3,
+        "plan": 3
+      },
+      "h_external": false,
+      "external_calls_added": "4 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 19,
+        "DELEGATECALL": 0,
+        "SSTORE": 57,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "settlement/fixture-first": 9697,
+        "settlement/repeat": 9696,
+        "claim/fixture-first": 10028,
+        "claim/repeat": 10027,
+        "mint/fixture-first": 10775,
+        "mint/repeat": 10774,
+        "yield/fixture-first": 10290,
+        "yield/repeat": 10289,
+        "risk/fixture-first": 8407,
+        "risk/repeat": 8406,
+        "plan/fixture-first": 11346,
+        "plan/repeat": 11345
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 31264,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22,
+        "5574": 1
+      }
+    },
+    {
+      "variant": "H-static",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "526f0a69085c0eff6658d5a7cf7d38144af9a0f45d61ea0731f85fd7b68c33df",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "4fde815e582fa7650926ba18bc0645ecf834e63b19ba45c0889914cb458f1873",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 18983,
+      "Vault_initcode_template": 19197,
+      "Module_runtime": {
+        "0": 1286
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 409,
+      "paired_local": "A-baseline",
+      "Vault_saving_vs_paired": -409,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [],
+      "assignments": {},
+      "h_external": true,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "hloss/fixture-first": 47284
+      },
+      "security_category": "DIAGNOSTIC_ONLY",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 20269,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 22
+      }
+    },
+    {
+      "variant": "H-without-output-checks",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "cf0a451f2dc8483ad12024b10b207ca7371ea4747808b6888019b79a880a68d9",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "cfb5d7c49c342fc6d574872e352a0226628657b82e160a77cdd2ef9d986a7c50",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "10a8e2231c659d0a06d885cfdc626240f22b71b438c69bf29e938dbaaac7064d",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "ff48c23da06978dd2c6097dddbdba58364cb969ce9e4a069eb4c88b759f29996",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 18754,
+      "Vault_initcode_template": 18968,
+      "Module_runtime": {
+        "0": 1286
+      },
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 180,
+      "paired_local": "A-baseline",
+      "Vault_saving_vs_paired": -180,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))"
+        ],
+        "added": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1])"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; no controller"
+      },
+      "groups": [],
+      "assignments": {},
+      "h_external": true,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 54,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {},
+      "security_category": "SECURITY_REGRESSION_DO_NOT_ADOPT",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "PASS",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 20040,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 23
+      }
+    },
+    {
+      "variant": "G5-local",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "e3562f520295a8d68b80da9b2f91afad2fc52c1615f6d3fdbcf2dc2f121444e8",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "00675f91e8a0fa8d5f7f7f53caff0a27b031dc4dd3b4a96db2f6c0e58dd3b273",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "e641e8c7f612f061ee99b1048685f9d9879a96fe06ed81f8e33e47e4cc9b2f61",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 21409,
+      "Vault_initcode_template": 21623,
+      "Module_runtime": {},
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 2835,
+      "paired_local": null,
+      "Vault_saving_vs_paired": null,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; no controller"
+      },
+      "groups": [],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 9,
+        "DELEGATECALL": 0,
+        "SSTORE": 61,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "governance-cap/fixture-first": 6894,
+        "governance-cap/repeat": 4093
+      },
+      "security_category": "SAFE_CONTROLLER_ORCHESTRATION",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 21409,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 16
+      }
+    },
+    {
+      "variant": "G5-enum",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "1a41fe6e672bf59cbed18c11cd4ee0a8f436922af556a83baa37dee9da3052dd",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "d4c2e7862b8dfc8a2e979b8129337ef8f9b6aa7b6fe0fcfd3f24d47b4f2a55c4",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "f55f36f56662f8e43aef8396160c4c9bd8f4b4676123a7fc1f13afa95c55c5fb",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "6c2cdc667915d51c802f7e24b837fdeed6ee2bc166acd29cc1b6b2439134ec66",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 21624,
+      "Vault_initcode_template": 21838,
+      "Module_runtime": {},
+      "Controller_runtime": 2260,
+      "Vault_delta_vs_baseline": 3050,
+      "paired_local": "G5-local",
+      "Vault_saving_vs_paired": -215,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))",
+          "function:setBucketConfig(uint8,(uint128,uint128))",
+          "function:setFastFee(uint16)",
+          "function:setMaxPlanDuration(uint64)",
+          "function:setPrincipalCap(uint128)",
+          "function:tightenMintLossBound(uint16)"
+        ],
+        "added": [
+          "function:applyGovernance((uint8,uint256,uint256,address))",
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; fixed controller stored"
+      },
+      "groups": [],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; closed Controller CALL to applyGovernance",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 62,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "governance-cap/fixture-first": 8819,
+        "governance-cap/repeat": 6018
+      },
+      "security_category": "SAFE_CONTROLLER_ORCHESTRATION",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 23884,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 16
+      }
+    },
+    {
+      "variant": "G8-local",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "ae329265744d66b9e10717798eae1b1115f59e71504935eb68ec8c07f644fff2",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "fb7a705a5c1ea6c65cdccfd4ba99213fa96592227072b0a1216cc03b95f84851",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "e641e8c7f612f061ee99b1048685f9d9879a96fe06ed81f8e33e47e4cc9b2f61",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 21691,
+      "Vault_initcode_template": 21905,
+      "Module_runtime": {},
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 3117,
+      "paired_local": null,
+      "Vault_saving_vs_paired": null,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; no controller"
+      },
+      "groups": [],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 9,
+        "DELEGATECALL": 0,
+        "SSTORE": 61,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "governance-cap/fixture-first": 6894,
+        "governance-cap/repeat": 4093
+      },
+      "security_category": "SAFE_CONTROLLER_ORCHESTRATION",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 21691,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 16
+      }
+    },
+    {
+      "variant": "G8-enum",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "5cb627567f3d55c488f43957b2d2cf80ad1de0a9987da1493feec14486dde5b6",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "d4c2e7862b8dfc8a2e979b8129337ef8f9b6aa7b6fe0fcfd3f24d47b4f2a55c4",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "b4f2dce314188fdf3bb08ade9e065d68fcc65596f68c6612017e09158fde9cf8",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "11a793c90793d3a1789f19b4bdfd6b9168208491556ec75b0b699347e3131669",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 21623,
+      "Vault_initcode_template": 21837,
+      "Module_runtime": {},
+      "Controller_runtime": 3223,
+      "Vault_delta_vs_baseline": 3049,
+      "paired_local": "G8-local",
+      "Vault_saving_vs_paired": 68,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))",
+          "function:setBucketConfig(uint8,(uint128,uint128))",
+          "function:setFastFee(uint16)",
+          "function:setFoundationReceiver(address)",
+          "function:setMaxPlanDuration(uint64)",
+          "function:setOracle(address)",
+          "function:setPrincipalCap(uint128)",
+          "function:setYieldRefundReceiver(address)",
+          "function:tightenMintLossBound(uint16)"
+        ],
+        "added": [
+          "function:applyGovernance((uint8,uint256,uint256,address))",
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; fixed controller stored"
+      },
+      "groups": [],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; closed Controller CALL to applyGovernance",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 62,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "governance-cap/fixture-first": 8752,
+        "governance-cap/repeat": 5951
+      },
+      "security_category": "SAFE_CONTROLLER_ORCHESTRATION",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 24846,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 16
+      }
+    },
+    {
+      "variant": "G8-batch",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "10f488aea1e3ea812571593feabcca8b34a16e4ae08c1b8ab0ccf4a801bf5e63",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "d4c2e7862b8dfc8a2e979b8129337ef8f9b6aa7b6fe0fcfd3f24d47b4f2a55c4",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "9f642fd971c319b624a5f0967bbb5520bde68a279b9f732410688f15ad77cf4e",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "11a793c90793d3a1789f19b4bdfd6b9168208491556ec75b0b699347e3131669",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 22065,
+      "Vault_initcode_template": 22279,
+      "Module_runtime": {},
+      "Controller_runtime": 4021,
+      "Vault_delta_vs_baseline": 3491,
+      "paired_local": "G8-local",
+      "Vault_saving_vs_paired": -374,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))",
+          "function:setBucketConfig(uint8,(uint128,uint128))",
+          "function:setFastFee(uint16)",
+          "function:setFoundationReceiver(address)",
+          "function:setMaxPlanDuration(uint64)",
+          "function:setOracle(address)",
+          "function:setPrincipalCap(uint128)",
+          "function:setYieldRefundReceiver(address)",
+          "function:tightenMintLossBound(uint16)"
+        ],
+        "added": [
+          "function:applyGovernance((uint256,uint128,uint16,uint16,uint64,uint8,uint128,uint128,address,address,address))",
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; fixed controller stored"
+      },
+      "groups": [],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; closed Controller CALL to applyGovernance",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 11,
+        "DELEGATECALL": 0,
+        "SSTORE": 62,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "governance-cap/fixture-first": 9494,
+        "governance-cap/repeat": 6693
+      },
+      "security_category": "SAFE_CONTROLLER_ORCHESTRATION",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 26086,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 16
+      }
+    },
+    {
+      "variant": "G8-derived",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "aeba2db2b2e48d4d4761e6f906eb8e76dcb3457d738b1abcde28e9b3e663521b",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "8950fa562d145742df206c5a640c5946ca3da6da7958709c7bf3d7c4c24914a9",
+        "contracts/tbpros/governance/UpgradeGateway.sol": "b6569630fe60a87c66e6f9422bd5f324925b1ae4d26972bec0a2e5aec390270b",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "11a793c90793d3a1789f19b4bdfd6b9168208491556ec75b0b699347e3131669",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 21890,
+      "Vault_initcode_template": 22104,
+      "Module_runtime": {},
+      "Controller_runtime": 3223,
+      "Vault_delta_vs_baseline": 3316,
+      "paired_local": "G8-local",
+      "Vault_saving_vs_paired": -199,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))",
+          "function:setBucketConfig(uint8,(uint128,uint128))",
+          "function:setFastFee(uint16)",
+          "function:setFoundationReceiver(address)",
+          "function:setMaxPlanDuration(uint64)",
+          "function:setOracle(address)",
+          "function:setPrincipalCap(uint128)",
+          "function:setYieldRefundReceiver(address)",
+          "function:tightenMintLossBound(uint16)"
+        ],
+        "added": [
+          "function:applyGovernance((uint8,uint256,uint256,address))",
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; controller derived via fixed Gateway getter"
+      },
+      "groups": [],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; closed Controller CALL to applyGovernance",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 13,
+        "DELEGATECALL": 0,
+        "SSTORE": 61,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "governance-cap/fixture-first": 11525,
+        "governance-cap/repeat": 6724
+      },
+      "security_category": "SAFE_CONTROLLER_ORCHESTRATION",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 25113,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 3,
+        "5667": 23
+      },
+      "Gateway_runtime": 2900
+    },
+    {
+      "variant": "C-local-control",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "9e20ef9ce5598a50a79122cd60786d860125d0a98f71b6f73575bf0213d09a38",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "17ecaa7355d7aa0776ee87240329f519852cb7c33705f153b9eb990ee840095b",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "e641e8c7f612f061ee99b1048685f9d9879a96fe06ed81f8e33e47e4cc9b2f61",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 27591,
+      "Vault_initcode_template": 27805,
+      "Module_runtime": {},
+      "Controller_runtime": 0,
+      "Vault_delta_vs_baseline": 9017,
+      "paired_local": null,
+      "Vault_saving_vs_paired": null,
+      "ABI_delta": {
+        "removed": [],
+        "added": [
+          "function:studyClaim(uint64,uint128)",
+          "function:studyMint(uint128)",
+          "function:studyPlan((uint128,uint64,uint64),uint64,uint128)",
+          "function:studyRisk(uint8,uint128,uint128,uint128)",
+          "function:studySettlement(uint128)",
+          "function:studyYield(uint64,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": false,
+        "note": "Append-only StudyBindings with 0 fixed module addresses; no controller"
+      },
+      "groups": [
+        "settlement",
+        "claim",
+        "mint",
+        "yield",
+        "risk",
+        "plan"
+      ],
+      "assignments": {},
+      "h_external": false,
+      "external_calls_added": "0 fixed module identities at initialize; one STATICCALL per external calculator; no Controller",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 9,
+        "DELEGATECALL": 0,
+        "SSTORE": 61,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "settlement/fixture-first": 7899,
+        "settlement/repeat": 7898,
+        "claim/fixture-first": 8048,
+        "claim/repeat": 8047,
+        "mint/fixture-first": 9264,
+        "mint/repeat": 9263,
+        "yield/fixture-first": 8496,
+        "yield/repeat": 8495,
+        "risk/fixture-first": 5740,
+        "risk/repeat": 5739,
+        "plan/fixture-first": 8652,
+        "plan/repeat": 8651,
+        "governance-cap/fixture-first": 6885,
+        "governance-cap/repeat": 4084
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 27591,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 16,
+        "5574": 1
+      }
+    },
+    {
+      "variant": "C-module-controller",
+      "source_basis": "f3187659eb19a464abfc5bc93e15a3d4e73c7e2b",
+      "compiler_input_sha256": "45aea1a3800afe344b38415a854d0731e4bfcda3c222385809f410c0ec9743b5",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "source_hashes": {
+        "contracts/tbpros/TbPROSStorage.sol": "e03c849ef5b5dc7a1a90ec6330b1fe1b56b63b4c63f69ba97792eee1e1b0a97b",
+        "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+        "contracts/tbpros/TbPROSVault.sol": "aebff25443ddec8d174c9235896bb3d00520c0f7f4de81c64a352247011495a5",
+        "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+        "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+        "contracts/tbpros/interfaces/ITbPROSVault.sol": "3f35fbecfab832fcc263c0fd0a73ac4ebc538cce94a22e2ea0e6ac438059224f",
+        "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+        "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af"
+      },
+      "Vault_runtime": 27301,
+      "Vault_initcode_template": 27515,
+      "Module_runtime": {
+        "0": 4616
+      },
+      "Controller_runtime": 3223,
+      "Vault_delta_vs_baseline": 8727,
+      "paired_local": "C-local-control",
+      "Vault_saving_vs_paired": 290,
+      "ABI_delta": {
+        "removed": [
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))",
+          "function:setBucketConfig(uint8,(uint128,uint128))",
+          "function:setFastFee(uint16)",
+          "function:setFoundationReceiver(address)",
+          "function:setMaxPlanDuration(uint64)",
+          "function:setOracle(address)",
+          "function:setPrincipalCap(uint128)",
+          "function:setYieldRefundReceiver(address)",
+          "function:tightenMintLossBound(uint16)"
+        ],
+        "added": [
+          "function:applyGovernance((uint8,uint256,uint256,address))",
+          "function:initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])),address[1],address)",
+          "function:studyClaim(uint64,uint128)",
+          "function:studyMint(uint128)",
+          "function:studyPlan((uint128,uint64,uint64),uint64,uint128)",
+          "function:studyRisk(uint8,uint128,uint128,uint128)",
+          "function:studySettlement(uint128)",
+          "function:studyYield(uint64,uint128,uint128)"
+        ],
+        "changed": []
+      },
+      "storage_delta": {
+        "changed": true,
+        "note": "Append-only StudyBindings with 1 fixed module addresses; fixed controller stored"
+      },
+      "groups": [
+        "settlement",
+        "claim",
+        "mint",
+        "yield",
+        "risk",
+        "plan"
+      ],
+      "assignments": {
+        "settlement": 0,
+        "claim": 0,
+        "mint": 0,
+        "yield": 0,
+        "risk": 0,
+        "plan": 0
+      },
+      "h_external": false,
+      "external_calls_added": "1 fixed module identities at initialize; one STATICCALL per external calculator; closed Controller CALL to applyGovernance",
+      "Vault_opcodes": {
+        "CALL": 1,
+        "STATICCALL": 18,
+        "DELEGATECALL": 0,
+        "SSTORE": 63,
+        "TSTORE": 1,
+        "SELFDESTRUCT": 0
+      },
+      "gas": {
+        "settlement/fixture-first": 9764,
+        "settlement/repeat": 9763,
+        "claim/fixture-first": 10161,
+        "claim/repeat": 10160,
+        "mint/fixture-first": 10843,
+        "mint/repeat": 10842,
+        "yield/fixture-first": 10535,
+        "yield/repeat": 10534,
+        "risk/fixture-first": 8408,
+        "risk/repeat": 8407,
+        "plan/fixture-first": 11369,
+        "plan/repeat": 11368,
+        "governance-cap/fixture-first": 8753,
+        "governance-cap/repeat": 5952
+      },
+      "security_category": "SAFE_STATICCALC",
+      "recommended": false,
+      "adopted": false,
+      "reason": "Isolated calculator/configuration probe only, not completed financial implementation.",
+      "runtime_budget_status": "FAIL",
+      "module_budget_pass": true,
+      "controller_budget_pass": true,
+      "combined_measured_runtime": 35140,
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 2,
+        "5667": 16,
+        "5574": 1
+      }
+    }
+  ],
+  "test_result": {
+    "status": "PASS",
+    "summary": [
+      "Ran 1 test suite in 150.72ms (91.55ms CPU time): 19 tests passed, 0 failed, 0 skipped (19 total tests)"
+    ],
+    "staticcall_trace_lines": 547,
+    "gas_samples": 146,
+    "test_source_sha256": "e591201dcf1290e1722b0fe51681132471263a9779058740ec06420971bd10dd",
+    "reference_sha256": "26f95cd96f67e0f1d3bbfcb35f4df2b1b758050a2a07abfa655bc5489e7de115",
+    "reference_cases": 460,
+    "vector_sha256": "fe385d3e40ab435e93a7e696b75aefe608b9c608cb39cc8e526dbc7c07d4e4f2"
+  }
+}
