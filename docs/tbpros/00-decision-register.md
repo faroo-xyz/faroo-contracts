@@ -69,7 +69,7 @@ GitHub workflow仅手动 `workflow_dispatch`；不减少任何验证要求。每
 
 `ebab5d794bade22353211899f6554ded6cafc11f`：GitHub hosted execution attempted; dependency installation failed before protocol verification steps. 据用户提供记录，`pnpm install --frozen-lockfile` 将forge-std解析为SSH URL，而runner无SSH key；不是Solidity/test failure。本轮仅调整运行节奏，未修复依赖或重跑hosted；未来安装修复须采用public HTTPS/可复现解析。audit、release candidate、deployment前或用户要求时必须执行hosted验证，其他建议milestones见18。本轮不开始业务实现。
 
-## 19 · Request Accounting（当前增量）
+## 19 · Request Accounting（已完成增量）
 
 用户基于 `eebad7f5100366938c3e529516d275fd1e913411` 正式解除两项旧阻断；它们不是未决问题。
 
@@ -80,3 +80,13 @@ GitHub workflow仅手动 `workflow_dispatch`；不减少任何验证要求。每
 当前实现及实际验证见 [19](19-request-accounting-implementation.md) 和 [latest local checks](verification/latest-local-checks.md)。只把两个 Request selector 标成 IMPLEMENTED。其他资金/事故/Reserve/Gateway 业务仍为 SkeletonOnly；完整月度赎回与生产上线没有获准。**PRODUCTION NO-GO**。
 
 **REQUEST ACCOUNTING IMPLEMENTED / VERIFIED；READY FOR NEXT CORE INCREMENT；PRODUCTION NO-GO。** 本轮完成后停止，下一增量需另行授权。
+
+## 20 · Solvency / Catastrophic Insolvency（当前增量）
+
+D-26：仅实现syncSolvency、restoreSolvency及内部Q/F/H/mode helper，不改变Request。
+Q=R+P+F+四source.remaining，全部派生uint256；先F再H。H使用Math.mulDiv floor + mulmod余数，按最大余数、固定slot ID较小优先，逐source同步remaining/realizedLoss。
+D-27：sync在已insolvent时不读余额直接no-op；正常L>=Q no-op且不分类surplus。仅F/H后residual>0记录事故，R/P/S/U/B和原权利不变。restore在非mode直接no-op（覆盖16旧表），在mode仅实际L>=Q才清bool，保留ID/time、不复活F/H、不分类excess。
+
+当前实现、测试、bytecode及局限见[20](20-insolvency-production-implementation.md)和[本地摘要](verification/latest-local-checks.md)。R/P事故分发、完整赎回及完整外部资金实现仍未完成，Production NO-GO；本轮完成后停止。
+
+**INSOLVENCY PRODUCTION LOGIC IMPLEMENTED / VERIFIED；READY FOR NEXT CORE INCREMENT；PRODUCTION NO-GO。** 本地Core90/历史安全64/Python92及全部guards通过；runtime18,910，余1,570 bytes，使用92.33%。下一个增量需独立授权，建议先评估剩余体积预算。

@@ -23,7 +23,7 @@ for f in ['abi-v1.json','storage-layout-v1.json']:
     old=subprocess.check_output(['git','show','6c9d407fa45c96e24c2928f0cf6fc5dd8e9fd2c6:docs/tbpros/verification/'+f])
     assert old==(root/f).read_bytes(),f+' historical baseline overwritten'
 for kind,value in current.items():
-    path=root/('storage-v19.json' if kind=='storage' else 'abi-v18.json')
+    path=root/('storage-v20.json' if kind=='storage' else 'abi-v18.json')
     if '--update' not in sys.argv:assert read(path)==value,kind+' drift: review and explicitly regenerate snapshot; never auto-accept in CI'
 
 # Document 19 approves only annotation changes; all physical schema and enums must still equal V18.
@@ -34,6 +34,13 @@ for row in reviewed['field_semantics']:
     if row['field'].startswith('Epoch.'):row['writer']='Vault shared request helper implemented; settle/claim helpers remain stub'
     if row['field'].startswith('Position.'):row['writer']='Vault shared request helper implemented; claim helper remains stub'
 assert read(root/'storage-v19.json')==reviewed,'V19 may change only the explicitly approved request annotations'
+
+# V20 changes only the implementation-status annotations for Mode and Source writers.
+reviewed20=copy.deepcopy(reviewed)
+for row in reviewed20['field_semantics']:
+    if row['field'].startswith('Mode.'):row['writer']='Vault sync/restore implemented; objective incident metadata only'
+    if row['field'].startswith('Source.'):row['writer']='Vault sync loss writer implemented; plan/checkpoint/close helpers remain stub'
+assert read(root/'storage-v20.json')==reviewed20,'V20 may change only reviewed Mode/Source writer annotations'
 
 # Physical placement comparison. This is deliberately NOT a semantic migration approval.
 old=read(root/'storage-layout-v1.json')
@@ -100,5 +107,5 @@ for f in Path('cache/tbpros-core/out').rglob('*.json'):
             for v in node:walk(v)
     walk(ast)
 if '--update' in sys.argv:
-    for kind,value in current.items():(root/('storage-v19.json' if kind=='storage' else 'abi-v18.json')).write_text(json.dumps(value,indent=2,sort_keys=True)+'\n')
+    for kind,value in current.items():(root/('storage-v20.json' if kind=='storage' else 'abi-v18.json')).write_text(json.dumps(value,indent=2,sort_keys=True)+'\n')
 print(json.dumps({'status':'PASS','documented_function_ast_occurrences':count,'old_field_placements':'preserved','plan_stride_bytes':224,'fundingUCap':'relative 1:9','YEAR':'relative 39:0','semantic_migration':'NOT VERIFIED: legacy Ucap and zero new fields require explicit migration if old proxies ever existed'}))

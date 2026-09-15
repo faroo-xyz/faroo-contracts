@@ -4,6 +4,7 @@ pragma solidity 0.8.28;
 import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import {AccessControlUpgradeable} from "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import {ReentrancyGuardTransient} from "@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol";
+import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import {ITbPROSVault} from "./interfaces/ITbPROSVault.sol";
 import {IStPROS} from "./interfaces/IStPROS.sol";
@@ -13,7 +14,7 @@ import {TbPROSTypes as T} from "./TbPROSTypes.sol";
 import {MonthMath} from "./libraries/MonthMath.sol";
 import {TbPROSStorage as S} from "./TbPROSStorage.sol";
 
-/// @notice Share request accounting with local escrow; other financial operations remain explicit skeletons.
+/// @notice Monthly share requests and objective solvency transitions; other funds operations remain skeletons.
 contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGuardTransient, ITbPROSVault {
     /// @notice OZ role for emergency pause tightening only; Timelock appoints/revokes.
     bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
@@ -164,14 +165,21 @@ contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGu
     function _requireNormal() internal view {
         S.Layout storage s = S.layout();
         if (s.mode.insolvent) revert INSOLVENT();
-        uint256 q = uint256(s.accounting.R) + s.accounting.P + s.accounting.F;
-        for (uint256 i; i < 2; ++i) {
-            for (uint256 j; j < 2; ++j) {
-                q += s.plans[i].sources[j].remaining;
-            }
+        // Observation cannot commit an incident in a transaction that will revert.
+        if (IStPROS(s.dependencies.stpros).balanceOf(address(this)) < _accountedObligations()) {
+            revert SOLVENCY_SYNC_REQUIRED();
         }
-        // Observe custody only after the mode check. Do not write an incident flag here and then revert it away.
-        if (IStPROS(s.dependencies.stpros).balanceOf(address(this)) < q) revert SOLVENCY_SYNC_REQUIRED();
+    }
+
+    /// @dev Sole internal Q definition in stPROS raw18: R+P+F plus four remaining H budgets.
+    /// Widen before addition: Q <= 7*(2^128-1) < 2^131, but aggregate H need not fit uint128.
+    /// No balance, price or external call; neither donations nor unreleased budgets enter active R.
+    function _accountedObligations() internal view returns (uint256 q) {
+        S.Layout storage s = S.layout();
+        q = uint256(s.accounting.R) + s.accounting.P + s.accounting.F;
+        for (uint256 i; i < 4; ++i) {
+            q += s.plans[i / 2].sources[i % 2].remaining;
+        }
     }
 
     /// @notice Transfers bearer tbPROS shares without realizing yield.
@@ -325,16 +333,102 @@ contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGu
         return dueAt;
     }
 
-    /// @notice Commits objective F/H deficit absorption and, if necessary, insolvency entry.
-    /// @dev SKELETON ONLY. Future implementation reads actual backing without Oracle/Reserve, consumes F then pro-rata at most four H sources, and preserves R/P/S/U/B and locked prices. Repeated insolvent sync preserves incident evidence.
+    /// @notice Commits actual F/H deficit absorption and, when necessary, catastrophic mode entry.
+    /// @dev Permissionless and separate from failing money transactions so writes persist. An existing
+    /// incident returns before balanceOf: repeated loss or recap never rewrites its evidence. Otherwise
+    /// the only dependency is stPROS balanceOf STATICCALL before writes. Healthy/surplus custody is a
+    /// no-op. F absorbs first, then unreleased H, protecting nominal R/P rights without a user haircut.
+    /// State writes precede their events; BuffersAbsorbed precedes InsolvencyEntered for monitoring.
     function syncSolvency() external nonReentrant {
-        revert SkeletonOnly();
+        S.Layout storage s = S.layout();
+        if (s.mode.insolvent) return;
+        uint256 actual = IStPROS(s.dependencies.stpros).balanceOf(address(this));
+        uint256 q = _accountedObligations();
+        if (actual >= q) return;
+        uint256 deficit = q - actual;
+        uint256 absorbedF = Math.min(deficit, s.accounting.F);
+        uint256 totalH = q - s.accounting.R - s.accounting.P - s.accounting.F;
+        s.accounting.F -= SafeCast.toUint128(absorbedF);
+        deficit -= absorbedF;
+        uint256 absorbedH = Math.min(deficit, totalH);
+        uint256[4] memory cuts;
+        if (absorbedH != 0) cuts = _absorbHLoss(absorbedH, totalH);
+        deficit -= absorbedH;
+        if (absorbedF != 0 || absorbedH != 0) emit BuffersAbsorbed(absorbedF, cuts);
+        // Exactly exhausting F+H is solvent; only a strictly positive residual threatens R/P.
+        if (deficit != 0) _enterInsolvency(actual, absorbedF, absorbedH, deficit);
     }
 
-    /// @notice Clears objective insolvency only after actual full recapitalization.
-    /// @dev SKELETON ONLY. Permissionless future balance-only check requires L >= Q; preserve incident evidence, written-down F/H and all user rights. No privileged partial restore.
+    /// @dev Absorb a positive target <= total remaining H, all in stPROS raw18. For each fixed slot
+    /// (active-base, active-penalty, next-base, next-penalty), floor(target*h_i/H) uses full-precision
+    /// mulDiv and its remainder uses mulmod: the product can exceed uint256. Give each leftover raw
+    /// unit to the largest remainder, lower slot ID on ties, at most once per source. Four quotas leave
+    /// at most three units. No price or external call. Source realizedLoss is lost prefunded unreleased
+    /// yield budget, never a user haircut/unit/claim multiplier. Only remaining and realizedLoss change;
+    /// checked writes preserve funded = remaining + realizedYield + realizedLoss on legal open sources.
+    /// @param target Positive aggregate loss, no greater than total H; may exceed uint128.
+    /// @param total Sum of the four pre-loss remaining budgets; positive because target is positive.
+    /// @return cuts Exact per-source losses, summing to target, each bounded by its original remaining.
+    function _absorbHLoss(uint256 target, uint256 total) private returns (uint256[4] memory cuts) {
+        S.Layout storage s = S.layout();
+        uint256[4] memory remainders;
+        uint256 allocated;
+        for (uint256 i; i < 4; ++i) {
+            uint256 h = s.plans[i / 2].sources[i % 2].remaining;
+            cuts[i] = Math.mulDiv(target, h, total);
+            remainders[i] = mulmod(target, h, total);
+            allocated += cuts[i];
+        }
+        uint256 leftover = target - allocated;
+        // Zeroing a selected remainder excludes it: any remaining winner has positive remainder.
+        // If target == total all quotas are exact and this loop is skipped.
+        for (uint256 n; n < leftover; ++n) {
+            uint256 winner;
+            for (uint256 i = 1; i < 4; ++i) {
+                if (remainders[i] > remainders[winner]) winner = i;
+            }
+            cuts[winner] += 1;
+            remainders[winner] = 0;
+        }
+        for (uint256 i; i < 4; ++i) {
+            S.Source storage source = s.plans[i / 2].sources[i % 2];
+            uint128 cut = SafeCast.toUint128(cuts[i]);
+            source.remaining -= cut;
+            source.realizedLoss += cut;
+        }
+    }
+
+    /// @dev Record a new residual R/P backing failure without modifying R/P, shares, principal or
+    /// redemption rights. Checked ID/time writes precede the entry event. Only sync calls this after
+    /// exhausting buffers; no privileged mode setter and no revert after a successful entry.
+    /// @param actual Observed stPROS raw18 custody from the single pre-write STATICCALL.
+    /// @param absorbedF Actual stPROS raw18 F loss in this sync.
+    /// @param absorbedH Aggregate stPROS raw18 H loss; per-source detail is in BuffersAbsorbed.
+    /// @param residual Strictly positive remaining stPROS raw18 deficit after F and H.
+    function _enterInsolvency(uint256 actual, uint256 absorbedF, uint256 absorbedH, uint256 residual) private {
+        S.Layout storage s = S.layout();
+        s.mode.insolvent = true;
+        s.mode.incidentId += 1;
+        s.mode.enteredAt = SafeCast.toUint64(block.timestamp);
+        emit InsolvencyEntered(
+            s.mode.incidentId, actual, s.accounting.R, s.accounting.P, absorbedF, absorbedH, residual
+        );
+    }
+
+    /// @notice Clears catastrophic mode only after current obligations are fully backed by real custody.
+    /// @dev Permissionless, local lock, no Oracle/Reserve/Gateway. Outside mode return without a
+    /// dependency call, even with an unsynchronized deficit; only sync can absorb that deficit.
+    /// Inside mode, the sole external read is balanceOf STATICCALL before writes. Partial recap
+    /// reverts UNDERBACKED atomically. Full recap clears only the bool, retaining incident ID/time:
+    /// written-down F/H never resurrect and excess custody stays unclassified. Emit after the write.
     function restoreSolvency() external nonReentrant {
-        revert SkeletonOnly();
+        S.Layout storage s = S.layout();
+        if (!s.mode.insolvent) return;
+        uint256 actual = IStPROS(s.dependencies.stpros).balanceOf(address(this));
+        uint256 q = _accountedObligations();
+        if (actual < q) revert UNDERBACKED();
+        s.mode.insolvent = false;
+        emit SolvencyRestored(s.mode.incidentId, actual, q);
     }
 
     /// @notice Realizes eligible current-price APR yield from real H into R.
@@ -626,7 +720,7 @@ contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGu
     }
 
     /// @notice Returns objective insolvency state and persistent incident evidence.
-    /// @dev Pure storage read, independent of pause, Oracle and balance availability. Restore clears only the boolean in the future business implementation.
+    /// @dev Pure storage read, independent of pause, Oracle and balance availability. Successful restore clears only the boolean and preserves incident ID/time evidence.
     /// @return Copied objective incident DTO.
     function mode() external view returns (T.Mode memory) {
         S.Mode storage p = S.layout().mode;

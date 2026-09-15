@@ -14,7 +14,7 @@ optimizer_runs = 200
 via_ir = false
 extra_output = ["storageLayout", "metadata"]
 ast = true
-fs_permissions = [{ access = "read", path = "reference/tbpros/calendar-fixtures.json" }]
+fs_permissions = [{ access = "read", path = "cache/tbpros-hardening/solvency-cases.bin" }, { access = "read", path = "reference/tbpros/calendar-fixtures.json" }]
 
 [profile.tbpros.fuzz]
 runs = 1024

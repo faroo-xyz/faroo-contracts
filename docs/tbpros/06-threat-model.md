@@ -63,3 +63,5 @@ APR采用用户明确批准的realized rule，旧“已赚但尚留H”的强债
 [14](14-core-architecture-finalization.md)/[15](15-loss-math-finalization.md)的A/B/C负向研究保留。16轮正式移除V1 live R/P haircut，LOSS-MATH-01 CLOSED BY PRODUCT SCOPE REDUCTION，不继续索引算法。
 
 新攻击面见[16](16-insolvency-mode-architecture-freeze.md)：独立sync防止set-then-revert事故记录丢失；Claim在mode/backing guard后才消费；partial recap不能unlock；full recap不复活F/H；balanceOf故障/static callback与付款过程中额外扣款已做最小回归。Catastrophic暂停不是Guardian权限。safe/普通transfer仍开放，正常月度付款时限在真实欠抵押期间不保证；未来恢复分发不在本轮。
+
+20轮新增生产证据见[Solvency实现记录](20-insolvency-production-implementation.md)：真实balanceOf STATICCALL、回调重入/写入失败原子性、F/H最大余数分配、incident幂等和partial recap拒绝。恶意stPROS谎报余额、恶意Model A升级及真实外部依赖仍是信任/集成边界。

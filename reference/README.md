@@ -34,3 +34,5 @@ tests (76 retained + 9 new). These are schema/reference results, not production
 money logic or Gateway execution. See `docs/tbpros/18-core-skeleton-hardening.md`.
 
 Request增量独立参考：`request_accounting_model.py` 使用Python datetime、事务副本提交和dictionary聚合，覆盖授权、计数、碎片化和随机序列；不声称真实依赖fork或完整赎回实现。
+
+Solvency生产差分：`solvency_production_model.py` 使用Fraction一次排序分配，包含h[4]/F∈0..3、D∈0..16的完整笛卡尔穷举、固定seed宽域随机和max边界。ci.sh每次生成ignored二进制向量，Foundry读取并驱动真实syncSolvency；不是只对Python自身断言。旧insolvency_model.py保持历史语义。

@@ -25,12 +25,12 @@ meaning = {
 }
 rules = {
 'Accounting':('Vault business helpers; C init/TL config','R/U/B clear only at full burn; P after all claims/dust; F only approved classification/payout/absorption'),
-'Mode':('Vault sync/restore only (both stub now)','restore clears bool only; never reset counter/time; F/H do not resurrect'),
+'Mode':('Vault sync/restore implemented; objective incident metadata only','restore clears bool only; never reset counter/time; F/H do not resurrect'),
 'Dependencies':('Vault initializer; only oracle/receivers have fixed-TL setters','fixed bindings never reset; mutable references only documented setters'),
 'Policy':('Vault init/TL config; Guardian only tightens pause','no reset of accepted risk history; hard fee maximum requires product-version change'),
 'Bucket':('Vault init/consume/refill/TL conservative reconfiguration','init credit/remainder=0; refill/cap clipping materialize before config; saturation clears unused remainder; no free top-up'),
 'Plan':('Vault funded-plan/checkpoint/close helpers (stub)','reuse fixed active/next only after close completes or safe atomic promotion; full burn retires; cursor/carry cannot pass to new holders'),
-'Source':('Vault plan/checkpoint/sync/close helpers (stub)','zero/delete only after refund/return fully accounted and source events emitted; no revival'),
+'Source':('Vault sync loss writer implemented; plan/checkpoint/close helpers remain stub','zero/delete only after refund/return fully accounted and source events emitted; no revival'),
 'Epoch':('Vault shared request helper implemented; settle/claim helpers remain stub','delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard'),
 'Position':('Vault shared request helper implemented; claim helper remains stub','delete after all requested shares consumed; no new request into settled epoch; event history only'),
 'Layout':('Vault only; nested writers as specified','no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle'),

@@ -341,24 +341,22 @@ contract CoreSkeletonTest is CoreFixture {
     function testFinancialEndpointsExplicitlyUnimplemented() public {
         v.unpause();
         v.setRequestsPaused(false);
-        bytes[] memory calls = new bytes[](17);
+        bytes[] memory calls = new bytes[](15);
         calls[0] = abi.encodeCall(v.subscribe, (1, 1));
         calls[1] = abi.encodeCall(v.fastRedeem, (1, 0));
         calls[2] = abi.encodeCall(v.claimRedeem, (uint64(1), 1, alice, alice));
         calls[3] = abi.encodeCall(v.checkpointYield, ());
         calls[4] = abi.encodeCall(v.settleMaturedEpochs, (1));
-        calls[5] = abi.encodeCall(v.syncSolvency, ());
-        calls[6] = abi.encodeCall(v.restoreSolvency, ());
-        calls[7] = abi.encodeCall(v.fundPlan, (1, T.PlanTerms(100, 1, 2)));
-        calls[8] = abi.encodeCall(v.activatePlan, (uint128(1)));
-        calls[9] = abi.encodeCall(v.closePlan, (uint128(1)));
-        calls[10] = abi.encodeCall(v.schedulePenaltyPlan, (1, T.PlanTerms(100, 1, 2)));
-        calls[11] = abi.encodeCall(v.syncSurplus, (1));
-        calls[12] = abi.encodeCall(v.setPrincipalCap, (uint128(100)));
-        calls[13] = abi.encodeCall(v.tightenMintLossBound, (uint16(1)));
-        calls[14] = abi.encodeCall(v.setFastFee, (uint16(1)));
-        calls[15] = abi.encodeCall(v.setMaxPlanDuration, (uint64(100)));
-        calls[16] = abi.encodeCall(v.setBucketConfig, (uint8(0), T.BucketConfig(1, 1)));
+        calls[5] = abi.encodeCall(v.fundPlan, (1, T.PlanTerms(100, 1, 2)));
+        calls[6] = abi.encodeCall(v.activatePlan, (uint128(1)));
+        calls[7] = abi.encodeCall(v.closePlan, (uint128(1)));
+        calls[8] = abi.encodeCall(v.schedulePenaltyPlan, (1, T.PlanTerms(100, 1, 2)));
+        calls[9] = abi.encodeCall(v.syncSurplus, (1));
+        calls[10] = abi.encodeCall(v.setPrincipalCap, (uint128(100)));
+        calls[11] = abi.encodeCall(v.tightenMintLossBound, (uint16(1)));
+        calls[12] = abi.encodeCall(v.setFastFee, (uint16(1)));
+        calls[13] = abi.encodeCall(v.setMaxPlanDuration, (uint64(100)));
+        calls[14] = abi.encodeCall(v.setBucketConfig, (uint8(0), T.BucketConfig(1, 1)));
         for (uint256 i; i < calls.length; ++i) {
             (bool ok, bytes memory result) = address(v).call(calls[i]);
             assertFalse(ok);

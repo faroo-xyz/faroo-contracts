@@ -3,6 +3,7 @@
 set -euo pipefail
 : "${TBPROS_SOLC:?Set TBPROS_SOLC to the approved native solc 0.8.28 executable}"
 mkdir -p cache/tbpros-hardening
+python3 reference/solvency_production_model.py --vectors cache/tbpros-hardening/solvency-cases.bin > cache/tbpros-hardening/solvency-vectors.log
 export FOUNDRY_PROFILE=tbpros
 forge build --use "$TBPROS_SOLC" --offline --force > cache/tbpros-hardening/build.log 2>&1
 forge test --use "$TBPROS_SOLC" --offline -vv > cache/tbpros-hardening/core-tests.log 2>&1

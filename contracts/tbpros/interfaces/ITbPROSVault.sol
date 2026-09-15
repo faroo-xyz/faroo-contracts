@@ -3,7 +3,7 @@ pragma solidity 0.8.28;
 
 import {TbPROSTypes as S} from "../TbPROSTypes.sol";
 
-/// @notice Custom V1 ABI with implemented monthly request admission; other financial endpoints remain skeletons.
+/// @notice Custom V1 ABI with monthly request admission and objective solvency transitions; other funds operations remain skeletons.
 interface ITbPROSVault {
     /// @dev The funds/configuration lifecycle is deliberately not implemented in this revision.
     error SkeletonOnly();
@@ -138,7 +138,7 @@ interface ITbPROSVault {
     /// @param R Preserved released active stPROS raw18.
     /// @param P Preserved unpaid settled stPROS raw18.
     /// @param absorbedF stPROS raw18 written down from F.
-    /// @param absorbedH stPROS raw18 H loss; array order is active-base, active-penalty, next-base, next-penalty when applicable.
+    /// @param absorbedH Aggregate stPROS raw18 H loss in this sync; BuffersAbsorbed provides the four-source detail.
     /// @param residualDeficit Remaining actual stPROS raw18 deficit after buffers.
     event InsolvencyEntered(
         uint256 indexed incidentId,
@@ -229,11 +229,19 @@ interface ITbPROSVault {
     /// @param owner Account whose tbPROS shares are escrowed or transferred.
     /// @return epoch Strict next UTC month key for this request.
     function requestRedeem(uint256 shares, address controller, address owner) external returns (uint64 epoch);
-    /// @notice Commits objective F/H deficit absorption and, if necessary, insolvency entry.
-    /// @dev SKELETON ONLY. Future implementation reads actual backing without Oracle/Reserve, consumes F then pro-rata at most four H sources, and preserves R/P/S/U/B and locked prices. Repeated insolvent sync preserves incident evidence.
+    /// @notice Commits actual F/H deficit absorption and, when necessary, catastrophic mode entry.
+    /// @dev Permissionless and separate from failing money transactions so writes persist. An existing
+    /// incident returns before balanceOf: repeated loss or recap never rewrites its evidence. Otherwise
+    /// the only dependency is stPROS balanceOf STATICCALL before writes. Healthy/surplus custody is a
+    /// no-op. F absorbs first, then unreleased H, protecting nominal R/P rights without a user haircut.
+    /// State writes precede their events; BuffersAbsorbed precedes InsolvencyEntered for monitoring.
     function syncSolvency() external;
-    /// @notice Clears objective insolvency only after actual full recapitalization.
-    /// @dev SKELETON ONLY. Permissionless future balance-only check requires L >= Q; preserve incident evidence, written-down F/H and all user rights. No privileged partial restore.
+    /// @notice Clears catastrophic mode only after current obligations are fully backed by real custody.
+    /// @dev Permissionless, local lock, no Oracle/Reserve/Gateway. Outside mode return without a
+    /// dependency call, even with an unsynchronized deficit; only sync can absorb that deficit.
+    /// Inside mode, the sole external read is balanceOf STATICCALL before writes. Partial recap
+    /// reverts UNDERBACKED atomically. Full recap clears only the bool, retaining incident ID/time:
+    /// written-down F/H never resurrect and excess custody stays unclassified. Emit after the write.
     function restoreSolvency() external;
     /// @notice Realizes eligible current-price APR yield from real H into R.
     /// @dev SKELETON ONLY. Reject matured backlog, invalid price or insufficient H without moving cursor. USD18 numerator = Uraw6*1e12*500*elapsed + carry; floor division by 10000*YEAR carries the remainder. No unpaid USD debt or historical price integration.
@@ -369,7 +377,7 @@ interface ITbPROSVault {
     /// @return Copied authoritative ledger DTO.
     function accounting() external view returns (S.Accounting memory);
     /// @notice Returns objective insolvency state and persistent incident evidence.
-    /// @dev Pure storage read, independent of pause, Oracle and balance availability. Restore clears only the boolean in the future business implementation.
+    /// @dev Pure storage read, independent of pause, Oracle and balance availability. Successful restore clears only the boolean and preserves incident ID/time evidence.
     /// @return Copied objective incident DTO.
     function mode() external view returns (S.Mode memory);
 

@@ -57,3 +57,5 @@ CI顺序：frozen依赖→生产同profile build→单元/攻击回归→statefu
 ## 16轮Insolvency验证
 
 新增20 Python与23 Foundry（含actual-flow/source stateful）通过，覆盖I01–I16及INS-01–10；全套76 Python、64 Foundry。source预算/独立Fraction quota、真实token余额、sync原子提交、mode前置拒绝、partial/full recap、safe与升级路径见[16](16-insolvency-mode-architecture-freeze.md)。A/B/C未删除未改源，保留negative evidence，不要求未来Core实现历史失败算法。
+
+20轮生产测试：`SolvencyProduction.t.sol`，Fraction生成差分输入写入ignored cache后由真实Vault路径逐例核对；保留128×64 fail_on_revert stateful，覆盖custody变化、sync、直接补资、restore、safe/ordinary request和share transfer。实际数量、gas及限制见20和latest-local-checks。

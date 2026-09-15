@@ -107,3 +107,7 @@ Request-only 测试域：Vault escrow = sum 所有 ghost Position requested = su
 对应真实 Vault 派生测试中的 `invariant_EscrowRightsQueueSupplyAndEconomicLedger`，以及独立
 `reference/request_accounting_model.py`。测试mint/flags等仅在harness中；后续Settlement实现后必须
 把escrow右侧收窄为尚未settle的请求，不能沿用Request-only等式作为全生命周期证明。
+
+## 20 · Objective mode production invariants
+
+实际L可在任意两个调用间减少，故不声明`!insolvent => L>=Q`。仅正常态成功sync之后保证L>=Q，否则进入mode。sync/restore保护R/P/S/U/B/C、plan条款/cursor/carry及既有Position/Epoch进度；只允许F、四source.remaining/realizedLoss及Mode的已定转换。source funded=remaining+realizedYield+realizedLoss保持；written-down F/H绝不因recap/restore回升。详见20的差分与stateful ghost证据。

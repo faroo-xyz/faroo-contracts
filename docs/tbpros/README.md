@@ -8,7 +8,9 @@
 
 18轮历史结构基线：[18 · Core Skeleton Hardening](18-core-skeleton-hardening.md)。58个Vault函数、独立ABI DTO、每plan冻结Ucap、proxy initial-only YEAR、proposal expiry。实际runtime14,236 bytes，剩6,244；31项结构/schema测试、64项历史回归、85项Python测试通过。自动ABI/storage/selector/size/NatSpec guard已加入；该轮业务均保持SkeletonOnly。Core Skeleton HARDENED / READY FOR INCREMENTAL CORE LOGIC / Production NO-GO。[17](17-core-skeleton-freeze.md)保留为旧基线。
 
-当前Request增量：[19 · Request Accounting](19-request-accounting-implementation.md)。用户已裁决owner/operator/allowance优先级及全体live Position统一计数；两个Request selector现有完整登记与内部escrow实现。REQUEST ACCOUNTING IMPLEMENTED / VERIFIED；61 Core、64历史回归、90 Python及全部guards通过；Vault runtime16,737，剩3,743 bytes。实际验证见[本地摘要](verification/latest-local-checks.md)。其他业务仍stub，不能视为完整赎回。
+19轮已完成Request增量：[19 · Request Accounting](19-request-accounting-implementation.md)。用户已裁决owner/operator/allowance优先级及全体live Position统一计数；两个Request selector现有完整登记与内部escrow实现。REQUEST ACCOUNTING IMPLEMENTED / VERIFIED；61 Core、64历史回归、90 Python及全部guards通过；Vault runtime16,737，剩3,743 bytes。实际验证见[本地摘要](verification/latest-local-checks.md)。其他业务仍stub，不能视为完整赎回。
+
+当前入口：[20 · Solvency / Catastrophic Insolvency](20-insolvency-production-implementation.md)。sync/restore及F→四源H→客观mode已实现，Request不改；本地Core90、历史回归64、Python92及全部guards通过。Vault runtime18,910/20,480，剩1,570 bytes（使用92.33%）。INSOLVENCY PRODUCTION LOGIC IMPLEMENTED / VERIFIED；READY FOR NEXT CORE INCREMENT；PRODUCTION NO-GO。未实现R/P事故分发或完整月度付款。
 
 ## 建议审阅顺序
 
@@ -46,7 +48,7 @@
 - [固定区块Pharos probe](verification/pharos-fork-output.txt)：4项通过；1153节点执行支持已验，真实目标SLP版本缺失仍BLOCKED。
 - [16轮验证记录](verification/insolvency-test-results.json)及[Mode packing实验](verification/insolvency-storage-layout.json)。A/B/C原源码与15轮hash一致；旧C硬验收FAIL是保留的negative evidence，不是当前Core gate。
 
-模型成功不能替代生产I01..24/E01..05全量stateful、V1自定义ABI/未支持ID负向测试、完整目标依赖Pharos fork、storage升级兼容、gas/bytecode、ownership handoff与外审。**当前授权止于19轮Request Accounting，不自动继续其他业务。**
+模型成功不能替代生产I01..24/E01..05全量stateful、V1自定义ABI/未支持ID负向测试、完整目标依赖Pharos fork、storage升级兼容、gas/bytecode、ownership handoff与外审。**当前授权止于20轮Solvency / Catastrophic Insolvency，不自动继续其他业务。**
 
 ## 增量开发验证节奏
 

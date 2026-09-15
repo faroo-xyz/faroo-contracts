@@ -1,5 +1,7 @@
 # 16 · Insolvency Mode Architecture Freeze
 
+> 16轮历史模型证据保留。当前生产实现以[20](20-insolvency-production-implementation.md)为准；以下restore正常态no-op与乘积上界已按本轮明确要求修正。
+
 2026-09-15。用户本轮已正式批准产品复杂度裁决。交付仅包括规范、独立Python状态机和最小Foundry probes；没有生产TbPROSVault、部署脚本、迁移合约或主网操作。
 
 **INSOLVENCY MODE APPROVED / MODEL VERIFIED**  
@@ -59,7 +61,7 @@ then perform normal operation
 
 ### restoreSolvency()
 
-无参数、permissionless、本地重入锁；读取实际L，若L<Q则revert UNDERBACKED。足额且insolvent时，只清bool并发SolvencyRestored；incidentId/enteredAt保持上次事故记录，历史事件永久可索引。已经正常且足额时no-op；不能靠调用restore吸收尚未同步的F/H缺口。
+无参数、permissionless、本地重入锁；非insolvent直接no-op，不读balanceOf，即使存在未同步缺口也不吸损、不清账。仅insolvent时读取实际L，L<Q则revert UNDERBACKED；足额只清bool并发SolvencyRestored，保留incidentId/enteredAt。此处更新覆盖16轮旧模型在正常态也先检查L的行为；旧模型保留为历史证据。
 
 直接`stPROS.transfer(Vault,a)`补资，不增加入金selector。部分补资不允许任何正常付款；超额补资先恢复既有backing，restore成功后的真正surplus才可由正常syncSurplus分类。无需Oracle、Reserve、Keeper或治理批准实际补资。
 
@@ -73,7 +75,7 @@ then perform normal operation
 | --- | --- | --- | --- |
 | initialize(config) | proxy构造时一次 | 不存在再次initialize路径 | implementation锁初始化 |
 | syncSolvency() | permissionless吸F/H、必要时入mode | permissionless no-op | 独立提交客观状态 |
-| restoreSolvency() | 足额no-op；不足拒绝 | 仅实际L≥Q恢复 | 不改账、不造F/H |
+| restoreSolvency() | 直接no-op，不读余额/不吸损 | 仅实际L≥Q恢复 | 不改账、不造F/H |
 | safeRequestRedeem(q) | owner-only，同queue | **允许** | 不读mode/资产余额/Oracle/pause；不执行backlog barrier；count仅读写统计、不作safe准入上限；无外部资金 |
 | requestRedeem(q,c,o) | 原授权、complex pause/count | **拒绝INSOLVENT** | 最小登记已有safe入口 |
 | ERC20 transfer / transferFrom / approve | 原ERC20、本地锁 | **允许** | 总S/U/B/R/P/F/H不变；直接外部转share入Vault仍拒绝，escrow用helper |
@@ -114,7 +116,7 @@ then perform normal operation
 
 slot ID固定：0 activeBase、1 activePenalty、2 nextBase、3 nextPenalty。对hCut和原source remaining h_i：`cut_i=floor(hCut·h_i/H)`，剩余整数raw按最大余数分配，余数相同时slot ID小者优先。剩余最多3 raw，最多4个source、固定有界扫描。零H不除零。
 
-性质：sum cuts=hCut；0≤cut_i≤h_i；每source与精确同比差<1 raw；来源输入顺序不改变结果。这是既有H规则，没有新增用户R/P dust tolerance。金额域使hCut·h_i<2^256，仍使用OZ全精度数学；source剩余、distributable必须同步减cut，realizedLoss加cut。
+性质：sum cuts=hCut；0≤cut_i≤h_i；每source与精确同比差<1 raw；来源输入顺序不改变结果。这是既有H规则，没有新增用户R/P dust tolerance。聚合hCut可达4×uint128.max，hCut·h_i可能超过2^256；必须使用OZ Math.mulDiv计算floor及mulmod计算余数；source剩余、distributable必须同步减cut，realizedLoss加cut。
 
 不保存第二个可写“distributable镜像”：优先定义为各source remaining之和。若保留既有字段，必须同笔更新并断言一致；源码probe使用derived H。来源守恒仍是funded=remaining+realizedLoss+realizedYield+refunded+returnedToF。
 

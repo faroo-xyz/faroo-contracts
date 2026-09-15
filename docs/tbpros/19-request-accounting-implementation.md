@@ -1,5 +1,7 @@
 # 19 · Request Accounting — Core Logic Increment 1
 
+> 本页保留Request增量及当轮size/验证记录。sync/restore随后由[20](20-insolvency-production-implementation.md)实现，文末stub列表是19轮历史状态。
+
 基于 `eebad7f5100366938c3e529516d275fd1e913411`；2026-09-15。用户正式解除此前授权矩阵和count语义阻断。本页取代此前preflight阻断记录，历史经过仍可从该commit查看。
 
 ## A. Scope
@@ -157,3 +159,7 @@ REQUEST ACCOUNTING IMPLEMENTED / VERIFIED
 READY FOR NEXT CORE INCREMENT
 PRODUCTION NO-GO
 ```
+
+## Residual risk：controller赠与的计数干扰
+
+**LOW / non-blocking griefing surface**：owner可主动将自己真实escrow shares对应的权利赠与其他controller，理论上通过多个唯一月份增加对方openPositionCount，影响其ordinary新Position准入。攻击者必须交付真实shares，权利归目标controller，并需跨多个月份；safeRequest始终不受count上限限制，已有Position的ordinary merge也继续可用。本轮仅披露该残余面，不改Request授权、不加provenance storage。

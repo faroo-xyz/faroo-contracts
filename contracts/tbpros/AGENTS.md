@@ -709,9 +709,9 @@ separate gates. No full funds logic or deployment is authorized by that stage.
 
 # 29. Core skeleton boundary
 
-Document 19 authorizes only Request Accounting beyond the hardened skeleton.
+Documents 19/20 authorize Request Accounting and objective sync/restore beyond the hardened skeleton.
 safeRequestRedeem/requestRedeem share the implemented request writer and local
-escrow. All other financial/incident business endpoints and Reserve/Gateway
+escrow. All other financial business endpoints and Reserve/Gateway
 business operations remain explicit SkeletonOnly. Request admission is not
 settlement, Claim, restore, or a complete cash exit.
 S is only OZ totalSupply. Do not create an independent supply/H/Claim ledger.
@@ -723,7 +723,7 @@ mapping values and fixed-array stride, not just ordinary forge storage output.
 Any future business increment must remeasure runtime against 20,480 bytes.
 The hardened pre-request baseline had 6,244 bytes headroom; document 19 and the
 latest local checks record the measured increment. No full-business size promise.
-This authorized stage ends after Request Accounting; do not autonomously continue
+This authorized stage ends after Solvency / Catastrophic Insolvency; do not autonomously continue
 other business implementation.
 
 # 30. English code documentation (permanent)
@@ -815,3 +815,24 @@ Safe performs no dependency call, mode/pause check, asset-balance read, Gateway
 interaction or backlog barrier. Ordinary retains normalState's existing stPROS
 balanceOf STATICCALL and requestsOpen; no additional dependency is introduced.
 Strict next UTC month and O(1) queue admission share the existing MonthMath.
+
+# 34. Objective solvency production increment
+
+Document 20 implements only syncSolvency/restoreSolvency beyond Request. Q has
+one internal Vault definition: uint256 R+P+F+all four source.remaining amounts.
+Sync returns before balanceOf when already insolvent; otherwise read actual L
+once by STATICCALL. L>=Q is a no-op, including donations. Absorb F first, then H
+using full-precision floor quotas plus largest remainders; fixed source IDs are
+active-base, active-penalty, next-base, next-penalty, lower ID wins ties. Use
+Math.mulDiv/mulmod; aggregate products can exceed uint256. Each source receives
+at most one remainder unit. Decrease remaining and increase realizedLoss with
+checked arithmetic; never alter funded/yield/plan terms or user R/P rights.
+
+Only a strictly positive residual after F/H enters mode, with checked incident
+ID increment and timestamp. Repeated sync in mode never reabsorbs or clears.
+Restore outside mode is a no-op before dependencies, including an unsynchronized
+deficit. Restore inside mode requires actual L>=current Q or UNDERBACKED; clear
+only the bool and preserve incident metadata, source losses and unclassified
+excess. No asset transfer, Oracle, Reserve, Gateway latch or new public selector.
+Request implementation is frozen. No R/P haircut, recovery distribution, funding,
+settlement, Claim, yield, fast exit or surplus implementation is authorized.
