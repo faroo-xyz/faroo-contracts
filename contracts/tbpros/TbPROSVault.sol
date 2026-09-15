@@ -16,6 +16,11 @@ import {TbPROSStorage as S} from "./TbPROSStorage.sol";
 
 /// @notice Monthly share requests and objective solvency transitions; other funds operations remain skeletons.
 contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGuardTransient, ITbPROSVault {
+    /// @dev Require the fixed stored Timelock root; shared by delayed entries and request unpause.
+    /// No external calls, role delegation, state writes or change to error precedence.
+    function _requireTimelock() private view {
+        if (msg.sender != S.layout().dependencies.timelock) revert Unauthorized();
+    }
     /// @notice OZ role for emergency pause tightening only; Timelock appoints/revokes.
     bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
     /// @notice Approved successful-realization APR in basis points; changes require a product version.
@@ -29,7 +34,7 @@ contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGu
 
     /// @dev Direct fixed-root check; inherited roles cannot delegate this authority.
     modifier onlyTimelock() {
-        if (msg.sender != S.layout().dependencies.timelock) revert Unauthorized();
+        _requireTimelock();
         _;
     }
 
@@ -592,7 +597,7 @@ contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGu
     /// @param paused True tightens the relevant pause; false requires Timelock.
     function setRequestsPaused(bool paused) external nonReentrant {
         if (paused) _requirePauseAuthority();
-        else if (msg.sender != S.layout().dependencies.timelock) revert Unauthorized();
+        else _requireTimelock();
         S.layout().policy.requestsPaused = paused;
         emit RequestsPausedChanged(paused);
     }

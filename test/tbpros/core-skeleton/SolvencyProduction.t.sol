@@ -459,7 +459,7 @@ contract SolvencyProductionTest is SolvencyFixture {
         vm.prank(bob);
         v.transferFrom(alice, bob, 1);
         bytes32 rights = rightsHash();
-        bytes[] memory calls = new bytes[](16);
+        bytes[] memory calls = new bytes[](11);
         calls[0] = abi.encodeCall(v.requestRedeem, (1, alice, alice));
         calls[1] = abi.encodeCall(v.claimRedeem, (uint64(1), 1, alice, alice));
         calls[2] = abi.encodeCall(v.settleMaturedEpochs, (1));
@@ -471,11 +471,6 @@ contract SolvencyProductionTest is SolvencyFixture {
         calls[8] = abi.encodeCall(v.closePlan, (uint128(1)));
         calls[9] = abi.encodeCall(v.schedulePenaltyPlan, (1, T.PlanTerms(100, 1, 2)));
         calls[10] = abi.encodeCall(v.syncSurplus, (1));
-        calls[11] = abi.encodeCall(v.setPrincipalCap, (uint128(100)));
-        calls[12] = abi.encodeCall(v.tightenMintLossBound, (uint16(1)));
-        calls[13] = abi.encodeCall(v.setFastFee, (uint16(1)));
-        calls[14] = abi.encodeCall(v.setMaxPlanDuration, (uint64(100)));
-        calls[15] = abi.encodeCall(v.setBucketConfig, (uint8(0), T.BucketConfig(1, 1)));
         for (uint256 i; i < calls.length; ++i) {
             vm.prank(bob);
             (bool ok, bytes memory result) = address(v).call(calls[i]);
@@ -484,6 +479,40 @@ contract SolvencyProductionTest is SolvencyFixture {
         }
         assertEq(rightsHash(), rights);
         v.syncSolvency();
+        assertTrue(v.mode().insolvent);
+    }
+
+    // SPEC / STUB GUARD DRIFT, docs/21 section N. This records today's incomplete
+    // implementation, not the normative Insolvency selector matrix. Under sections
+    // 16/18, all five future setters remain Timelock-only and locally locked but
+    // must allow pure configuration in mode without a backing/Oracle dependency.
+    // Bucket refill materialization uses old terms; it is not a yield checkpoint
+    // or R/P/F/H reclassification. Future implementation must replace this test
+    // with successful authorized-mode configuration plus unauthorized/bounds and
+    // unchanged-rights/consumed-credit regressions. Do not preserve INSOLVENT as
+    // the product requirement merely to keep this temporary observation passing.
+    function testKnownConfigStubGuardDriftNotProductModePolicy() public {
+        custody.set(address(v), 27);
+        v.syncSolvency();
+        custody.fail(true, 0);
+        bytes32 beforeHash = r.protectedHash();
+        bytes[] memory calls = new bytes[](5);
+        calls[0] = abi.encodeCall(v.setPrincipalCap, (uint128(100)));
+        calls[1] = abi.encodeCall(v.tightenMintLossBound, (uint16(1)));
+        calls[2] = abi.encodeCall(v.setFastFee, (uint16(1)));
+        calls[3] = abi.encodeCall(v.setMaxPlanDuration, (uint64(100)));
+        calls[4] = abi.encodeCall(v.setBucketConfig, (uint8(0), T.BucketConfig(1, 1)));
+        for (uint256 i; i < calls.length; ++i) {
+            // Even the authorized fixture Timelock is currently blocked by the stub.
+            (bool ok, bytes memory result) = address(v).call(calls[i]);
+            assertFalse(ok);
+            assertEq(result, abi.encodeWithSelector(ITbPROSVault.INSOLVENT.selector));
+            vm.prank(bob);
+            (ok, result) = address(v).call(calls[i]);
+            assertFalse(ok);
+            assertEq(result, abi.encodeWithSelector(ITbPROSVault.INSOLVENT.selector));
+        }
+        assertEq(r.protectedHash(), beforeHash);
         assertTrue(v.mode().insolvent);
     }
 

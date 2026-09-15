@@ -1,0 +1,2055 @@
+{
+  "base_commit": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+  "compiler": "solc, the solidity compiler commandline interface\nVersion: 0.8.28+commit.7893614a.Darwin.appleclang",
+  "dependencies": "OpenZeppelin 5.6.1, installed pinned sources",
+  "profile": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "viaIR": false,
+    "evmVersion": "cancun"
+  },
+  "tool_sha256": "9f5a7d486333c2af589d403ca9a9d61e70576a43bc4704715c8789a5da94b211",
+  "scope": "Compiler diagnostics. Only Path-A-final-production is adopted, with behavioral verification recorded separately; Category B is never adopted. Initcode excludes constructor arguments. Physical comparison covers ordinary storage and recursively materialized tbPROS namespace; other inherited namespaces require manual semantic review.",
+  "variants": [
+    {
+      "variant": "A-current",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "25797dda22288dd936b7d11bbdb55c0e668ac1315717085eb473c678607aeda2",
+      "source_sha256": "f09b0be814d65eff3c384db72435d104dd57cb335643a27f5b4914b6ec96d57a",
+      "runtime_bytes": 18910,
+      "initcode_template_bytes": 19124,
+      "ABI_change": false,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "BASELINE",
+      "adopted": false,
+      "reason": "Exact current committed production source; baseline must equal 18910 or stop.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 29,
+        "5740": 3,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": 0,
+      "headroom_bytes": 1570,
+      "contracts": {
+        "TbPROSVault": {
+          "runtime_bytes": 18910,
+          "initcode_template_bytes": 19124
+        },
+        "UpgradeGateway": {
+          "runtime_bytes": 2835,
+          "initcode_template_bytes": 3110
+        },
+        "TbPROSLens": {
+          "runtime_bytes": 1508,
+          "initcode_template_bytes": 1536
+        },
+        "ProsReserve": {
+          "runtime_bytes": 2085,
+          "initcode_template_bytes": 2516
+        }
+      }
+    },
+    {
+      "variant": "history-hardened",
+      "source_basis": "ebab5d794bade22353211899f6554ded6cafc11f",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "af0f94328522a6fa7ecdda859b4f1611624ef7cc50610335d99f9c0ed1fe96ff",
+      "source_sha256": "a5e706d91c806dadefab5b480620a3d48e6ecb292061dbb7b13dd9743cd7c2da",
+      "runtime_bytes": 14236,
+      "initcode_template_bytes": 14450,
+      "ABI_change": false,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Historical schema; not an upgrade compatibility claim.",
+      "security_category": "HISTORICAL",
+      "adopted": false,
+      "reason": "Actual historical production rebuild with identical compiler/dependencies/profile.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 29,
+        "5740": 3,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -4674,
+      "headroom_bytes": 6244,
+      "contracts": {
+        "TbPROSVault": {
+          "runtime_bytes": 14236,
+          "initcode_template_bytes": 14450
+        },
+        "UpgradeGateway": {
+          "runtime_bytes": 2835,
+          "initcode_template_bytes": 3110
+        },
+        "TbPROSLens": {
+          "runtime_bytes": 1508,
+          "initcode_template_bytes": 1536
+        },
+        "ProsReserve": {
+          "runtime_bytes": 2085,
+          "initcode_template_bytes": 2516
+        }
+      }
+    },
+    {
+      "variant": "history-request",
+      "source_basis": "a12f2edaddeaa3c5b41b754fd4f10bfc08719749",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "d32f3484df8371f14c56ca0ff3835aedcb75c35d4a3ee3061a9e4b04f9f5687f",
+      "source_sha256": "f5826b0260dad9c5e838b03532ab7704d5b2cff9d2866ae676f9731008f2b733",
+      "runtime_bytes": 16737,
+      "initcode_template_bytes": 16951,
+      "ABI_change": false,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Historical schema; not an upgrade compatibility claim.",
+      "security_category": "HISTORICAL",
+      "adopted": false,
+      "reason": "Actual historical production rebuild with identical compiler/dependencies/profile.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 29,
+        "5740": 3,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -2173,
+      "headroom_bytes": 3743,
+      "contracts": {
+        "TbPROSVault": {
+          "runtime_bytes": 16737,
+          "initcode_template_bytes": 16951
+        },
+        "UpgradeGateway": {
+          "runtime_bytes": 2835,
+          "initcode_template_bytes": 3110
+        },
+        "TbPROSLens": {
+          "runtime_bytes": 1508,
+          "initcode_template_bytes": 1536
+        },
+        "ProsReserve": {
+          "runtime_bytes": 2085,
+          "initcode_template_bytes": 2516
+        }
+      }
+    },
+    {
+      "variant": "B-without-remaining-stubs",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "5643c308460a9d135f2aafc66592b4293b8ecef5858924207a8d8f2d1aba7b3f",
+      "source_sha256": "954d871997577e7ed4de7e6334cdc8515d05f8b184cc38500885b0b585d54487",
+      "runtime_bytes": 17811,
+      "initcode_template_bytes": 18025,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:activatePlan(uint128)",
+          "function:checkpointYield()",
+          "function:claimRedeem(uint64,uint256,address,address)",
+          "function:closePlan(uint128)",
+          "function:fastRedeem(uint256,uint256)",
+          "function:fundPlan(uint256,(uint128,uint64,uint64))",
+          "function:schedulePenaltyPlan(uint256,(uint128,uint64,uint64))",
+          "function:setBucketConfig(uint8,(uint128,uint128))",
+          "function:setFastFee(uint16)",
+          "function:setMaxPlanDuration(uint64)",
+          "function:setPrincipalCap(uint128)",
+          "function:settleMaturedEpochs(uint256)",
+          "function:subscribe(uint256,uint256)",
+          "function:syncSurplus(uint256)",
+          "function:tightenMintLossBound(uint16)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "DIAGNOSTIC ONLY / NOT FINAL-PRODUCT HEADROOM. Removes required V1 ABI, dispatch, modifiers and stub bodies.",
+      "warning_counts": {
+        "2394": 1
+      },
+      "delta_vs_current_bytes": -1099,
+      "headroom_bytes": 2669
+    },
+    {
+      "variant": "C-selector-modifier-stub-reservation",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "4c048f73001ecae4061d7b1bccb8031f414a50c4d1409b75e706935d6b211790",
+      "source_sha256": "13bb0ab7c366d90987e3fce2d1e446bb62d16abd113786e3c5ef67538b4ea6e9",
+      "runtime_bytes": 18910,
+      "initcode_template_bytes": 19124,
+      "ABI_change": false,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "DIAGNOSTIC",
+      "adopted": false,
+      "reason": "Same selectors and mandatory modifiers with SkeletonOnly bodies already present in A. Paired against B; not additive per-function costs.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": 0,
+      "headroom_bytes": 1570
+    },
+    {
+      "variant": "C-without-subscribe",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "2ae5e721fb3701e2cae944b1702e220d602d46dddf95bfdd872270690bdc0c3d",
+      "source_sha256": "b4e901284fb8b8d8fcea8d6d941adac23d343230068e8b41470c2f1701926255",
+      "runtime_bytes": 18899,
+      "initcode_template_bytes": 19113,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:subscribe(uint256,uint256)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 20,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -11,
+      "headroom_bytes": 1581
+    },
+    {
+      "variant": "C-without-fastRedeem",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "3d9ccad0b661ab60dd7b8ddf5d7d829a1c478a66dfb2bc6c9ab7f972a5168db1",
+      "source_sha256": "04beb684433ffd7d1b955c75996f59b3b6290d98fa4aa5b4fd25274df76414ec",
+      "runtime_bytes": 18899,
+      "initcode_template_bytes": 19113,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:fastRedeem(uint256,uint256)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 20,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -11,
+      "headroom_bytes": 1581
+    },
+    {
+      "variant": "C-without-claimRedeem",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "b5f3979efce12b54bf086b48e3accf7b35da74cdba09e9cb1d33e6d19144e280",
+      "source_sha256": "6217ef25e3d890a8c0ef9eb724737eaf3eab474a2b2dbe52e18f1ceba1aa7fea",
+      "runtime_bytes": 18785,
+      "initcode_template_bytes": 18999,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:claimRedeem(uint64,uint256,address,address)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 18,
+        "5740": 2
+      },
+      "delta_vs_current_bytes": -125,
+      "headroom_bytes": 1695
+    },
+    {
+      "variant": "C-without-checkpointYield",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "57277bcdce6538c53f9d8248b7c70d2d96634894a63804cf8e3330622e1c817c",
+      "source_sha256": "59a2ecb886d199855aff9fa5df25cd3d8a4b5b73451e64069b9f890c838a958f",
+      "runtime_bytes": 18891,
+      "initcode_template_bytes": 19105,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:checkpointYield()"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -19,
+      "headroom_bytes": 1589
+    },
+    {
+      "variant": "C-without-settleMaturedEpochs",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "06ab7549cb57d03d1eb211738b4d8e4c5cb5322c87b07b69c2ee418cdd257e19",
+      "source_sha256": "c524c747bac9ff5b1e556c98ffcced02452880ae52ef9cf9f3a63720b1e7c599",
+      "runtime_bytes": 18880,
+      "initcode_template_bytes": 19094,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:settleMaturedEpochs(uint256)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 21,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -30,
+      "headroom_bytes": 1600
+    },
+    {
+      "variant": "C-without-fundPlan",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "087e35a80e794217630a39c2e69869d211c1439768ceefbc8b14ccee8fb5f84d",
+      "source_sha256": "0d8f87da2302241d42e20b90010113889ea51237cfecae85b31ee1f2b6d17d92",
+      "runtime_bytes": 18871,
+      "initcode_template_bytes": 19085,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:fundPlan(uint256,(uint128,uint64,uint64))"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 20,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -39,
+      "headroom_bytes": 1609
+    },
+    {
+      "variant": "C-without-activatePlan",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "5368a46b19e6d9410680ba62bf6d016fbbb759d9d60584ad0d642e076b2528cb",
+      "source_sha256": "50f31bbac1814a3fe1b9a3bf9fc6a1834c41cadb7759034f28e0d4384897f611",
+      "runtime_bytes": 18899,
+      "initcode_template_bytes": 19113,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:activatePlan(uint128)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 21,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -11,
+      "headroom_bytes": 1581
+    },
+    {
+      "variant": "C-without-closePlan",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "db2822002a2f5337fa7ef179aaf9dfb29894a6c790fd962535a39cb0f5ad0862",
+      "source_sha256": "de26e5da847f05208217c8f2042a1c63ef0eb6d97d6b44635296a7b096ead61c",
+      "runtime_bytes": 18872,
+      "initcode_template_bytes": 19086,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:closePlan(uint128)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 21,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -38,
+      "headroom_bytes": 1608
+    },
+    {
+      "variant": "C-without-schedulePenaltyPlan",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "259c2e856d89f196ce6390627280c712a615f0dadbdd3a3b2293dfd1a269b79e",
+      "source_sha256": "ad46a9e5f153660d4e890cb9a2c93146c3eed8e6f0e41529dfd3430b4af31b80",
+      "runtime_bytes": 18871,
+      "initcode_template_bytes": 19085,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:schedulePenaltyPlan(uint256,(uint128,uint64,uint64))"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 20,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -39,
+      "headroom_bytes": 1609
+    },
+    {
+      "variant": "C-without-syncSurplus",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "a2580dd34e7f68b257a4c1ea5a8a43e260ede1d8ab757fc8d915cdc0b86b5bfa",
+      "source_sha256": "4d213823f0b0ea34369d9f2812246efaa2c924bd1f7150c71bf584b51876e2e7",
+      "runtime_bytes": 18885,
+      "initcode_template_bytes": 19099,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:syncSurplus(uint256)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 21,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -25,
+      "headroom_bytes": 1595
+    },
+    {
+      "variant": "C-without-setPrincipalCap",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "1ea9110583f258fb927506935b9a3ad77681abd086403cafd42a8432ed7e4530",
+      "source_sha256": "d973dce0c5ad480f28574893d2d5c615d8cc0c373a9d294583cc92dd1062a744",
+      "runtime_bytes": 18899,
+      "initcode_template_bytes": 19113,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:setPrincipalCap(uint128)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 21,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -11,
+      "headroom_bytes": 1581
+    },
+    {
+      "variant": "C-without-tightenMintLossBound",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "4bfde75bce5e72e65e91bc3cfed19ef2dcb5002f08bf1c79a8f93d9e53f61caa",
+      "source_sha256": "c4def7f7f1121342e0782d55fe32d8a06b45ee699f64e57ef507cc548f0c5be4",
+      "runtime_bytes": 18899,
+      "initcode_template_bytes": 19113,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:tightenMintLossBound(uint16)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 21,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -11,
+      "headroom_bytes": 1581
+    },
+    {
+      "variant": "C-without-setFastFee",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "c0c834b504f0e7326d26d21aa4bfc7c82660ca6ab56aad61ce6cb5f7953aad29",
+      "source_sha256": "edc69d4e48e065917120b6cbd3998f8ee79c9885a9959c3dbbf2adc0baf1acdd",
+      "runtime_bytes": 18899,
+      "initcode_template_bytes": 19113,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:setFastFee(uint16)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 21,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -11,
+      "headroom_bytes": 1581
+    },
+    {
+      "variant": "C-without-setMaxPlanDuration",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "9300bb1eba9044ca52ce57eef8cf52bff774fb42b1f99518702d594102e8813a",
+      "source_sha256": "9e5c961a89a7623fff939bd7e34c5495aefb4e742137e168f4f4422011af5231",
+      "runtime_bytes": 18885,
+      "initcode_template_bytes": 19099,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:setMaxPlanDuration(uint64)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 21,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -25,
+      "headroom_bytes": 1595
+    },
+    {
+      "variant": "C-without-setBucketConfig",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "eb5046cac252ec5a2e062f5b0b2b03a4acc66be1c852307c6bbd4094f29d2b96",
+      "source_sha256": "d6903f976303ac332a984802923c3d128f0dc7ffae8a5a0318dd2cc2e8ae6b10",
+      "runtime_bytes": 18839,
+      "initcode_template_bytes": 19053,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:setBucketConfig(uint8,(uint128,uint128))"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "ABI PRODUCT REDUCTION",
+      "adopted": false,
+      "reason": "Individual current stub marginal: includes shared optimizer effects; does not estimate future business body.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 20,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -71,
+      "headroom_bytes": 1641
+    },
+    {
+      "variant": "D-minimal-guardian",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "a7b0aa2aea14e0b861734beb04b520107e85d2879d56f83d37c73b9f8b69615b",
+      "source_sha256": "547724ff911ef533fb3182d2f60d27ea59b5f2289b36947e9b72d3ac6e9c4a93",
+      "runtime_bytes": 18153,
+      "initcode_template_bytes": 18367,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "error:AccessControlBadConfirmation()",
+          "error:AccessControlUnauthorizedAccount(address,bytes32)",
+          "event:RoleAdminChanged(bytes32,bytes32,bytes32)",
+          "event:RoleGranted(bytes32,address,address)",
+          "event:RoleRevoked(bytes32,address,address)",
+          "function:DEFAULT_ADMIN_ROLE()",
+          "function:getRoleAdmin(bytes32)",
+          "function:grantRole(bytes32,address)",
+          "function:hasRole(bytes32,address)",
+          "function:renounceRole(bytes32,address)",
+          "function:revokeRole(bytes32,address)",
+          "function:supportsInterface(bytes4)"
+        ],
+        "added": [
+          "event:GuardianChanged(address,bool)",
+          "function:guardians(address)",
+          "function:resignGuardian()",
+          "function:setGuardian(address,bool)"
+        ],
+        "changed": []
+      },
+      "storage_physical_change": true,
+      "storage_semantics": "OZ role namespace abandoned; ordinary guardian mapping added; migration required.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Fixed TL, multiple Guardians, TL appoint/revoke, self-resign, pause tightening only. Different ABI/events/storage and unaudited custom authorization; approval required.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -757,
+      "headroom_bytes": 2327
+    },
+    {
+      "variant": "E1-constant-metadata-keep-writes",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "6a50c0748c4e6fb0dcbe6a38aca2933c7c79ce174a0b4c1bc408d0a99c88f82e",
+      "source_sha256": "eab3ab5d8c0bbedf8a753854848f4e8cf513332fa7881d87d245fb12d630e74a",
+      "runtime_bytes": 18667,
+      "initcode_template_bytes": 18881,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": [
+          "function:name()",
+          "function:symbol()"
+        ]
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Metadata getters ignore legacy strings; uninitialized/implementation reads change.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Constant pure getters but retains initialization strings. Isolates getter strategy from write omission.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -243,
+      "headroom_bytes": 1813
+    },
+    {
+      "variant": "E2-constant-metadata-omit-writes",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "28f7e67bc07e18be6b65acdd63906b14a8e7ce1ed09851d267bffecf763df923",
+      "source_sha256": "8ca2a6dbe15283fcaaf63234c88240086c6ca885bb7ca7e852d24ce948749434",
+      "runtime_bytes": 18194,
+      "initcode_template_bytes": 18408,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": [
+          "function:name()",
+          "function:symbol()"
+        ]
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Legacy metadata slots stay declared but no longer initialized or read; token ledger unchanged.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Constant pure metadata, omit __ERC20_init only; all OZ token accounting retained. Requires metadata/storage semantic approval.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -716,
+      "headroom_bytes": 2286
+    },
+    {
+      "variant": "F-without-YEAR",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "d3b1cd46ffeb08b26f518d33ab482731ee7595ba219d9e53bcf400958a877c4f",
+      "source_sha256": "24e5b6f9f9d8591c2bed2122c73038a0d23edd9031254af695d3eff358ff2ae8",
+      "runtime_bytes": 18864,
+      "initcode_template_bytes": 19078,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:YEAR()"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -46,
+      "headroom_bytes": 1616
+    },
+    {
+      "variant": "F-without-backingAsset",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "77fe96c802f6c290d77e72147fe7804703738deb16a659f823285e98b5e52deb",
+      "source_sha256": "621187ec15bef523f417d10bd924b51a40ef835998f70e79216ca4aabcf0e6ca",
+      "runtime_bytes": 18840,
+      "initcode_template_bytes": 19054,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:backingAsset()"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -70,
+      "headroom_bytes": 1640
+    },
+    {
+      "variant": "F-without-governanceBinding",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "21fd486cba1d373ba8f366f9c3cbeedce09cfe8d5db1c70b90afdbcc5a3aa6c7",
+      "source_sha256": "f8db75ecf5a11cc5f98cadeda13f51e2ab1ca65f1a38097915146348d4662f91",
+      "runtime_bytes": 18805,
+      "initcode_template_bytes": 19019,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:governanceBinding()"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -105,
+      "headroom_bytes": 1675
+    },
+    {
+      "variant": "F-without-sourceRemaining",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "8dde9cff611ba9d7af546a917bda6609f584969865348ea3697e5ee7d871ed69",
+      "source_sha256": "8343a63d06a799138352e4380cbeff19ef6baa6f2bed278fc3fcc6874d9d0264",
+      "runtime_bytes": 18700,
+      "initcode_template_bytes": 18914,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:sourceRemaining(uint8,uint8)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -210,
+      "headroom_bytes": 1780
+    },
+    {
+      "variant": "F-without-pauseState",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "e966826cf7351db0b350c52f47f1b150ccfa0b5cb712b82ab1d16166e696dfd1",
+      "source_sha256": "a53110c64db23c1b0c68ad3b78b672a483d22a300025773024369f86c6e77134",
+      "runtime_bytes": 18813,
+      "initcode_template_bytes": 19027,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:pauseState()"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -97,
+      "headroom_bytes": 1667
+    },
+    {
+      "variant": "F-without-accounting",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "2a26b8c4353238b67592edaa60a3d423eebf5b6336a22e179e51a3c0fbd4a6f0",
+      "source_sha256": "9a39c1e099d72862336c0bbbffe282e4bee3d407e45d793f5fc59dbebcc09a55",
+      "runtime_bytes": 18608,
+      "initcode_template_bytes": 18822,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:accounting()"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -302,
+      "headroom_bytes": 1872
+    },
+    {
+      "variant": "F-without-mode",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "7e45623ca682c515df7a5005503781fddd605283d35122e293ad6cbb5c15a429",
+      "source_sha256": "208426954e043e941853017f990790a9a0d33a9b3ce009dd7f965b995fe0aa3c",
+      "runtime_bytes": 18731,
+      "initcode_template_bytes": 18945,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:mode()"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -179,
+      "headroom_bytes": 1749
+    },
+    {
+      "variant": "F-without-epoch",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "2a7db2e7a1bcdbc6103131f0ab29aaa630fd4e42ff07d5a3bc7a39bb654d902e",
+      "source_sha256": "0d46ee80026eb0d80b08de66fde4d96a91a5222815cf6868986ff1500b8c9a6d",
+      "runtime_bytes": 18413,
+      "initcode_template_bytes": 18627,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:epoch(uint64)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2
+      },
+      "delta_vs_current_bytes": -497,
+      "headroom_bytes": 2067
+    },
+    {
+      "variant": "F-without-position",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "59dc80982a260fce7468868fdf1be03455efb4adaf4dce1916bb1eed175d9a8a",
+      "source_sha256": "9a8ed068d21ac9ecc48071e52d464c446827e6e0305572ef931e1347c23fd8cf",
+      "runtime_bytes": 18679,
+      "initcode_template_bytes": 18893,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:position(address,uint64)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -231,
+      "headroom_bytes": 1801
+    },
+    {
+      "variant": "F-without-queueState",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "a28cd4103808a3efa959622e0f019f0a65a625d530f5be4a33a83ea40324730a",
+      "source_sha256": "ad729ccaad4f46164e69dcfe3b13191e8c572a1e4a07f095f9cbe5d844a3a871",
+      "runtime_bytes": 18788,
+      "initcode_template_bytes": 19002,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:queueState()"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -122,
+      "headroom_bytes": 1692
+    },
+    {
+      "variant": "F-without-openPositionCount",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "4e491b8ccce79d4e577267c3c699f9e1c517067fa4350a11e7e6dda81942c076",
+      "source_sha256": "dd086de97e91ee99d7c0e1031312a556dcf40724626add7e21b364805b2e1bf4",
+      "runtime_bytes": 18829,
+      "initcode_template_bytes": 19043,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:openPositionCount(address)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -81,
+      "headroom_bytes": 1651
+    },
+    {
+      "variant": "F-without-nextPlanId",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "9fbba11c0417b928c18a782fe91759cf92707fc21afa6afe69264d22c4f5d451",
+      "source_sha256": "7988f561efaa91e4da9ae932e59921cbe5f03aea161b4a75a9e4fa61ac56a6a4",
+      "runtime_bytes": 18864,
+      "initcode_template_bytes": 19078,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:nextPlanId()"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -46,
+      "headroom_bytes": 1616
+    },
+    {
+      "variant": "F-without-isOperator",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "fdd8497ce34d2834a9ec338f54fdbd5f4bbd36c815a1c1c44e088383f1b50e89",
+      "source_sha256": "b2ef00b97ead2aab438c86c476443f0ee66363c3b51cea9a31809839f916a715",
+      "runtime_bytes": 18821,
+      "initcode_template_bytes": 19035,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:isOperator(address,address)"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic marginal getter cost only; rights/governance/incident getters must not be removed. Only Vault import closure compiled; no claim that unchanged consumers remain compatible.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -89,
+      "headroom_bytes": 1659
+    },
+    {
+      "variant": "F2-monitoring-ui-candidate",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "9fbba11c0417b928c18a782fe91759cf92707fc21afa6afe69264d22c4f5d451",
+      "source_sha256": "7988f561efaa91e4da9ae932e59921cbe5f03aea161b4a75a9e4fa61ac56a6a4",
+      "runtime_bytes": 18864,
+      "initcode_template_bytes": 19078,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:nextPlanId()"
+        ],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Only nextPlanId selected: optional future-plan UI convenience; keep incident monitoring and all exit/authority getters. ABI approval required.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -46,
+      "headroom_bytes": 1616
+    },
+    {
+      "variant": "F3-group-request-state",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "f652b552a014eb5fb378ffb3f8630b270ca1e1b1d9553d94e00c54ca3aba53a2",
+      "source_sha256": "e6f4acbc971e8a998f92760bb94c7b9a21ac1ea2c9ad473ffaa914fc94683e46",
+      "runtime_bytes": 18896,
+      "initcode_template_bytes": 19110,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "function:openPositionCount(address)",
+          "function:queueState()"
+        ],
+        "added": [
+          "function:requestState(address)"
+        ],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Group only queue endpoints/watermark/count; keep Epoch/Position direct raw queries. Changes client ABI; no Lens dependence.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -14,
+      "headroom_bytes": 1584
+    },
+    {
+      "variant": "G2-duplicate-validation-control",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "4c048f73001ecae4061d7b1bccb8031f414a50c4d1409b75e706935d6b211790",
+      "source_sha256": "13bb0ab7c366d90987e3fce2d1e446bb62d16abd113786e3c5ef67538b4ea6e9",
+      "runtime_bytes": 18910,
+      "initcode_template_bytes": 19124,
+      "ABI_change": false,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "A-CONTROL",
+      "adopted": false,
+      "reason": "No provably redundant validation with identical revert/call-order behavior found. EOA checks plus typed STATICCALL decoding are not identical safety controls. NO BENEFIT.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": 0,
+      "headroom_bytes": 1570
+    },
+    {
+      "variant": "G3-validation-outside-vault",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "ef67538c8cbea32ed129e3fd3366d6b1527f32cd659808a448e85add411d80a8",
+      "source_sha256": "450055c61a1c18751ca738baf65e6be56234e7d7536c7664c6cd3b3ee59000d6",
+      "runtime_bytes": 16847,
+      "initcode_template_bytes": 17061,
+      "ABI_change": false,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Physical fields retained, but invalid/zero/mismatched initial states become admissible. Trust and deployment safety change.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "DIAGNOSTIC ONLY: omit initialization validations, preserve initialization/writes. Validation relocation itself NOT IMPLEMENTED; deployment scripts are no substitute for on-chain safety.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -2063,
+      "headroom_bytes": 3633
+    },
+    {
+      "variant": "H1-fixed-immutables",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "9770c3c36bfba77de5a7e9ad2499e340c7fbaecf00cda08d0f1072ac337c4fce",
+      "source_sha256": "1a39ef326365a6f4c7ae3369d28d898510a3dccd951ff69a2a28850ab24336b5",
+      "runtime_bytes": 19668,
+      "initcode_template_bytes": 20482,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "constructor:()"
+        ],
+        "added": [
+          "constructor:((address,address,address,address,address,address,address,address,address,address))"
+        ],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Seven legacy dependency fields dormant; constructor values now determine bindings; replacement migration required.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Seven fixed bindings in implementation; retain init identity checks and require config equality. No complete replacement verification API; not a deployable recommendation.",
+      "warning_counts": {
+        "2072": 1,
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": 758,
+      "headroom_bytes": 812
+    },
+    {
+      "variant": "H2-fixed-immutables-verifiable",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "87294c0cec1ee0a357e536d54e645145a81ababbe475713c7bddd36cf0b3df27",
+      "source_sha256": "1b8ff1ee5241b39fa6b50e6cab6d4c13ada4f8fe7b96e1dd0bfd6b6417e9e548",
+      "runtime_bytes": 20097,
+      "initcode_template_bytes": 20960,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "constructor:()"
+        ],
+        "added": [
+          "constructor:((address,address,address,address,address,address,address,address,address,address))",
+          "function:fixedBindings()"
+        ],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Same as H1 plus new upgrade verification API; one implementation configuration per product.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "H1 plus complete seven-binding getter for future Gateway checks. Gateway comparison implementation not included; Model A still trusts replacement code.",
+      "warning_counts": {
+        "2072": 1,
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": 1187,
+      "headroom_bytes": 383
+    },
+    {
+      "variant": "I-custom-token-diagnostic",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "650538320713c41dfa35a51b6399d6198652ef36f01f178494122562f96ad620",
+      "source_sha256": "0c1c9bcf4be8f3192e5dfd9fdc8103aef64f2de8dc9cfb39a699629b7d115b9a",
+      "runtime_bytes": 18701,
+      "initcode_template_bytes": 18915,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": [
+          "function:allowance(address,address)",
+          "function:balanceOf(address)",
+          "function:decimals()"
+        ]
+      },
+      "storage_physical_change": true,
+      "storage_semantics": "Replaces OZ token namespace with ordinary storage; new audit/migration and inheritance surface.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "DO NOT ADOPT. Diagnostic ERC20 balance/allowance/supply/transfer/events/direct-Vault restriction retained in source; no independent ERC20 compatibility or upgrade proof.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -209,
+      "headroom_bytes": 1779
+    },
+    {
+      "variant": "K1-timelock-check-dedup",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "08e73cf7283006b8c92bbd8f883edcfb7b71ceeda8b3be09ef3a7b1a19df89d7",
+      "source_sha256": "04f44dea62bda103c1f4470aff06b8c3fea91d89f683a2fc9c97e0c18c1f1ffc",
+      "runtime_bytes": 18574,
+      "initcode_template_bytes": 18788,
+      "ABI_change": false,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "A-CANDIDATE",
+      "adopted": false,
+      "reason": "Same stored root/error/call-order and complete ABI/layout. Applied only after Phase A measurement; production CI recorded separately.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -336,
+      "headroom_bytes": 1906
+    },
+    {
+      "variant": "K2-source-index-predicate",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "74bb5cceccb1887d4230a037e0b55d0933009173f720edeb464223bd1d650adb",
+      "source_sha256": "f4f8d149b3d20053db9856c51c930d618002a5a74beb088fd62d67a11c47bdd2",
+      "runtime_bytes": 18898,
+      "initcode_template_bytes": 19112,
+      "ABI_change": false,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "A-CANDIDATE",
+      "adopted": false,
+      "reason": "uint8 bitwise OR bound equivalent for legal 0/1 slots; no guard removed. Compiler-only candidate; no production adoption.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -12,
+      "headroom_bytes": 1582
+    },
+    {
+      "variant": "K3-remove-retired-uCap",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "a2016e3ab400365a114883637a25fb98093c841e5152143bf5e149da9eed4ca8",
+      "source_sha256": "e86d4ecde802bea2c9a005b9c8af22aaaa1f952391ec26462fa6e3cf72d66d9c",
+      "runtime_bytes": 18859,
+      "initcode_template_bytes": 19073,
+      "ABI_change": false,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": true,
+      "storage_semantics": "Policy.uCap removed; packed policy members shift; policy still occupies one slot.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Diagnostic only: physical policy offsets change. Never reuse removed semantic storage; reject schema churn for negligible runtime.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -51,
+      "headroom_bytes": 1621
+    },
+    {
+      "variant": "Path-B-combined",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "fae393167ed107af98c80ecb7a1709ceac6ba738845852531e238985dc4e8b33",
+      "source_sha256": "28e4c1161b9ce45a64e8372c940c86401d7b3046ae0df6ec8e5cfc5b2a27f254",
+      "runtime_bytes": 17314,
+      "initcode_template_bytes": 17528,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "error:AccessControlBadConfirmation()",
+          "error:AccessControlUnauthorizedAccount(address,bytes32)",
+          "event:RoleAdminChanged(bytes32,bytes32,bytes32)",
+          "event:RoleGranted(bytes32,address,address)",
+          "event:RoleRevoked(bytes32,address,address)",
+          "function:DEFAULT_ADMIN_ROLE()",
+          "function:getRoleAdmin(bytes32)",
+          "function:grantRole(bytes32,address)",
+          "function:hasRole(bytes32,address)",
+          "function:nextPlanId()",
+          "function:renounceRole(bytes32,address)",
+          "function:revokeRole(bytes32,address)",
+          "function:supportsInterface(bytes4)"
+        ],
+        "added": [
+          "event:GuardianChanged(address,bool)",
+          "function:guardians(address)",
+          "function:resignGuardian()",
+          "function:setGuardian(address,bool)"
+        ],
+        "changed": [
+          "function:name()",
+          "function:symbol()"
+        ]
+      },
+      "storage_physical_change": true,
+      "storage_semantics": "Combined guardian replacement and metadata semantic migration; tbPROS namespace retained.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Actual combined Guardian + constant metadata without writes + nextPlanId removal. Not the sum of independent deltas; all Category B, not approved.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -1596,
+      "headroom_bytes": 3166
+    },
+    {
+      "variant": "Path-A-final-production",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "f30edb69b76cf6d4ae6accb369e78e1e8ee703399feef104316791ac81363cc7",
+      "source_sha256": "37583b37d53946ab1da544d07f2ec09ddc9d907d03257c368251d49052c25073",
+      "runtime_bytes": 18574,
+      "initcode_template_bytes": 18788,
+      "ABI_change": false,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": []
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Unchanged",
+      "security_category": "A-ADOPTED",
+      "adopted": true,
+      "reason": "Actual final working-tree production sources; only K1 Timelock check extraction adopted. Full local behavior/guard evidence is in latest-local-checks.md.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 29,
+        "5740": 3,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -336,
+      "headroom_bytes": 1906,
+      "contracts": {
+        "TbPROSVault": {
+          "runtime_bytes": 18574,
+          "initcode_template_bytes": 18788
+        },
+        "UpgradeGateway": {
+          "runtime_bytes": 2835,
+          "initcode_template_bytes": 3110
+        },
+        "TbPROSLens": {
+          "runtime_bytes": 1508,
+          "initcode_template_bytes": 1536
+        },
+        "ProsReserve": {
+          "runtime_bytes": 2085,
+          "initcode_template_bytes": 2516
+        }
+      }
+    },
+    {
+      "variant": "Option-1-A-plus-metadata",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "00cd8093da8489d17972a51cc15a65c50193935cf2b4856431f06f436b09982a",
+      "source_sha256": "16c5336e6cdfa0a259a577f26803d1ed8501c4a13b30b3beb9dd44d30dd6944b",
+      "runtime_bytes": 17858,
+      "initcode_template_bytes": 18072,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [],
+        "added": [],
+        "changed": [
+          "function:name()",
+          "function:symbol()"
+        ]
+      },
+      "storage_physical_change": false,
+      "storage_semantics": "Legacy metadata no longer read/written; OZ ledger preserved.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Actual combined Category A + metadata proposal; metadata not approved.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -1052,
+      "headroom_bytes": 2622
+    },
+    {
+      "variant": "Option-2-A-plus-guardian-metadata",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "bca548c71b76ff3a32e01969228ab83323aca5d0e01a07aa89bff538d58a047a",
+      "source_sha256": "78f8a57d9deb1a982714475ef5cee2e8451c8e17f29d648faaa266fb5eb60d9a",
+      "runtime_bytes": 17082,
+      "initcode_template_bytes": 17296,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "error:AccessControlBadConfirmation()",
+          "error:AccessControlUnauthorizedAccount(address,bytes32)",
+          "event:RoleAdminChanged(bytes32,bytes32,bytes32)",
+          "event:RoleGranted(bytes32,address,address)",
+          "event:RoleRevoked(bytes32,address,address)",
+          "function:DEFAULT_ADMIN_ROLE()",
+          "function:getRoleAdmin(bytes32)",
+          "function:grantRole(bytes32,address)",
+          "function:hasRole(bytes32,address)",
+          "function:renounceRole(bytes32,address)",
+          "function:revokeRole(bytes32,address)",
+          "function:supportsInterface(bytes4)"
+        ],
+        "added": [
+          "event:GuardianChanged(address,bool)",
+          "function:guardians(address)",
+          "function:resignGuardian()",
+          "function:setGuardian(address,bool)"
+        ],
+        "changed": [
+          "function:name()",
+          "function:symbol()"
+        ]
+      },
+      "storage_physical_change": true,
+      "storage_semantics": "Guardian namespace migration and metadata semantic change.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Actual combined Category A + Guardian and metadata proposal; Category B not approved.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -1828,
+      "headroom_bytes": 3398
+    },
+    {
+      "variant": "Option-3-A-plus-Path-B",
+      "source_basis": "31a2648d535f70311320e9cbd324ef32bb4f9cc0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "compiler_input_sha256": "83fa07fbc9a0daa6249e14ccc6f7ba2ab9027b7214c02b67cdc59e219e7282e2",
+      "source_sha256": "9516c6a4c9646bbba938a0ab9128b756ff178fc1e8d1241df6db3ed38bc51833",
+      "runtime_bytes": 17021,
+      "initcode_template_bytes": 17235,
+      "ABI_change": true,
+      "ABI_delta": {
+        "removed": [
+          "error:AccessControlBadConfirmation()",
+          "error:AccessControlUnauthorizedAccount(address,bytes32)",
+          "event:RoleAdminChanged(bytes32,bytes32,bytes32)",
+          "event:RoleGranted(bytes32,address,address)",
+          "event:RoleRevoked(bytes32,address,address)",
+          "function:DEFAULT_ADMIN_ROLE()",
+          "function:getRoleAdmin(bytes32)",
+          "function:grantRole(bytes32,address)",
+          "function:hasRole(bytes32,address)",
+          "function:nextPlanId()",
+          "function:renounceRole(bytes32,address)",
+          "function:revokeRole(bytes32,address)",
+          "function:supportsInterface(bytes4)"
+        ],
+        "added": [
+          "event:GuardianChanged(address,bool)",
+          "function:guardians(address)",
+          "function:resignGuardian()",
+          "function:setGuardian(address,bool)"
+        ],
+        "changed": [
+          "function:name()",
+          "function:symbol()"
+        ]
+      },
+      "storage_physical_change": true,
+      "storage_semantics": "Guardian namespace migration, metadata semantics and optional next-ID ABI removal.",
+      "security_category": "B",
+      "adopted": false,
+      "reason": "Actual combined Category A plus complete conservative Path B; Category B not approved.",
+      "warning_counts": {
+        "2394": 1,
+        "5667": 22,
+        "5740": 2,
+        "8760": 1
+      },
+      "delta_vs_current_bytes": -1889,
+      "headroom_bytes": 3459
+    }
+  ]
+}

@@ -102,6 +102,8 @@ ABI/schema不变：
 
 ## J. Selector matrix in mode
 
+> 历史实现观察：本节原16-selector测试含五个尚未实现的risk setters。后续[21 §N](21-bytecode-architecture-review.md#n-selector-matrix-drift)明确SPEC / STUB GUARD DRIFT：这五个入口按16/18应允许未来纯配置在mode运行；其当前INSOLVENT仅是stub行为。21将测试分离保存，未实现setter或修改其guard。下表和29项测试数保留20轮历史事实，不把临时guard当产品规则。
+
 | 入口 | 当前行为 |
 | --- | --- |
 | safeRequestRedeem | 真实登记成功；不受mode、双pause或余额故障影响 |

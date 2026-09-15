@@ -1,6 +1,6 @@
 # 00 · tbPROS Decision Register
 
-2026-09-15。当前产品V1；Architecture Remediation V2是设计修订编号。权威规则：[Protocol Hard Rules](../../contracts/tbpros/AGENTS.md)、本表、[14 APR Finalization](14-core-architecture-finalization.md)及[16 Insolvency Freeze](16-insolvency-mode-architecture-freeze.md)。根目录[AGENTS router](../../AGENTS.md)已创建；contracts/tbpros现含[17](17-core-skeleton-freeze.md)授权的结构骨架，资金业务尚未实现。
+2026-09-15。当前产品V1；Architecture Remediation V2是设计修订编号。最新工程状态见本页21及[Bytecode Review](21-bytecode-architecture-review.md)：Request和Insolvency局部实现已验，完整V1单Vault体积路径仍受阻。权威规则：[Protocol Hard Rules](../../contracts/tbpros/AGENTS.md)、本表、[14 APR Finalization](14-core-architecture-finalization.md)及[16 Insolvency Freeze](16-insolvency-mode-architecture-freeze.md)。根目录[AGENTS router](../../AGENTS.md)已创建；contracts/tbpros已实现19 Request与20客观模式，其余主要资金业务仍为stub。
 
 | ID | 当前决定 | 替代/澄清 | 状态 |
 | --- | --- | --- | --- |
@@ -90,3 +90,15 @@ D-27：sync在已insolvent时不读余额直接no-op；正常L>=Q no-op且不分
 当前实现、测试、bytecode及局限见[20](20-insolvency-production-implementation.md)和[本地摘要](verification/latest-local-checks.md)。R/P事故分发、完整赎回及完整外部资金实现仍未完成，Production NO-GO；本轮完成后停止。
 
 **INSOLVENCY PRODUCTION LOGIC IMPLEMENTED / VERIFIED；READY FOR NEXT CORE INCREMENT；PRODUCTION NO-GO。** 本地Core90/历史安全64/Python92及全部guards通过；runtime18,910，余1,570 bytes，使用92.33%。下一个增量需独立授权，建议先评估剩余体积预算。
+
+## 21 · Bytecode Architecture Review（当前工程结论）
+
+**REQUEST ACCOUNTING IMPLEMENTED / VERIFIED；INSOLVENCY PRODUCTION LOGIC IMPLEMENTED / VERIFIED；BYTECODE ARCHITECTURE REVIEW COMPLETE；SINGLE-VAULT SIZE PATH BLOCKED；ARCHITECTURE / PRODUCT REDUCTION REQUIRED；PRODUCTION NO-GO。**
+
+D-28：按用户本轮授权完成[21字节码架构审查](21-bytecode-architecture-review.md)。同solc0.8.28/optimizer200/viaIR=false/Cancun重建三轮历史14,236→16,737→18,910。唯一采纳Category A为private Timelock检查提取，完整ABI/storage/权限及业务行为不变，实际18,574，余1,906。51组隔离编译与本地完整suite通过；不使用stub删除量冒充最终产品空间。
+
+D-29：**SPEC / STUB GUARD DRIFT**。按16纯配置例外及18参数矩阵，未来setPrincipalCap/tightenMintLossBound/setFastFee/setMaxPlanDuration/setBucketConfig均允许TL在Insolvency中执行纯配置，保留本地锁和参数边界；bucket仅materialize旧rate/cap，不做yield checkpoint或R/P/F/H分类。当前五个stub仍带normalState，本轮仅将实际观察测试与normative经济入口矩阵分离，没有实现setter或更改其guard。未来实现必须测试mode允许/非TL拒绝、参数边界、权利不变及历史credit不重置，不能为保留临时测试把INSOLVENT固化为产品要求。
+
+D-30：当前完整批准V1尚无可信20,480-byte单Vault实现路径；这是工程审查结论，不是最终bytes或数学不可能性证明。Category B（metadata/Guardian/optional nextPlanId）实际组合连同A可到17,021、余3,459，但不证明所有剩余资金功能可装入；尚未批准。生产继续OZ ERC20/AccessControl、原metadata与全部58函数，未改schema、未降guard、未加第二writer/外部delegatecall。下轮须先明确architecture/product reduction范围及新的体积证据，不签发READY FOR SETTLEMENT。
+
+具体Option 1/2/3的实际增量节省、权限/ABI/迁移代价见21 §L。没有hosted执行、下一业务实现或部署授权；本轮审查完成后停止。

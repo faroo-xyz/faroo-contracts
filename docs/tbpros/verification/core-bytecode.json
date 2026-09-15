@@ -13,7 +13,7 @@
       ".github/workflows/tbpros-skeleton.yml": "96df4c06e164bc058a88340f9ad9fc30a91df7a7e00b8a6ae4dd57f09673a859",
       "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
       "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
-      "contracts/tbpros/TbPROSVault.sol": "e672ff771d7c8c6ec2cf2efeb51a70d7439233b058bfef8b2e425ae61e317b73",
+      "contracts/tbpros/TbPROSVault.sol": "2fbbe210802fc4eb8c74d438f9eda98805687b66ad4c4271d0fe3ca90024cac7",
       "contracts/tbpros/governance/UpgradeGateway.sol": "132fc246227539f220ce4baab4e005f3a760236e2a79b73089ab73d53c7aa368",
       "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
       "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
@@ -63,9 +63,10 @@
       "test/tbpros/core-skeleton/CoreSkeleton.t.sol": "5d135178b0324b60fda9a5efc7713f5e66ba8763f1d61198ffc19ef9d2aaca30",
       "test/tbpros/core-skeleton/Hardening.t.sol": "398eb9a7dbfcbfdc7fb386a3d7fb5124ed8452f4c3df36753e2c768cb5b9c5c6",
       "test/tbpros/core-skeleton/RequestAccounting.t.sol": "fca8f9a022a1dd9621172f941d389817bcac5d595bfa457974f6eb608acbc2d6",
-      "test/tbpros/core-skeleton/SolvencyProduction.t.sol": "c96aecf6fe0b60bdaf3af043c256547428cd1f0cb8acab3c01ad740a928c9d9b",
+      "test/tbpros/core-skeleton/SolvencyProduction.t.sol": "4a3dd7e773257078df8fa0788c7819f544ef65d10f21c7d9e0cfc17c1a777798",
+      "tools/tbpros/bytecode-architecture-review.py": "9f5a7d486333c2af589d403ca9a9d61e70576a43bc4704715c8789a5da94b211",
       "tools/tbpros/ci.sh": "48e5883135296f12ea2e9c40362ac17e44ff506243ebee48378bff0f64a397c8",
-      "tools/tbpros/core-manifests.mjs": "59b69605f2a577b1a23e6b7ede331fd77c5a45173db479033109c3ecafee0d9b",
+      "tools/tbpros/core-manifests.mjs": "1a8fa50019997fb9fab25762ff377d5f29b8e1c281fed9e2ae596bdc94421f49",
       "tools/tbpros/guard-selftest.py": "722d9ddfd19ca3b1dec8b33c4172990314a728222997ce33634c2b9df67bf149",
       "tools/tbpros/hardening-guards.py": "014ea9c35b2f67c5b0e1d20b7ac2d30040cb2ef4c7bcc15a7da2696a1b5bd4b6",
       "tools/tbpros/size-variants.py": "e2eda62ebfb2fc07db786f0e48ae95543b8a1478747fd69693a111eddcf0e0c9",
@@ -75,12 +76,12 @@
   "sizes": [
     {
       "contract": "TbPROSVault",
-      "runtime_bytes": 18910,
+      "runtime_bytes": 18574,
       "runtime_budget": 20480,
-      "headroom": 1570,
-      "creation_template_bytes": 19124,
+      "headroom": 1906,
+      "creation_template_bytes": 18788,
       "constructor_encoding_bytes": 0,
-      "initcode_with_constructor_bytes": 19124,
+      "initcode_with_constructor_bytes": 18788,
       "initcode_budget": 40960,
       "status": "BASELINE_PASS_ONLY"
     },
@@ -153,5 +154,5 @@
     }
   ],
   "oracle_adapter": "DEFERRED_INTERFACE_ONLY",
-  "vault_pressure": "HIGH: hardened skeleton still excludes all business implementation; remaining budget is not a full-size prediction"
+  "vault_pressure": "HIGH: Request and objective solvency implemented; other business remains skeleton. Remaining budget is not a full-product size prediction"
 }
