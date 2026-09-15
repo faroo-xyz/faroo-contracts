@@ -48,3 +48,17 @@ OZ5.6.1继承、实际双工具链编译与90字段语义。15项Vault业务及R
 业务仍SkeletonOnly，不把模式/请求已经有selector等同于功能已经实现。
 Vault runtime15,462 / 20,480，剩5,018 bytes，体积压力HIGH；没有生产参数批准、
 完整storage upgrade replay、生产fork、handoff或audit结论。完成本轮后停止。
+
+## 18 · Skeleton Hardening（当前）
+
+本轮授权限定结构收敛，不实现完整资金业务。详见[18](18-core-skeleton-hardening.md)，覆盖17中冲突的 schema描述。
+
+- D-16 Plan terms：Option A，每plan初次资助冻结fundingUCap/start/end；base/penalty共享cursor/carry，仅向未来next槽按exact terms资助；ID由协议分配/返回。旧Policy.uCap退役保留，不重用。
+- D-17 YEAR：proxy initial-only uint64，普通升级保持同一APR分母；implementation不再构造注入YEAR。旧proxy语义迁移未获验证。
+- D-18 Gateway：expiresAt/consumed，eta≤now≤expiresAt；过期不能复活，重排新nonce，consume-before-interaction。真实生命周期仍stub。
+- D-19 Risk ABI：删除combined setter；cap/E01/fast/duration/bucket分别用窄setter，遵守18参数矩阵；无runtime Ucap/YEAR/APR/hard max setter。
+- D-20 Public ABI：TbPROSTypes独立于Storage；backingAsset明确stPROS含义，窄getter代替完整内部struct输出，保留退出核心raw查询及OZ权限实现。
+- D-21 Amount domain：Q派生uint256，最多7×(2^128−1)<2^131；不假定聚合H为uint128。
+- D-22 Engineering：英文代码注释永久规则；自动ABI/storage/selector/size/NatSpec检查；同profile runtime14,236（原15,462），剩6,244，资金逻辑未计入。
+
+**CORE SKELETON HARDENED / READY FOR INCREMENTAL CORE LOGIC / PRODUCTION NO-GO。** 31项结构测试、64项历史回归、85项Python通过；远端GitHub job未运行、真实fork/storage迁移/生产gas/handoff/audit gates仍待验。完成后停止，不自动开始业务。

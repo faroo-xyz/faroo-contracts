@@ -1,0 +1,43 @@
+No files changed, compilation skipped
+
+Ran 19 tests for test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreSkeletonTest
+[PASS] testActualProductionImplementationProxyInitializes() (gas: 5676576)
+[PASS] testDirectShareTransferRejectedAndInternalEscrowHookWorks() (gas: 133309)
+[PASS] testFinancialEndpointsExplicitlyUnimplemented() (gas: 533038)
+[PASS] testFuzzUnknownInterface(bytes4) (runs: 1024, μ: 13957, ~: 13957)
+[PASS] testGatewayBindingAndTransientLatch() (gas: 55250)
+[PASS] testGuardianCannotUnpauseOrTransferRoot() (gas: 99164)
+[PASS] testInitializationDisabledAndDoubleInitRejected() (gas: 54241)
+[PASS] testLensReadsNoOracleAndKeepsRawGettersIndependent() (gas: 411157)
+[PASS] testLocalReentrancyBlocksInheritedWrites() (gas: 17235)
+[PASS] testModeCheckedBeforeBackingAndProgress() (gas: 60773)
+[PASS] testNamespaceAndPackedModeAtActualProxyAddress() (gas: 18307)
+[PASS] testOnlyRealInterfacesAdvertised() (gas: 27277)
+[PASS] testRemovedSelectorsCannotBeCalled() (gas: 67667)
+[PASS] testReserveSkeletonHasNoActiveAllowance() (gas: 28002)
+[PASS] testSafeHasOnlyLocalLockBeforeSkeleton() (gas: 85841)
+[PASS] testSharesWorkUnderModePauseBacklogAndBrokenDependencies() (gas: 190574)
+[PASS] testUnsyncedBackingRejected() (gas: 74792)
+[PASS] testUpgradingRejectsFundsEntryAndRollsBack() (gas: 48420)
+[PASS] testYearAndExistingProxyStateSurviveOrdinaryUpgrade() (gas: 3264505)
+Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 27.30ms (25.66ms CPU time)
+
+Ran 2 tests for test/tbpros/core-skeleton/CoreSkeleton.t.sol:MonthMathTest
+[PASS] testFuzzStrictNextMonthBound(uint64) (runs: 1024, μ: 7895, ~: 7921)
+[PASS] testGregorianAgainstIndependentPythonFixtures() (gas: 1484442)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 34.35ms (37.48ms CPU time)
+
+Ran 10 tests for test/tbpros/core-skeleton/Hardening.t.sol:HardeningSchemaTest
+[PASS] testActiveNextDifferentCapsNoRetroactiveSourceSchedule() (gas: 259154)
+[PASS] testAggregateQNeeds131Bits() (gas: 4700)
+[PASS] testCancelAndNewQueueNeverReuseNonce() (gas: 114693)
+[PASS] testDeadlineInclusiveAndExpiredCannotRevive() (gas: 165375)
+[PASS] testExactPayloadRollbackAndExpiryAfterFailure() (gas: 127929)
+[PASS] testFuzzAggregateBound(uint128,uint128,uint128,uint128[4]) (runs: 1024, μ: 5395, ~: 5395)
+[PASS] testFuzzProposalWindow(uint64) (runs: 1024, μ: 108087, ~: 107809)
+[PASS] testProposalInclusiveEtaAndConsumeBeforeCallback() (gas: 149063)
+[PASS] testSharedSourcesAndFrozenTerms() (gas: 188607)
+[PASS] testSourceBoundOverflowAtomic() (gas: 123947)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 44.15ms (65.50ms CPU time)
+
+Ran 3 test suites in 50.57ms (105.80ms CPU time): 31 tests passed, 0 failed, 0 skipped (31 total tests)

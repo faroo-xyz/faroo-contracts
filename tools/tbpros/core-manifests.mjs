@@ -28,7 +28,7 @@ const stripMetadata = code => {
   const s=code.replace(/^0x/,''); const len=parseInt(s.slice(-4),16);
   assert(len>0 && len*2+4<s.length); return s.slice(0,-len*2-4);
 };
-const economicStub = new Set(['subscribe','safeRequestRedeem','requestRedeem','syncSolvency','restoreSolvency','checkpointYield','settleMaturedEpochs','claimRedeem','fastRedeem','fundPlan','activatePlan','closePlan','schedulePenaltyPlan','syncSurplus','setRiskConfig']);
+const economicStub = new Set(['subscribe','safeRequestRedeem','requestRedeem','syncSolvency','restoreSolvency','checkpointYield','settleMaturedEpochs','claimRedeem','fastRedeem','fundPlan','activatePlan','closePlan','schedulePenaltyPlan','syncSurplus','setPrincipalCap','tightenMintLossBound','setFastFee','setMaxPlanDuration','setBucketConfig']);
 const funds = new Set(['subscribe','claimRedeem','fastRedeem','fundPlan','closePlan','fund','consume','withdrawUncommitted']);
 const vaultReasons = {
   initialize:['constructor-time once','core/roles/dependencies','bind initial authority, immutable bindings and injected limits'],
@@ -46,7 +46,11 @@ const vaultReasons = {
   closePlan:['Timelock','H/F/plans','source-aware final cleanup/refund'],
   schedulePenaltyPlan:['Timelock','F/H/plans','future penalty release; no immediate F->R'],
   syncSurplus:['Timelock','F','bounded classification after restore; never active NAV'],
-  setRiskConfig:['Timelock','C/policy/risk','one combined setter; preserve spent/refill history, never refill for free'],
+  setPrincipalCap:['Timelock','C','future cap must stay >= B; no risk credit reset'],
+  tightenMintLossBound:['Timelock','policy E01 bound','only decrease or retain bound; no ordinary widening'],
+  setFastFee:['Timelock','policy fee','bounded by product hard max; monthly rights unchanged'],
+  setMaxPlanDuration:['Timelock','future plan duration','existing active/next terms stay frozen'],
+  setBucketConfig:['Timelock','one risk bucket config','materialize old refill; no free credit on increase'],
   setOracle:['Timelock; risk paused','oracle address','replace immutable provider adapter without changing accounting'],
   setYieldRefundReceiver:['Timelock','refund receiver','correct stPROS destination, never reserves'],
   setFoundationReceiver:['Timelock','USDC receiver','Foundation receipt configuration'],
@@ -103,13 +107,13 @@ for(const collection of [errors,events]) {
 for(const [contract,iface] of [['TbPROSVault','ITbPROSVault'],['ProsReserve','IProsReserve'],['UpgradeGateway','IUpgradeGateway']]) {
  for(const f of find(forgeRoot,iface).abi.filter(x=>x.type==='function')) assert(signature(f) in artifacts[contract].methodIdentifiers, `${contract} missing ${signature(f)}`);
 }
-const bannedNames=['deposit','mint','withdraw','claimWithdraw','claimAll','redeem','adminCatchUp','setInsolvent','clearInsolvent','setLossAmount','resetLossIndex','forceUnlock','sweep','execute','delegateExecute','emergencyWithdraw','claimUnits','recoveryShares','upgradeToAndCall','upgradeTo','proxiableUUID','transferOwnership','renounceOwnership'];
-const forbiddenSignatures=['deposit(uint256,address)','mint(uint256,address)','withdraw(uint256,address,address)','claimWithdraw(uint256,address,address)','claimAll(address)','redeem(uint256,address,address)','adminCatchUp(uint256)','setInsolvent(bool)','clearInsolvent()','setLossAmount(uint256)','resetLossIndex(uint256)','forceUnlock()','sweep(address,address,uint256)','execute(address,bytes)','delegateExecute(address,bytes)','emergencyWithdraw(address,uint256)','claimUnits(uint256)','recoveryShares(address)','upgradeToAndCall(address,bytes)','upgradeTo(address)','proxiableUUID()','transferOwnership(address)','renounceOwnership()'];
+const bannedNames=['deposit','mint','withdraw','claimWithdraw','claimAll','redeem','adminCatchUp','setInsolvent','clearInsolvent','setLossAmount','resetLossIndex','forceUnlock','sweep','execute','delegateExecute','emergencyWithdraw','claimUnits','recoveryShares','upgradeToAndCall','upgradeTo','proxiableUUID','transferOwnership','renounceOwnership','setRiskConfig'];
+const forbiddenSignatures=['deposit(uint256,address)','mint(uint256,address)','withdraw(uint256,address,address)','claimWithdraw(uint256,address,address)','claimAll(address)','redeem(uint256,address,address)','adminCatchUp(uint256)','setInsolvent(bool)','clearInsolvent()','setLossAmount(uint256)','resetLossIndex(uint256)','forceUnlock()','sweep(address,address,uint256)','execute(address,bytes)','delegateExecute(address,bytes)','emergencyWithdraw(address,uint256)','claimUnits(uint256)','recoveryShares(address)','upgradeToAndCall(address,bytes)','upgradeTo(address)','proxiableUUID()','transferOwnership(address)','renounceOwnership()','fundPlan(uint128,uint256,(uint64,uint64))','queueUpgrade(address,bytes32)','setRiskConfig((uint128,uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2]))'];
 for(const name of names) for(const item of abi[name].filter(x=>x.type==='function')) assert(!bannedNames.includes(item.name),`${name} exposes ${item.name}`);
 const excluded={scope:names,dependency_exception:'IStPROS.deposit is an external required conversion dependency, never a user Vault entry. OZ Proxy/Admin implicit upgrade surface is separately controlled by Gateway; not inherited by Vault.',banned_names_all_overloads:bannedNames,signatures:forbiddenSignatures.map(s=>({signature:s,selector:toFunctionSelector(s),absent:names.every(n=>!Object.values(artifacts[n].methodIdentifiers).includes(toFunctionSelector(s).slice(2)))}))};
 assert(excluded.signatures.every(s=>s.absent));
 
-const budgets={TbPROSVault:[20480,40960,32],ProsReserve:[5120,10240,128],UpgradeGateway:[6144,12288,64],TbPROSLens:[8192,16384,0]};
+const budgets={TbPROSVault:[20480,40960,0],ProsReserve:[5120,10240,128],UpgradeGateway:[6144,12288,64],TbPROSLens:[8192,16384,0]};
 const sizes=[];const parity=[];
 for(const n of names) {
  const a=artifacts[n],h=find(hhRoot,n),[runtimeBudget,initBudget,argsBytes]=budgets[n];
@@ -145,13 +149,23 @@ assert(inheritance.TbPROSVault.linearized.every(Boolean));
 const sourceFiles=new Set(walk('contracts/tbpros').filter(p=>p.endsWith('.sol')));
 for(const a of Object.values(artifacts)) for(const p of Object.keys(a.metadata.sources)) {assert(existsSync(p));sourceFiles.add(p);}
 for(const p of ['foundry.toml','hardhat.tbpros.config.ts','pnpm-lock.yaml','test/tbpros/core-skeleton/CoreSkeleton.t.sol','reference/tbpros/calendar-fixtures.json'])sourceFiles.add(p);
+for(const p of [...walk('test/tbpros/core-skeleton'),...walk('tools/tbpros')].filter(p=>!p.includes('__pycache__') && /\.(sol|py|mjs|sh)$/.test(p))) sourceFiles.add(p);
+sourceFiles.add('reference/hardening_schema_model.py');sourceFiles.add('.github/workflows/tbpros-skeleton.yml');
 const sources=Object.fromEntries([...sourceFiles].sort().map(p=>[p,sha(p)]));
 const profile={compiler:artifacts.TbPROSVault.metadata.compiler.version,openzeppelin:read('node_modules/@openzeppelin/contracts/package.json').version,openzeppelin_upgradeable:read('node_modules/@openzeppelin/contracts-upgradeable/package.json').version,optimizer:{enabled:true,runs:200},viaIR:false,evmVersion:'cancun',source_sha256:sources};
 assert.equal(profile.openzeppelin,'5.6.1');assert.equal(profile.openzeppelin_upgradeable,'5.6.1');assert(profile.compiler.startsWith('0.8.28+commit.7893614a'));
 for(const a of Object.values(artifacts)) {assert.deepEqual(a.metadata.settings.optimizer,profile.optimizer);assert.equal(a.metadata.settings.evmVersion,'cancun');assert.equal(a.metadata.settings.viaIR??false,false);}
+// Enum ordering changes storage meaning even when the underlying uint8 layout is unchanged.
+const enums={};
+for(const contract of ['TbPROSStorage','TbPROSTypes','IProsReserve']) {
+ const a=find(forgeRoot,contract);
+ for(const def of a.ast.nodes.filter(n=>n.nodeType==='ContractDefinition' && n.name===contract))
+  for(const item of def.nodes.filter(n=>n.nodeType==='EnumDefinition')) enums[`${contract}.${item.name}`]=item.members.map(m=>m.name);
+}
+storage.enum_definitions=enums;
 save('core-abi.json',{profile,contracts:abi,selectors:rows,errors,events,inheritance,collisions:[]});
 baseline('abi-v1.json',{profile,contracts:abi});
 save('core-storage-layout.json',{profile,...storage});baseline('storage-layout-v1.json',{profile,...storage});
-save('excluded-selectors.json',excluded);save('core-bytecode.json',{profile,sizes,parity,oracle_adapter:'DEFERRED_INTERFACE_ONLY',vault_pressure:'HIGH: baseline uses about 75% before any business implementation; no full-size prediction'});
+save('excluded-selectors.json',excluded);save('core-bytecode.json',{profile,sizes,parity,oracle_adapter:'DEFERRED_INTERFACE_ONLY',vault_pressure:'HIGH: hardened skeleton still excludes all business implementation; remaining budget is not a full-size prediction'});
 writeFileSync(`${dir}/core-selector-inventory.md`,'# Compiler selector inventory\n\nGenerated by tools/tbpros/core-manifests.mjs. Funds column is intended completed V1 behavior; skeleton has no funds transfer.\n\n| Selector | Function | Contract | Auth | Funds? | State Area | V1 Reason | Status |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n'+rows.map(r=>`| ${r.selector} | \`${r.function}\` | ${r.contract} | ${r.auth} | ${r.funds_in_completed_V1?'yes':'no'} | ${r.state_area} | ${r.v1_reason} | ${r.status} |`).join('\n')+'\n');
 console.log(JSON.stringify({functions:rows.length,vaultFunctions:rows.filter(r=>r.contract==='TbPROSVault').length,errors:errors.length,events:events.length,sizes,parity,modeBytes:32},null,2));

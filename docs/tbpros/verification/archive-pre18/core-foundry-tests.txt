@@ -1,0 +1,28 @@
+No files changed, compilation skipped
+
+Ran 17 tests for test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreSkeletonTest
+[PASS] testActualProductionImplementationProxyInitializes() (gas: 5827797)
+[PASS] testDirectShareTransferRejectedAndInternalEscrowHookWorks() (gas: 133262)
+[PASS] testFinancialEndpointsExplicitlyUnimplemented() (gas: 432262)
+[PASS] testFuzzUnknownInterface(bytes4) (runs: 1024, μ: 13957, ~: 13957)
+[PASS] testGatewayBindingAndTransientLatch() (gas: 55162)
+[PASS] testGuardianCannotUnpauseOrTransferRoot() (gas: 99188)
+[PASS] testInitializationDisabledAndDoubleInitRejected() (gas: 56439)
+[PASS] testLensReadsNoOracleAndKeepsRawGettersIndependent() (gas: 501402)
+[PASS] testLocalReentrancyBlocksInheritedWrites() (gas: 17234)
+[PASS] testModeCheckedBeforeBackingAndProgress() (gas: 60708)
+[PASS] testNamespaceAndPackedModeAtActualProxyAddress() (gas: 18301)
+[PASS] testOnlyRealInterfacesAdvertised() (gas: 27277)
+[PASS] testReserveSkeletonHasNoActiveAllowance() (gas: 28002)
+[PASS] testSafeHasOnlyLocalLockBeforeSkeleton() (gas: 85952)
+[PASS] testSharesWorkUnderModePauseBacklogAndBrokenDependencies() (gas: 190498)
+[PASS] testUnsyncedBackingRejected() (gas: 74677)
+[PASS] testUpgradingRejectsFundsEntryAndRollsBack() (gas: 48418)
+Suite result: ok. 17 passed; 0 failed; 0 skipped; finished in 25.55ms (23.65ms CPU time)
+
+Ran 2 tests for test/tbpros/core-skeleton/CoreSkeleton.t.sol:MonthMathTest
+[PASS] testFuzzStrictNextMonthBound(uint64) (runs: 1024, μ: 7895, ~: 7921)
+[PASS] testGregorianAgainstIndependentPythonFixtures() (gas: 1484442)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 33.62ms (35.94ms CPU time)
+
+Ran 2 test suites in 39.61ms (59.17ms CPU time): 19 tests passed, 0 failed, 0 skipped (19 total tests)

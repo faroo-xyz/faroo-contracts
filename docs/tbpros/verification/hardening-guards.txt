@@ -1,0 +1,1 @@
+{"status": "PASS", "documented_function_ast_occurrences": 121, "old_field_placements": "preserved", "plan_stride_bytes": 224, "fundingUCap": "relative 1:9", "YEAR": "relative 39:0", "semantic_migration": "NOT VERIFIED: legacy Ucap and zero new fields require explicit migration if old proxies ever existed"}

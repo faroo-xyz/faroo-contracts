@@ -6,7 +6,7 @@
 
 当前以[16 Insolvency Freeze](16-insolvency-mode-architecture-freeze.md)为准：正常自动吸损F→H，穿透则进入客观Insolvency Mode；无live R/P haircut。LOSS-MATH-01按产品范围缩减关闭，Core READY；APR已关闭，DEP-01仍为生产集成门槛，Production NO-GO。
 
-当前结构入口：[17 · Core Skeleton Freeze](17-core-skeleton-freeze.md)。55个Vault selectors、90个字段语义、实际runtime15,462 bytes，剩5,018。19项结构测试通过；业务均保持SkeletonOnly。Architecture FROZEN / Core Skeleton READY / Production NO-GO。
+当前结构入口：[18 · Core Skeleton Hardening](18-core-skeleton-hardening.md)。58个Vault函数、独立ABI DTO、每plan冻结Ucap、proxy initial-only YEAR、proposal expiry。实际runtime14,236 bytes，剩6,244；31项结构/schema测试、64项历史回归、85项Python测试通过。自动ABI/storage/selector/size/NatSpec guard已加入；业务均保持SkeletonOnly。Core Skeleton HARDENED / READY FOR INCREMENTAL CORE LOGIC / Production NO-GO。[17](17-core-skeleton-freeze.md)保留为旧基线。
 
 ## 建议审阅顺序
 
@@ -44,4 +44,4 @@
 - [固定区块Pharos probe](verification/pharos-fork-output.txt)：4项通过；1153节点执行支持已验，真实目标SLP版本缺失仍BLOCKED。
 - [16轮验证记录](verification/insolvency-test-results.json)及[Mode packing实验](verification/insolvency-storage-layout.json)。A/B/C原源码与15轮hash一致；旧C硬验收FAIL是保留的negative evidence，不是当前Core gate。
 
-模型成功不能替代生产I01..24/E01..05全量stateful、V1自定义ABI/未支持ID负向测试、完整目标依赖Pharos fork、storage升级兼容、gas/bytecode、ownership handoff与外审。**17轮完成后停留在Core Skeleton Freeze，不开始完整业务Solidity实现。**
+模型成功不能替代生产I01..24/E01..05全量stateful、V1自定义ABI/未支持ID负向测试、完整目标依赖Pharos fork、storage升级兼容、gas/bytecode、ownership handoff与外审。**18轮完成后停留在Core Skeleton Hardening，不自动开始完整业务Solidity实现。**

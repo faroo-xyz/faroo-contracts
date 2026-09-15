@@ -1,0 +1,248 @@
+
+Warning: This declaration has the same name as another declaration.
+   --> ./contracts/tbpros/TbPROSVault.sol:298:26:
+    |
+298 |     function claimRedeem(uint64 epoch, uint256 shares, address receiver, address controller)
+    |                          ^^^^^^^^^^^^
+Note: The other declaration is here:
+   --> ./contracts/tbpros/TbPROSVault.sol:576:5:
+    |
+576 |     function epoch(uint64 dueAt) external view returns (T.Epoch memory) {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Transient storage as defined by EIP-1153 can break the composability of smart contracts: Since transient storage is cleared only at the end of the transaction and not at the end of the outermost call frame to the contract within a transaction, your contract may unintentionally misbehave when invoked multiple times in a complex transaction. To avoid this, be sure to clear all transient storage at the end of any call to your contract. The use of transient storage for reentrancy guards that are cleared at the end of the call is safe.
+   --> ./node_modules/.pnpm/@openzeppelin+contracts@5.6.1/node_modules/@openzeppelin/contracts/utils/TransientSlot.sol:108:13:
+    |
+108 |             tstore(slot, value)
+    |             ^^^^^^
+
+Warning: Unreachable code.
+  --> ./node_modules/.pnpm/@openzeppelin+contracts@5.6.1/node_modules/@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol:39:9:
+   |
+39 |         _nonReentrantAfter();
+   |         ^^^^^^^^^^^^^^^^^^^^
+
+Warning: Unreachable code.
+  --> ./contracts/tbpros/TbPROSVault.sol:59:9:
+   |
+59 |         gateway.leave();
+   |         ^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:229:24:
+    |
+229 |     function subscribe(uint256 usdc, uint256 minShares)
+    |                        ^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:229:38:
+    |
+229 |     function subscribe(uint256 usdc, uint256 minShares)
+    |                                      ^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:287:34:
+    |
+287 |     function settleMaturedEpochs(uint256 maxNodes) external nonReentrant normalState returns (uint256) {
+    |                                  ^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:298:26:
+    |
+298 |     function claimRedeem(uint64 epoch, uint256 shares, address receiver, address controller)
+    |                          ^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:298:40:
+    |
+298 |     function claimRedeem(uint64 epoch, uint256 shares, address receiver, address controller)
+    |                                        ^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:298:56:
+    |
+298 |     function claimRedeem(uint64 epoch, uint256 shares, address receiver, address controller)
+    |                                                        ^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:298:74:
+    |
+298 |     function claimRedeem(uint64 epoch, uint256 shares, address receiver, address controller)
+    |                                                                          ^^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:313:25:
+    |
+313 |     function fastRedeem(uint256 shares, uint256 minOut)
+    |                         ^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:313:41:
+    |
+313 |     function fastRedeem(uint256 shares, uint256 minOut)
+    |                                         ^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:329:23:
+    |
+329 |     function fundPlan(uint256 pros, T.PlanTerms calldata terms)
+    |                       ^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:329:37:
+    |
+329 |     function fundPlan(uint256 pros, T.PlanTerms calldata terms)
+    |                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:343:27:
+    |
+343 |     function activatePlan(uint128 planId) external nonReentrant normalState onlyTimelock {
+    |                           ^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:350:24:
+    |
+350 |     function closePlan(uint128 planId) external nonReentrant normalState onlyTimelock fundsLock {
+    |                        ^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:359:34:
+    |
+359 |     function schedulePenaltyPlan(uint256 amount, T.PlanTerms calldata terms)
+    |                                  ^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:359:50:
+    |
+359 |     function schedulePenaltyPlan(uint256 amount, T.PlanTerms calldata terms)
+    |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:372:26:
+    |
+372 |     function syncSurplus(uint256 amount) external nonReentrant normalState onlyTimelock {
+    |                          ^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:379:30:
+    |
+379 |     function setPrincipalCap(uint128 principalCap) external nonReentrant normalState onlyTimelock {
+    |                              ^^^^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:386:35:
+    |
+386 |     function tightenMintLossBound(uint16 maxMintLossBps) external nonReentrant normalState onlyTimelock {
+    |                                   ^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:393:25:
+    |
+393 |     function setFastFee(uint16 fastFeeBps) external nonReentrant normalState onlyTimelock {
+    |                         ^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:400:33:
+    |
+400 |     function setMaxPlanDuration(uint64 maxPlanDuration) external nonReentrant normalState onlyTimelock {
+    |                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:408:30:
+    |
+408 |     function setBucketConfig(uint8 slot, T.BucketConfig calldata config)
+    |                              ^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/TbPROSVault.sol:408:42:
+    |
+408 |     function setBucketConfig(uint8 slot, T.BucketConfig calldata config)
+    |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+Warning: Transient storage as defined by EIP-1153 can break the composability of smart contracts: Since transient storage is cleared only at the end of the transaction and not at the end of the outermost call frame to the contract within a transaction, your contract may unintentionally misbehave when invoked multiple times in a complex transaction. To avoid this, be sure to clear all transient storage at the end of any call to your contract. The use of transient storage for reentrancy guards that are cleared at the end of the call is safe.
+   --> ./node_modules/.pnpm/@openzeppelin+contracts@5.6.1/node_modules/@openzeppelin/contracts/utils/TransientSlot.sol:108:13:
+    |
+108 |             tstore(slot, value)
+    |             ^^^^^^
+
+Warning: Unreachable code.
+  --> ./node_modules/.pnpm/@openzeppelin+contracts@5.6.1/node_modules/@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol:39:9:
+   |
+39 |         _nonReentrantAfter();
+   |         ^^^^^^^^^^^^^^^^^^^^
+
+Warning: Unreachable code.
+  --> ./contracts/tbpros/governance/UpgradeGateway.sol:96:9:
+   |
+96 |         UPGRADING_SLOT.asBoolean().tstore(false);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/governance/UpgradeGateway.sol:161:27:
+    |
+161 |     function queueUpgrade(address implementation, bytes32 dataHash, uint64 expiresAt)
+    |                           ^^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/governance/UpgradeGateway.sol:161:51:
+    |
+161 |     function queueUpgrade(address implementation, bytes32 dataHash, uint64 expiresAt)
+    |                                                   ^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/governance/UpgradeGateway.sol:161:69:
+    |
+161 |     function queueUpgrade(address implementation, bytes32 dataHash, uint64 expiresAt)
+    |                                                                     ^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/governance/UpgradeGateway.sol:173:28:
+    |
+173 |     function cancelUpgrade(uint128 nonce) external nonReentrant onlyTimelock {
+    |                            ^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/governance/UpgradeGateway.sol:182:29:
+    |
+182 |     function executeUpgrade(uint128 nonce, address implementation, bytes calldata data)
+    |                             ^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/governance/UpgradeGateway.sol:182:44:
+    |
+182 |     function executeUpgrade(uint128 nonce, address implementation, bytes calldata data)
+    |                                            ^^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> ./contracts/tbpros/governance/UpgradeGateway.sol:182:68:
+    |
+182 |     function executeUpgrade(uint128 nonce, address implementation, bytes calldata data)
+    |                                                                    ^^^^^^^^^^^^^^^^^^^
+
+
+Warning: Transient storage as defined by EIP-1153 can break the composability of smart contracts: Since transient storage is cleared only at the end of the transaction and not at the end of the outermost call frame to the contract within a transaction, your contract may unintentionally misbehave when invoked multiple times in a complex transaction. To avoid this, be sure to clear all transient storage at the end of any call to your contract. The use of transient storage for reentrancy guards that are cleared at the end of the call is safe.
+   --> ./node_modules/.pnpm/@openzeppelin+contracts@5.6.1/node_modules/@openzeppelin/contracts/utils/TransientSlot.sol:108:13:
+    |
+108 |             tstore(slot, value)
+    |             ^^^^^^
+
+Warning: Unreachable code.
+  --> ./node_modules/.pnpm/@openzeppelin+contracts@5.6.1/node_modules/@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol:39:9:
+   |
+39 |         _nonReentrantAfter();
+   |         ^^^^^^^^^^^^^^^^^^^^
+
+
+
+
+
+
+
+
+
+
+
+
+Compiled 14 Solidity files with solc 0.8.28 (evm target: cancun)

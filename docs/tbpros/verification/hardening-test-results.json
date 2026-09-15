@@ -1,0 +1,138 @@
+{
+  "date": "2026-09-15",
+  "base_commit": "6c9d407fa45c96e24c2928f0cf6fc5dd8e9fd2c6",
+  "conclusion": [
+    "CORE SKELETON HARDENED",
+    "READY FOR INCREMENTAL CORE LOGIC",
+    "PRODUCTION NO-GO"
+  ],
+  "scope": "Schema, ABI, structural initialization/latches/getters, isolated probes only; money entry points remain SkeletonOnly",
+  "profile": {
+    "compiler": "0.8.28+commit.7893614a",
+    "openzeppelin": "5.6.1",
+    "openzeppelin_upgradeable": "5.6.1",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "viaIR": false,
+    "evmVersion": "cancun"
+  },
+  "local_foundry": "forge 0.3.0 (5a8bd89 2024-12-20T08:45:53.204298000Z)",
+  "ci_configured_foundry": "v1.3.6; hosted job not run",
+  "core": {
+    "tests": 31,
+    "suites": 3,
+    "failed": 0,
+    "skipped": 0,
+    "fuzz_tests": 4,
+    "runs_each": 1024
+  },
+  "historical": {
+    "tests": 64,
+    "suites": 15,
+    "failed": 0,
+    "skipped": 0,
+    "fuzz_tests": 4,
+    "runs_each": 1024,
+    "stateful_suites": 3,
+    "stateful_runs": 128,
+    "depth": 64
+  },
+  "python": {
+    "tests": 85,
+    "retained": 76,
+    "new_schema": 9,
+    "new_fraction_random_cases": 2000
+  },
+  "guard_negative_controls": [
+    {
+      "negative_control": "ABI drift",
+      "rejected": true
+    },
+    {
+      "negative_control": "storage offset drift",
+      "rejected": true
+    },
+    {
+      "negative_control": "runtime exceeds 20480",
+      "rejected": true
+    },
+    {
+      "negative_control": "forbidden selector",
+      "rejected": true
+    },
+    {
+      "negative_control": "missing NatSpec",
+      "rejected": true
+    }
+  ],
+  "local_ci_equivalent": "PASS",
+  "hosted_ci": "NOT RUN",
+  "ordinary_v18_upgrade_probe": "PASS; same schema/year/carry/balances/mode; not production Gateway execution",
+  "v17_to_v18_semantic_migration": "NOT VERIFIED; cannot assume zero new fields/legacy Ucap safe",
+  "production_fork_gas_handoff_external_audit": "NOT VERIFIED; production gates remain",
+  "logs": {
+    "docs/tbpros/verification/hardening-build.txt": {
+      "sha256": "92bfce75d4d07a91ec3132afd000a5b777f3d24da1977db0b3b76c1917b3c58d",
+      "bytes": 10773
+    },
+    "docs/tbpros/verification/hardening-core-tests.txt": {
+      "sha256": "84d11d4b0b4d97c1f3a143749bcd236c8fb12661fde97b456125cf449e35cc49",
+      "bytes": 2728
+    },
+    "docs/tbpros/verification/hardening-regression-tests.txt": {
+      "sha256": "f914563c0d87b9dd0db6081166e5671d1c32197459f47f5484c039d42f1f1ab7",
+      "bytes": 6735
+    },
+    "docs/tbpros/verification/hardening-python-tests.txt": {
+      "sha256": "02b50bb6bc3f4f7865890b2e72cff2de77d70bacddb90b656e05121c8b21968f",
+      "bytes": 10763
+    },
+    "docs/tbpros/verification/hardening-hardhat-build.txt": {
+      "sha256": "f75f990b221cfb42ae10a502f3ce345093ef325327d6ba09b88c6fe0ed8e4814",
+      "bytes": 12905
+    },
+    "docs/tbpros/verification/hardening-manifests.txt": {
+      "sha256": "4f272db8da514e90a865476565ac5a14d45b668db6689c7db31bbe189c695dd9",
+      "bytes": 2960
+    },
+    "docs/tbpros/verification/hardening-guards.txt": {
+      "sha256": "b2f1e946339a24d7711f3dee97bc1bde3f4fc532cef239c0cddccce5e1bfdf66",
+      "bytes": 308
+    },
+    "docs/tbpros/verification/hardening-size-variants.txt": {
+      "sha256": "956162a96947b818849b0d35c7699d291c6a0b816e401e832a726f9b61caadd1",
+      "bytes": 2619
+    }
+  },
+  "source_sha256": {
+    ".github/workflows/tbpros-skeleton.yml": "0e565ee822714b33758110d54035ded6fd8e65ceb25a54f008d15f3ce795de51",
+    "AGENTS.md": "d4d0b0f6656413d3b6955d69e368a703a352f6618cc180dd7dc5433ec85653b2",
+    "contracts/tbpros/AGENTS.md": "d11a0a5c554e39a1dbef1a4210c357ba15b92f04b1fed567bd477d676fb0fec4",
+    "contracts/tbpros/TbPROSStorage.sol": "04f5cbc9798fdf56bc849b1dff98fa7534a14dec3d168bae2489ebacb5ccb407",
+    "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
+    "contracts/tbpros/TbPROSVault.sol": "2847f09742abc824694aec5cace64474c49197ddabf05bf1c5f8745912a64a3d",
+    "contracts/tbpros/governance/UpgradeGateway.sol": "132fc246227539f220ce4baab4e005f3a760236e2a79b73089ab73d53c7aa368",
+    "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+    "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+    "contracts/tbpros/interfaces/ITbPROSOracleAdapter.sol": "0537236d23d7d620a41c818cecd62ab8c2e527f7b02e65560cbc309568189302",
+    "contracts/tbpros/interfaces/ITbPROSVault.sol": "2ce5c8ab3b7231568dd753f3ed3f3a1c13993cbdcbad21a0cc67d824b435f896",
+    "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
+    "contracts/tbpros/lens/TbPROSLens.sol": "4f3af97aab7ca2ccbe0e45032558f8fe1a23e854fd08466a212880c325705fc4",
+    "contracts/tbpros/libraries/AccountingMath.sol": "02cf4c95e2401b862133bb0827765ceab91ca65fd4a041626bd70ccaa0015852",
+    "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af",
+    "contracts/tbpros/libraries/PlanMath.sol": "d6f060ef1e614f861722357d716ab66b7e8dabe5a29f647cd6a8af6d127098a4",
+    "contracts/tbpros/reserves/ProsReserve.sol": "697c155f99bc8983021e7f984d4fcdc8bfe4a607c395dc4a8342d74f5b154a28",
+    "docs/tbpros/18-core-skeleton-hardening.md": "359ed88d7ccfdb6bda05c51a6f9c73664ec5e8055aef5cf8375f40808c221252",
+    "reference/hardening_schema_model.py": "8209c45f1a8941ece7d6f09a9400ab2c85c0234949b1456e6ef33183a4f61372",
+    "test/tbpros/core-skeleton/CoreSkeleton.t.sol": "b652fb66a10fefd531ebcf579b5eb51d8e553d49581bf8cfeabaa82a6823200b",
+    "test/tbpros/core-skeleton/Hardening.t.sol": "398eb9a7dbfcbfdc7fb386a3d7fb5124ed8452f4c3df36753e2c768cb5b9c5c6",
+    "tools/tbpros/ci.sh": "88f02e089904a16378c89469f053ef8db8386f2c9eccf9f9429bdeeb7a78235b",
+    "tools/tbpros/core-manifests.mjs": "927e3c5f495a2234ccfda920db2f74aea4a9c757b1993f2ef9aa3033ebb6bcc9",
+    "tools/tbpros/guard-selftest.py": "722d9ddfd19ca3b1dec8b33c4172990314a728222997ce33634c2b9df67bf149",
+    "tools/tbpros/hardening-guards.py": "ff5bfe6e3d645d3f65c4f5a5b01a7588d8cfe496071d0c39c433592b6fb7ead7",
+    "tools/tbpros/size-variants.py": "e2eda62ebfb2fc07db786f0e48ae95543b8a1478747fd69693a111eddcf0e0c9",
+    "tools/tbpros/storage-manifest.py": "f3d6605ea5ea99f93bb9d0c3ad633b5fbce0ebf255c3ab29313d97af4478e8a0"
+  }
+}

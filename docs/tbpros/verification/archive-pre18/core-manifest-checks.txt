@@ -1,0 +1,87 @@
+{
+  "functions": 81,
+  "vaultFunctions": 55,
+  "errors": 44,
+  "events": 38,
+  "sizes": [
+    {
+      "contract": "TbPROSVault",
+      "runtime_bytes": 15462,
+      "runtime_budget": 20480,
+      "headroom": 5018,
+      "creation_template_bytes": 15823,
+      "constructor_encoding_bytes": 32,
+      "initcode_with_constructor_bytes": 15855,
+      "initcode_budget": 40960,
+      "status": "BASELINE_PASS_ONLY"
+    },
+    {
+      "contract": "ProsReserve",
+      "runtime_bytes": 2085,
+      "runtime_budget": 5120,
+      "headroom": 3035,
+      "creation_template_bytes": 2516,
+      "constructor_encoding_bytes": 128,
+      "initcode_with_constructor_bytes": 2644,
+      "initcode_budget": 10240,
+      "status": "BASELINE_PASS_ONLY"
+    },
+    {
+      "contract": "UpgradeGateway",
+      "runtime_bytes": 3028,
+      "runtime_budget": 6144,
+      "headroom": 3116,
+      "creation_template_bytes": 3303,
+      "constructor_encoding_bytes": 64,
+      "initcode_with_constructor_bytes": 3367,
+      "initcode_budget": 12288,
+      "status": "BASELINE_PASS_ONLY"
+    },
+    {
+      "contract": "TbPROSLens",
+      "runtime_bytes": 1801,
+      "runtime_budget": 8192,
+      "headroom": 6391,
+      "creation_template_bytes": 1829,
+      "constructor_encoding_bytes": 0,
+      "initcode_with_constructor_bytes": 1829,
+      "initcode_budget": 16384,
+      "status": "BASELINE_PASS_ONLY"
+    }
+  ],
+  "parity": [
+    {
+      "contract": "TbPROSVault",
+      "abi_equal": true,
+      "runtime_equal_without_metadata": true,
+      "initcode_equal_without_metadata": true,
+      "full_bytecode_equal": false,
+      "note": "Foundry source-unit names/remappings differ from Hardhat resolved .pnpm names; metadata hashes differ. Executable code must match after CBOR removal."
+    },
+    {
+      "contract": "ProsReserve",
+      "abi_equal": true,
+      "runtime_equal_without_metadata": true,
+      "initcode_equal_without_metadata": true,
+      "full_bytecode_equal": false,
+      "note": "Foundry source-unit names/remappings differ from Hardhat resolved .pnpm names; metadata hashes differ. Executable code must match after CBOR removal."
+    },
+    {
+      "contract": "UpgradeGateway",
+      "abi_equal": true,
+      "runtime_equal_without_metadata": true,
+      "initcode_equal_without_metadata": true,
+      "full_bytecode_equal": false,
+      "note": "Foundry source-unit names/remappings differ from Hardhat resolved .pnpm names; metadata hashes differ. Executable code must match after CBOR removal."
+    },
+    {
+      "contract": "TbPROSLens",
+      "abi_equal": true,
+      "runtime_equal_without_metadata": true,
+      "initcode_equal_without_metadata": true,
+      "full_bytecode_equal": false,
+      "note": "Foundry source-unit names/remappings differ from Hardhat resolved .pnpm names; metadata hashes differ. Executable code must match after CBOR removal."
+    }
+  ],
+  "modeBytes": 32
+}

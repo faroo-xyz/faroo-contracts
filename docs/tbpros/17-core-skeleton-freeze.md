@@ -1,5 +1,7 @@
 # 17 · Core Skeleton Freeze — Storage / ABI / Compile First
 
+> 历史基线（commit `6c9d407`）：本页的 YEAR immutable、global Ucap、full getter、fundPlan caller ID 和 15,462-byte 数据由[18轮 hardening](18-core-skeleton-hardening.md)取代。旧编译证据保存在 `verification/archive-pre18/`，`abi-v1.json` / `storage-layout-v1.json` 原样保留；本页不代表当前 ABI/storage。
+
 2026-09-15。用户已单独授权本轮 production-shaped skeleton。产品权威仍为[00](00-decision-register.md)、[16](16-insolvency-mode-architecture-freeze.md)、[Hard Rules](../../contracts/tbpros/AGENTS.md)；本文件冻结结构候选及实际编译基线，不增加资金业务。
 
 ```text
@@ -50,7 +52,7 @@ UpgradeGateway → IUpgradeGateway + ReentrancyGuardTransient
 TbPROSLens → no inheritance / no storage
 ```
 
-实际solc AST的direct/linearized继承结果在[core-abi.json](verification/core-abi.json)。Initializable在OZ5.6.1实际由非upgradeable包提供，具有namespace并可用于proxy。Transient guard没有构造初始化或持久status字段，因此直接使用非upgradeable版本；不加入另一套持久重入锁。不额外继承ERC165，AccessControl已提供。没有ERC20Pausable、ERC4626、UUPS、Ownable或可替换业务继承模块。
+实际solc AST的direct/linearized继承结果在[core-abi.json](verification/archive-pre18/core-abi.json)。Initializable在OZ5.6.1实际由非upgradeable包提供，具有namespace并可用于proxy。Transient guard没有构造初始化或持久status字段，因此直接使用非upgradeable版本；不加入另一套持久重入锁。不额外继承ERC165，AccessControl已提供。没有ERC20Pausable、ERC4626、UUPS、Ownable或可替换业务继承模块。
 
 ### 已实现的结构行为
 
@@ -62,7 +64,7 @@ TbPROSLens → no inheritance / no storage
 
 ## C. Storage Schema
 
-完整90字段表（含type/unit/meaning/writer/reset/upgrade rule及实际offset）见[逐字段清单](verification/core-storage-fields.md)，同内容嵌入[core-storage-layout.json](verification/core-storage-layout.json)。以下列出寻址与主要约束。
+完整90字段表（含type/unit/meaning/writer/reset/upgrade rule及实际offset）见[逐字段清单](verification/archive-pre18/core-storage-fields.md)，同内容嵌入[core-storage-layout.json](verification/archive-pre18/core-storage-layout.json)。以下列出寻址与主要约束。
 
 Core namespace为`faroo.tbpros.storage.Core`，ERC-7201公式实算地址：
 
@@ -114,7 +116,7 @@ Immutable配置不列为storage槽：Vault.YEAR；Reserve.timelock/wpros/funding
 
 ## D. ABI Freeze Candidate
 
-**Vault 55个function selectors**（包含OZ继承与只读常量），四个candidate合约共**81个**。全部精确hex、canonical signature、caller、资金能力、state area、V1理由及是否仍stub见[完整selector表](verification/core-selector-inventory.md)；机器可读ABI、errors、events与继承树在[core-abi.json](verification/core-abi.json)。返回类型、tuple组件、event indexed字段以实际编译ABI为准。
+**Vault 55个function selectors**（包含OZ继承与只读常量），四个candidate合约共**81个**。全部精确hex、canonical signature、caller、资金能力、state area、V1理由及是否仍stub见[完整selector表](verification/archive-pre18/core-selector-inventory.md)；机器可读ABI、errors、events与继承树在[core-abi.json](verification/archive-pre18/core-abi.json)。返回类型、tuple组件、event indexed字段以实际编译ABI为准。
 
 核心调用形状：
 
@@ -144,7 +146,7 @@ syncSurplus(uint256 amount)
 
 ## E. Explicitly Excluded ABI
 
-[excluded-selectors.json](verification/excluded-selectors.json)同时检查**所有重载的禁止函数名**和代表性精确selector；不是只测一个signature就声称整个入口族不存在。
+[excluded-selectors.json](verification/archive-pre18/excluded-selectors.json)同时检查**所有重载的禁止函数名**和代表性精确selector；不是只测一个signature就声称整个入口族不存在。
 
 `deposit / mint / withdraw / claimWithdraw / claimAll / redeem / adminCatchUp / setInsolvent / clearInsolvent / setLossAmount / resetLossIndex / forceUnlock / sweep / execute / delegateExecute / emergencyWithdraw / claimUnits / recoveryShares / upgradeTo / upgradeToAndCall / proxiableUUID / transferOwnership / renounceOwnership`均不在四个candidate合约ABI中。
 
@@ -178,7 +180,7 @@ Hardhat运行真实production源码。两个工具ABI仅排序不同；比较排
 
 ## H. Bytecode Results
 
-实际结果：[core-bytecode.json](verification/core-bytecode.json)。Initcode列包含静态constructor ABI编码；并非仅creation template。Vault constructor32 bytes、Reserve128、Gateway64、Lens0；具体地址/参数值不影响这些编码长度。
+实际结果：[core-bytecode.json](verification/archive-pre18/core-bytecode.json)。Initcode列包含静态constructor ABI编码；并非仅creation template。Vault constructor32 bytes、Reserve128、Gateway64、Lens0；具体地址/参数值不影响这些编码长度。
 
 | Contract | Runtime | Budget | Headroom | Initcode（含args） | Budget | Status |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
@@ -204,7 +206,7 @@ Vault headroom：`20,480 − 15,462 = 5,018 bytes`。**HIGH bytecode pressure**�
 
 Mode编译为一个32-byte slot：offset0 bool、offset1 uint128、offset17 uint64；还通过真实proxy namespace slot注入打包值、从生产getter读取验证。Core root总计39个slot（包括mapping根，不包括mapping动态元素）。未来storage兼容需检查每项语义，基线存在不等于已有upgrade replay通过。
 
-保存：[storage-layout-v1.json](verification/storage-layout-v1.json)、[abi-v1.json](verification/abi-v1.json)，包含compiler/OZ/optimizer/viaIR/EVM/source hashes。保存原始[Vault普通layout](verification/core-vault-ordinary-layout.json)、[namespace类型编译结果](verification/core-namespace-types-compiler.json)、[Vault ABI](verification/core-vault-abi-compiler.json)。
+保存：[storage-layout-v1.json](verification/storage-layout-v1.json)、[abi-v1.json](verification/abi-v1.json)，包含compiler/OZ/optimizer/viaIR/EVM/source hashes。保存原始[Vault普通layout](verification/archive-pre18/core-vault-ordinary-layout.json)、[namespace类型编译结果](verification/archive-pre18/core-namespace-types-compiler.json)、[Vault ABI](verification/archive-pre18/core-vault-abi-compiler.json)。
 
 实际执行19项Skeleton tests全部通过，两项fuzz各1024：真实production implementation/proxy初始化与double-init；strict接口；份额操作在mode/pause/backlog/balance故障下独立；direct share transfer拒绝与内部hook边界；mode优先/未同步欠抵押guard；所有15个Vault业务stub；固定root/Guardian限制；局部重入、Gateway busy/upgrading回滚；Reserve stub；实际namespace；Lens故障与raw getters隔离。
 
@@ -212,7 +214,7 @@ MonthMath采用有界纯Gregorian计算，独立Python datetime生成360个month
 
 Compiler warning 5740来自资金stub必然revert使modifier的尾部leave/unlock不可达；失败会原子回滚已进入的transient latch，有具名测试验证。EIP1153提示属于标准transaction临时存储语义；已实现成功路径清锁。它们不是被隐藏的完整业务失败，也不通过删除安全检查来静音。
 
-完整命令/日志/hash与旧回归结果见[core-test-results.json](verification/core-test-results.json)。没有执行真实依赖fork、生产gas评估、部署handoff或外审。
+完整命令/日志/hash与旧回归结果见[core-test-results.json](verification/archive-pre18/core-test-results.json)。没有执行真实依赖fork、生产gas评估、部署handoff或外审。
 
 ## K. Skeleton-only Functions
 

@@ -1,0 +1,65 @@
+name: tbPROS skeleton guards
+on:
+  pull_request:
+    paths:
+      - 'contracts/tbpros/**'
+      - 'test/tbpros/**'
+      - 'reference/**'
+      - 'tools/tbpros/**'
+      - 'docs/tbpros/**'
+      - 'foundry.toml'
+      - 'hardhat.tbpros.config.ts'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '**/AGENTS.md'
+      - '.github/workflows/tbpros-skeleton.yml'
+  push:
+    paths:
+      - 'contracts/tbpros/**'
+      - 'test/tbpros/**'
+      - 'reference/**'
+      - 'tools/tbpros/**'
+      - 'docs/tbpros/**'
+      - 'foundry.toml'
+      - 'hardhat.tbpros.config.ts'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '**/AGENTS.md'
+      - '.github/workflows/tbpros-skeleton.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  skeleton:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.3.6
+      - run: pnpm install --frozen-lockfile
+      - name: Install exact compiler through Foundry
+        env:
+          FOUNDRY_PROFILE: tbpros
+        run: |
+          forge build --use 0.8.28 --force
+          echo "TBPROS_SOLC=$HOME/.svm/0.8.28/solc-0.8.28" >> "$GITHUB_ENV"
+      - name: Build, regressions, references, ABI/storage/selectors/size/NatSpec
+        run: bash tools/tbpros/ci.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tbpros-skeleton-evidence
+          path: cache/tbpros-hardening/*.log
+# Real Pharos dependency forks remain a separate integration gate; no RPC/private key secrets here.

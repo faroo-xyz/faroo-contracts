@@ -723,3 +723,37 @@ Any future business increment must remeasure runtime against 20,480 bytes.
 Current skeleton has only 5,018 bytes headroom; no full-business size promise.
 This authorized stage ends after the skeleton freeze; do not autonomously
 continue complete business implementation.
+
+# 30. English code documentation (permanent)
+
+Every new or modified production Solidity component must include sufficient
+English NatSpec and explanatory comments for an independent engineer or auditor
+to understand its economic meaning, security assumptions, state transitions,
+units, rounding behavior, and external-call ordering.
+
+Documentation files may remain in Chinese. Do not add low-value comments that
+merely restate Solidity syntax. Comments must explain WHY and protocol semantics,
+not only WHAT the line does. Any code change that invalidates an existing comment
+MUST update that comment in the same change.
+
+Every public/external function needs meaningful notice/dev and applicable
+parameter/return documentation, including the intended responsibilities and
+current revert behavior of SkeletonOnly endpoints. Security-sensitive helpers,
+modifiers, structs/enums, fields, events and errors must explain their economic
+role, units, lifecycle, reset/reuse and important revert conditions. Document
+rounding formula/direction and external-call/CEI ordering near relevant code.
+Never imply that H, epoch budgets, carry or risk credit are additional user debt.
+
+Before completing a Solidity change, check English NatSpec coverage, sensitive
+helpers/fields, units/rounding, external-call ordering, state transitions,
+insolvency behavior and stale comments. No Chinese production comments.
+
+# 31. Hardened skeleton schema
+
+Document 18 supersedes conflicting skeleton schema in document 17: YEAR is
+proxy storage initial-only; fundingUCap is frozen per plan; base/penalty share
+one schedule and can only be funded into the future next slot with exact matching
+terms. IDs are allocated by the protocol. Global Policy.uCap is reserved legacy
+storage and must never be reused or interpreted as live coverage. Q is uint256,
+bounded by 7 * (2^128 - 1), not four uint128 buckets. Gateway proposals have an
+inclusive eta/expiresAt execution window and are consumed before interaction.

@@ -1,0 +1,22 @@
+[
+  {
+    "negative_control": "ABI drift",
+    "rejected": true
+  },
+  {
+    "negative_control": "storage offset drift",
+    "rejected": true
+  },
+  {
+    "negative_control": "runtime exceeds 20480",
+    "rejected": true
+  },
+  {
+    "negative_control": "forbidden selector",
+    "rejected": true
+  },
+  {
+    "negative_control": "missing NatSpec",
+    "rejected": true
+  }
+]

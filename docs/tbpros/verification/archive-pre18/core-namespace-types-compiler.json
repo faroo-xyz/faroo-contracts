@@ -1,0 +1,867 @@
+{
+  "storage": [
+    {
+      "astId": 51191,
+      "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+      "label": "core",
+      "offset": 0,
+      "slot": "0",
+      "type": "t_struct(Layout)218_storage"
+    },
+    {
+      "astId": 51194,
+      "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+      "label": "erc20",
+      "offset": 0,
+      "slot": "39",
+      "type": "t_struct(ERC20Storage)4176_storage"
+    },
+    {
+      "astId": 51197,
+      "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+      "label": "accessControl",
+      "offset": 0,
+      "slot": "44",
+      "type": "t_struct(AccessControlStorage)3808_storage"
+    },
+    {
+      "astId": 51200,
+      "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+      "label": "initializable",
+      "offset": 0,
+      "slot": "45",
+      "type": "t_struct(InitializableStorage)5995_storage"
+    }
+  ],
+  "types": {
+    "t_address": {
+      "encoding": "inplace",
+      "label": "address",
+      "numberOfBytes": "20"
+    },
+    "t_array(t_struct(Bucket)91_storage)2_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Bucket[2]",
+      "numberOfBytes": "128",
+      "base": "t_struct(Bucket)91_storage"
+    },
+    "t_array(t_struct(Plan)59_storage)2_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Plan[2]",
+      "numberOfBytes": "448",
+      "base": "t_struct(Plan)59_storage"
+    },
+    "t_array(t_struct(Source)40_storage)2_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Source[2]",
+      "numberOfBytes": "128",
+      "base": "t_struct(Source)40_storage"
+    },
+    "t_bool": {
+      "encoding": "inplace",
+      "label": "bool",
+      "numberOfBytes": "1"
+    },
+    "t_bytes32": {
+      "encoding": "inplace",
+      "label": "bytes32",
+      "numberOfBytes": "32"
+    },
+    "t_enum(EpochStatus)11": {
+      "encoding": "inplace",
+      "label": "enum TbPROSStorage.EpochStatus",
+      "numberOfBytes": "1"
+    },
+    "t_enum(PlanStatus)7": {
+      "encoding": "inplace",
+      "label": "enum TbPROSStorage.PlanStatus",
+      "numberOfBytes": "1"
+    },
+    "t_mapping(t_address,t_bool)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => bool)",
+      "numberOfBytes": "32",
+      "value": "t_bool"
+    },
+    "t_mapping(t_address,t_mapping(t_address,t_bool))": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => mapping(address => bool))",
+      "numberOfBytes": "32",
+      "value": "t_mapping(t_address,t_bool)"
+    },
+    "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => mapping(address => uint256))",
+      "numberOfBytes": "32",
+      "value": "t_mapping(t_address,t_uint256)"
+    },
+    "t_mapping(t_address,t_mapping(t_uint64,t_struct(Position)80_storage))": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => mapping(uint64 => struct TbPROSStorage.Position))",
+      "numberOfBytes": "32",
+      "value": "t_mapping(t_uint64,t_struct(Position)80_storage)"
+    },
+    "t_mapping(t_address,t_uint128)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => uint128)",
+      "numberOfBytes": "32",
+      "value": "t_uint128"
+    },
+    "t_mapping(t_address,t_uint256)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => uint256)",
+      "numberOfBytes": "32",
+      "value": "t_uint256"
+    },
+    "t_mapping(t_bytes32,t_struct(RoleData)3798_storage)": {
+      "encoding": "mapping",
+      "key": "t_bytes32",
+      "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+      "numberOfBytes": "32",
+      "value": "t_struct(RoleData)3798_storage"
+    },
+    "t_mapping(t_uint64,t_struct(Epoch)75_storage)": {
+      "encoding": "mapping",
+      "key": "t_uint64",
+      "label": "mapping(uint64 => struct TbPROSStorage.Epoch)",
+      "numberOfBytes": "32",
+      "value": "t_struct(Epoch)75_storage"
+    },
+    "t_mapping(t_uint64,t_struct(Position)80_storage)": {
+      "encoding": "mapping",
+      "key": "t_uint64",
+      "label": "mapping(uint64 => struct TbPROSStorage.Position)",
+      "numberOfBytes": "32",
+      "value": "t_struct(Position)80_storage"
+    },
+    "t_string_storage": {
+      "encoding": "bytes",
+      "label": "string",
+      "numberOfBytes": "32"
+    },
+    "t_struct(AccessControlStorage)3808_storage": {
+      "encoding": "inplace",
+      "label": "struct AccessControlUpgradeable.AccessControlStorage",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 3807,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_roles",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_mapping(t_bytes32,t_struct(RoleData)3798_storage)"
+        }
+      ]
+    },
+    "t_struct(Accounting)24_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Accounting",
+      "numberOfBytes": "96",
+      "members": [
+        {
+          "astId": 13,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "R",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 15,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "P",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 17,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "F",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 19,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "U",
+          "offset": 16,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 21,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "B",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 23,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "C",
+          "offset": 16,
+          "slot": "2",
+          "type": "t_uint128"
+        }
+      ]
+    },
+    "t_struct(Bucket)91_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Bucket",
+      "numberOfBytes": "64",
+      "members": [
+        {
+          "astId": 82,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "capacity",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 84,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "credit",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 86,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "refillRateWad",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 88,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "lastUpdate",
+          "offset": 16,
+          "slot": "1",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 90,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "remainder",
+          "offset": 24,
+          "slot": "1",
+          "type": "t_uint64"
+        }
+      ]
+    },
+    "t_struct(Dependencies)135_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Dependencies",
+      "numberOfBytes": "320",
+      "members": [
+        {
+          "astId": 116,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "timelock",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_address"
+        },
+        {
+          "astId": 118,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "usdc",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_address"
+        },
+        {
+          "astId": 120,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "wpros",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_address"
+        },
+        {
+          "astId": 122,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "stpros",
+          "offset": 0,
+          "slot": "3",
+          "type": "t_address"
+        },
+        {
+          "astId": 124,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "subscriptionReserve",
+          "offset": 0,
+          "slot": "4",
+          "type": "t_address"
+        },
+        {
+          "astId": 126,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "yieldReserve",
+          "offset": 0,
+          "slot": "5",
+          "type": "t_address"
+        },
+        {
+          "astId": 128,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "oracle",
+          "offset": 0,
+          "slot": "6",
+          "type": "t_address"
+        },
+        {
+          "astId": 130,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "gateway",
+          "offset": 0,
+          "slot": "7",
+          "type": "t_address"
+        },
+        {
+          "astId": 132,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "foundationReceiver",
+          "offset": 0,
+          "slot": "8",
+          "type": "t_address"
+        },
+        {
+          "astId": 134,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "yieldRefundReceiver",
+          "offset": 0,
+          "slot": "9",
+          "type": "t_address"
+        }
+      ]
+    },
+    "t_struct(ERC20Storage)4176_storage": {
+      "encoding": "inplace",
+      "label": "struct ERC20Upgradeable.ERC20Storage",
+      "numberOfBytes": "160",
+      "members": [
+        {
+          "astId": 4163,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_balances",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_mapping(t_address,t_uint256)"
+        },
+        {
+          "astId": 4169,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_allowances",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))"
+        },
+        {
+          "astId": 4171,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_totalSupply",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_uint256"
+        },
+        {
+          "astId": 4173,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_name",
+          "offset": 0,
+          "slot": "3",
+          "type": "t_string_storage"
+        },
+        {
+          "astId": 4175,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_symbol",
+          "offset": 0,
+          "slot": "4",
+          "type": "t_string_storage"
+        }
+      ]
+    },
+    "t_struct(Epoch)75_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Epoch",
+      "numberOfBytes": "96",
+      "members": [
+        {
+          "astId": 61,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "totalRequestedShares",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 63,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "totalClaimedShares",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 65,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "num",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 67,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "den",
+          "offset": 16,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 69,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "remainingAssets",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 71,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "nextDueAt",
+          "offset": 16,
+          "slot": "2",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 74,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "status",
+          "offset": 24,
+          "slot": "2",
+          "type": "t_enum(EpochStatus)11"
+        }
+      ]
+    },
+    "t_struct(InitializableStorage)5995_storage": {
+      "encoding": "inplace",
+      "label": "struct Initializable.InitializableStorage",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 5991,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_initialized",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 5994,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_initializing",
+          "offset": 8,
+          "slot": "0",
+          "type": "t_bool"
+        }
+      ]
+    },
+    "t_struct(Layout)218_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Layout",
+      "numberOfBytes": "1248",
+      "members": [
+        {
+          "astId": 168,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "accounting",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_struct(Accounting)24_storage"
+        },
+        {
+          "astId": 171,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "mode",
+          "offset": 0,
+          "slot": "3",
+          "type": "t_struct(Mode)31_storage"
+        },
+        {
+          "astId": 174,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "dependencies",
+          "offset": 0,
+          "slot": "4",
+          "type": "t_struct(Dependencies)135_storage"
+        },
+        {
+          "astId": 177,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "policy",
+          "offset": 0,
+          "slot": "14",
+          "type": "t_struct(Policy)150_storage"
+        },
+        {
+          "astId": 182,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "plans",
+          "offset": 0,
+          "slot": "15",
+          "type": "t_array(t_struct(Plan)59_storage)2_storage"
+        },
+        {
+          "astId": 187,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "riskBuckets",
+          "offset": 0,
+          "slot": "29",
+          "type": "t_array(t_struct(Bucket)91_storage)2_storage"
+        },
+        {
+          "astId": 189,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "nextPlanId",
+          "offset": 0,
+          "slot": "33",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 191,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "queueHead",
+          "offset": 16,
+          "slot": "33",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 193,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "queueTail",
+          "offset": 24,
+          "slot": "33",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 195,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "lastSettledDueAt",
+          "offset": 0,
+          "slot": "34",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 200,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "epochs",
+          "offset": 0,
+          "slot": "35",
+          "type": "t_mapping(t_uint64,t_struct(Epoch)75_storage)"
+        },
+        {
+          "astId": 207,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "positions",
+          "offset": 0,
+          "slot": "36",
+          "type": "t_mapping(t_address,t_mapping(t_uint64,t_struct(Position)80_storage))"
+        },
+        {
+          "astId": 211,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "openPositionCount",
+          "offset": 0,
+          "slot": "37",
+          "type": "t_mapping(t_address,t_uint128)"
+        },
+        {
+          "astId": 217,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "operators",
+          "offset": 0,
+          "slot": "38",
+          "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
+        }
+      ]
+    },
+    "t_struct(Mode)31_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Mode",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 26,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "insolvent",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_bool"
+        },
+        {
+          "astId": 28,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "incidentId",
+          "offset": 1,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 30,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "enteredAt",
+          "offset": 17,
+          "slot": "0",
+          "type": "t_uint64"
+        }
+      ]
+    },
+    "t_struct(Plan)59_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Plan",
+      "numberOfBytes": "224",
+      "members": [
+        {
+          "astId": 42,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "id",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 44,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "start",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 46,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "end",
+          "offset": 24,
+          "slot": "0",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 48,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "cursor",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 51,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "status",
+          "offset": 8,
+          "slot": "1",
+          "type": "t_enum(PlanStatus)7"
+        },
+        {
+          "astId": 53,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "numeratorRemainder",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_uint256"
+        },
+        {
+          "astId": 58,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "sources",
+          "offset": 0,
+          "slot": "3",
+          "type": "t_array(t_struct(Source)40_storage)2_storage"
+        }
+      ]
+    },
+    "t_struct(Policy)150_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Policy",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 137,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "uCap",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 139,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "maxMintLossBps",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint16"
+        },
+        {
+          "astId": 141,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "fastFeeBps",
+          "offset": 18,
+          "slot": "0",
+          "type": "t_uint16"
+        },
+        {
+          "astId": 143,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "maxFastFeeBps",
+          "offset": 20,
+          "slot": "0",
+          "type": "t_uint16"
+        },
+        {
+          "astId": 145,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "maxPlanDuration",
+          "offset": 22,
+          "slot": "0",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 147,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "riskPaused",
+          "offset": 30,
+          "slot": "0",
+          "type": "t_bool"
+        },
+        {
+          "astId": 149,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "requestsPaused",
+          "offset": 31,
+          "slot": "0",
+          "type": "t_bool"
+        }
+      ]
+    },
+    "t_struct(Position)80_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Position",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 77,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "requestedShares",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 79,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "claimedShares",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        }
+      ]
+    },
+    "t_struct(RoleData)3798_storage": {
+      "encoding": "inplace",
+      "label": "struct AccessControlUpgradeable.RoleData",
+      "numberOfBytes": "64",
+      "members": [
+        {
+          "astId": 3795,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "hasRole",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_mapping(t_address,t_bool)"
+        },
+        {
+          "astId": 3797,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "adminRole",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_bytes32"
+        }
+      ]
+    },
+    "t_struct(Source)40_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Source",
+      "numberOfBytes": "64",
+      "members": [
+        {
+          "astId": 33,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "remaining",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 35,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "realizedYield",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 37,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "realizedLoss",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 39,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "funded",
+          "offset": 16,
+          "slot": "1",
+          "type": "t_uint128"
+        }
+      ]
+    },
+    "t_uint128": {
+      "encoding": "inplace",
+      "label": "uint128",
+      "numberOfBytes": "16"
+    },
+    "t_uint16": {
+      "encoding": "inplace",
+      "label": "uint16",
+      "numberOfBytes": "2"
+    },
+    "t_uint256": {
+      "encoding": "inplace",
+      "label": "uint256",
+      "numberOfBytes": "32"
+    },
+    "t_uint64": {
+      "encoding": "inplace",
+      "label": "uint64",
+      "numberOfBytes": "8"
+    }
+  }
+}

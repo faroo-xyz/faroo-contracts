@@ -10,17 +10,15 @@
     "viaIR": false,
     "evmVersion": "cancun",
     "source_sha256": {
-      ".github/workflows/tbpros-skeleton.yml": "0e565ee822714b33758110d54035ded6fd8e65ceb25a54f008d15f3ce795de51",
-      "contracts/tbpros/TbPROSStorage.sol": "04f5cbc9798fdf56bc849b1dff98fa7534a14dec3d168bae2489ebacb5ccb407",
-      "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
-      "contracts/tbpros/TbPROSVault.sol": "2847f09742abc824694aec5cace64474c49197ddabf05bf1c5f8745912a64a3d",
-      "contracts/tbpros/governance/UpgradeGateway.sol": "132fc246227539f220ce4baab4e005f3a760236e2a79b73089ab73d53c7aa368",
+      "contracts/tbpros/TbPROSStorage.sol": "8252547cb33737b740accb3523e07a4c4e1b10854a8021651748181ce524c6f4",
+      "contracts/tbpros/TbPROSVault.sol": "023c64961daca83d56d2a68bd06204068f4eb131b26b15ec5402b076474830fa",
+      "contracts/tbpros/governance/UpgradeGateway.sol": "8ad03dde8421f397e47fd6b61c70ecc5e104eb0801423f694acd9225b8136c34",
       "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
       "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
       "contracts/tbpros/interfaces/ITbPROSOracleAdapter.sol": "0537236d23d7d620a41c818cecd62ab8c2e527f7b02e65560cbc309568189302",
-      "contracts/tbpros/interfaces/ITbPROSVault.sol": "2ce5c8ab3b7231568dd753f3ed3f3a1c13993cbdcbad21a0cc67d824b435f896",
-      "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
-      "contracts/tbpros/lens/TbPROSLens.sol": "4f3af97aab7ca2ccbe0e45032558f8fe1a23e854fd08466a212880c325705fc4",
+      "contracts/tbpros/interfaces/ITbPROSVault.sol": "1cf1453d4de2cb443de0d9a27da58a222cd89954c5b0d19f54899b7aab65f796",
+      "contracts/tbpros/interfaces/IUpgradeGateway.sol": "8938375ce307720e20943169634e7e01e497b703631681af149a929686fbc45a",
+      "contracts/tbpros/lens/TbPROSLens.sol": "16ddacacf22aabc001b40f3231495675513509bf060e83ee8c638b2abff70b4a",
       "contracts/tbpros/libraries/AccountingMath.sol": "02cf4c95e2401b862133bb0827765ceab91ca65fd4a041626bd70ccaa0015852",
       "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af",
       "contracts/tbpros/libraries/PlanMath.sol": "d6f060ef1e614f861722357d716ab66b7e8dabe5a29f647cd6a8af6d127098a4",
@@ -56,16 +54,8 @@
       "node_modules/@openzeppelin/contracts/utils/math/Math.sol": "bdfdbe133991c0c78042957ff5cd97167926fcaf6d15664f3835a076cb066457",
       "node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol": "5779bc848bde39f1ad7bc02b4f708a0040888e0083b1a33f119cd94639350134",
       "pnpm-lock.yaml": "5b5ba09fdf1b387fb3087d3f0bc53b166e84e6ab9395c2ef5cc09627eb3880b5",
-      "reference/hardening_schema_model.py": "8209c45f1a8941ece7d6f09a9400ab2c85c0234949b1456e6ef33183a4f61372",
       "reference/tbpros/calendar-fixtures.json": "bbb335b415775eb73259fa32a1b1108546a698a5b239c3b3471c05979eab9b73",
-      "test/tbpros/core-skeleton/CoreSkeleton.t.sol": "b652fb66a10fefd531ebcf579b5eb51d8e553d49581bf8cfeabaa82a6823200b",
-      "test/tbpros/core-skeleton/Hardening.t.sol": "398eb9a7dbfcbfdc7fb386a3d7fb5124ed8452f4c3df36753e2c768cb5b9c5c6",
-      "tools/tbpros/ci.sh": "88f02e089904a16378c89469f053ef8db8386f2c9eccf9f9429bdeeb7a78235b",
-      "tools/tbpros/core-manifests.mjs": "927e3c5f495a2234ccfda920db2f74aea4a9c757b1993f2ef9aa3033ebb6bcc9",
-      "tools/tbpros/guard-selftest.py": "722d9ddfd19ca3b1dec8b33c4172990314a728222997ce33634c2b9df67bf149",
-      "tools/tbpros/hardening-guards.py": "ff5bfe6e3d645d3f65c4f5a5b01a7588d8cfe496071d0c39c433592b6fb7ead7",
-      "tools/tbpros/size-variants.py": "e2eda62ebfb2fc07db786f0e48ae95543b8a1478747fd69693a111eddcf0e0c9",
-      "tools/tbpros/storage-manifest.py": "f3d6605ea5ea99f93bb9d0c3ad633b5fbce0ebf255c3ab29313d97af4478e8a0"
+      "test/tbpros/core-skeleton/CoreSkeleton.t.sol": "af90e6cf5cf70cee8929d67a468e8e7858665de18633393bcfb16f5226796e5a"
     }
   },
   "schema": "V1 candidate baseline, not an upgrade-compatibility proof",
@@ -73,22 +63,22 @@
     {
       "namespace": "faroo.tbpros.storage.Core",
       "slot": "0x7def806360c36a43f97881f41b9e336dc21f4bcdb6a0635f38229e4d0cd22100",
-      "type": "t_struct(Layout)263_storage"
+      "type": "t_struct(Layout)218_storage"
     },
     {
       "namespace": "openzeppelin.storage.ERC20",
       "slot": "0x52c63247e1f47db19d5ce0460030c497f067ca4cebf71ba98eeadabe20bace00",
-      "type": "t_struct(ERC20Storage)4811_storage"
+      "type": "t_struct(ERC20Storage)4176_storage"
     },
     {
       "namespace": "openzeppelin.storage.AccessControl",
       "slot": "0x02dd7bc7dec4dceedda775e58dd541e08a116c6c53815c0bd028192f7b626800",
-      "type": "t_struct(AccessControlStorage)4443_storage"
+      "type": "t_struct(AccessControlStorage)3808_storage"
     },
     {
       "namespace": "openzeppelin.storage.Initializable",
       "slot": "0xf0c57e16840df040f15088dc2f81fe391c3923bec73e23a9662efc9c229c6a00",
-      "type": "t_struct(InitializableStorage)6630_storage"
+      "type": "t_struct(InitializableStorage)5995_storage"
     }
   ],
   "types": {
@@ -97,23 +87,23 @@
       "label": "address",
       "numberOfBytes": "20"
     },
-    "t_array(t_struct(Bucket)137_storage)2_storage": {
+    "t_array(t_struct(Bucket)91_storage)2_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Bucket[2]",
       "numberOfBytes": "128",
-      "base": "t_struct(Bucket)137_storage"
+      "base": "t_struct(Bucket)91_storage"
     },
-    "t_array(t_struct(Plan)88_storage)2_storage": {
+    "t_array(t_struct(Plan)59_storage)2_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Plan[2]",
       "numberOfBytes": "448",
-      "base": "t_struct(Plan)88_storage"
+      "base": "t_struct(Plan)59_storage"
     },
-    "t_array(t_struct(Source)58_storage)2_storage": {
+    "t_array(t_struct(Source)40_storage)2_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Source[2]",
       "numberOfBytes": "128",
-      "base": "t_struct(Source)58_storage"
+      "base": "t_struct(Source)40_storage"
     },
     "t_bool": {
       "encoding": "inplace",
@@ -125,12 +115,12 @@
       "label": "bytes32",
       "numberOfBytes": "32"
     },
-    "t_enum(EpochStatus)13": {
+    "t_enum(EpochStatus)11": {
       "encoding": "inplace",
       "label": "enum TbPROSStorage.EpochStatus",
       "numberOfBytes": "1"
     },
-    "t_enum(PlanStatus)8": {
+    "t_enum(PlanStatus)7": {
       "encoding": "inplace",
       "label": "enum TbPROSStorage.PlanStatus",
       "numberOfBytes": "1"
@@ -156,12 +146,12 @@
       "numberOfBytes": "32",
       "value": "t_mapping(t_address,t_uint256)"
     },
-    "t_mapping(t_address,t_mapping(t_uint64,t_struct(Position)120_storage))": {
+    "t_mapping(t_address,t_mapping(t_uint64,t_struct(Position)80_storage))": {
       "encoding": "mapping",
       "key": "t_address",
       "label": "mapping(address => mapping(uint64 => struct TbPROSStorage.Position))",
       "numberOfBytes": "32",
-      "value": "t_mapping(t_uint64,t_struct(Position)120_storage)"
+      "value": "t_mapping(t_uint64,t_struct(Position)80_storage)"
     },
     "t_mapping(t_address,t_uint128)": {
       "encoding": "mapping",
@@ -177,54 +167,54 @@
       "numberOfBytes": "32",
       "value": "t_uint256"
     },
-    "t_mapping(t_bytes32,t_struct(RoleData)4433_storage)": {
+    "t_mapping(t_bytes32,t_struct(RoleData)3798_storage)": {
       "encoding": "mapping",
       "key": "t_bytes32",
       "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
       "numberOfBytes": "32",
-      "value": "t_struct(RoleData)4433_storage"
+      "value": "t_struct(RoleData)3798_storage"
     },
-    "t_mapping(t_uint64,t_struct(Epoch)112_storage)": {
+    "t_mapping(t_uint64,t_struct(Epoch)75_storage)": {
       "encoding": "mapping",
       "key": "t_uint64",
       "label": "mapping(uint64 => struct TbPROSStorage.Epoch)",
       "numberOfBytes": "32",
-      "value": "t_struct(Epoch)112_storage"
+      "value": "t_struct(Epoch)75_storage"
     },
-    "t_mapping(t_uint64,t_struct(Position)120_storage)": {
+    "t_mapping(t_uint64,t_struct(Position)80_storage)": {
       "encoding": "mapping",
       "key": "t_uint64",
       "label": "mapping(uint64 => struct TbPROSStorage.Position)",
       "numberOfBytes": "32",
-      "value": "t_struct(Position)120_storage"
+      "value": "t_struct(Position)80_storage"
     },
     "t_string_storage": {
       "encoding": "bytes",
       "label": "string",
       "numberOfBytes": "32"
     },
-    "t_struct(AccessControlStorage)4443_storage": {
+    "t_struct(AccessControlStorage)3808_storage": {
       "encoding": "inplace",
       "label": "struct AccessControlUpgradeable.AccessControlStorage",
       "numberOfBytes": "32",
       "members": [
         {
-          "astId": 4442,
+          "astId": 3807,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_roles",
           "offset": 0,
           "slot": "0",
-          "type": "t_mapping(t_bytes32,t_struct(RoleData)4433_storage)"
+          "type": "t_mapping(t_bytes32,t_struct(RoleData)3798_storage)"
         }
       ]
     },
-    "t_struct(Accounting)33_storage": {
+    "t_struct(Accounting)24_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Accounting",
       "numberOfBytes": "96",
       "members": [
         {
-          "astId": 17,
+          "astId": 13,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "R",
           "offset": 0,
@@ -232,7 +222,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 20,
+          "astId": 15,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "P",
           "offset": 16,
@@ -240,7 +230,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 23,
+          "astId": 17,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "F",
           "offset": 0,
@@ -248,7 +238,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 26,
+          "astId": 19,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "U",
           "offset": 16,
@@ -256,7 +246,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 29,
+          "astId": 21,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "B",
           "offset": 0,
@@ -264,7 +254,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 32,
+          "astId": 23,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "C",
           "offset": 16,
@@ -273,13 +263,13 @@
         }
       ]
     },
-    "t_struct(Bucket)137_storage": {
+    "t_struct(Bucket)91_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Bucket",
       "numberOfBytes": "64",
       "members": [
         {
-          "astId": 124,
+          "astId": 82,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "capacity",
           "offset": 0,
@@ -287,7 +277,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 127,
+          "astId": 84,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "credit",
           "offset": 16,
@@ -295,7 +285,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 130,
+          "astId": 86,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "refillRateWad",
           "offset": 0,
@@ -303,7 +293,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 133,
+          "astId": 88,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "lastUpdate",
           "offset": 16,
@@ -311,7 +301,7 @@
           "type": "t_uint64"
         },
         {
-          "astId": 136,
+          "astId": 90,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "remainder",
           "offset": 24,
@@ -320,13 +310,13 @@
         }
       ]
     },
-    "t_struct(Dependencies)169_storage": {
+    "t_struct(Dependencies)135_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Dependencies",
       "numberOfBytes": "320",
       "members": [
         {
-          "astId": 141,
+          "astId": 116,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "timelock",
           "offset": 0,
@@ -334,7 +324,7 @@
           "type": "t_address"
         },
         {
-          "astId": 144,
+          "astId": 118,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "usdc",
           "offset": 0,
@@ -342,7 +332,7 @@
           "type": "t_address"
         },
         {
-          "astId": 147,
+          "astId": 120,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "wpros",
           "offset": 0,
@@ -350,7 +340,7 @@
           "type": "t_address"
         },
         {
-          "astId": 150,
+          "astId": 122,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "stpros",
           "offset": 0,
@@ -358,7 +348,7 @@
           "type": "t_address"
         },
         {
-          "astId": 153,
+          "astId": 124,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "subscriptionReserve",
           "offset": 0,
@@ -366,7 +356,7 @@
           "type": "t_address"
         },
         {
-          "astId": 156,
+          "astId": 126,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "yieldReserve",
           "offset": 0,
@@ -374,7 +364,7 @@
           "type": "t_address"
         },
         {
-          "astId": 159,
+          "astId": 128,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "oracle",
           "offset": 0,
@@ -382,7 +372,7 @@
           "type": "t_address"
         },
         {
-          "astId": 162,
+          "astId": 130,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "gateway",
           "offset": 0,
@@ -390,7 +380,7 @@
           "type": "t_address"
         },
         {
-          "astId": 165,
+          "astId": 132,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "foundationReceiver",
           "offset": 0,
@@ -398,7 +388,7 @@
           "type": "t_address"
         },
         {
-          "astId": 168,
+          "astId": 134,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "yieldRefundReceiver",
           "offset": 0,
@@ -407,13 +397,13 @@
         }
       ]
     },
-    "t_struct(ERC20Storage)4811_storage": {
+    "t_struct(ERC20Storage)4176_storage": {
       "encoding": "inplace",
       "label": "struct ERC20Upgradeable.ERC20Storage",
       "numberOfBytes": "160",
       "members": [
         {
-          "astId": 4798,
+          "astId": 4163,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_balances",
           "offset": 0,
@@ -421,7 +411,7 @@
           "type": "t_mapping(t_address,t_uint256)"
         },
         {
-          "astId": 4804,
+          "astId": 4169,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_allowances",
           "offset": 0,
@@ -429,7 +419,7 @@
           "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))"
         },
         {
-          "astId": 4806,
+          "astId": 4171,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_totalSupply",
           "offset": 0,
@@ -437,7 +427,7 @@
           "type": "t_uint256"
         },
         {
-          "astId": 4808,
+          "astId": 4173,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_name",
           "offset": 0,
@@ -445,7 +435,7 @@
           "type": "t_string_storage"
         },
         {
-          "astId": 4810,
+          "astId": 4175,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_symbol",
           "offset": 0,
@@ -454,13 +444,13 @@
         }
       ]
     },
-    "t_struct(Epoch)112_storage": {
+    "t_struct(Epoch)75_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Epoch",
       "numberOfBytes": "96",
       "members": [
         {
-          "astId": 92,
+          "astId": 61,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "totalRequestedShares",
           "offset": 0,
@@ -468,7 +458,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 95,
+          "astId": 63,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "totalClaimedShares",
           "offset": 16,
@@ -476,7 +466,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 98,
+          "astId": 65,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "num",
           "offset": 0,
@@ -484,7 +474,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 101,
+          "astId": 67,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "den",
           "offset": 16,
@@ -492,7 +482,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 104,
+          "astId": 69,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "remainingAssets",
           "offset": 0,
@@ -500,7 +490,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 107,
+          "astId": 71,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "nextDueAt",
           "offset": 16,
@@ -508,22 +498,22 @@
           "type": "t_uint64"
         },
         {
-          "astId": 111,
+          "astId": 74,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "status",
           "offset": 24,
           "slot": "2",
-          "type": "t_enum(EpochStatus)13"
+          "type": "t_enum(EpochStatus)11"
         }
       ]
     },
-    "t_struct(InitializableStorage)6630_storage": {
+    "t_struct(InitializableStorage)5995_storage": {
       "encoding": "inplace",
       "label": "struct Initializable.InitializableStorage",
       "numberOfBytes": "32",
       "members": [
         {
-          "astId": 6626,
+          "astId": 5991,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_initialized",
           "offset": 0,
@@ -531,7 +521,7 @@
           "type": "t_uint64"
         },
         {
-          "astId": 6629,
+          "astId": 5994,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_initializing",
           "offset": 8,
@@ -540,61 +530,61 @@
         }
       ]
     },
-    "t_struct(Layout)263_storage": {
+    "t_struct(Layout)218_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Layout",
-      "numberOfBytes": "1280",
+      "numberOfBytes": "1248",
       "members": [
         {
-          "astId": 197,
+          "astId": 168,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "accounting",
           "offset": 0,
           "slot": "0",
-          "type": "t_struct(Accounting)33_storage"
+          "type": "t_struct(Accounting)24_storage"
         },
         {
-          "astId": 201,
+          "astId": 171,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "mode",
           "offset": 0,
           "slot": "3",
-          "type": "t_struct(Mode)44_storage"
+          "type": "t_struct(Mode)31_storage"
         },
         {
-          "astId": 205,
+          "astId": 174,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "dependencies",
           "offset": 0,
           "slot": "4",
-          "type": "t_struct(Dependencies)169_storage"
+          "type": "t_struct(Dependencies)135_storage"
         },
         {
-          "astId": 209,
+          "astId": 177,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "policy",
           "offset": 0,
           "slot": "14",
-          "type": "t_struct(Policy)192_storage"
+          "type": "t_struct(Policy)150_storage"
         },
         {
-          "astId": 215,
+          "astId": 182,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "plans",
           "offset": 0,
           "slot": "15",
-          "type": "t_array(t_struct(Plan)88_storage)2_storage"
+          "type": "t_array(t_struct(Plan)59_storage)2_storage"
         },
         {
-          "astId": 221,
+          "astId": 187,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "riskBuckets",
           "offset": 0,
           "slot": "29",
-          "type": "t_array(t_struct(Bucket)137_storage)2_storage"
+          "type": "t_array(t_struct(Bucket)91_storage)2_storage"
         },
         {
-          "astId": 224,
+          "astId": 189,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "nextPlanId",
           "offset": 0,
@@ -602,7 +592,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 227,
+          "astId": 191,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "queueHead",
           "offset": 16,
@@ -610,7 +600,7 @@
           "type": "t_uint64"
         },
         {
-          "astId": 230,
+          "astId": 193,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "queueTail",
           "offset": 24,
@@ -618,7 +608,7 @@
           "type": "t_uint64"
         },
         {
-          "astId": 233,
+          "astId": 195,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "lastSettledDueAt",
           "offset": 0,
@@ -626,23 +616,23 @@
           "type": "t_uint64"
         },
         {
-          "astId": 239,
+          "astId": 200,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "epochs",
           "offset": 0,
           "slot": "35",
-          "type": "t_mapping(t_uint64,t_struct(Epoch)112_storage)"
+          "type": "t_mapping(t_uint64,t_struct(Epoch)75_storage)"
         },
         {
-          "astId": 247,
+          "astId": 207,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "positions",
           "offset": 0,
           "slot": "36",
-          "type": "t_mapping(t_address,t_mapping(t_uint64,t_struct(Position)120_storage))"
+          "type": "t_mapping(t_address,t_mapping(t_uint64,t_struct(Position)80_storage))"
         },
         {
-          "astId": 252,
+          "astId": 211,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "openPositionCount",
           "offset": 0,
@@ -650,30 +640,22 @@
           "type": "t_mapping(t_address,t_uint128)"
         },
         {
-          "astId": 259,
+          "astId": 217,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "operators",
           "offset": 0,
           "slot": "38",
           "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
-        },
-        {
-          "astId": 262,
-          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
-          "label": "yearSeconds",
-          "offset": 0,
-          "slot": "39",
-          "type": "t_uint64"
         }
       ]
     },
-    "t_struct(Mode)44_storage": {
+    "t_struct(Mode)31_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Mode",
       "numberOfBytes": "32",
       "members": [
         {
-          "astId": 37,
+          "astId": 26,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "insolvent",
           "offset": 0,
@@ -681,7 +663,7 @@
           "type": "t_bool"
         },
         {
-          "astId": 40,
+          "astId": 28,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "incidentId",
           "offset": 1,
@@ -689,7 +671,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 43,
+          "astId": 30,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "enteredAt",
           "offset": 17,
@@ -698,13 +680,13 @@
         }
       ]
     },
-    "t_struct(Plan)88_storage": {
+    "t_struct(Plan)59_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Plan",
       "numberOfBytes": "224",
       "members": [
         {
-          "astId": 62,
+          "astId": 42,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "id",
           "offset": 0,
@@ -712,7 +694,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 65,
+          "astId": 44,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "start",
           "offset": 16,
@@ -720,7 +702,7 @@
           "type": "t_uint64"
         },
         {
-          "astId": 68,
+          "astId": 46,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "end",
           "offset": 24,
@@ -728,7 +710,7 @@
           "type": "t_uint64"
         },
         {
-          "astId": 71,
+          "astId": 48,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "cursor",
           "offset": 0,
@@ -736,23 +718,15 @@
           "type": "t_uint64"
         },
         {
-          "astId": 75,
+          "astId": 51,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "status",
           "offset": 8,
           "slot": "1",
-          "type": "t_enum(PlanStatus)8"
+          "type": "t_enum(PlanStatus)7"
         },
         {
-          "astId": 78,
-          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
-          "label": "fundingUCap",
-          "offset": 9,
-          "slot": "1",
-          "type": "t_uint128"
-        },
-        {
-          "astId": 81,
+          "astId": 53,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "numeratorRemainder",
           "offset": 0,
@@ -760,22 +734,22 @@
           "type": "t_uint256"
         },
         {
-          "astId": 87,
+          "astId": 58,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "sources",
           "offset": 0,
           "slot": "3",
-          "type": "t_array(t_struct(Source)58_storage)2_storage"
+          "type": "t_array(t_struct(Source)40_storage)2_storage"
         }
       ]
     },
-    "t_struct(Policy)192_storage": {
+    "t_struct(Policy)150_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Policy",
       "numberOfBytes": "32",
       "members": [
         {
-          "astId": 173,
+          "astId": 137,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "uCap",
           "offset": 0,
@@ -783,7 +757,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 176,
+          "astId": 139,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "maxMintLossBps",
           "offset": 16,
@@ -791,7 +765,7 @@
           "type": "t_uint16"
         },
         {
-          "astId": 179,
+          "astId": 141,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "fastFeeBps",
           "offset": 18,
@@ -799,7 +773,7 @@
           "type": "t_uint16"
         },
         {
-          "astId": 182,
+          "astId": 143,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "maxFastFeeBps",
           "offset": 20,
@@ -807,7 +781,7 @@
           "type": "t_uint16"
         },
         {
-          "astId": 185,
+          "astId": 145,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "maxPlanDuration",
           "offset": 22,
@@ -815,7 +789,7 @@
           "type": "t_uint64"
         },
         {
-          "astId": 188,
+          "astId": 147,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "riskPaused",
           "offset": 30,
@@ -823,7 +797,7 @@
           "type": "t_bool"
         },
         {
-          "astId": 191,
+          "astId": 149,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "requestsPaused",
           "offset": 31,
@@ -832,13 +806,13 @@
         }
       ]
     },
-    "t_struct(Position)120_storage": {
+    "t_struct(Position)80_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Position",
       "numberOfBytes": "32",
       "members": [
         {
-          "astId": 116,
+          "astId": 77,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "requestedShares",
           "offset": 0,
@@ -846,7 +820,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 119,
+          "astId": 79,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "claimedShares",
           "offset": 16,
@@ -855,13 +829,13 @@
         }
       ]
     },
-    "t_struct(RoleData)4433_storage": {
+    "t_struct(RoleData)3798_storage": {
       "encoding": "inplace",
       "label": "struct AccessControlUpgradeable.RoleData",
       "numberOfBytes": "64",
       "members": [
         {
-          "astId": 4430,
+          "astId": 3795,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "hasRole",
           "offset": 0,
@@ -869,7 +843,7 @@
           "type": "t_mapping(t_address,t_bool)"
         },
         {
-          "astId": 4432,
+          "astId": 3797,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "adminRole",
           "offset": 0,
@@ -878,13 +852,13 @@
         }
       ]
     },
-    "t_struct(Source)58_storage": {
+    "t_struct(Source)40_storage": {
       "encoding": "inplace",
       "label": "struct TbPROSStorage.Source",
       "numberOfBytes": "64",
       "members": [
         {
-          "astId": 48,
+          "astId": 33,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "remaining",
           "offset": 0,
@@ -892,7 +866,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 51,
+          "astId": 35,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "realizedYield",
           "offset": 16,
@@ -900,7 +874,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 54,
+          "astId": 37,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "realizedLoss",
           "offset": 0,
@@ -908,7 +882,7 @@
           "type": "t_uint128"
         },
         {
-          "astId": 57,
+          "astId": 39,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "funded",
           "offset": 16,
@@ -946,7 +920,7 @@
     "ProsReserve": {
       "storage": [
         {
-          "astId": 4156,
+          "astId": 3521,
           "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
           "label": "boundVault",
           "offset": 0,
@@ -954,12 +928,12 @@
           "type": "t_address"
         },
         {
-          "astId": 4159,
+          "astId": 3524,
           "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
           "label": "_period",
           "offset": 0,
           "slot": "1",
-          "type": "t_struct(Period)2807_storage"
+          "type": "t_struct(Period)2334_storage"
         }
       ],
       "types": {
@@ -968,13 +942,13 @@
           "label": "address",
           "numberOfBytes": "20"
         },
-        "t_struct(Period)2807_storage": {
+        "t_struct(Period)2334_storage": {
           "encoding": "inplace",
           "label": "struct IProsReserve.Period",
           "numberOfBytes": "64",
           "members": [
             {
-              "astId": 2798,
+              "astId": 2325,
               "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
               "label": "id",
               "offset": 0,
@@ -982,7 +956,7 @@
               "type": "t_uint128"
             },
             {
-              "astId": 2800,
+              "astId": 2327,
               "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
               "label": "start",
               "offset": 16,
@@ -990,7 +964,7 @@
               "type": "t_uint64"
             },
             {
-              "astId": 2802,
+              "astId": 2329,
               "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
               "label": "expiry",
               "offset": 24,
@@ -998,7 +972,7 @@
               "type": "t_uint64"
             },
             {
-              "astId": 2804,
+              "astId": 2331,
               "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
               "label": "limit",
               "offset": 0,
@@ -1006,7 +980,7 @@
               "type": "t_uint128"
             },
             {
-              "astId": 2806,
+              "astId": 2333,
               "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
               "label": "spent",
               "offset": 16,
@@ -1030,7 +1004,7 @@
     "UpgradeGateway": {
       "storage": [
         {
-          "astId": 2445,
+          "astId": 1991,
           "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
           "label": "boundVault",
           "offset": 0,
@@ -1038,7 +1012,7 @@
           "type": "t_address"
         },
         {
-          "astId": 2448,
+          "astId": 1993,
           "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
           "label": "proxyAdmin",
           "offset": 0,
@@ -1046,12 +1020,12 @@
           "type": "t_address"
         },
         {
-          "astId": 2452,
+          "astId": 1996,
           "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
           "label": "_proposal",
           "offset": 0,
           "slot": "2",
-          "type": "t_struct(Proposal)3604_storage"
+          "type": "t_struct(Proposal)2975_storage"
         }
       ],
       "types": {
@@ -1070,13 +1044,13 @@
           "label": "bytes32",
           "numberOfBytes": "32"
         },
-        "t_struct(Proposal)3604_storage": {
+        "t_struct(Proposal)2975_storage": {
           "encoding": "inplace",
           "label": "struct IUpgradeGateway.Proposal",
-          "numberOfBytes": "128",
+          "numberOfBytes": "96",
           "members": [
             {
-              "astId": 3585,
+              "astId": 2966,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "nonce",
               "offset": 0,
@@ -1084,7 +1058,7 @@
               "type": "t_uint128"
             },
             {
-              "astId": 3588,
+              "astId": 2968,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "eta",
               "offset": 16,
@@ -1092,7 +1066,7 @@
               "type": "t_uint64"
             },
             {
-              "astId": 3591,
+              "astId": 2970,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "canceled",
               "offset": 24,
@@ -1100,7 +1074,7 @@
               "type": "t_bool"
             },
             {
-              "astId": 3594,
+              "astId": 2972,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "implementation",
               "offset": 0,
@@ -1108,28 +1082,12 @@
               "type": "t_address"
             },
             {
-              "astId": 3597,
+              "astId": 2974,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "dataHash",
               "offset": 0,
               "slot": "2",
               "type": "t_bytes32"
-            },
-            {
-              "astId": 3600,
-              "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
-              "label": "expiresAt",
-              "offset": 0,
-              "slot": "3",
-              "type": "t_uint64"
-            },
-            {
-              "astId": 3603,
-              "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
-              "label": "consumed",
-              "offset": 8,
-              "slot": "3",
-              "type": "t_bool"
             }
           ]
         },
@@ -1157,28 +1115,6 @@
     "gateway_upgrading": "0xe04bd8d335f0e9437a2103703be049cea55779b8fc9eab5e587661e89b66bb32"
   },
   "mode_packing_verified": true,
-  "enum_definitions": {
-    "TbPROSStorage.PlanStatus": [
-      "Empty",
-      "Funded",
-      "Active",
-      "Retired"
-    ],
-    "TbPROSStorage.EpochStatus": [
-      "Empty",
-      "Requested",
-      "Settled"
-    ],
-    "TbPROSTypes.EpochStatus": [
-      "Empty",
-      "Requested",
-      "Settled"
-    ],
-    "IProsReserve.Purpose": [
-      "Subscription",
-      "Yield"
-    ]
-  },
   "field_semantics": [
     {
       "namespace": "openzeppelin.storage.AccessControl",
@@ -1782,18 +1718,6 @@
     },
     {
       "namespace": "faroo.tbpros.storage.Core",
-      "field": "Layout.yearSeconds",
-      "type": "uint64",
-      "relative_slot": "39",
-      "offset_bytes": 0,
-      "unit": "seconds",
-      "meaning": "positive initial-only proxy APR denominator; preserved across ordinary upgrades",
-      "writer": "Vault only; nested writers as specified",
-      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
-      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
-    },
-    {
-      "namespace": "faroo.tbpros.storage.Core",
       "field": "Mode.insolvent",
       "type": "bool",
       "relative_slot": "0",
@@ -1890,18 +1814,6 @@
     },
     {
       "namespace": "faroo.tbpros.storage.Core",
-      "field": "Plan.fundingUCap",
-      "type": "uint128",
-      "relative_slot": "1",
-      "offset_bytes": 9,
-      "unit": "USDC raw6",
-      "meaning": "frozen per-plan funding term shared by base/penalty; never retroactively changed",
-      "writer": "Vault funded-plan/checkpoint/close helpers (stub)",
-      "reset_conditions": "reuse fixed active/next only after close completes or safe atomic promotion; full burn retires; cursor/carry cannot pass to new holders",
-      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
-    },
-    {
-      "namespace": "faroo.tbpros.storage.Core",
       "field": "Plan.numeratorRemainder",
       "type": "uint256",
       "relative_slot": "2",
@@ -1931,7 +1843,7 @@
       "relative_slot": "0",
       "offset_bytes": 0,
       "unit": "USDC raw6",
-      "meaning": "RESERVED legacy global Ucap; fresh init zero, never used for current plan coverage or repurposed",
+      "meaning": "maximum nominal U for funded plan scope",
       "writer": "Vault init/TL config; Guardian only tightens pause",
       "reset_conditions": "no reset of accepted risk history; hard fee maximum requires product-version change",
       "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
@@ -2244,30 +2156,6 @@
       "offset_bytes": 0,
       "unit": "bytes32",
       "meaning": "keccak256 migration calldata; never arbitrary executor payload",
-      "writer": "Gateway onlyTL queue/cancel/executeUpgrade (stub)",
-      "reset_conditions": "single proposal slot; consumed/canceled nonce not reusable; no proposal history array",
-      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
-    },
-    {
-      "namespace": "UpgradeGateway ordinary storage",
-      "field": "Proposal.expiresAt",
-      "type": "uint64",
-      "relative_slot": "3",
-      "offset_bytes": 0,
-      "unit": "UTC seconds",
-      "meaning": "inclusive execution deadline; no revival of an expired nonce",
-      "writer": "Gateway onlyTL queue/cancel/executeUpgrade (stub)",
-      "reset_conditions": "single proposal slot; consumed/canceled nonce not reusable; no proposal history array",
-      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
-    },
-    {
-      "namespace": "UpgradeGateway ordinary storage",
-      "field": "Proposal.consumed",
-      "type": "bool",
-      "relative_slot": "3",
-      "offset_bytes": 8,
-      "unit": "bool",
-      "meaning": "set before upgrade interaction; blocks replay and nested callback execution",
       "writer": "Gateway onlyTL queue/cancel/executeUpgrade (stub)",
       "reset_conditions": "single proposal slot; consumed/canceled nonce not reusable; no proposal history array",
       "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."

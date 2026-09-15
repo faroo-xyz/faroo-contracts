@@ -15,3 +15,6 @@ work. Report conflicts between the current specification and implementation.
 superseded designs. Keep test probes separate from production contracts, run
 checks appropriate to the change, and distinguish model results from deployment
 or audit evidence. Never print RPC credentials or private keys.
+
+All production code comments and NatSpec for tbPROS must be written in English.
+Architecture and review documents under docs/tbpros may remain in Chinese.

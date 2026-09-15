@@ -10,17 +10,15 @@
     "viaIR": false,
     "evmVersion": "cancun",
     "source_sha256": {
-      ".github/workflows/tbpros-skeleton.yml": "0e565ee822714b33758110d54035ded6fd8e65ceb25a54f008d15f3ce795de51",
-      "contracts/tbpros/TbPROSStorage.sol": "04f5cbc9798fdf56bc849b1dff98fa7534a14dec3d168bae2489ebacb5ccb407",
-      "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
-      "contracts/tbpros/TbPROSVault.sol": "2847f09742abc824694aec5cace64474c49197ddabf05bf1c5f8745912a64a3d",
-      "contracts/tbpros/governance/UpgradeGateway.sol": "132fc246227539f220ce4baab4e005f3a760236e2a79b73089ab73d53c7aa368",
+      "contracts/tbpros/TbPROSStorage.sol": "8252547cb33737b740accb3523e07a4c4e1b10854a8021651748181ce524c6f4",
+      "contracts/tbpros/TbPROSVault.sol": "023c64961daca83d56d2a68bd06204068f4eb131b26b15ec5402b076474830fa",
+      "contracts/tbpros/governance/UpgradeGateway.sol": "8ad03dde8421f397e47fd6b61c70ecc5e104eb0801423f694acd9225b8136c34",
       "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
       "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
       "contracts/tbpros/interfaces/ITbPROSOracleAdapter.sol": "0537236d23d7d620a41c818cecd62ab8c2e527f7b02e65560cbc309568189302",
-      "contracts/tbpros/interfaces/ITbPROSVault.sol": "2ce5c8ab3b7231568dd753f3ed3f3a1c13993cbdcbad21a0cc67d824b435f896",
-      "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
-      "contracts/tbpros/lens/TbPROSLens.sol": "4f3af97aab7ca2ccbe0e45032558f8fe1a23e854fd08466a212880c325705fc4",
+      "contracts/tbpros/interfaces/ITbPROSVault.sol": "1cf1453d4de2cb443de0d9a27da58a222cd89954c5b0d19f54899b7aab65f796",
+      "contracts/tbpros/interfaces/IUpgradeGateway.sol": "8938375ce307720e20943169634e7e01e497b703631681af149a929686fbc45a",
+      "contracts/tbpros/lens/TbPROSLens.sol": "16ddacacf22aabc001b40f3231495675513509bf060e83ee8c638b2abff70b4a",
       "contracts/tbpros/libraries/AccountingMath.sol": "02cf4c95e2401b862133bb0827765ceab91ca65fd4a041626bd70ccaa0015852",
       "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af",
       "contracts/tbpros/libraries/PlanMath.sol": "d6f060ef1e614f861722357d716ab66b7e8dabe5a29f647cd6a8af6d127098a4",
@@ -56,23 +54,21 @@
       "node_modules/@openzeppelin/contracts/utils/math/Math.sol": "bdfdbe133991c0c78042957ff5cd97167926fcaf6d15664f3835a076cb066457",
       "node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol": "5779bc848bde39f1ad7bc02b4f708a0040888e0083b1a33f119cd94639350134",
       "pnpm-lock.yaml": "5b5ba09fdf1b387fb3087d3f0bc53b166e84e6ab9395c2ef5cc09627eb3880b5",
-      "reference/hardening_schema_model.py": "8209c45f1a8941ece7d6f09a9400ab2c85c0234949b1456e6ef33183a4f61372",
       "reference/tbpros/calendar-fixtures.json": "bbb335b415775eb73259fa32a1b1108546a698a5b239c3b3471c05979eab9b73",
-      "test/tbpros/core-skeleton/CoreSkeleton.t.sol": "b652fb66a10fefd531ebcf579b5eb51d8e553d49581bf8cfeabaa82a6823200b",
-      "test/tbpros/core-skeleton/Hardening.t.sol": "398eb9a7dbfcbfdc7fb386a3d7fb5124ed8452f4c3df36753e2c768cb5b9c5c6",
-      "tools/tbpros/ci.sh": "88f02e089904a16378c89469f053ef8db8386f2c9eccf9f9429bdeeb7a78235b",
-      "tools/tbpros/core-manifests.mjs": "927e3c5f495a2234ccfda920db2f74aea4a9c757b1993f2ef9aa3033ebb6bcc9",
-      "tools/tbpros/guard-selftest.py": "722d9ddfd19ca3b1dec8b33c4172990314a728222997ce33634c2b9df67bf149",
-      "tools/tbpros/hardening-guards.py": "ff5bfe6e3d645d3f65c4f5a5b01a7588d8cfe496071d0c39c433592b6fb7ead7",
-      "tools/tbpros/size-variants.py": "e2eda62ebfb2fc07db786f0e48ae95543b8a1478747fd69693a111eddcf0e0c9",
-      "tools/tbpros/storage-manifest.py": "f3d6605ea5ea99f93bb9d0c3ad633b5fbce0ebf255c3ab29313d97af4478e8a0"
+      "test/tbpros/core-skeleton/CoreSkeleton.t.sol": "af90e6cf5cf70cee8929d67a468e8e7858665de18633393bcfb16f5226796e5a"
     }
   },
   "contracts": {
     "TbPROSVault": [
       {
         "type": "constructor",
-        "inputs": [],
+        "inputs": [
+          {
+            "name": "yearSeconds",
+            "type": "uint64",
+            "internalType": "uint64"
+          }
+        ],
         "stateMutability": "nonpayable"
       },
       {
@@ -135,7 +131,7 @@
           {
             "name": "",
             "type": "tuple",
-            "internalType": "struct TbPROSTypes.Accounting",
+            "internalType": "struct TbPROSStorage.Accounting",
             "components": [
               {
                 "name": "R",
@@ -177,7 +173,7 @@
         "name": "activatePlan",
         "inputs": [
           {
-            "name": "planId",
+            "name": "",
             "type": "uint128",
             "internalType": "uint128"
           }
@@ -235,7 +231,7 @@
       },
       {
         "type": "function",
-        "name": "backingAsset",
+        "name": "asset",
         "inputs": [],
         "outputs": [
           {
@@ -283,22 +279,22 @@
         "name": "claimRedeem",
         "inputs": [
           {
-            "name": "epoch",
+            "name": "",
             "type": "uint64",
             "internalType": "uint64"
           },
           {
-            "name": "shares",
+            "name": "",
             "type": "uint256",
             "internalType": "uint256"
           },
           {
-            "name": "receiver",
+            "name": "",
             "type": "address",
             "internalType": "address"
           },
           {
-            "name": "controller",
+            "name": "",
             "type": "address",
             "internalType": "address"
           }
@@ -317,7 +313,7 @@
         "name": "closePlan",
         "inputs": [
           {
-            "name": "planId",
+            "name": "",
             "type": "uint128",
             "internalType": "uint128"
           }
@@ -340,6 +336,71 @@
       },
       {
         "type": "function",
+        "name": "dependencies",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Dependencies",
+            "components": [
+              {
+                "name": "timelock",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "usdc",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "wpros",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "stpros",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "subscriptionReserve",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "yieldReserve",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "oracle",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "gateway",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "foundationReceiver",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "yieldRefundReceiver",
+                "type": "address",
+                "internalType": "address"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
         "name": "epoch",
         "inputs": [
           {
@@ -352,7 +413,7 @@
           {
             "name": "",
             "type": "tuple",
-            "internalType": "struct TbPROSTypes.Epoch",
+            "internalType": "struct TbPROSStorage.Epoch",
             "components": [
               {
                 "name": "totalRequestedShares",
@@ -387,7 +448,7 @@
               {
                 "name": "status",
                 "type": "uint8",
-                "internalType": "enum TbPROSTypes.EpochStatus"
+                "internalType": "enum TbPROSStorage.EpochStatus"
               }
             ]
           }
@@ -399,12 +460,12 @@
         "name": "fastRedeem",
         "inputs": [
           {
-            "name": "shares",
+            "name": "",
             "type": "uint256",
             "internalType": "uint256"
           },
           {
-            "name": "minOut",
+            "name": "",
             "type": "uint256",
             "internalType": "uint256"
           }
@@ -423,20 +484,20 @@
         "name": "fundPlan",
         "inputs": [
           {
-            "name": "pros",
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          },
+          {
+            "name": "",
             "type": "uint256",
             "internalType": "uint256"
           },
           {
-            "name": "terms",
+            "name": "",
             "type": "tuple",
-            "internalType": "struct TbPROSTypes.PlanTerms",
+            "internalType": "struct TbPROSStorage.PlanTerms",
             "components": [
-              {
-                "name": "fundingUCap",
-                "type": "uint128",
-                "internalType": "uint128"
-              },
               {
                 "name": "start",
                 "type": "uint64",
@@ -450,13 +511,7 @@
             ]
           }
         ],
-        "outputs": [
-          {
-            "name": "",
-            "type": "uint128",
-            "internalType": "uint128"
-          }
-        ],
+        "outputs": [],
         "stateMutability": "nonpayable"
       },
       {
@@ -474,24 +529,6 @@
             "name": "",
             "type": "bytes32",
             "internalType": "bytes32"
-          }
-        ],
-        "stateMutability": "view"
-      },
-      {
-        "type": "function",
-        "name": "governanceBinding",
-        "inputs": [],
-        "outputs": [
-          {
-            "name": "timelock",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "gateway",
-            "type": "address",
-            "internalType": "address"
           }
         ],
         "stateMutability": "view"
@@ -545,12 +582,12 @@
           {
             "name": "config",
             "type": "tuple",
-            "internalType": "struct TbPROSTypes.InitConfig",
+            "internalType": "struct TbPROSStorage.InitConfig",
             "components": [
               {
                 "name": "dependencies",
                 "type": "tuple",
-                "internalType": "struct TbPROSTypes.Dependencies",
+                "internalType": "struct TbPROSStorage.Dependencies",
                 "components": [
                   {
                     "name": "timelock",
@@ -610,17 +647,17 @@
                 "internalType": "address"
               },
               {
-                "name": "yearSeconds",
-                "type": "uint64",
-                "internalType": "uint64"
-              },
-              {
                 "name": "risk",
                 "type": "tuple",
-                "internalType": "struct TbPROSTypes.RiskConfig",
+                "internalType": "struct TbPROSStorage.RiskConfig",
                 "components": [
                   {
                     "name": "principalCap",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  },
+                  {
+                    "name": "uCap",
                     "type": "uint128",
                     "internalType": "uint128"
                   },
@@ -647,7 +684,7 @@
                   {
                     "name": "buckets",
                     "type": "tuple[2]",
-                    "internalType": "struct TbPROSTypes.BucketConfig[2]",
+                    "internalType": "struct TbPROSStorage.BucketConfig[2]",
                     "components": [
                       {
                         "name": "capacity",
@@ -701,7 +738,7 @@
           {
             "name": "",
             "type": "tuple",
-            "internalType": "struct TbPROSTypes.Mode",
+            "internalType": "struct TbPROSStorage.Mode",
             "components": [
               {
                 "name": "insolvent",
@@ -777,18 +814,128 @@
       },
       {
         "type": "function",
-        "name": "pauseState",
+        "name": "plan",
+        "inputs": [
+          {
+            "name": "slot",
+            "type": "uint8",
+            "internalType": "uint8"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Plan",
+            "components": [
+              {
+                "name": "id",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "start",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "end",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "cursor",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "status",
+                "type": "uint8",
+                "internalType": "enum TbPROSStorage.PlanStatus"
+              },
+              {
+                "name": "numeratorRemainder",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "sources",
+                "type": "tuple[2]",
+                "internalType": "struct TbPROSStorage.Source[2]",
+                "components": [
+                  {
+                    "name": "remaining",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  },
+                  {
+                    "name": "realizedYield",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  },
+                  {
+                    "name": "realizedLoss",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  },
+                  {
+                    "name": "funded",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "policy",
         "inputs": [],
         "outputs": [
           {
-            "name": "riskPaused",
-            "type": "bool",
-            "internalType": "bool"
-          },
-          {
-            "name": "requestsPaused",
-            "type": "bool",
-            "internalType": "bool"
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Policy",
+            "components": [
+              {
+                "name": "uCap",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "maxMintLossBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "fastFeeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "maxFastFeeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "maxPlanDuration",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "riskPaused",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "requestsPaused",
+                "type": "bool",
+                "internalType": "bool"
+              }
+            ]
           }
         ],
         "stateMutability": "view"
@@ -812,7 +959,7 @@
           {
             "name": "",
             "type": "tuple",
-            "internalType": "struct TbPROSTypes.Position",
+            "internalType": "struct TbPROSStorage.Position",
             "components": [
               {
                 "name": "requestedShares",
@@ -926,6 +1073,52 @@
       },
       {
         "type": "function",
+        "name": "riskBucket",
+        "inputs": [
+          {
+            "name": "slot",
+            "type": "uint8",
+            "internalType": "uint8"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Bucket",
+            "components": [
+              {
+                "name": "capacity",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "credit",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "refillRateWad",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "lastUpdate",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "remainder",
+                "type": "uint64",
+                "internalType": "uint64"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
         "name": "safeRequestRedeem",
         "inputs": [
           {
@@ -948,20 +1141,15 @@
         "name": "schedulePenaltyPlan",
         "inputs": [
           {
-            "name": "amount",
+            "name": "",
             "type": "uint256",
             "internalType": "uint256"
           },
           {
-            "name": "terms",
+            "name": "",
             "type": "tuple",
-            "internalType": "struct TbPROSTypes.PlanTerms",
+            "internalType": "struct TbPROSStorage.PlanTerms",
             "components": [
-              {
-                "name": "fundingUCap",
-                "type": "uint128",
-                "internalType": "uint128"
-              },
               {
                 "name": "start",
                 "type": "uint64",
@@ -986,68 +1174,12 @@
       },
       {
         "type": "function",
-        "name": "setBucketConfig",
-        "inputs": [
-          {
-            "name": "slot",
-            "type": "uint8",
-            "internalType": "uint8"
-          },
-          {
-            "name": "config",
-            "type": "tuple",
-            "internalType": "struct TbPROSTypes.BucketConfig",
-            "components": [
-              {
-                "name": "capacity",
-                "type": "uint128",
-                "internalType": "uint128"
-              },
-              {
-                "name": "refillRateWad",
-                "type": "uint128",
-                "internalType": "uint128"
-              }
-            ]
-          }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
-      },
-      {
-        "type": "function",
-        "name": "setFastFee",
-        "inputs": [
-          {
-            "name": "fastFeeBps",
-            "type": "uint16",
-            "internalType": "uint16"
-          }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
-      },
-      {
-        "type": "function",
         "name": "setFoundationReceiver",
         "inputs": [
           {
             "name": "receiver",
             "type": "address",
             "internalType": "address"
-          }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
-      },
-      {
-        "type": "function",
-        "name": "setMaxPlanDuration",
-        "inputs": [
-          {
-            "name": "maxPlanDuration",
-            "type": "uint64",
-            "internalType": "uint64"
           }
         ],
         "outputs": [],
@@ -1086,12 +1218,12 @@
       },
       {
         "type": "function",
-        "name": "setPrincipalCap",
+        "name": "setRequestsPaused",
         "inputs": [
           {
-            "name": "principalCap",
-            "type": "uint128",
-            "internalType": "uint128"
+            "name": "paused",
+            "type": "bool",
+            "internalType": "bool"
           }
         ],
         "outputs": [],
@@ -1099,12 +1231,61 @@
       },
       {
         "type": "function",
-        "name": "setRequestsPaused",
+        "name": "setRiskConfig",
         "inputs": [
           {
-            "name": "paused",
-            "type": "bool",
-            "internalType": "bool"
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.RiskConfig",
+            "components": [
+              {
+                "name": "principalCap",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "uCap",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "maxMintLossBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "fastFeeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "maxFastFeeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "maxPlanDuration",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "buckets",
+                "type": "tuple[2]",
+                "internalType": "struct TbPROSStorage.BucketConfig[2]",
+                "components": [
+                  {
+                    "name": "capacity",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  },
+                  {
+                    "name": "refillRateWad",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "outputs": [],
@@ -1128,7 +1309,7 @@
         "name": "settleMaturedEpochs",
         "inputs": [
           {
-            "name": "maxNodes",
+            "name": "",
             "type": "uint256",
             "internalType": "uint256"
           }
@@ -1144,39 +1325,15 @@
       },
       {
         "type": "function",
-        "name": "sourceRemaining",
-        "inputs": [
-          {
-            "name": "planSlot",
-            "type": "uint8",
-            "internalType": "uint8"
-          },
-          {
-            "name": "sourceSlot",
-            "type": "uint8",
-            "internalType": "uint8"
-          }
-        ],
-        "outputs": [
-          {
-            "name": "",
-            "type": "uint128",
-            "internalType": "uint128"
-          }
-        ],
-        "stateMutability": "view"
-      },
-      {
-        "type": "function",
         "name": "subscribe",
         "inputs": [
           {
-            "name": "usdc",
+            "name": "",
             "type": "uint256",
             "internalType": "uint256"
           },
           {
-            "name": "minShares",
+            "name": "",
             "type": "uint256",
             "internalType": "uint256"
           }
@@ -1234,22 +1391,9 @@
         "name": "syncSurplus",
         "inputs": [
           {
-            "name": "amount",
+            "name": "",
             "type": "uint256",
             "internalType": "uint256"
-          }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
-      },
-      {
-        "type": "function",
-        "name": "tightenMintLossBound",
-        "inputs": [
-          {
-            "name": "maxMintLossBps",
-            "type": "uint16",
-            "internalType": "uint16"
           }
         ],
         "outputs": [],
@@ -1355,43 +1499,6 @@
       },
       {
         "type": "event",
-        "name": "BucketConfigChanged",
-        "inputs": [
-          {
-            "name": "slot",
-            "type": "uint8",
-            "indexed": true,
-            "internalType": "uint8"
-          },
-          {
-            "name": "capacity",
-            "type": "uint128",
-            "indexed": false,
-            "internalType": "uint128"
-          },
-          {
-            "name": "refillRateWad",
-            "type": "uint128",
-            "indexed": false,
-            "internalType": "uint128"
-          },
-          {
-            "name": "credit",
-            "type": "uint128",
-            "indexed": false,
-            "internalType": "uint128"
-          },
-          {
-            "name": "remainder",
-            "type": "uint64",
-            "indexed": false,
-            "internalType": "uint64"
-          }
-        ],
-        "anonymous": false
-      },
-      {
-        "type": "event",
         "name": "BuffersAbsorbed",
         "inputs": [
           {
@@ -1442,25 +1549,6 @@
             "type": "uint256",
             "indexed": false,
             "internalType": "uint256"
-          }
-        ],
-        "anonymous": false
-      },
-      {
-        "type": "event",
-        "name": "FastFeeChanged",
-        "inputs": [
-          {
-            "name": "oldFee",
-            "type": "uint16",
-            "indexed": false,
-            "internalType": "uint16"
-          },
-          {
-            "name": "newFee",
-            "type": "uint16",
-            "indexed": false,
-            "internalType": "uint16"
           }
         ],
         "anonymous": false
@@ -1585,44 +1673,6 @@
       },
       {
         "type": "event",
-        "name": "MaxPlanDurationChanged",
-        "inputs": [
-          {
-            "name": "oldDuration",
-            "type": "uint64",
-            "indexed": false,
-            "internalType": "uint64"
-          },
-          {
-            "name": "newDuration",
-            "type": "uint64",
-            "indexed": false,
-            "internalType": "uint64"
-          }
-        ],
-        "anonymous": false
-      },
-      {
-        "type": "event",
-        "name": "MintLossBoundTightened",
-        "inputs": [
-          {
-            "name": "oldBound",
-            "type": "uint16",
-            "indexed": false,
-            "internalType": "uint16"
-          },
-          {
-            "name": "newBound",
-            "type": "uint16",
-            "indexed": false,
-            "internalType": "uint16"
-          }
-        ],
-        "anonymous": false
-      },
-      {
-        "type": "event",
         "name": "OperatorSet",
         "inputs": [
           {
@@ -1692,12 +1742,6 @@
             "type": "uint64",
             "indexed": false,
             "internalType": "uint64"
-          },
-          {
-            "name": "fundingUCap",
-            "type": "uint128",
-            "indexed": false,
-            "internalType": "uint128"
           }
         ],
         "anonymous": false
@@ -1810,31 +1854,6 @@
             "type": "uint64",
             "indexed": false,
             "internalType": "uint64"
-          },
-          {
-            "name": "fundingUCap",
-            "type": "uint128",
-            "indexed": false,
-            "internalType": "uint128"
-          }
-        ],
-        "anonymous": false
-      },
-      {
-        "type": "event",
-        "name": "PrincipalCapChanged",
-        "inputs": [
-          {
-            "name": "oldCap",
-            "type": "uint128",
-            "indexed": false,
-            "internalType": "uint128"
-          },
-          {
-            "name": "newCap",
-            "type": "uint128",
-            "indexed": false,
-            "internalType": "uint128"
           }
         ],
         "anonymous": false
@@ -1916,6 +1935,25 @@
             "type": "bool",
             "indexed": false,
             "internalType": "bool"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "RiskConfigChanged",
+        "inputs": [
+          {
+            "name": "oldConfigHash",
+            "type": "bytes32",
+            "indexed": false,
+            "internalType": "bytes32"
+          },
+          {
+            "name": "newConfigHash",
+            "type": "bytes32",
+            "indexed": false,
+            "internalType": "bytes32"
           }
         ],
         "anonymous": false
@@ -2846,7 +2884,7 @@
         "name": "cancelUpgrade",
         "inputs": [
           {
-            "name": "nonce",
+            "name": "",
             "type": "uint128",
             "internalType": "uint128"
           }
@@ -2879,17 +2917,17 @@
         "name": "executeUpgrade",
         "inputs": [
           {
-            "name": "nonce",
+            "name": "",
             "type": "uint128",
             "internalType": "uint128"
           },
           {
-            "name": "implementation",
+            "name": "",
             "type": "address",
             "internalType": "address"
           },
           {
-            "name": "data",
+            "name": "",
             "type": "bytes",
             "internalType": "bytes"
           }
@@ -2938,16 +2976,6 @@
                 "name": "dataHash",
                 "type": "bytes32",
                 "internalType": "bytes32"
-              },
-              {
-                "name": "expiresAt",
-                "type": "uint64",
-                "internalType": "uint64"
-              },
-              {
-                "name": "consumed",
-                "type": "bool",
-                "internalType": "bool"
               }
             ]
           }
@@ -2972,19 +3000,14 @@
         "name": "queueUpgrade",
         "inputs": [
           {
-            "name": "implementation",
+            "name": "",
             "type": "address",
             "internalType": "address"
           },
           {
-            "name": "dataHash",
+            "name": "",
             "type": "bytes32",
             "internalType": "bytes32"
-          },
-          {
-            "name": "expiresAt",
-            "type": "uint64",
-            "internalType": "uint64"
           }
         ],
         "outputs": [
@@ -3103,12 +3126,6 @@
           },
           {
             "name": "eta",
-            "type": "uint64",
-            "indexed": false,
-            "internalType": "uint64"
-          },
-          {
-            "name": "expiresAt",
             "type": "uint64",
             "indexed": false,
             "internalType": "uint64"
@@ -3301,8 +3318,8 @@
     },
     {
       "contract": "TbPROSVault",
-      "selector": "0x83d98967",
-      "function": "backingAsset()",
+      "selector": "0x38d52e0f",
+      "function": "asset()",
       "auth": "anyone",
       "funds_in_completed_V1": false,
       "funds_in_skeleton": false,
@@ -3379,6 +3396,19 @@
     },
     {
       "contract": "TbPROSVault",
+      "selector": "0x178d4911",
+      "function": "dependencies()",
+      "auth": "anyone",
+      "funds_in_completed_V1": false,
+      "funds_in_skeleton": false,
+      "state_area": "read only",
+      "v1_reason": "raw authoritative getter / actual inherited interface; Lens aggregates without another writable ledger",
+      "status": "STRUCTURAL_IMPLEMENTED",
+      "move_to_lens": "aggregation only; keep raw authority / ERC20 / role queries",
+      "deletable": "review only; no removal in this freeze"
+    },
+    {
+      "contract": "TbPROSVault",
       "selector": "0xe40fb3a8",
       "function": "epoch(uint64)",
       "auth": "anyone",
@@ -3405,8 +3435,8 @@
     },
     {
       "contract": "TbPROSVault",
-      "selector": "0x4f45b012",
-      "function": "fundPlan(uint256,(uint128,uint64,uint64))",
+      "selector": "0xcb005f3b",
+      "function": "fundPlan(uint128,uint256,(uint64,uint64))",
       "auth": "Timelock",
       "funds_in_completed_V1": true,
       "funds_in_skeleton": false,
@@ -3420,19 +3450,6 @@
       "contract": "TbPROSVault",
       "selector": "0x248a9ca3",
       "function": "getRoleAdmin(bytes32)",
-      "auth": "anyone",
-      "funds_in_completed_V1": false,
-      "funds_in_skeleton": false,
-      "state_area": "read only",
-      "v1_reason": "raw authoritative getter / actual inherited interface; Lens aggregates without another writable ledger",
-      "status": "STRUCTURAL_IMPLEMENTED",
-      "move_to_lens": "aggregation only; keep raw authority / ERC20 / role queries",
-      "deletable": "review only; no removal in this freeze"
-    },
-    {
-      "contract": "TbPROSVault",
-      "selector": "0x466f9f41",
-      "function": "governanceBinding()",
       "auth": "anyone",
       "funds_in_completed_V1": false,
       "funds_in_skeleton": false,
@@ -3470,8 +3487,8 @@
     },
     {
       "contract": "TbPROSVault",
-      "selector": "0xe446534f",
-      "function": "initialize(((address,address,address,address,address,address,address,address,address,address),address,uint64,(uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))",
+      "selector": "0x835bd400",
+      "function": "initialize(((address,address,address,address,address,address,address,address,address,address),address,(uint128,uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2])))",
       "auth": "constructor-time once",
       "funds_in_completed_V1": false,
       "funds_in_skeleton": false,
@@ -3561,8 +3578,21 @@
     },
     {
       "contract": "TbPROSVault",
-      "selector": "0xd7118351",
-      "function": "pauseState()",
+      "selector": "0xebe5d41c",
+      "function": "plan(uint8)",
+      "auth": "anyone",
+      "funds_in_completed_V1": false,
+      "funds_in_skeleton": false,
+      "state_area": "read only",
+      "v1_reason": "raw authoritative getter / actual inherited interface; Lens aggregates without another writable ledger",
+      "status": "STRUCTURAL_IMPLEMENTED",
+      "move_to_lens": "aggregation only; keep raw authority / ERC20 / role queries",
+      "deletable": "review only; no removal in this freeze"
+    },
+    {
+      "contract": "TbPROSVault",
+      "selector": "0x0505c8c9",
+      "function": "policy()",
       "auth": "anyone",
       "funds_in_completed_V1": false,
       "funds_in_skeleton": false,
@@ -3652,6 +3682,19 @@
     },
     {
       "contract": "TbPROSVault",
+      "selector": "0xdb554352",
+      "function": "riskBucket(uint8)",
+      "auth": "anyone",
+      "funds_in_completed_V1": false,
+      "funds_in_skeleton": false,
+      "state_area": "read only",
+      "v1_reason": "raw authoritative getter / actual inherited interface; Lens aggregates without another writable ledger",
+      "status": "STRUCTURAL_IMPLEMENTED",
+      "move_to_lens": "aggregation only; keep raw authority / ERC20 / role queries",
+      "deletable": "review only; no removal in this freeze"
+    },
+    {
+      "contract": "TbPROSVault",
       "selector": "0x506629a9",
       "function": "safeRequestRedeem(uint256)",
       "auth": "owner only",
@@ -3665,39 +3708,13 @@
     },
     {
       "contract": "TbPROSVault",
-      "selector": "0xa3a3d49f",
-      "function": "schedulePenaltyPlan(uint256,(uint128,uint64,uint64))",
+      "selector": "0x4d6b23be",
+      "function": "schedulePenaltyPlan(uint256,(uint64,uint64))",
       "auth": "Timelock",
       "funds_in_completed_V1": false,
       "funds_in_skeleton": false,
       "state_area": "F/H/plans",
       "v1_reason": "future penalty release; no immediate F->R",
-      "status": "SKELETON_ONLY",
-      "move_to_lens": "no: authority/writer boundary",
-      "deletable": "no: current V1 requirement"
-    },
-    {
-      "contract": "TbPROSVault",
-      "selector": "0x57a4d5a1",
-      "function": "setBucketConfig(uint8,(uint128,uint128))",
-      "auth": "Timelock",
-      "funds_in_completed_V1": false,
-      "funds_in_skeleton": false,
-      "state_area": "one risk bucket config",
-      "v1_reason": "materialize old refill; no free credit on increase",
-      "status": "SKELETON_ONLY",
-      "move_to_lens": "no: authority/writer boundary",
-      "deletable": "no: current V1 requirement"
-    },
-    {
-      "contract": "TbPROSVault",
-      "selector": "0x187658c0",
-      "function": "setFastFee(uint16)",
-      "auth": "Timelock",
-      "funds_in_completed_V1": false,
-      "funds_in_skeleton": false,
-      "state_area": "policy fee",
-      "v1_reason": "bounded by product hard max; monthly rights unchanged",
       "status": "SKELETON_ONLY",
       "move_to_lens": "no: authority/writer boundary",
       "deletable": "no: current V1 requirement"
@@ -3712,19 +3729,6 @@
       "state_area": "USDC receiver",
       "v1_reason": "Foundation receipt configuration",
       "status": "STRUCTURAL_IMPLEMENTED",
-      "move_to_lens": "no: authority/writer boundary",
-      "deletable": "no: current V1 requirement"
-    },
-    {
-      "contract": "TbPROSVault",
-      "selector": "0x54ec39b1",
-      "function": "setMaxPlanDuration(uint64)",
-      "auth": "Timelock",
-      "funds_in_completed_V1": false,
-      "funds_in_skeleton": false,
-      "state_area": "future plan duration",
-      "v1_reason": "existing active/next terms stay frozen",
-      "status": "SKELETON_ONLY",
       "move_to_lens": "no: authority/writer boundary",
       "deletable": "no: current V1 requirement"
     },
@@ -3756,19 +3760,6 @@
     },
     {
       "contract": "TbPROSVault",
-      "selector": "0x6b7e1371",
-      "function": "setPrincipalCap(uint128)",
-      "auth": "Timelock",
-      "funds_in_completed_V1": false,
-      "funds_in_skeleton": false,
-      "state_area": "C",
-      "v1_reason": "future cap must stay >= B; no risk credit reset",
-      "status": "SKELETON_ONLY",
-      "move_to_lens": "no: authority/writer boundary",
-      "deletable": "no: current V1 requirement"
-    },
-    {
-      "contract": "TbPROSVault",
       "selector": "0x178b28c1",
       "function": "setRequestsPaused(bool)",
       "auth": "tighten: Guardian/TL; loosen: TL",
@@ -3777,6 +3768,19 @@
       "state_area": "request pause",
       "v1_reason": "complex requests only; safe unaffected",
       "status": "STRUCTURAL_IMPLEMENTED",
+      "move_to_lens": "no: authority/writer boundary",
+      "deletable": "no: current V1 requirement"
+    },
+    {
+      "contract": "TbPROSVault",
+      "selector": "0xb9b0a7b5",
+      "function": "setRiskConfig((uint128,uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2]))",
+      "auth": "Timelock",
+      "funds_in_completed_V1": false,
+      "funds_in_skeleton": false,
+      "state_area": "C/policy/risk",
+      "v1_reason": "one combined setter; preserve spent/refill history, never refill for free",
+      "status": "SKELETON_ONLY",
       "move_to_lens": "no: authority/writer boundary",
       "deletable": "no: current V1 requirement"
     },
@@ -3805,19 +3809,6 @@
       "status": "SKELETON_ONLY",
       "move_to_lens": "no: authority/writer boundary",
       "deletable": "no: current V1 requirement"
-    },
-    {
-      "contract": "TbPROSVault",
-      "selector": "0x20a8466b",
-      "function": "sourceRemaining(uint8,uint8)",
-      "auth": "anyone",
-      "funds_in_completed_V1": false,
-      "funds_in_skeleton": false,
-      "state_area": "read only",
-      "v1_reason": "raw authoritative getter / actual inherited interface; Lens aggregates without another writable ledger",
-      "status": "STRUCTURAL_IMPLEMENTED",
-      "move_to_lens": "aggregation only; keep raw authority / ERC20 / role queries",
-      "deletable": "review only; no removal in this freeze"
     },
     {
       "contract": "TbPROSVault",
@@ -3880,19 +3871,6 @@
       "funds_in_skeleton": false,
       "state_area": "F",
       "v1_reason": "bounded classification after restore; never active NAV",
-      "status": "SKELETON_ONLY",
-      "move_to_lens": "no: authority/writer boundary",
-      "deletable": "no: current V1 requirement"
-    },
-    {
-      "contract": "TbPROSVault",
-      "selector": "0x38fbd561",
-      "function": "tightenMintLossBound(uint16)",
-      "auth": "Timelock",
-      "funds_in_completed_V1": false,
-      "funds_in_skeleton": false,
-      "state_area": "policy E01 bound",
-      "v1_reason": "only decrease or retain bound; no ordinary widening",
       "status": "SKELETON_ONLY",
       "move_to_lens": "no: authority/writer boundary",
       "deletable": "no: current V1 requirement"
@@ -4237,8 +4215,8 @@
     },
     {
       "contract": "UpgradeGateway",
-      "selector": "0xbaf164ab",
-      "function": "queueUpgrade(address,bytes32,uint64)",
+      "selector": "0x8a39eb8b",
+      "function": "queueUpgrade(address,bytes32)",
       "auth": "Timelock",
       "funds_in_completed_V1": false,
       "funds_in_skeleton": false,
@@ -4518,11 +4496,6 @@
     },
     {
       "contract": "TbPROSVault",
-      "signature": "BucketConfigChanged(uint8,uint128,uint128,uint128,uint64)",
-      "topic0": "0xef0fa9b607f87659c9843948fe5c0cacb50a74465c6e6b18f5de89c631cfa137"
-    },
-    {
-      "contract": "TbPROSVault",
       "signature": "BuffersAbsorbed(uint256,uint256[4])",
       "topic0": "0xf9fdd89ed726780dcada9ce96df762ce78d6ac00c4db0a964e65e921272a8081"
     },
@@ -4530,11 +4503,6 @@
       "contract": "TbPROSVault",
       "signature": "EpochSettled(uint64,uint256,uint256,uint256,uint256)",
       "topic0": "0x74ebf0388cab4aa4ef2b552c17a531838da099c45c98fa576223d4703a38aca4"
-    },
-    {
-      "contract": "TbPROSVault",
-      "signature": "FastFeeChanged(uint16,uint16)",
-      "topic0": "0x11ae0ccfe739e5aa6662c33562dd81f1fb381f74d91f065041a6507cce070650"
     },
     {
       "contract": "TbPROSVault",
@@ -4558,16 +4526,6 @@
     },
     {
       "contract": "TbPROSVault",
-      "signature": "MaxPlanDurationChanged(uint64,uint64)",
-      "topic0": "0xb03aa513fa7fab0c4b991501576c2fa632154c681ad08ce1311b83b5411fb1f4"
-    },
-    {
-      "contract": "TbPROSVault",
-      "signature": "MintLossBoundTightened(uint16,uint16)",
-      "topic0": "0x8d3cdcbf659d583b0f30030052bd1b750a45d88f1c1dae29dd2e430f7ccc43f7"
-    },
-    {
-      "contract": "TbPROSVault",
       "signature": "OperatorSet(address,address,bool)",
       "topic0": "0xceb576d9f15e4e200fdb5096d64d5dfd667e16def20c1eefd14256d8e3faa267"
     },
@@ -4578,8 +4536,8 @@
     },
     {
       "contract": "TbPROSVault",
-      "signature": "PenaltyPlanScheduled(uint128,uint256,uint64,uint64,uint128)",
-      "topic0": "0x10e9eb9e6b0fd22605df7050e73d9256489382bbcccfb39e326c2d7c71244e6c"
+      "signature": "PenaltyPlanScheduled(uint128,uint256,uint64,uint64)",
+      "topic0": "0xd87393e1b99d649936f0f53113963a73d8367acb7a3f80676df0314e42579fc3"
     },
     {
       "contract": "TbPROSVault",
@@ -4598,13 +4556,8 @@
     },
     {
       "contract": "TbPROSVault",
-      "signature": "PlanFunded(uint128,uint256,uint256,uint64,uint64,uint128)",
-      "topic0": "0xf4c83e4ccb67a55c4840e3ba421a5a8fadac8a9e93c4ec9da5c930c080beb866"
-    },
-    {
-      "contract": "TbPROSVault",
-      "signature": "PrincipalCapChanged(uint128,uint128)",
-      "topic0": "0x4cee4473a5f5932f10919bc260531f19b56622fed3b2f58e41b1b5a8109fed71"
+      "signature": "PlanFunded(uint128,uint256,uint256,uint64,uint64)",
+      "topic0": "0xc5d0c9273a0eaf9de452b9954e4088027eeb412bb2168ca65267e1fb4febd6ca"
     },
     {
       "contract": "TbPROSVault",
@@ -4620,6 +4573,11 @@
       "contract": "TbPROSVault",
       "signature": "RequestsPausedChanged(bool)",
       "topic0": "0x36e76073a0642780e38efabddf44bc9770eeb4b372c29ce32fd2a04479424d8f"
+    },
+    {
+      "contract": "TbPROSVault",
+      "signature": "RiskConfigChanged(bytes32,bytes32)",
+      "topic0": "0x82c9b176e0e4f08c80af91c62c712cf27ee2e910bc9a498cbf75a04cf907f0db"
     },
     {
       "contract": "TbPROSVault",
@@ -4718,8 +4676,8 @@
     },
     {
       "contract": "UpgradeGateway",
-      "signature": "UpgradeQueued(uint128,address,bytes32,uint64,uint64)",
-      "topic0": "0x133b0c0a70277eb51897daeaa2e8fcf05c66931011beb9736647c076aa68b6cf"
+      "signature": "UpgradeQueued(uint128,address,bytes32,uint64)",
+      "topic0": "0xb6ae94c8f1682e721ed27fd05f9b0e1987a53c65a9e92449df2e7094651f208e"
     }
   ],
   "inheritance": {

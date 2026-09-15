@@ -3,6 +3,7 @@ pragma solidity 0.8.28;
 
 import {Test} from "forge-std/Test.sol";
 import {TbPROSVault} from "tbpros/TbPROSVault.sol";
+import {TbPROSTypes as T} from "tbpros/TbPROSTypes.sol";
 import {TbPROSStorage as S} from "tbpros/TbPROSStorage.sol";
 import {ITbPROSVault} from "tbpros/interfaces/ITbPROSVault.sol";
 import {IProsReserve} from "tbpros/interfaces/IProsReserve.sol";
@@ -15,7 +16,10 @@ import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import {IAccessControl} from "@openzeppelin/contracts/access/IAccessControl.sol";
 import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 import {ProxyAdmin} from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
-import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import {
+    TransparentUpgradeableProxy,
+    ITransparentUpgradeableProxy
+} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 import {ReentrancyGuardTransient} from "@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol";
 
 // TEST ONLY: neither a real feed/stPROS nor production parameter calibration.
@@ -42,7 +46,7 @@ contract BrokenDependencies {
 }
 
 contract VaultHarness is TbPROSVault {
-    constructor() TbPROSVault(365 days) {}
+    constructor() TbPROSVault() {}
 
     function seedShares(address to, uint128 amount) external {
         _mint(to, amount);
@@ -89,7 +93,7 @@ contract CoreLayoutIntrospection is TbPROSVault {
     AccessControlStorage internal accessControl;
     InitializableStorage internal initializable;
 
-    constructor() TbPROSVault(365 days) {}
+    constructor() TbPROSVault() {}
 }
 
 contract GatewayHarness is UpgradeGateway {
@@ -107,7 +111,7 @@ contract CoreSkeletonTest is Test {
     ProsReserve sub;
     ProsReserve yieldReserve;
     BrokenDependencies token;
-    S.InitConfig config;
+    T.InitConfig config;
     address guardian = address(0x1001);
     address alice = address(0x1002);
     address bob = address(0x1003);
@@ -121,7 +125,7 @@ contract CoreSkeletonTest is Test {
         gate = new GatewayHarness(address(this));
         sub = new ProsReserve(address(this), address(wpros), address(0xF0), IProsReserve.Purpose.Subscription);
         yieldReserve = new ProsReserve(address(this), address(wpros), address(0xF0), IProsReserve.Purpose.Yield);
-        config.dependencies = S.Dependencies(
+        config.dependencies = T.Dependencies(
             address(this),
             address(usdc),
             address(wpros),
@@ -135,7 +139,7 @@ contract CoreSkeletonTest is Test {
         );
         config.guardian = guardian;
         config.risk.principalCap = 1e24;
-        config.risk.uCap = 1e12;
+        config.yearSeconds = 365 days;
         config.risk.maxMintLossBps = 1;
         config.risk.maxFastFeeBps = 100;
         config.risk.fastFeeBps = 1;
@@ -154,7 +158,7 @@ contract CoreSkeletonTest is Test {
     }
 
     function testActualProductionImplementationProxyInitializes() public {
-        TbPROSVault prod = new TbPROSVault(365 days);
+        TbPROSVault prod = new TbPROSVault();
         // Fresh reserves/gateway are required for a second proxy binding candidate.
         config.dependencies.subscriptionReserve = address(
             new ProsReserve(address(this), config.dependencies.wpros, address(0xF0), IProsReserve.Purpose.Subscription)
@@ -163,6 +167,12 @@ contract CoreSkeletonTest is Test {
             new ProsReserve(address(this), config.dependencies.wpros, address(0xF0), IProsReserve.Purpose.Yield)
         );
         config.dependencies.gateway = address(new UpgradeGateway(address(this), 72 hours));
+        config.yearSeconds = 0;
+        vm.expectRevert(ITbPROSVault.InvalidAmount.selector);
+        new TransparentUpgradeableProxy(
+            address(prod), config.dependencies.gateway, abi.encodeCall(ITbPROSVault.initialize, (config))
+        );
+        config.yearSeconds = 365 days; // Fixture restored; no production year selected.
         TbPROSVault proxy = TbPROSVault(
             address(
                 new TransparentUpgradeableProxy(
@@ -176,11 +186,34 @@ contract CoreSkeletonTest is Test {
         assertEq(proxy.accounting().C, config.risk.principalCap);
         assertEq(proxy.accounting().R, 0);
         assertTrue(proxy.hasRole(bytes32(0), address(this)));
-        assertTrue(proxy.policy().riskPaused);
+        (bool paused,) = proxy.pauseState();
+        assertTrue(paused);
         vm.expectRevert(Initializable.InvalidInitialization.selector);
         prod.initialize(config);
         vm.expectRevert(Initializable.InvalidInitialization.selector);
         proxy.initialize(config);
+    }
+
+    function testYearAndExistingProxyStateSurviveOrdinaryUpgrade() public {
+        assertEq(v.YEAR(), config.yearSeconds);
+        assertEq(implementation.YEAR(), 0); // Disabled implementation is not the proxy APR source.
+        v.seedShares(alice, 77);
+        v.setTestMode(true);
+        bytes32 base = 0x7def806360c36a43f97881f41b9e336dc21f4bcdb6a0635f38229e4d0cd22100;
+        bytes32 carrySlot = bytes32(uint256(base) + 17);
+        vm.store(address(v), carrySlot, bytes32(uint256(12345)));
+        VaultHarness replacement = new VaultHarness();
+        // TEST ONLY: emulate the admin-owner caller to test ordinary storage retention.
+        // This is not evidence that production Gateway execution/handoff is implemented.
+        address admin = gate.proxyAdmin();
+        vm.prank(address(gate));
+        ProxyAdmin(admin).upgradeAndCall(ITransparentUpgradeableProxy(address(v)), address(replacement), "");
+        assertEq(v.YEAR(), config.yearSeconds);
+        assertEq(v.balanceOf(alice), 77);
+        assertTrue(v.mode().insolvent);
+        assertEq(vm.load(address(v), carrySlot), bytes32(uint256(12345)));
+        vm.expectRevert(Initializable.InvalidInitialization.selector);
+        v.initialize(config);
     }
 
     function testInitializationDisabledAndDoubleInitRejected() public {
@@ -188,6 +221,28 @@ contract CoreSkeletonTest is Test {
         implementation.initialize(config);
         vm.expectRevert(Initializable.InvalidInitialization.selector);
         v.initialize(config);
+    }
+
+    function testRemovedSelectorsCannotBeCalled() public {
+        bytes4[7] memory removed = [
+            bytes4(keccak256("asset()")),
+            bytes4(keccak256("dependencies()")),
+            bytes4(keccak256("plan(uint8)")),
+            bytes4(keccak256("policy()")),
+            bytes4(keccak256("riskBucket(uint8)")),
+            bytes4(keccak256("fundPlan(uint128,uint256,(uint64,uint64))")),
+            bytes4(keccak256("setRiskConfig((uint128,uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2]))"))
+        ];
+        for (uint256 i; i < removed.length; ++i) {
+            (bool ok,) = address(v).call(abi.encodePacked(removed[i], new bytes(1024)));
+            assertFalse(ok);
+        }
+        (bool ok,) = address(gate).call(
+            abi.encodeWithSignature("queueUpgrade(address,bytes32)", address(implementation), bytes32(0))
+        );
+        assertFalse(ok);
+        vm.expectRevert(UpgradeGateway.SkeletonOnly.selector);
+        gate.queueUpgrade(address(implementation), bytes32(0), uint64(1000000));
     }
 
     function testOnlyRealInterfacesAdvertised() public view {
@@ -276,7 +331,7 @@ contract CoreSkeletonTest is Test {
     function testFinancialEndpointsExplicitlyUnimplemented() public {
         v.unpause();
         v.setRequestsPaused(false);
-        bytes[] memory calls = new bytes[](15);
+        bytes[] memory calls = new bytes[](19);
         calls[0] = abi.encodeCall(v.subscribe, (1, 1));
         calls[1] = abi.encodeCall(v.fastRedeem, (1, 0));
         calls[2] = abi.encodeCall(v.claimRedeem, (uint64(1), 1, alice, alice));
@@ -286,12 +341,16 @@ contract CoreSkeletonTest is Test {
         calls[6] = abi.encodeCall(v.requestRedeem, (1, alice, alice));
         calls[7] = abi.encodeCall(v.syncSolvency, ());
         calls[8] = abi.encodeCall(v.restoreSolvency, ());
-        calls[9] = abi.encodeCall(v.fundPlan, (uint128(1), 1, S.PlanTerms(1, 2)));
+        calls[9] = abi.encodeCall(v.fundPlan, (1, T.PlanTerms(100, 1, 2)));
         calls[10] = abi.encodeCall(v.activatePlan, (uint128(1)));
         calls[11] = abi.encodeCall(v.closePlan, (uint128(1)));
-        calls[12] = abi.encodeCall(v.schedulePenaltyPlan, (1, S.PlanTerms(1, 2)));
+        calls[12] = abi.encodeCall(v.schedulePenaltyPlan, (1, T.PlanTerms(100, 1, 2)));
         calls[13] = abi.encodeCall(v.syncSurplus, (1));
-        calls[14] = abi.encodeCall(v.setRiskConfig, (config.risk));
+        calls[14] = abi.encodeCall(v.setPrincipalCap, (uint128(100)));
+        calls[15] = abi.encodeCall(v.tightenMintLossBound, (uint16(1)));
+        calls[16] = abi.encodeCall(v.setFastFee, (uint16(1)));
+        calls[17] = abi.encodeCall(v.setMaxPlanDuration, (uint64(100)));
+        calls[18] = abi.encodeCall(v.setBucketConfig, (uint8(0), T.BucketConfig(1, 1)));
         for (uint256 i; i < calls.length; ++i) {
             (bool ok, bytes memory result) = address(v).call(calls[i]);
             assertFalse(ok);

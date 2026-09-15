@@ -24,3 +24,11 @@
 Model C验收：`python3 reference/scaled_loss_model.py --enforce-acceptance`。当前正确结果为退出码1（FAIL），不是验收通过；普通unittest通过仅说明边界性质及反例回归稳定。见[15](../docs/tbpros/15-loss-math-finalization.md)。
 
 A/B/C及其旧验收命令仍保留失败结论，但属于historical negative evidence，不是16后正常Core的验收门槛。未修改旧模型使它们通过。
+
+## Skeleton hardening schema model
+
+`hardening_schema_model.py` adds 9 independent tests for per-plan frozen terms,
+shared source identity, proposal expiry/non-replay, uint256 aggregate bounds and
+Fraction-based conservative risk reconfiguration. Full discovery now runs 85
+tests (76 retained + 9 new). These are schema/reference results, not production
+money logic or Gateway execution. See `docs/tbpros/18-core-skeleton-hardening.md`.

@@ -29,8 +29,7 @@
     "upgradeTo",
     "proxiableUUID",
     "transferOwnership",
-    "renounceOwnership",
-    "setRiskConfig"
+    "renounceOwnership"
   ],
   "signatures": [
     {
@@ -146,21 +145,6 @@
     {
       "signature": "renounceOwnership()",
       "selector": "0x715018a6",
-      "absent": true
-    },
-    {
-      "signature": "fundPlan(uint128,uint256,(uint64,uint64))",
-      "selector": "0xcb005f3b",
-      "absent": true
-    },
-    {
-      "signature": "queueUpgrade(address,bytes32)",
-      "selector": "0x8a39eb8b",
-      "absent": true
-    },
-    {
-      "signature": "setRiskConfig((uint128,uint128,uint16,uint16,uint16,uint64,(uint128,uint128)[2]))",
-      "selector": "0xb9b0a7b5",
       "absent": true
     }
   ]

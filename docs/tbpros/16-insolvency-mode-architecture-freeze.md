@@ -33,7 +33,7 @@ INSOLVENT --delayed reviewed recovery upgrade--> separately designed incident pr
 
 ### 观察与提交分开
 
-固定定义：`L=stPROS.balanceOf(Vault)`，`Q=R+P+F+H`，`D=max(Q−L,0)`。四桶求和用uint256；每桶及金额边界沿用已批准uint128域，四桶和<2^130，不在窄字段中先相加。
+固定定义：`L=stPROS.balanceOf(Vault)`，`Q=R+P+F+H`，`D=max(Q−L,0)`。聚合用uint256。18轮修正：R/P/F及四个source.remaining分别为uint128；H=sum四source，无额外uint128聚合上限。因此 H≤4×(2^128−1)<2^130，Q≤7×(2^128−1)<2^131；禁止先在窄字段内相加。旧“四桶和<2^130”证明不成立。
 
 `insolvent=false`是已提交mode，**不代表当前资产一定没有新增缺口**。所有正常资金/分类操作先检查：
 
