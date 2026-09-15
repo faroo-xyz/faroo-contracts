@@ -1,0 +1,3479 @@
+{
+  "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+  "compiler": "solc, the solidity compiler commandline interface\nVersion: 0.8.28+commit.7893614a.Darwin.appleclang",
+  "tool_sha256": "f2a98a966560f156c372ce9070e5b150b92f5df85f32cf5e3cee4bb278d3a222",
+  "templates_sha256": "434409daee1d30837f8a7a917a43f04f61efff3b14aaa2e8e0562cb0dd0ac6ed",
+  "scope": "Pressure-only; committed production source unchanged. Generated domain contracts are not deployable product releases.",
+  "variants": [
+    {
+      "variant": "T0-current",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "24b60485c627851ebacc99fe67db6756655931bdcdec81107cc1ff39495ca211",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 2085,
+        "Gateway": 2835,
+        "Lens": 1508,
+        "Core": 18574,
+        "Token": 0,
+        "Redemption": 0,
+        "Yield": 0,
+        "Risk": 0
+      },
+      "headroom": {
+        "Reserve": 18395,
+        "Gateway": 17645,
+        "Lens": 18972,
+        "Core": 1906
+      },
+      "combined_runtime": 25002,
+      "paired": null,
+      "core_saving": null,
+      "flags": {},
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "solvency"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "allowance",
+          "approve",
+          "backingAsset",
+          "balanceOf",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "decimals",
+          "epoch",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "isOperator",
+          "mode",
+          "name",
+          "nextPlanId",
+          "openPositionCount",
+          "pause",
+          "pauseState",
+          "position",
+          "queueState",
+          "renounceRole",
+          "requestRedeem",
+          "restoreSolvency",
+          "revokeRole",
+          "safeRequestRedeem",
+          "schedulePenaltyPlan",
+          "setBucketConfig",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOperator",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "sourceRemaining",
+          "subscribe",
+          "supportsInterface",
+          "symbol",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "totalSupply",
+          "transfer",
+          "transferFrom",
+          "unpause"
+        ]
+      },
+      "state_ownership": {
+        "S": "Core",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Core",
+        "Plan/Source/H": "Core",
+        "Bucket[2]": "Core"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 1
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 6
+        },
+        "Core": {
+          "CALL": 1,
+          "STATICCALL": 9
+        }
+      },
+      "gas": {},
+      "recommended": false,
+      "reason": "Current skeleton/control only; token-only headroom does not prove complete V1 fit.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "PASS"
+      },
+      "warning_counts": {
+        "8760": 1,
+        "2394": 1,
+        "5740": 3,
+        "5667": 29
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "plans",
+        "riskBuckets",
+        "nextPlanId",
+        "queueHead",
+        "queueTail",
+        "lastSettledDueAt",
+        "epochs",
+        "positions",
+        "openPositionCount",
+        "operators",
+        "yearSeconds"
+      ],
+      "layout_sha256": "9172ef0ba438f65be49201f34c3d082bcc1642eaa1ddc53d179bdb4a487ac5da",
+      "domain_runtime_sum": 18574,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 27087,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Core -> Core local ERC20"
+        ],
+        "settlement": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "claim": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "yield": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf"
+        ],
+        "risk": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "T0-token-glue-local",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "7072a2ae06a13b0066d73b4f23b7342f7a73b6df7994d640f2b4857859cb6644",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 2085,
+        "Gateway": 2835,
+        "Lens": 1508,
+        "Core": 19214,
+        "Token": 0,
+        "Redemption": 0,
+        "Yield": 0,
+        "Risk": 0
+      },
+      "headroom": {
+        "Reserve": 18395,
+        "Gateway": 17645,
+        "Lens": 18972,
+        "Core": 1266
+      },
+      "combined_runtime": 25642,
+      "paired": "T0-current",
+      "core_saving": -640,
+      "flags": {
+        "full": false
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "solvency"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "allowance",
+          "approve",
+          "backingAsset",
+          "balanceOf",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "decimals",
+          "epoch",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "isOperator",
+          "mode",
+          "name",
+          "nextPlanId",
+          "openPositionCount",
+          "pause",
+          "pauseState",
+          "position",
+          "queueState",
+          "renounceRole",
+          "requestRedeem",
+          "restoreSolvency",
+          "revokeRole",
+          "safeRequestRedeem",
+          "schedulePenaltyPlan",
+          "setBucketConfig",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOperator",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "sourceRemaining",
+          "studyTokenRoundtrip",
+          "subscribe",
+          "supportsInterface",
+          "symbol",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "totalSupply",
+          "transfer",
+          "transferFrom",
+          "transitionActive",
+          "unpause"
+        ]
+      },
+      "state_ownership": {
+        "S": "Core",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Core",
+        "Plan/Source/H": "Core",
+        "Bucket[2]": "Core"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 1
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 6
+        },
+        "Core": {
+          "CALL": 1,
+          "STATICCALL": 9
+        }
+      },
+      "gas": {
+        "mint_burn": 74863
+      },
+      "recommended": false,
+      "reason": "Current skeleton/control only; token-only headroom does not prove complete V1 fit.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "PASS"
+      },
+      "warning_counts": {
+        "1878": 13,
+        "8760": 1,
+        "2394": 1,
+        "5740": 3,
+        "5667": 29
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "plans",
+        "riskBuckets",
+        "nextPlanId",
+        "queueHead",
+        "queueTail",
+        "lastSettledDueAt",
+        "epochs",
+        "positions",
+        "openPositionCount",
+        "operators",
+        "yearSeconds"
+      ],
+      "layout_sha256": "ba662a3a0c3024da1f880235e8eaebe65e825c7261d07bc96cbbb699c80d1629",
+      "domain_runtime_sum": 19214,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 27727,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Core -> Core local ERC20"
+        ],
+        "settlement": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "claim": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "yield": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf"
+        ],
+        "risk": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "T1-token-current",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "81b10fbaa79703de91acf8520014b0e59d77df8852e7ed9f0fdb12d329dcd331",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 2085,
+        "Gateway": 2835,
+        "Lens": 1508,
+        "Core": 17514,
+        "Token": 4217,
+        "Redemption": 0,
+        "Yield": 0,
+        "Risk": 0
+      },
+      "headroom": {
+        "Reserve": 18395,
+        "Gateway": 17645,
+        "Lens": 18972,
+        "Core": 2966,
+        "Token": 16263
+      },
+      "combined_runtime": 28159,
+      "paired": "T0-token-glue-local",
+      "core_saving": 1700,
+      "flags": {
+        "token": true,
+        "full": false
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "solvency"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "backingAsset",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "epoch",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "isOperator",
+          "mode",
+          "nextPlanId",
+          "openPositionCount",
+          "pause",
+          "pauseState",
+          "position",
+          "queueState",
+          "renounceRole",
+          "requestRedeem",
+          "restoreSolvency",
+          "revokeRole",
+          "safeRequestRedeem",
+          "schedulePenaltyPlan",
+          "setBucketConfig",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOperator",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "sourceRemaining",
+          "studyTokenRoundtrip",
+          "subscribe",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ]
+      },
+      "state_ownership": {
+        "S": "Token",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Core",
+        "Plan/Source/H": "Core",
+        "Bucket[2]": "Core"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 1
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 6
+        },
+        "Core": {
+          "CALL": 5,
+          "STATICCALL": 12
+        },
+        "Token": {}
+      },
+      "gas": {
+        "mint_burn": 80495
+      },
+      "recommended": false,
+      "reason": "Current skeleton/control only; token-only headroom does not prove complete V1 fit.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "PASS",
+        "Token": "PASS"
+      },
+      "warning_counts": {
+        "1878": 13,
+        "8760": 1,
+        "2394": 1,
+        "5740": 3,
+        "5667": 29
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "plans",
+        "riskBuckets",
+        "nextPlanId",
+        "queueHead",
+        "queueTail",
+        "lastSettledDueAt",
+        "epochs",
+        "positions",
+        "openPositionCount",
+        "operators",
+        "yearSeconds"
+      ],
+      "layout_sha256": "071d6f731abf1d6752f7c159cfe2459603f4e855859479adae39ded2bfd47be6",
+      "domain_runtime_sum": 21731,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 30244,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Core -> Token"
+        ],
+        "settlement": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "claim": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "yield": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf"
+        ],
+        "risk": [
+          "SkeletonOnly; no completed business call graph"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "P0-full-local",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "ba96f6e0c7db37b8973f7e008a9c3c624f88e35d6d3072f4ba8a8a8f99622409",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185,
+        "Core": 35772,
+        "Token": 0,
+        "Redemption": 0,
+        "Yield": 0,
+        "Risk": 0
+      },
+      "headroom": {
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295,
+        "Core": -15292
+      },
+      "combined_runtime": 46380,
+      "paired": null,
+      "core_saving": null,
+      "flags": {},
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "allowance",
+          "approve",
+          "backingAsset",
+          "balanceOf",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "decimals",
+          "epoch",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "isOperator",
+          "mode",
+          "name",
+          "nextPlanId",
+          "openPositionCount",
+          "pause",
+          "pauseState",
+          "position",
+          "queueState",
+          "renounceRole",
+          "requestRedeem",
+          "restoreSolvency",
+          "revokeRole",
+          "safeRequestRedeem",
+          "schedulePenaltyPlan",
+          "setBucketConfig",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOperator",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "sourceRemaining",
+          "subscribe",
+          "supportsInterface",
+          "symbol",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "totalSupply",
+          "transfer",
+          "transferFrom",
+          "transitionActive",
+          "unpause"
+        ]
+      },
+      "state_ownership": {
+        "S": "Core",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Core",
+        "Plan/Source/H": "Core",
+        "Bucket[2]": "Core"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        },
+        "Core": {
+          "CALL": 13,
+          "STATICCALL": 26
+        }
+      },
+      "gas": {
+        "subscribe": 115611,
+        "transfer": 5201,
+        "risk_config": 8140,
+        "checkpoint": 37157,
+        "absorb_loss": 20500,
+        "fast": 57537,
+        "close": 49788,
+        "request_first": 126110,
+        "request_merge": 13528,
+        "settle": 67666,
+        "claim_partial": 52581,
+        "claim_final": 32256
+      },
+      "recommended": false,
+      "reason": "Core runtime 35772 exceeds 20480 hard gate and 16000 comfort target; no architecture adoption.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "FAIL"
+      },
+      "warning_counts": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "plans",
+        "riskBuckets",
+        "nextPlanId",
+        "queueHead",
+        "queueTail",
+        "lastSettledDueAt",
+        "epochs",
+        "positions",
+        "openPositionCount",
+        "operators",
+        "yearSeconds"
+      ],
+      "layout_sha256": "d830ae6e97646b4e3191ee09a32b559786aeda5cef45dc7af5ac0426970f3759",
+      "domain_runtime_sum": 35772,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 50968,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Core -> Core local ERC20"
+        ],
+        "settlement": [
+          "User -> Core -> rights / Token / Yield"
+        ],
+        "claim": [
+          "User -> Core -> rights; Core -> Gateway / phase components / stPROS"
+        ],
+        "yield": [
+          "Core -> OracleAdapter; local Plan"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf"
+        ],
+        "risk": [
+          "Core local Bucket"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "P1-token",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "6212c64543f2c4407d7162d4c2a4f611be9dcac010cd6c16f21d1b3c003c4405",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185,
+        "Core": 34073,
+        "Token": 4217,
+        "Redemption": 0,
+        "Yield": 0,
+        "Risk": 0
+      },
+      "headroom": {
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295,
+        "Core": -13593,
+        "Token": 16263
+      },
+      "combined_runtime": 48898,
+      "paired": "P0-full-local",
+      "core_saving": 1699,
+      "flags": {
+        "token": true
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "backingAsset",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "epoch",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "isOperator",
+          "mode",
+          "nextPlanId",
+          "openPositionCount",
+          "pause",
+          "pauseState",
+          "position",
+          "queueState",
+          "renounceRole",
+          "requestRedeem",
+          "restoreSolvency",
+          "revokeRole",
+          "safeRequestRedeem",
+          "schedulePenaltyPlan",
+          "setBucketConfig",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOperator",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "sourceRemaining",
+          "subscribe",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ]
+      },
+      "state_ownership": {
+        "S": "Token",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Core",
+        "Plan/Source/H": "Core",
+        "Bucket[2]": "Core"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        },
+        "Core": {
+          "CALL": 17,
+          "STATICCALL": 29
+        },
+        "Token": {}
+      },
+      "gas": {
+        "subscribe": 120005,
+        "transfer": 4978,
+        "risk_config": 8118,
+        "checkpoint": 39106,
+        "absorb_loss": 20456,
+        "fast": 61365,
+        "close": 51826,
+        "request_first": 127843,
+        "request_merge": 15261,
+        "settle": 71303,
+        "claim_partial": 54597,
+        "claim_final": 34272
+      },
+      "recommended": false,
+      "reason": "Core runtime 34073 exceeds 20480 hard gate and 16000 comfort target; no architecture adoption.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "FAIL",
+        "Token": "PASS"
+      },
+      "warning_counts": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "plans",
+        "riskBuckets",
+        "nextPlanId",
+        "queueHead",
+        "queueTail",
+        "lastSettledDueAt",
+        "epochs",
+        "positions",
+        "openPositionCount",
+        "operators",
+        "yearSeconds"
+      ],
+      "layout_sha256": "40e87f19aaa7bddf7968968401258fd4b932d1ef5e5c4078486a99b3455662b7",
+      "domain_runtime_sum": 38290,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 53486,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Core -> Token"
+        ],
+        "settlement": [
+          "User -> Core -> rights / Token / Yield"
+        ],
+        "claim": [
+          "User -> Core -> rights; Core -> Gateway / phase components / stPROS"
+        ],
+        "yield": [
+          "Core -> OracleAdapter; local Plan"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf"
+        ],
+        "risk": [
+          "Core local Bucket"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "P2-risk",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "4b0f2e7e0a2334178893bfb03c310283e19b3def043f487565135432c9371c3a",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185,
+        "Core": 34787,
+        "Token": 0,
+        "Redemption": 0,
+        "Yield": 0,
+        "Risk": 3166
+      },
+      "headroom": {
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295,
+        "Core": -14307,
+        "Risk": 17314
+      },
+      "combined_runtime": 48561,
+      "paired": "P0-full-local",
+      "core_saving": 985,
+      "flags": {
+        "risk": true
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "allowance",
+          "approve",
+          "backingAsset",
+          "balanceOf",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "decimals",
+          "epoch",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "isOperator",
+          "mode",
+          "name",
+          "nextPlanId",
+          "openPositionCount",
+          "pause",
+          "pauseState",
+          "position",
+          "queueState",
+          "renounceRole",
+          "requestRedeem",
+          "restoreSolvency",
+          "revokeRole",
+          "safeRequestRedeem",
+          "schedulePenaltyPlan",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOperator",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "sourceRemaining",
+          "subscribe",
+          "supportsInterface",
+          "symbol",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "totalSupply",
+          "transfer",
+          "transferFrom",
+          "transitionActive",
+          "unpause"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ]
+      },
+      "state_ownership": {
+        "S": "Core",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Core",
+        "Plan/Source/H": "Core",
+        "Bucket[2]": "Risk"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        },
+        "Core": {
+          "CALL": 16,
+          "STATICCALL": 28
+        },
+        "Risk": {}
+      },
+      "gas": {
+        "subscribe": 118200,
+        "transfer": 5201,
+        "risk_config": 7582,
+        "checkpoint": 39130,
+        "absorb_loss": 20500,
+        "fast": 59532,
+        "close": 51783,
+        "request_first": 126107,
+        "request_merge": 13525,
+        "settle": 69661,
+        "claim_partial": 54576,
+        "claim_final": 34248
+      },
+      "recommended": false,
+      "reason": "Core runtime 34787 exceeds 20480 hard gate and 16000 comfort target; no architecture adoption.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "FAIL",
+        "Risk": "PASS"
+      },
+      "warning_counts": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "plans",
+        "nextPlanId",
+        "queueHead",
+        "queueTail",
+        "lastSettledDueAt",
+        "epochs",
+        "positions",
+        "openPositionCount",
+        "operators",
+        "yearSeconds"
+      ],
+      "layout_sha256": "a6f4331fc2743f01bf2ff2226977ab63149b01a3be5151e6f3838a461cd8bcca",
+      "domain_runtime_sum": 37953,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 53149,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Core -> Core local ERC20"
+        ],
+        "settlement": [
+          "User -> Core -> rights / Token / Yield"
+        ],
+        "claim": [
+          "User -> Core -> rights; Core -> Gateway / phase components / stPROS"
+        ],
+        "yield": [
+          "Core -> OracleAdapter; local Plan"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf"
+        ],
+        "risk": [
+          "Timelock -> Risk; Core -> Risk"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "P3-red-direct",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "86edaa346cb21fa872d1962376223cb861f5f2ac8d6aaa14b4b57458e7c0e717",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185,
+        "Core": 31865,
+        "Token": 0,
+        "Redemption": 8792,
+        "Yield": 0,
+        "Risk": 0
+      },
+      "headroom": {
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295,
+        "Core": -11385,
+        "Redemption": 11688
+      },
+      "combined_runtime": 51265,
+      "paired": "P0-full-local",
+      "core_saving": 3907,
+      "flags": {
+        "red": true
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "allowance",
+          "approve",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "balanceOf",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "decimals",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "name",
+          "nextPlanId",
+          "pause",
+          "pauseState",
+          "protocolEscrow",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "schedulePenaltyPlan",
+          "setBucketConfig",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "sourceRemaining",
+          "spendRequestAllowance",
+          "subscribe",
+          "supportsInterface",
+          "symbol",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "totalSupply",
+          "transfer",
+          "transferFrom",
+          "transitionActive",
+          "unpause"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "commitSettlement",
+          "consumeClaim",
+          "core",
+          "endPhase",
+          "epoch",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "timelock",
+          "token"
+        ]
+      },
+      "state_ownership": {
+        "S": "Core",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Redemption",
+        "Plan/Source/H": "Core",
+        "Bucket[2]": "Core"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        },
+        "Core": {
+          "CALL": 17,
+          "STATICCALL": 31
+        },
+        "Redemption": {
+          "STATICCALL": 1,
+          "CALL": 2
+        }
+      },
+      "gas": {
+        "request_first": 145941,
+        "request_merge": 15506,
+        "settle": 73203,
+        "claim_partial": 56137,
+        "claim_final": 35815
+      },
+      "recommended": false,
+      "reason": "Core runtime 31865 exceeds 20480 hard gate and 16000 comfort target; no architecture adoption.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "FAIL",
+        "Redemption": "PASS"
+      },
+      "warning_counts": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "plans",
+        "riskBuckets",
+        "nextPlanId",
+        "yearSeconds"
+      ],
+      "layout_sha256": "75ab218d966df0576f3a9f60780b2152a288477e5929bcd826a1fc267e7d7f9a",
+      "domain_runtime_sum": 40657,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 55853,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Redemption -> Core local ERC20"
+        ],
+        "settlement": [
+          "User -> Core -> rights / Token / Yield"
+        ],
+        "claim": [
+          "User -> Core -> rights; Core -> Gateway / phase components / stPROS"
+        ],
+        "yield": [
+          "Core -> OracleAdapter; local Plan"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf"
+        ],
+        "risk": [
+          "Core local Bucket"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "P4-red-facade",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "e2e872493570dcd75072a05fcfd326025d07c7ce51223fcc1cd53110f1cc5b15",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185,
+        "Core": 32323,
+        "Token": 0,
+        "Redemption": 8792,
+        "Yield": 0,
+        "Risk": 0
+      },
+      "headroom": {
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295,
+        "Core": -11843,
+        "Redemption": 11688
+      },
+      "combined_runtime": 51723,
+      "paired": "P0-full-local",
+      "core_saving": 3449,
+      "flags": {
+        "red": true,
+        "facade": true
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "allowance",
+          "approve",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "balanceOf",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "decimals",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "name",
+          "nextPlanId",
+          "pause",
+          "pauseState",
+          "protocolEscrow",
+          "renounceRole",
+          "requestRedeem",
+          "restoreSolvency",
+          "revokeRole",
+          "safeRequestRedeem",
+          "schedulePenaltyPlan",
+          "setBucketConfig",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "sourceRemaining",
+          "spendRequestAllowance",
+          "subscribe",
+          "supportsInterface",
+          "symbol",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "totalSupply",
+          "transfer",
+          "transferFrom",
+          "transitionActive",
+          "unpause"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "commitSettlement",
+          "consumeClaim",
+          "core",
+          "endPhase",
+          "epoch",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "timelock",
+          "token"
+        ]
+      },
+      "state_ownership": {
+        "S": "Core",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Redemption",
+        "Plan/Source/H": "Core",
+        "Bucket[2]": "Core"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        },
+        "Core": {
+          "CALL": 19,
+          "STATICCALL": 31
+        },
+        "Redemption": {
+          "STATICCALL": 1,
+          "CALL": 2
+        }
+      },
+      "gas": {
+        "request_first": 147464,
+        "request_merge": 17029,
+        "settle": 73181,
+        "claim_partial": 56137,
+        "claim_final": 35815
+      },
+      "recommended": false,
+      "reason": "Core runtime 32323 exceeds 20480 hard gate and 16000 comfort target; no architecture adoption.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "FAIL",
+        "Redemption": "PASS"
+      },
+      "warning_counts": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "plans",
+        "riskBuckets",
+        "nextPlanId",
+        "yearSeconds"
+      ],
+      "layout_sha256": "25a1d83eaf5d774f27f6f4077287f812f5c6c2383c1224537a093e51977e941d",
+      "domain_runtime_sum": 41115,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 56311,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Core facade -> Redemption -> Core local ERC20"
+        ],
+        "settlement": [
+          "User -> Core -> rights / Token / Yield"
+        ],
+        "claim": [
+          "User -> Core -> rights; Core -> Gateway / phase components / stPROS"
+        ],
+        "yield": [
+          "Core -> OracleAdapter; local Plan"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf"
+        ],
+        "risk": [
+          "Core local Bucket"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "P5-token-red",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "18183b1c4f90379c5d9ceaf9837002dbf3d35d7039efc186993610757c1240d3",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185,
+        "Core": 29753,
+        "Token": 4217,
+        "Redemption": 8792,
+        "Yield": 0,
+        "Risk": 0
+      },
+      "headroom": {
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295,
+        "Core": -9273,
+        "Token": 16263,
+        "Redemption": 11688
+      },
+      "combined_runtime": 53370,
+      "paired": "P0-full-local",
+      "core_saving": 6019,
+      "flags": {
+        "token": true,
+        "red": true
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "nextPlanId",
+          "pause",
+          "pauseState",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "schedulePenaltyPlan",
+          "setBucketConfig",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "sourceRemaining",
+          "subscribe",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "commitSettlement",
+          "consumeClaim",
+          "core",
+          "endPhase",
+          "epoch",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "timelock",
+          "token"
+        ]
+      },
+      "state_ownership": {
+        "S": "Token",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Redemption",
+        "Plan/Source/H": "Core",
+        "Bucket[2]": "Core"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        },
+        "Core": {
+          "CALL": 21,
+          "STATICCALL": 34
+        },
+        "Token": {},
+        "Redemption": {
+          "STATICCALL": 1,
+          "CALL": 2
+        }
+      },
+      "gas": {
+        "request_first": 145340,
+        "request_merge": 14905,
+        "settle": 76637,
+        "claim_partial": 58234,
+        "claim_final": 37912
+      },
+      "recommended": false,
+      "reason": "Core runtime 29753 exceeds 20480 hard gate and 16000 comfort target; no architecture adoption.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "FAIL",
+        "Token": "PASS",
+        "Redemption": "PASS"
+      },
+      "warning_counts": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "plans",
+        "riskBuckets",
+        "nextPlanId",
+        "yearSeconds"
+      ],
+      "layout_sha256": "2fca4f1ec3c97b7d8ee23f06e840b2a7a54ef8a8067b557253db2a6effa3cbd4",
+      "domain_runtime_sum": 42762,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 57958,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Redemption -> Token"
+        ],
+        "settlement": [
+          "User -> Core -> rights / Token / Yield"
+        ],
+        "claim": [
+          "User -> Core -> rights; Core -> Gateway / phase components / stPROS"
+        ],
+        "yield": [
+          "Core -> OracleAdapter; local Plan"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf"
+        ],
+        "risk": [
+          "Core local Bucket"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "P6-token-red-risk",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "e308779c42f26a1b8e94cf08e8f61c5d572e9be692fa974ed64604553df4d3ec",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185,
+        "Core": 28737,
+        "Token": 4217,
+        "Redemption": 8792,
+        "Yield": 0,
+        "Risk": 3166
+      },
+      "headroom": {
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295,
+        "Core": -8257,
+        "Token": 16263,
+        "Redemption": 11688,
+        "Risk": 17314
+      },
+      "combined_runtime": 55520,
+      "paired": "P0-full-local",
+      "core_saving": 7035,
+      "flags": {
+        "token": true,
+        "red": true,
+        "risk": true
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "nextPlanId",
+          "pause",
+          "pauseState",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "schedulePenaltyPlan",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "sourceRemaining",
+          "subscribe",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "commitSettlement",
+          "consumeClaim",
+          "core",
+          "endPhase",
+          "epoch",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "timelock",
+          "token"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ]
+      },
+      "state_ownership": {
+        "S": "Token",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Redemption",
+        "Plan/Source/H": "Core",
+        "Bucket[2]": "Risk"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        },
+        "Core": {
+          "CALL": 24,
+          "STATICCALL": 36
+        },
+        "Token": {},
+        "Redemption": {
+          "STATICCALL": 1,
+          "CALL": 2
+        },
+        "Risk": {}
+      },
+      "gas": {
+        "request_first": 145340,
+        "request_merge": 14905,
+        "settle": 78569,
+        "claim_partial": 60276,
+        "claim_final": 39954
+      },
+      "recommended": false,
+      "reason": "Core runtime 28737 exceeds 20480 hard gate and 16000 comfort target; no architecture adoption.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "FAIL",
+        "Token": "PASS",
+        "Redemption": "PASS",
+        "Risk": "PASS"
+      },
+      "warning_counts": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "plans",
+        "nextPlanId",
+        "yearSeconds"
+      ],
+      "layout_sha256": "d49c99c938e132ab902022f5c90230006c5cd91b9ee5bf54ad651cadf5e3b515",
+      "domain_runtime_sum": 44912,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 60108,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Redemption -> Token"
+        ],
+        "settlement": [
+          "User -> Core -> rights / Token / Yield"
+        ],
+        "claim": [
+          "User -> Core -> rights; Core -> Gateway / phase components / stPROS"
+        ],
+        "yield": [
+          "Core -> OracleAdapter; local Plan"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf"
+        ],
+        "risk": [
+          "Timelock -> Risk; Core -> Risk"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "P7-yield",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "d8fcbe109dd5967f84a0386d078c2765d9c668900da6037a19a06491dbc37c59",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185,
+        "Core": 32401,
+        "Token": 0,
+        "Redemption": 0,
+        "Yield": 8104,
+        "Risk": 0
+      },
+      "headroom": {
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295,
+        "Core": -11921,
+        "Yield": 12376
+      },
+      "combined_runtime": 51113,
+      "paired": "P0-full-local",
+      "core_saving": 3371,
+      "flags": {
+        "yield_": true
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "allowance",
+          "approve",
+          "backingAsset",
+          "balanceOf",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "decimals",
+          "epoch",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "isOperator",
+          "mode",
+          "name",
+          "openPositionCount",
+          "pause",
+          "pauseState",
+          "position",
+          "queueState",
+          "renounceRole",
+          "requestRedeem",
+          "restoreSolvency",
+          "revokeRole",
+          "safeRequestRedeem",
+          "schedulePenaltyPlan",
+          "setBucketConfig",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOperator",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "subscribe",
+          "supportsInterface",
+          "symbol",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "totalSupply",
+          "transfer",
+          "transferFrom",
+          "transitionActive",
+          "unpause"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activate",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "close",
+          "core",
+          "eligible",
+          "endPhase",
+          "nextPlanId",
+          "recordFunding",
+          "release",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ]
+      },
+      "state_ownership": {
+        "S": "Core",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Core",
+        "Plan/Source/H": "Yield",
+        "Bucket[2]": "Core"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        },
+        "Core": {
+          "CALL": 20,
+          "STATICCALL": 31
+        },
+        "Yield": {}
+      },
+      "gas": {
+        "subscribe": 121398,
+        "transfer": 5201,
+        "risk_config": 8081,
+        "checkpoint": 42332,
+        "absorb_loss": 27772,
+        "fast": 63294,
+        "close": 55876,
+        "request_first": 143977,
+        "request_merge": 13506,
+        "settle": 71311,
+        "claim_partial": 56275,
+        "claim_final": 35950
+      },
+      "recommended": false,
+      "reason": "Core runtime 32401 exceeds 20480 hard gate and 16000 comfort target; no architecture adoption.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "FAIL",
+        "Yield": "PASS"
+      },
+      "warning_counts": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "riskBuckets",
+        "queueHead",
+        "queueTail",
+        "lastSettledDueAt",
+        "epochs",
+        "positions",
+        "openPositionCount",
+        "operators",
+        "yearSeconds"
+      ],
+      "layout_sha256": "f7721cd943d6715ae1b421584d267f5fd57bfb7f57a538f63ce298a4834cea02",
+      "domain_runtime_sum": 40505,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 55701,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Core -> Core local ERC20"
+        ],
+        "settlement": [
+          "User -> Core -> rights / Token / Yield"
+        ],
+        "claim": [
+          "User -> Core -> rights; Core -> Gateway / phase components / stPROS"
+        ],
+        "yield": [
+          "Core -> OracleAdapter / Yield"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf / Yield totalH,absorbLoss"
+        ],
+        "risk": [
+          "Core local Bucket"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "P8-full-partition",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "71e860bf950580701de9e4235b19794706531d600630b75aaad25b67178410c7",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185,
+        "Core": 25117,
+        "Token": 4217,
+        "Redemption": 8792,
+        "Yield": 8104,
+        "Risk": 3166
+      },
+      "headroom": {
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295,
+        "Core": -4637,
+        "Token": 16263,
+        "Redemption": 11688,
+        "Yield": 12376,
+        "Risk": 17314
+      },
+      "combined_runtime": 60004,
+      "paired": "P0-full-local",
+      "core_saving": 10655,
+      "flags": {
+        "token": true,
+        "red": true,
+        "risk": true,
+        "yield_": true
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "pause",
+          "pauseState",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "schedulePenaltyPlan",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "subscribe",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "commitSettlement",
+          "consumeClaim",
+          "core",
+          "endPhase",
+          "epoch",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activate",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "close",
+          "core",
+          "eligible",
+          "endPhase",
+          "nextPlanId",
+          "recordFunding",
+          "release",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ]
+      },
+      "state_ownership": {
+        "S": "Token",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Redemption",
+        "Plan/Source/H": "Yield",
+        "Bucket[2]": "Risk"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        },
+        "Core": {
+          "CALL": 29,
+          "STATICCALL": 41
+        },
+        "Token": {},
+        "Redemption": {
+          "STATICCALL": 1,
+          "CALL": 2
+        },
+        "Yield": {},
+        "Risk": {}
+      },
+      "gas": {
+        "subscribe": 131821,
+        "transfer": 4978,
+        "risk_config": 7582,
+        "checkpoint": 49724,
+        "absorb_loss": 33971,
+        "fast": 72446,
+        "close": 63198,
+        "request_first": 145340,
+        "request_merge": 14905,
+        "settle": 82403,
+        "claim_partial": 64025,
+        "claim_final": 43703,
+        "yield": 49503,
+        "loss": 33745
+      },
+      "recommended": false,
+      "reason": "Core runtime 25117 exceeds 20480 hard gate and 16000 comfort target; no architecture adoption.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "FAIL",
+        "Token": "PASS",
+        "Redemption": "PASS",
+        "Yield": "PASS",
+        "Risk": "PASS"
+      },
+      "warning_counts": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "yearSeconds"
+      ],
+      "layout_sha256": "8068ea81c1e1c0ea8cae6e3e93378ae55452aaddd4841b923aa9a4091c94f06c",
+      "domain_runtime_sum": 49396,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 64592,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Redemption -> Token"
+        ],
+        "settlement": [
+          "User -> Core -> rights / Token / Yield"
+        ],
+        "claim": [
+          "User -> Core -> rights; Core -> Gateway / phase components / stPROS"
+        ],
+        "yield": [
+          "Core -> OracleAdapter / Yield"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf / Yield totalH,absorbLoss"
+        ],
+        "risk": [
+          "Timelock -> Risk; Core -> Risk"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "P10-full-facade",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "a2a32a5316748e0d7c5382290fee4836a1f3ffdda1a40bb0e80cd2017f529ab0",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185,
+        "Core": 25568,
+        "Token": 4217,
+        "Redemption": 8792,
+        "Yield": 8104,
+        "Risk": 3166
+      },
+      "headroom": {
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295,
+        "Core": -5088,
+        "Token": 16263,
+        "Redemption": 11688,
+        "Yield": 12376,
+        "Risk": 17314
+      },
+      "combined_runtime": 60455,
+      "paired": "P0-full-local",
+      "core_saving": 10204,
+      "flags": {
+        "token": true,
+        "red": true,
+        "risk": true,
+        "yield_": true,
+        "facade": true
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "checkpointYield",
+          "claimRedeem",
+          "closePlan",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "pause",
+          "pauseState",
+          "renounceRole",
+          "requestRedeem",
+          "restoreSolvency",
+          "revokeRole",
+          "safeRequestRedeem",
+          "schedulePenaltyPlan",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "settleMaturedEpochs",
+          "subscribe",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "commitSettlement",
+          "consumeClaim",
+          "core",
+          "endPhase",
+          "epoch",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activate",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "close",
+          "core",
+          "eligible",
+          "endPhase",
+          "nextPlanId",
+          "recordFunding",
+          "release",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ]
+      },
+      "state_ownership": {
+        "S": "Token",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Redemption",
+        "Plan/Source/H": "Yield",
+        "Bucket[2]": "Risk"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        },
+        "Core": {
+          "CALL": 31,
+          "STATICCALL": 41
+        },
+        "Token": {},
+        "Redemption": {
+          "STATICCALL": 1,
+          "CALL": 2
+        },
+        "Yield": {},
+        "Risk": {}
+      },
+      "gas": {
+        "request_first": 146815,
+        "request_merge": 16380,
+        "settle": 82403,
+        "claim_partial": 64025,
+        "claim_final": 43703
+      },
+      "recommended": false,
+      "reason": "Core runtime 25568 exceeds 20480 hard gate and 16000 comfort target; no architecture adoption.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "FAIL",
+        "Token": "PASS",
+        "Redemption": "PASS",
+        "Yield": "PASS",
+        "Risk": "PASS"
+      },
+      "warning_counts": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "yearSeconds"
+      ],
+      "layout_sha256": "804a046420f25a40a84a84053bb6b404cc408dc5be31d30b2910504d26b62f9f",
+      "domain_runtime_sum": 49847,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 65043,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Core facade -> Redemption -> Token"
+        ],
+        "settlement": [
+          "User -> Core -> rights / Token / Yield"
+        ],
+        "claim": [
+          "User -> Core -> rights; Core -> Gateway / phase components / stPROS"
+        ],
+        "yield": [
+          "Core -> OracleAdapter / Yield"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf / Yield totalH,absorbLoss"
+        ],
+        "risk": [
+          "Timelock -> Risk; Core -> Risk"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    },
+    {
+      "variant": "P9-full-manager-orchestrated",
+      "source_basis": "35bea52ec5fe509ead650288ffff9431c2dc4c32",
+      "compiler_input_sha256": "2afa32a74ed484b58bfe2146f6980907dd5bc0e9a44f799a3f757eceda2dd432",
+      "compiler_profile": {
+        "optimizer": {
+          "enabled": true,
+          "runs": 200
+        },
+        "viaIR": false,
+        "evmVersion": "cancun"
+      },
+      "runtime": {
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185,
+        "Core": 24682,
+        "Token": 4217,
+        "Redemption": 9200,
+        "Yield": 8104,
+        "Risk": 3166
+      },
+      "headroom": {
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295,
+        "Core": -4202,
+        "Token": 16263,
+        "Redemption": 11280,
+        "Yield": 12376,
+        "Risk": 17314
+      },
+      "combined_runtime": 59977,
+      "paired": "P0-full-local",
+      "core_saving": 11090,
+      "flags": {
+        "token": true,
+        "red": true,
+        "risk": true,
+        "yield_": true,
+        "orchestrator": "manager"
+      },
+      "ABI_migration": {
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ],
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "checkpointYield",
+          "closePlan",
+          "executeClaim",
+          "executeSettlement",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "pause",
+          "pauseState",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "schedulePenaltyPlan",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "subscribe",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "claimRedeem",
+          "core",
+          "endPhase",
+          "epoch",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "settleMaturedEpochs",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activate",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "close",
+          "core",
+          "eligible",
+          "endPhase",
+          "nextPlanId",
+          "recordFunding",
+          "release",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ]
+      },
+      "state_ownership": {
+        "S": "Token",
+        "R/P/F/U/B/C/Mode/custody": "Core",
+        "Epoch/Position/queue/count/operators": "Redemption",
+        "Plan/Source/H": "Yield",
+        "Bucket[2]": "Risk"
+      },
+      "opcodes": {
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        },
+        "Core": {
+          "CALL": 28,
+          "STATICCALL": 40
+        },
+        "Token": {},
+        "Redemption": {
+          "CALL": 4,
+          "STATICCALL": 2
+        },
+        "Yield": {},
+        "Risk": {}
+      },
+      "gas": {
+        "request_first": 145340,
+        "request_merge": 14905,
+        "settle": 80812,
+        "claim_partial": 69675,
+        "claim_final": 49353
+      },
+      "recommended": false,
+      "reason": "Core runtime 24682 exceeds 20480 hard gate and 16000 comfort target; no architecture adoption.",
+      "runtime_gate": {
+        "Reserve": "PASS",
+        "Gateway": "PASS",
+        "Lens": "PASS",
+        "Core": "FAIL",
+        "Token": "PASS",
+        "Redemption": "PASS",
+        "Yield": "PASS",
+        "Risk": "PASS"
+      },
+      "warning_counts": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "core_namespace_members": [
+        "accounting",
+        "mode",
+        "dependencies",
+        "policy",
+        "yearSeconds"
+      ],
+      "layout_sha256": "abec1feb2fe1adad9c2f08f8c05b2cccc4fe5c12781d1c4b02508913fc3b4ab0",
+      "domain_runtime_sum": 49369,
+      "deployment_runtime_sum_excluding_proxies_admins_adapter": 64565,
+      "core_16000_target": "FAIL",
+      "external_call_graph": {
+        "safeRequest": [
+          "User -> Redemption -> Token"
+        ],
+        "settlement": [
+          "User -> Redemption -> Core -> Token; Core -> Redemption phase"
+        ],
+        "claim": [
+          "User -> Redemption -> Core; Core -> Gateway / phase components / stPROS"
+        ],
+        "yield": [
+          "Core -> OracleAdapter / Yield"
+        ],
+        "solvency": [
+          "Core -> stPROS balanceOf / Yield totalH,absorbLoss"
+        ],
+        "risk": [
+          "Timelock -> Risk; Core -> Risk"
+        ],
+        "interpretation": "Static source-derived topology, not a measured dynamic trace. Inactive domains are local. Already-mode sync returns before dependencies."
+      }
+    }
+  ],
+  "test_result": {
+    "status": "PASS",
+    "summary": [
+      "Ran 2 test suites in 3.36s (4.48s CPU time): 35 tests passed, 0 failed, 0 skipped (35 total tests)"
+    ],
+    "gas_samples": 94,
+    "source_sha256": {
+      "test/tbpros/multi-contract-study/MultiContractStudy.t.sol": "3a4242f2f3a1a99a039cc180ff58c7d9f9943ee6dbef4c1d3f27a5bdf966cceb",
+      "test/tbpros/multi-contract-study/PartitionInvariant.t.sol": "32df579a2ee9c2d2a27c27b5081e96a0a9bee18f434fa2331ba4ed510112c06c"
+    },
+    "reference_sha256": "fa993c59271dcd4a05ca295e4a0b25dcf6612b6e737eb0193394f9732ccd623d"
+  }
+}

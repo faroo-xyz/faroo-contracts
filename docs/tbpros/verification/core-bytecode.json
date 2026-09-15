@@ -69,6 +69,8 @@
       "tools/tbpros/core-manifests.mjs": "1a8fa50019997fb9fab25762ff377d5f29b8e1c281fed9e2ae596bdc94421f49",
       "tools/tbpros/guard-selftest.py": "722d9ddfd19ca3b1dec8b33c4172990314a728222997ce33634c2b9df67bf149",
       "tools/tbpros/hardening-guards.py": "014ea9c35b2f67c5b0e1d20b7ac2d30040cb2ef4c7bcc15a7da2696a1b5bd4b6",
+      "tools/tbpros/multi-contract-architecture-study.py": "f2a98a966560f156c372ce9070e5b150b92f5df85f32cf5e3cee4bb278d3a222",
+      "tools/tbpros/multi-contract-study-templates.py": "434409daee1d30837f8a7a917a43f04f61efff3b14aaa2e8e0562cb0dd0ac6ed",
       "tools/tbpros/size-variants.py": "e2eda62ebfb2fc07db786f0e48ae95543b8a1478747fd69693a111eddcf0e0c9",
       "tools/tbpros/staticcall-architecture-study.py": "dbee7b8ce3e908b9d1cae41e863bc6926fce22448ecc1591bda66c98102db17f",
       "tools/tbpros/staticcall-study-templates.py": "668cd0869f3c9b55b6d84a5e03732a665436ffb567eea679b2305086039009dc",

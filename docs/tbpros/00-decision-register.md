@@ -1,6 +1,6 @@
 # 00 · tbPROS Decision Register
 
-2026-09-15。当前产品V1；Architecture Remediation V2是设计修订编号。最新工程状态见本页22及[STATICCALL Study](22-staticcall-module-architecture-study.md)：全部已批准V1功能保留，MathModule/Controller实测收益不足，完整V1单Vault体积路径仍受阻。权威规则：[Protocol Hard Rules](../../contracts/tbpros/AGENTS.md)、本表、[14 APR Finalization](14-core-architecture-finalization.md)及[16 Insolvency Freeze](16-insolvency-mode-architecture-freeze.md)。根目录[AGENTS router](../../AGENTS.md)已创建；contracts/tbpros已实现19 Request与20客观模式，其余主要资金业务仍为stub。
+2026-09-15。当前产品V1；Architecture Remediation V2是设计修订编号。最新工程状态见本页23及[State Partition Study](23-multi-contract-state-partition-study.md)：全部已批准V1功能保留；完整拆分probe最小Core24,682，仍未满足20,480硬门槛与16,000目标，生产架构继续NO-GO。权威规则：[Protocol Hard Rules](../../contracts/tbpros/AGENTS.md)、本表、[14 APR Finalization](14-core-architecture-finalization.md)及[16 Insolvency Freeze](16-insolvency-mode-architecture-freeze.md)。根目录[AGENTS router](../../AGENTS.md)已创建；contracts/tbpros已实现19 Request与20客观模式，其余主要资金业务仍为stub。
 
 | ID | 当前决定 | 替代/澄清 | 状态 |
 | --- | --- | --- | --- |
@@ -103,7 +103,7 @@ D-30：当前完整批准V1尚无可信20,480-byte单Vault实现路径；这是�
 
 具体Option 1/2/3的实际增量节省、权限/ABI/迁移代价见21 §L。没有hosted执行、下一业务实现或部署授权；本轮审查完成后停止。
 
-## 22 · STATICCALL Module / GovernanceController Study（当前工程结论）
+## 22 · STATICCALL Module / GovernanceController Study（前一轮工程结论）
 
 D-31：本轮用户明确要求保留全部已批准V1功能；21中的产品缩减方向不再是当前建议。仅允许隔离probe/tool/reference/test/docs，不批准生产Module/Controller迁移、ABI/storage/initializer/dependency修改或下一资金增量。Vault仍是唯一经济writer，safe/普通ERC20/already-mode sync不新增module依赖。
 
@@ -112,3 +112,14 @@ D-32：基于`f3187659eb19a464abfc5bc93e15a3d4e73c7e2b`完成[22研究](22-stati
 19项study tests、460组独立数学向量及完整生产本地CI通过（Core91、历史64、Python97、全部guards）；预算超限的probe明确记FAIL，不修改20,480限制。cheap bounds不能证明全部返回值正确，已保存错误Claim舍入仍可通过的反例；固定代码身份、历史数学兼容和退出新增依赖必须审查。无实际目标fork、升级语义replay、最终gas/handoff或完整产品证据。
 
 **NO — still not credible。STATICCALL MODULE SAVINGS INSUFFICIENT / SINGLE-VAULT FULL-V1 PATH REMAINS BLOCKED / NEW ARCHITECTURE DECISION REQUIRED / PRODUCTION NO-GO。** 本轮完成后停止；不自动迁移、不删功能、不开始Settlement/Claim/Subscription。
+
+
+## 23 · Multi-Contract State Partition Study（当前工程结论）
+
+D-33：用户仅授权研究把“Vault所有状态唯一writer”替换为“每个authoritative state domain恰好一个writer”。生产Hard Rules、Solidity、ABI/storage保持原状；不批准新Token/Manager/Gateway生产代码、迁移或部署。固定普通CALL组件、无duplicate S/H/rights、无delegatecall业务模块/任意executor；全部V1功能保留。
+
+D-34：基于`35bea52ec5fe509ead650288ffff9431c2dc4c32`完成[23研究](23-multi-contract-state-partition-study.md)，14组同profile隔离实编译。Token匹配胶水回收1700（对未加胶水当前Vault仅1060）；full pressure单拆Redemption3907、Risk985、Yield3371；Token+Redemption6019，加入Risk7035；完整Core编排回收10655但Core仍25117，Manager编排Core24682、最大Manager9200。所有P系列Core对20480为FAIL，更不满足16000目标。不是完整V1最小体积证明，也不是生产部署通过。
+
+D-35：跨域35项隔离tests（含128×64 stateful与256 fuzz）、新增6项独立Python reference覆盖所测same-preburn本金、escrow/rights/P、累计Claim、F/H/mode回滚与Risk历史；真实发现并修复隔离façade锁死。raw read一致性、Yield故障后的正常solvency liveness、multi-proxy Gateway/升级语义/handoff及真实依赖fork未关闭。immutable组件不可自动迁移state；U2共同TL/Gateway Transparent只作为未来研究方向，不批准采用。完整本地结果/历史失败和warnings以[latest-local-checks](verification/latest-local-checks.md)为准。
+
+**NO — partition still does not solve architecture。MULTI-CONTRACT ARCHITECTURE NOT CREDIBLE / SINGLE-VAULT FULL-V1 PATH REMAINS BLOCKED / NEW ARCHITECTURE DECISION REQUIRED / PRODUCTION NO-GO。** 若无有用户状态的生产proxy，未来获批新架构优先fresh而非语义迁移；repo缺少tbPROS部署记录不证明链上不存在。当前研究完成后停止，不自动提交/push、改生产或继续业务实现。
