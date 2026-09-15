@@ -28,13 +28,13 @@ const stripMetadata = code => {
   const s=code.replace(/^0x/,''); const len=parseInt(s.slice(-4),16);
   assert(len>0 && len*2+4<s.length); return s.slice(0,-len*2-4);
 };
-const economicStub = new Set(['subscribe','safeRequestRedeem','requestRedeem','syncSolvency','restoreSolvency','checkpointYield','settleMaturedEpochs','claimRedeem','fastRedeem','fundPlan','activatePlan','closePlan','schedulePenaltyPlan','syncSurplus','setPrincipalCap','tightenMintLossBound','setFastFee','setMaxPlanDuration','setBucketConfig']);
+const economicStub = new Set(['subscribe','syncSolvency','restoreSolvency','checkpointYield','settleMaturedEpochs','claimRedeem','fastRedeem','fundPlan','activatePlan','closePlan','schedulePenaltyPlan','syncSurplus','setPrincipalCap','tightenMintLossBound','setFastFee','setMaxPlanDuration','setBucketConfig']);
 const funds = new Set(['subscribe','claimRedeem','fastRedeem','fundPlan','closePlan','fund','consume','withdrawUncommitted']);
 const vaultReasons = {
   initialize:['constructor-time once','core/roles/dependencies','bind initial authority, immutable bindings and injected limits'],
   subscribe:['user','R/S/U/B/risk','only V1 USDC entry'],
   safeRequestRedeem:['owner only','queue/position/escrow','non-pausable minimum admission; sole shared request helper'],
-  requestRedeem:['owner/operator/allowance','queue/position/escrow','delegated request; same ledger as safe'],
+  requestRedeem:['owner > owner operator > OZ allowance; delegates require controller=owner','queue/position/escrow/count; allowance only on spender path','same ledger as safe; only ordinary new unique positions limited to 24'],
   syncSolvency:['anyone','F/H/mode','commit objective buffer absorption/incident, no caller loss input'],
   restoreSolvency:['anyone','mode','clear only after actual full backing'],
   checkpointYield:['anyone','H/R/plan cursor','independent current-price realization'],
@@ -89,7 +89,7 @@ for(const [name,a] of Object.entries(artifacts)) {
     const details=(name==='TbPROSVault'?vaultReasons:otherReasons)[item.name] ?? (isView?['anyone','read only','raw authoritative getter / actual inherited interface; Lens aggregates without another writable ledger']:null);
     assert(details,`selector needs manual rationale: ${name}.${sig}`);
     const stub=name==='TbPROSVault'?economicStub.has(item.name):['fund','authorizePeriod','consume','withdrawUncommitted','queueUpgrade','cancelUpgrade','executeUpgrade'].includes(item.name);
-    rows.push({contract:name,selector,function:sig,auth:details[0],funds_in_completed_V1:funds.has(item.name),funds_in_skeleton:false,state_area:details[1],v1_reason:details[2],status:stub?'SKELETON_ONLY':'STRUCTURAL_IMPLEMENTED',move_to_lens:isView?(name==='TbPROSLens'?'already Lens':'aggregation only; keep raw authority / ERC20 / role queries'):'no: authority/writer boundary',deletable:isView?'review only; no removal in this freeze':'no: current V1 requirement'});
+    rows.push({contract:name,selector,function:sig,auth:details[0],funds_in_completed_V1:funds.has(item.name),funds_in_skeleton:false,state_area:details[1],v1_reason:details[2],status:stub?'SKELETON_ONLY':(name==='TbPROSVault'&&['safeRequestRedeem','requestRedeem'].includes(item.name)?'IMPLEMENTED':'STRUCTURAL_IMPLEMENTED'),move_to_lens:isView?(name==='TbPROSLens'?'already Lens':'aggregation only; keep raw authority / ERC20 / role queries'):'no: authority/writer boundary',deletable:isView?'review only; no removal in this freeze':'no: current V1 requirement'});
   }
   for(const kind of ['error','event']) {
     const local=new Map();
@@ -150,7 +150,7 @@ const sourceFiles=new Set(walk('contracts/tbpros').filter(p=>p.endsWith('.sol'))
 for(const a of Object.values(artifacts)) for(const p of Object.keys(a.metadata.sources)) {assert(existsSync(p));sourceFiles.add(p);}
 for(const p of ['foundry.toml','hardhat.tbpros.config.ts','pnpm-lock.yaml','test/tbpros/core-skeleton/CoreSkeleton.t.sol','reference/tbpros/calendar-fixtures.json'])sourceFiles.add(p);
 for(const p of [...walk('test/tbpros/core-skeleton'),...walk('tools/tbpros')].filter(p=>!p.includes('__pycache__') && /\.(sol|py|mjs|sh)$/.test(p))) sourceFiles.add(p);
-sourceFiles.add('reference/hardening_schema_model.py');sourceFiles.add('.github/workflows/tbpros-skeleton.yml');
+sourceFiles.add('reference/hardening_schema_model.py');sourceFiles.add('reference/request_accounting_model.py');sourceFiles.add('.github/workflows/tbpros-skeleton.yml');
 const sources=Object.fromEntries([...sourceFiles].sort().map(p=>[p,sha(p)]));
 const profile={compiler:artifacts.TbPROSVault.metadata.compiler.version,openzeppelin:read('node_modules/@openzeppelin/contracts/package.json').version,openzeppelin_upgradeable:read('node_modules/@openzeppelin/contracts-upgradeable/package.json').version,optimizer:{enabled:true,runs:200},viaIR:false,evmVersion:'cancun',source_sha256:sources};
 assert.equal(profile.openzeppelin,'5.6.1');assert.equal(profile.openzeppelin_upgradeable,'5.6.1');assert(profile.compiler.startsWith('0.8.28+commit.7893614a'));

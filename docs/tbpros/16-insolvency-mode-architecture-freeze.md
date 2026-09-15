@@ -74,7 +74,7 @@ then perform normal operation
 | initialize(config) | proxy构造时一次 | 不存在再次initialize路径 | implementation锁初始化 |
 | syncSolvency() | permissionless吸F/H、必要时入mode | permissionless no-op | 独立提交客观状态 |
 | restoreSolvency() | 足额no-op；不足拒绝 | 仅实际L≥Q恢复 | 不改账、不造F/H |
-| safeRequestRedeem(q) | owner-only，同queue | **允许** | 不读mode/资产余额/Oracle/pause/count/backlog；无外部资金 |
+| safeRequestRedeem(q) | owner-only，同queue | **允许** | 不读mode/资产余额/Oracle/pause；不执行backlog barrier；count仅读写统计、不作safe准入上限；无外部资金 |
 | requestRedeem(q,c,o) | 原授权、complex pause/count | **拒绝INSOLVENT** | 最小登记已有safe入口 |
 | ERC20 transfer / transferFrom / approve | 原ERC20、本地锁 | **允许** | 总S/U/B/R/P/F/H不变；直接外部转share入Vault仍拒绝，escrow用helper |
 | checkpointYield() | 先solvency guard，再当前有效价与真实H | **拒绝INSOLVENT** | 禁止资金再分类；不修改成功cursor |

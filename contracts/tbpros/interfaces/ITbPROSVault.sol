@@ -3,7 +3,7 @@ pragma solidity 0.8.28;
 
 import {TbPROSTypes as S} from "../TbPROSTypes.sol";
 
-/// @notice Custom V1 ABI candidate. Financial endpoints explicitly revert in this skeleton.
+/// @notice Custom V1 ABI with implemented monthly request admission; other financial endpoints remain skeletons.
 interface ITbPROSVault {
     /// @dev The funds/configuration lifecycle is deliberately not implemented in this revision.
     error SkeletonOnly();
@@ -62,12 +62,12 @@ interface ITbPROSVault {
     /// @param owner Account whose tbPROS shares are escrowed or transferred.
     /// @param controller Account owning the custom redemption entitlement.
     /// @param epoch UTC timestamp identifying the monthly epoch.
-    /// @param shares tbPROS raw18 shares minted, escrowed, burned or consumed as specified by this event.
+    /// @param shares Additional tbPROS raw18 shares escrowed by this call, not the cumulative Position total.
     event RedeemRequested(address indexed owner, address indexed controller, uint64 indexed epoch, uint256 shares);
     /// @notice Emitted after owner-only safe escrow admission into the same queue; no payout or burn.
     /// @param owner Account whose tbPROS shares are escrowed or transferred.
     /// @param epoch UTC timestamp identifying the monthly epoch.
-    /// @param shares tbPROS raw18 shares minted, escrowed, burned or consumed as specified by this event.
+    /// @param shares Additional tbPROS raw18 shares escrowed by this call, not the cumulative Position total.
     event SafeRedeemRequested(address indexed owner, uint64 indexed epoch, uint256 shares);
     /// @notice Emitted after the sole normal burn and R->P lock; num/den are the immutable pre-burn price snapshot.
     /// @param epoch UTC timestamp identifying the monthly epoch.
@@ -218,16 +218,16 @@ interface ITbPROSVault {
     /// @return shares Minted tbPROS raw18 shares; unreachable until business implementation.
     function subscribe(uint256 usdc, uint256 minShares) external returns (uint256 shares);
     /// @notice Registers the caller's shares in the sole monthly redemption queue.
-    /// @dev SKELETON ONLY: shared request helper reverts. Future admission escrows without burning, forces caller as owner/controller, and ignores pause, insolvency, backlog and normal position limits. No Oracle, Reserve, Gateway or asset-balance call.
+    /// @dev Escrows without burning, forces caller as owner/controller, and ignores pause, insolvency, backlog and ordinary new-position limits. Counts every new unique Position, never limiting safe admission. No Oracle, Reserve, Gateway or asset-balance call.
     /// @param shares tbPROS shares in raw18 for this operation.
-    /// @return epoch UTC monthly epoch key; unreachable in this skeleton.
+    /// @return epoch Strict next UTC month key for this request.
     function safeRequestRedeem(uint256 shares) external returns (uint64 epoch);
     /// @notice Registers an authorized owner's shares for monthly redemption.
-    /// @dev SKELETON ONLY: uses the same helper as safe admission. Future implementation checks controller/operator/allowance authority and escrows without changing S/U/B; normal mode and complex-request pause guards apply.
+    /// @dev Uses the same request writer as safe admission. Owner may choose another controller; delegated callers must keep controller equal to owner. Owner operator authorization precedes OZ allowance spending. Normal mode checks actual stPROS backing by STATICCALL before request writes; complex-request pause applies. No funds interaction, burn or S/U/B change.
     /// @param shares tbPROS shares in raw18 for this operation.
     /// @param controller Account owning the custom redemption entitlement.
     /// @param owner Account whose tbPROS shares are escrowed or transferred.
-    /// @return epoch UTC monthly epoch key; unreachable in this skeleton.
+    /// @return epoch Strict next UTC month key for this request.
     function requestRedeem(uint256 shares, address controller, address owner) external returns (uint64 epoch);
     /// @notice Commits objective F/H deficit absorption and, if necessary, insolvency entry.
     /// @dev SKELETON ONLY. Future implementation reads actual backing without Oracle/Reserve, consumes F then pro-rata at most four H sources, and preserves R/P/S/U/B and locked prices. Repeated insolvent sync preserves incident evidence.
@@ -329,12 +329,12 @@ interface ITbPROSVault {
     /// @param paused True tightens the relevant pause; false requires Timelock.
     function setRequestsPaused(bool paused) external;
     /// @notice Sets the caller's custom request/claim delegation.
-    /// @dev Reject zero or self operator. Writes only this controller's authorization; this is not an ERC20 allowance or a second claim right.
+    /// @dev Reject zero or self operator. Writes caller-owned delegation: request operators may consume caller shares only into caller rights; future claim delegation controls caller rights. This is not ERC20 allowance or a second right.
     /// @param operator Account delegated custom redemption authority.
     /// @param approved Whether the caller grants that delegation.
     function setOperator(address operator, bool approved) external;
     /// @notice Returns custom delegation from a controller to an operator.
-    /// @dev Read-only authorization for future delegated paths; distinct from ERC20 allowance.
+    /// @dev Request checks the share owner here and gives operator authority priority over ERC20 allowance; future Claim checks the right controller.
     /// @param controller Account owning the custom redemption entitlement.
     /// @param operator Account delegated custom redemption authority.
     /// @return Whether custom delegation is enabled.
@@ -391,7 +391,7 @@ interface ITbPROSVault {
     /// @return lastSettled Persistent settlement watermark.
     function queueState() external view returns (uint64 head, uint64 tail, uint64 lastSettled);
     /// @notice Returns the controller's current position count.
-    /// @dev Normal admission may use an approved bound; safe admission must not fail because this count is full.
+    /// @dev Counts all live unique Positions, including safe-created rights. Only ordinary new-position admission requires count < 24; merges do not increment and safe never applies that limit.
     /// @param controller Account owning the custom redemption entitlement.
     /// @return Current controller position count.
     function openPositionCount(address controller) external view returns (uint128);

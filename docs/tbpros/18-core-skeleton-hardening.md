@@ -1,5 +1,7 @@
 # 18 · Core Skeleton Hardening
 
+> 本页保留18轮结构验证记录。当前Request实现与授权/统一计数裁决以[19](19-request-accounting-implementation.md)为准；下文当轮stub及体积数字不是19轮结果。
+
 2026-09-15 · 基于 `6c9d407fa45c96e24c2928f0cf6fc5dd8e9fd2c6`。本轮范围是 ABI/storage、结构验证、编译体积和自动检查；没有实现 subscribe、请求队列、settlement、Claim、yield、fast、Reserve consume 或真实 Gateway upgrade execution。
 
 ```text

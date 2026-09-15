@@ -13,7 +13,7 @@ Plan最多active+next，各保留base/penalty来源。APR_BPS=500是成功realiz
 | Transition | R | P | F | H | S/U/B | Custody |
 | --- | --- | --- | --- | --- | --- | --- |
 | subscribe | +a | 0 | 0 | 0 | +q/+u/+p | L+a；SUB实耗p；风险流量也扣p |
-| safe/ordinary request | 0 | 0 | 0 | 0 | 总量不变；owner→V shares | 无外部调用 |
+| safe/ordinary request | 0 | 0 | 0 | 0 | 总量不变；owner→V shares | safe/helper无外调；ordinary保留normalState的stPROS balanceOf STATICCALL |
 | fundPlan | 0 | 0 | 0 | +a | 不变 | L+a；YIELD实耗p |
 | funded checkpoint | +a | 0 | 0 | -a | 不变 | L不变 |
 | penalty计划预资 | 0 | 0 | -a | +a | 不变 | L不变，不立即NAV跳变 |
@@ -95,3 +95,15 @@ E-01..05的攻击者、状态转换、Foundry属性、reference、trace与监控
 ## Reference Decision 同步
 
 [RD-01/RD-03/RD-05](12-reference-implementation-study.md)要求独立证明tbPROS的P/F/H隔离、fullburn和月界；Sky/Spark的drip可参考顺序，不能复用其信用/无backing收益经济模型。V1禁止fractional claimUnits/第二份权利；亏损waterfall不能由Yearn profit buffer直接推出。
+
+## 19 · 已实现 Request 的局部 invariants
+
+成功 Request：`ΔS=ΔR=ΔP=ΔF=ΔH[0..3]=ΔU=ΔB=ΔC=0`；owner balance减q，Vault balance加q。
+Position.requestedShares 与 Epoch.totalRequestedShares checked 加q，claimed/num/den/remainingAssets不写。
+Request-only 测试域：Vault escrow = sum 所有 ghost Position requested = sum ghost Epoch requested；
+每个Epoch总数=该月各controller之和。count=全部live unique Position数，merge不增。
+队列按dueAt严格递增且无重复，tail.next=0，空队列head=tail=0；watermark不变且新dueAt必须更大。
+
+对应真实 Vault 派生测试中的 `invariant_EscrowRightsQueueSupplyAndEconomicLedger`，以及独立
+`reference/request_accounting_model.py`。测试mint/flags等仅在harness中；后续Settlement实现后必须
+把escrow右侧收窄为尚未settle的请求，不能沿用Request-only等式作为全生命周期证明。

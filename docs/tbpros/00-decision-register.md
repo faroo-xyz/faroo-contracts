@@ -13,7 +13,7 @@
 | D-07 USDC | peg guard只挡新subscribe；U保持nominal | 不按市价重写U；不是新产品待选项 | APPROVED；数值/真实feed待验 |
 | D-08 Fast fee | 固定封顶service fee，ceil(gross*bps/10000)→F | 不用历史NAV、距月初或预期收益费 | APPROVED；费率与硬上限未批准 |
 | D-09 Exit | 单queue，request只escrow，settle唯一正常burn，Claim不再改S/U/B | 单一纯share权利；locked Claim不读Oracle/Reserve/Keeper；最终dust→F | APPROVED；正常足额模式无收益价源；Insolvency下停settle/Claim，safe登记继续 |
-| D-10 Safe/pause | owner-only safe无pause/count/barrier/external funds；同helper | Guardian不能停safe/正常足额progress/healthy locked Claim；客观mode独立 | APPROVED；局部模型通过 |
+| D-10 Safe/pause | owner-only safe无pause/count准入上限/barrier/external funds；同helper | Guardian不能停safe/正常足额progress/healthy locked Claim；客观mode独立 | APPROVED；局部模型通过 |
 | D-11 Gateway | 所有外部资金selector参与transient busy + upgrading互斥 | Pharos节点固定区块1153通过；不用普通storage busy，不提前实现fallback | APPROVED方向；fork proxy回归通过，目标SLP待验 |
 | D-12 Accounting/risk | sole writer、R/P/F/H隔离；burn同pre-snapshot核U/B；Reserve period与风险流量分离 | funding、burn、换期/源、cap增加不得reset历史credits | APPROVED |
 | D-13 Engineering | pinned OZ、runtime<=20,480、语义storage兼容、资金变更配矩阵/invariant/reference/测试 | 不靠unsafe delegatecall、抬size或generic sweep | APPROVED；生产证据未验 |
@@ -49,7 +49,7 @@ OZ5.6.1继承、实际双工具链编译与90字段语义。15项Vault业务及R
 Vault runtime15,462 / 20,480，剩5,018 bytes，体积压力HIGH；没有生产参数批准、
 完整storage upgrade replay、生产fork、handoff或audit结论。完成本轮后停止。
 
-## 18 · Skeleton Hardening（当前）
+## 18 · Skeleton Hardening（历史基线）
 
 本轮授权限定结构收敛，不实现完整资金业务。详见[18](18-core-skeleton-hardening.md)，覆盖17中冲突的 schema描述。
 
@@ -69,6 +69,14 @@ GitHub workflow仅手动 `workflow_dispatch`；不减少任何验证要求。每
 
 `ebab5d794bade22353211899f6554ded6cafc11f`：GitHub hosted execution attempted; dependency installation failed before protocol verification steps. 据用户提供记录，`pnpm install --frozen-lockfile` 将forge-std解析为SSH URL，而runner无SSH key；不是Solidity/test failure。本轮仅调整运行节奏，未修复依赖或重跑hosted；未来安装修复须采用public HTTPS/可复现解析。audit、release candidate、deployment前或用户要求时必须执行hosted验证，其他建议milestones见18。本轮不开始业务实现。
 
-## 19 · Request Accounting preflight（当前增量）
+## 19 · Request Accounting（当前增量）
 
-**REQUEST ACCOUNTING BLOCKED**，详见[19 阻断记录](19-request-accounting-implementation.md)。ordinary owner/controller/operator/allowance精确矩阵尚未定义；openPositionCount的“普通请求专用”与“全部唯一Position”语义也未统一。本轮用户明确要求不得猜测，因此未修改生产Solidity/tests/ABI/storage，Request仍SkeletonOnly。此前Skeleton Hardened结果不撤销，但不代表该增量已实现。需裁决后继续；Production NO-GO。
+用户基于 `eebad7f5100366938c3e529516d275fd1e913411` 正式解除两项旧阻断；它们不是未决问题。
+
+- D-23 Request authority：owner 提供 shares，controller 获得权利；caller=owner 可主动指定不同合法 controller，不消耗 allowance。否则必须 controller=owner；优先 `operators[owner][caller]`，只在无 operator 授权时使用真实 OZ `_spendAllowance`。operator 与 allowance 同时存在时不扣 allowance；controller 侧授权不能消费他人 shares。零地址和 Vault 均不能成为 owner/controller。
+- D-24 Count：所有 live unique `(controller,dueAt)` Position 统一计数。safe/ordinary 新建均 checked +1，任意同 Position merge 均不增加。24 只限制 ordinary 新建；safe 可创建第25、第26及以后 Position。未来合法 Claim 完成删除时 checked −1；本轮不实现删除，也不加来源标志。
+- D-25 Scope：仅实现 Request Accounting，共享 helper、MonthMath、O(1) queue、escrow 和增量事件；不 burn、不计算资产权益、不改 R/P/F/H/U/B/C/S。普通请求保留原 `normalState` 的 stPROS balanceOf STATICCALL；safe/helper 无任何外部依赖。
+
+当前实现及实际验证见 [19](19-request-accounting-implementation.md) 和 [latest local checks](verification/latest-local-checks.md)。只把两个 Request selector 标成 IMPLEMENTED。其他资金/事故/Reserve/Gateway 业务仍为 SkeletonOnly；完整月度赎回与生产上线没有获准。**PRODUCTION NO-GO**。
+
+**REQUEST ACCOUNTING IMPLEMENTED / VERIFIED；READY FOR NEXT CORE INCREMENT；PRODUCTION NO-GO。** 本轮完成后停止，下一增量需另行授权。

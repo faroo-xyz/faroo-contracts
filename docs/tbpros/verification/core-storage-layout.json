@@ -11,21 +11,21 @@
     "evmVersion": "cancun",
     "source_sha256": {
       ".github/workflows/tbpros-skeleton.yml": "96df4c06e164bc058a88340f9ad9fc30a91df7a7e00b8a6ae4dd57f09673a859",
-      "contracts/tbpros/TbPROSStorage.sol": "04f5cbc9798fdf56bc849b1dff98fa7534a14dec3d168bae2489ebacb5ccb407",
+      "contracts/tbpros/TbPROSStorage.sol": "3c0fa52aefac4f28c4c6354442c833f72bb7dc04dac2da5650b9e9ac47c761f9",
       "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
-      "contracts/tbpros/TbPROSVault.sol": "2847f09742abc824694aec5cace64474c49197ddabf05bf1c5f8745912a64a3d",
+      "contracts/tbpros/TbPROSVault.sol": "993d495813caf472bee3d26135d4c5fb450454163c4fd0e55a266fbd17e044dc",
       "contracts/tbpros/governance/UpgradeGateway.sol": "132fc246227539f220ce4baab4e005f3a760236e2a79b73089ab73d53c7aa368",
       "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
       "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
       "contracts/tbpros/interfaces/ITbPROSOracleAdapter.sol": "0537236d23d7d620a41c818cecd62ab8c2e527f7b02e65560cbc309568189302",
-      "contracts/tbpros/interfaces/ITbPROSVault.sol": "2ce5c8ab3b7231568dd753f3ed3f3a1c13993cbdcbad21a0cc67d824b435f896",
+      "contracts/tbpros/interfaces/ITbPROSVault.sol": "21d7f8f2f3084749622985f2bf130279ab5a57e7128cc203931f2b35f54fd18c",
       "contracts/tbpros/interfaces/IUpgradeGateway.sol": "b56975367503a518153c77e39266d4ab896b34a2b64023e1a35d14239909e662",
       "contracts/tbpros/lens/TbPROSLens.sol": "4f3af97aab7ca2ccbe0e45032558f8fe1a23e854fd08466a212880c325705fc4",
       "contracts/tbpros/libraries/AccountingMath.sol": "02cf4c95e2401b862133bb0827765ceab91ca65fd4a041626bd70ccaa0015852",
       "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af",
       "contracts/tbpros/libraries/PlanMath.sol": "d6f060ef1e614f861722357d716ab66b7e8dabe5a29f647cd6a8af6d127098a4",
       "contracts/tbpros/reserves/ProsReserve.sol": "697c155f99bc8983021e7f984d4fcdc8bfe4a607c395dc4a8342d74f5b154a28",
-      "foundry.toml": "1a4cc73733f8d503377ec597e79fd18fd38b2659d6b2fcc311a221e8adfadbc5",
+      "foundry.toml": "5feefc8a2eedf635b6ab43b36943d13692191c4e23178ed618df1bbf13098865",
       "hardhat.tbpros.config.ts": "3c6cb554f891b5e90f40324389d9554f9d4ba84ab333b0413f7c5e2a6d774766",
       "node_modules/@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol": "b6fcfbabb4fb0f0b23b018ed667a5302adcda512ce635c52b50ee2704609fdb7",
       "node_modules/@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol": "96832b6e848020275ca4f4ef1ba32b7d2b541dc0daf26bca19ea8d0b1b3df68e",
@@ -57,15 +57,17 @@
       "node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol": "5779bc848bde39f1ad7bc02b4f708a0040888e0083b1a33f119cd94639350134",
       "pnpm-lock.yaml": "5b5ba09fdf1b387fb3087d3f0bc53b166e84e6ab9395c2ef5cc09627eb3880b5",
       "reference/hardening_schema_model.py": "8209c45f1a8941ece7d6f09a9400ab2c85c0234949b1456e6ef33183a4f61372",
+      "reference/request_accounting_model.py": "84c6a66c4ecf74f04b7f37b8b62264a217f9fdabaf03e8f921600605c77b5487",
       "reference/tbpros/calendar-fixtures.json": "bbb335b415775eb73259fa32a1b1108546a698a5b239c3b3471c05979eab9b73",
-      "test/tbpros/core-skeleton/CoreSkeleton.t.sol": "b652fb66a10fefd531ebcf579b5eb51d8e553d49581bf8cfeabaa82a6823200b",
+      "test/tbpros/core-skeleton/CoreSkeleton.t.sol": "3c1d2ed5ae511eef390e234233495f1a076836717796971e71a93ff13f827f0b",
       "test/tbpros/core-skeleton/Hardening.t.sol": "398eb9a7dbfcbfdc7fb386a3d7fb5124ed8452f4c3df36753e2c768cb5b9c5c6",
+      "test/tbpros/core-skeleton/RequestAccounting.t.sol": "fca8f9a022a1dd9621172f941d389817bcac5d595bfa457974f6eb608acbc2d6",
       "tools/tbpros/ci.sh": "88f02e089904a16378c89469f053ef8db8386f2c9eccf9f9429bdeeb7a78235b",
-      "tools/tbpros/core-manifests.mjs": "927e3c5f495a2234ccfda920db2f74aea4a9c757b1993f2ef9aa3033ebb6bcc9",
+      "tools/tbpros/core-manifests.mjs": "89699b4061b56b6a9c596f0e1996cd7905878a33ff85e5e6e690dcef756ab900",
       "tools/tbpros/guard-selftest.py": "722d9ddfd19ca3b1dec8b33c4172990314a728222997ce33634c2b9df67bf149",
-      "tools/tbpros/hardening-guards.py": "ff5bfe6e3d645d3f65c4f5a5b01a7588d8cfe496071d0c39c433592b6fb7ead7",
+      "tools/tbpros/hardening-guards.py": "8e05a5a3c9261a4466cb3cd5eb9690f0d1d3271d7666e026f3ce9aae34349145",
       "tools/tbpros/size-variants.py": "e2eda62ebfb2fc07db786f0e48ae95543b8a1478747fd69693a111eddcf0e0c9",
-      "tools/tbpros/storage-manifest.py": "f3d6605ea5ea99f93bb9d0c3ad633b5fbce0ebf255c3ab29313d97af4478e8a0"
+      "tools/tbpros/storage-manifest.py": "bc281720f65f10bc7fc72ebfd729b917331b69e924737730f257518b220fc41e"
     }
   },
   "schema": "V1 candidate baseline, not an upgrade-compatibility proof",
@@ -78,17 +80,17 @@
     {
       "namespace": "openzeppelin.storage.ERC20",
       "slot": "0x52c63247e1f47db19d5ce0460030c497f067ca4cebf71ba98eeadabe20bace00",
-      "type": "t_struct(ERC20Storage)4811_storage"
+      "type": "t_struct(ERC20Storage)5148_storage"
     },
     {
       "namespace": "openzeppelin.storage.AccessControl",
       "slot": "0x02dd7bc7dec4dceedda775e58dd541e08a116c6c53815c0bd028192f7b626800",
-      "type": "t_struct(AccessControlStorage)4443_storage"
+      "type": "t_struct(AccessControlStorage)4780_storage"
     },
     {
       "namespace": "openzeppelin.storage.Initializable",
       "slot": "0xf0c57e16840df040f15088dc2f81fe391c3923bec73e23a9662efc9c229c6a00",
-      "type": "t_struct(InitializableStorage)6630_storage"
+      "type": "t_struct(InitializableStorage)6967_storage"
     }
   ],
   "types": {
@@ -177,12 +179,12 @@
       "numberOfBytes": "32",
       "value": "t_uint256"
     },
-    "t_mapping(t_bytes32,t_struct(RoleData)4433_storage)": {
+    "t_mapping(t_bytes32,t_struct(RoleData)4770_storage)": {
       "encoding": "mapping",
       "key": "t_bytes32",
       "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
       "numberOfBytes": "32",
-      "value": "t_struct(RoleData)4433_storage"
+      "value": "t_struct(RoleData)4770_storage"
     },
     "t_mapping(t_uint64,t_struct(Epoch)112_storage)": {
       "encoding": "mapping",
@@ -203,18 +205,18 @@
       "label": "string",
       "numberOfBytes": "32"
     },
-    "t_struct(AccessControlStorage)4443_storage": {
+    "t_struct(AccessControlStorage)4780_storage": {
       "encoding": "inplace",
       "label": "struct AccessControlUpgradeable.AccessControlStorage",
       "numberOfBytes": "32",
       "members": [
         {
-          "astId": 4442,
+          "astId": 4779,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_roles",
           "offset": 0,
           "slot": "0",
-          "type": "t_mapping(t_bytes32,t_struct(RoleData)4433_storage)"
+          "type": "t_mapping(t_bytes32,t_struct(RoleData)4770_storage)"
         }
       ]
     },
@@ -407,13 +409,13 @@
         }
       ]
     },
-    "t_struct(ERC20Storage)4811_storage": {
+    "t_struct(ERC20Storage)5148_storage": {
       "encoding": "inplace",
       "label": "struct ERC20Upgradeable.ERC20Storage",
       "numberOfBytes": "160",
       "members": [
         {
-          "astId": 4798,
+          "astId": 5135,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_balances",
           "offset": 0,
@@ -421,7 +423,7 @@
           "type": "t_mapping(t_address,t_uint256)"
         },
         {
-          "astId": 4804,
+          "astId": 5141,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_allowances",
           "offset": 0,
@@ -429,7 +431,7 @@
           "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))"
         },
         {
-          "astId": 4806,
+          "astId": 5143,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_totalSupply",
           "offset": 0,
@@ -437,7 +439,7 @@
           "type": "t_uint256"
         },
         {
-          "astId": 4808,
+          "astId": 5145,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_name",
           "offset": 0,
@@ -445,7 +447,7 @@
           "type": "t_string_storage"
         },
         {
-          "astId": 4810,
+          "astId": 5147,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_symbol",
           "offset": 0,
@@ -517,13 +519,13 @@
         }
       ]
     },
-    "t_struct(InitializableStorage)6630_storage": {
+    "t_struct(InitializableStorage)6967_storage": {
       "encoding": "inplace",
       "label": "struct Initializable.InitializableStorage",
       "numberOfBytes": "32",
       "members": [
         {
-          "astId": 6626,
+          "astId": 6963,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_initialized",
           "offset": 0,
@@ -531,7 +533,7 @@
           "type": "t_uint64"
         },
         {
-          "astId": 6629,
+          "astId": 6966,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "_initializing",
           "offset": 8,
@@ -855,13 +857,13 @@
         }
       ]
     },
-    "t_struct(RoleData)4433_storage": {
+    "t_struct(RoleData)4770_storage": {
       "encoding": "inplace",
       "label": "struct AccessControlUpgradeable.RoleData",
       "numberOfBytes": "64",
       "members": [
         {
-          "astId": 4430,
+          "astId": 4767,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "hasRole",
           "offset": 0,
@@ -869,7 +871,7 @@
           "type": "t_mapping(t_address,t_bool)"
         },
         {
-          "astId": 4432,
+          "astId": 4769,
           "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
           "label": "adminRole",
           "offset": 0,
@@ -946,7 +948,7 @@
     "ProsReserve": {
       "storage": [
         {
-          "astId": 4156,
+          "astId": 4493,
           "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
           "label": "boundVault",
           "offset": 0,
@@ -954,12 +956,12 @@
           "type": "t_address"
         },
         {
-          "astId": 4159,
+          "astId": 4496,
           "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
           "label": "_period",
           "offset": 0,
           "slot": "1",
-          "type": "t_struct(Period)2807_storage"
+          "type": "t_struct(Period)3144_storage"
         }
       ],
       "types": {
@@ -968,13 +970,13 @@
           "label": "address",
           "numberOfBytes": "20"
         },
-        "t_struct(Period)2807_storage": {
+        "t_struct(Period)3144_storage": {
           "encoding": "inplace",
           "label": "struct IProsReserve.Period",
           "numberOfBytes": "64",
           "members": [
             {
-              "astId": 2798,
+              "astId": 3135,
               "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
               "label": "id",
               "offset": 0,
@@ -982,7 +984,7 @@
               "type": "t_uint128"
             },
             {
-              "astId": 2800,
+              "astId": 3137,
               "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
               "label": "start",
               "offset": 16,
@@ -990,7 +992,7 @@
               "type": "t_uint64"
             },
             {
-              "astId": 2802,
+              "astId": 3139,
               "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
               "label": "expiry",
               "offset": 24,
@@ -998,7 +1000,7 @@
               "type": "t_uint64"
             },
             {
-              "astId": 2804,
+              "astId": 3141,
               "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
               "label": "limit",
               "offset": 0,
@@ -1006,7 +1008,7 @@
               "type": "t_uint128"
             },
             {
-              "astId": 2806,
+              "astId": 3143,
               "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
               "label": "spent",
               "offset": 16,
@@ -1030,7 +1032,7 @@
     "UpgradeGateway": {
       "storage": [
         {
-          "astId": 2445,
+          "astId": 2782,
           "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
           "label": "boundVault",
           "offset": 0,
@@ -1038,7 +1040,7 @@
           "type": "t_address"
         },
         {
-          "astId": 2448,
+          "astId": 2785,
           "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
           "label": "proxyAdmin",
           "offset": 0,
@@ -1046,12 +1048,12 @@
           "type": "t_address"
         },
         {
-          "astId": 2452,
+          "astId": 2789,
           "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
           "label": "_proposal",
           "offset": 0,
           "slot": "2",
-          "type": "t_struct(Proposal)3604_storage"
+          "type": "t_struct(Proposal)3941_storage"
         }
       ],
       "types": {
@@ -1070,13 +1072,13 @@
           "label": "bytes32",
           "numberOfBytes": "32"
         },
-        "t_struct(Proposal)3604_storage": {
+        "t_struct(Proposal)3941_storage": {
           "encoding": "inplace",
           "label": "struct IUpgradeGateway.Proposal",
           "numberOfBytes": "128",
           "members": [
             {
-              "astId": 3585,
+              "astId": 3922,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "nonce",
               "offset": 0,
@@ -1084,7 +1086,7 @@
               "type": "t_uint128"
             },
             {
-              "astId": 3588,
+              "astId": 3925,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "eta",
               "offset": 16,
@@ -1092,7 +1094,7 @@
               "type": "t_uint64"
             },
             {
-              "astId": 3591,
+              "astId": 3928,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "canceled",
               "offset": 24,
@@ -1100,7 +1102,7 @@
               "type": "t_bool"
             },
             {
-              "astId": 3594,
+              "astId": 3931,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "implementation",
               "offset": 0,
@@ -1108,7 +1110,7 @@
               "type": "t_address"
             },
             {
-              "astId": 3597,
+              "astId": 3934,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "dataHash",
               "offset": 0,
@@ -1116,7 +1118,7 @@
               "type": "t_bytes32"
             },
             {
-              "astId": 3600,
+              "astId": 3937,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "expiresAt",
               "offset": 0,
@@ -1124,7 +1126,7 @@
               "type": "t_uint64"
             },
             {
-              "astId": 3603,
+              "astId": 3940,
               "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
               "label": "consumed",
               "offset": 8,
@@ -1512,7 +1514,7 @@
       "offset_bytes": 0,
       "unit": "share raw18",
       "meaning": "aggregate escrow admission; immutable once settled",
-      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "writer": "Vault shared request helper implemented; settle/claim helpers remain stub",
       "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
       "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
     },
@@ -1524,7 +1526,7 @@
       "offset_bytes": 16,
       "unit": "share raw18",
       "meaning": "aggregate consumed rights, used for final dust completion",
-      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "writer": "Vault shared request helper implemented; settle/claim helpers remain stub",
       "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
       "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
     },
@@ -1536,7 +1538,7 @@
       "offset_bytes": 0,
       "unit": "stPROS raw18",
       "meaning": "immutable pre-settlement R numerator",
-      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "writer": "Vault shared request helper implemented; settle/claim helpers remain stub",
       "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
       "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
     },
@@ -1548,7 +1550,7 @@
       "offset_bytes": 16,
       "unit": "share raw18",
       "meaning": "immutable pre-settlement ERC20 totalSupply denominator",
-      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "writer": "Vault shared request helper implemented; settle/claim helpers remain stub",
       "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
       "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
     },
@@ -1560,7 +1562,7 @@
       "offset_bytes": 0,
       "unit": "stPROS raw18",
       "meaning": "O(1) unpaid epoch budget including unresolved floor dust; no independently withdrawable right",
-      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "writer": "Vault shared request helper implemented; settle/claim helpers remain stub",
       "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
       "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
     },
@@ -1572,7 +1574,7 @@
       "offset_bytes": 16,
       "unit": "UTC seconds/key",
       "meaning": "next nonempty unsettled node; zero sentinel",
-      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "writer": "Vault shared request helper implemented; settle/claim helpers remain stub",
       "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
       "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
     },
@@ -1584,7 +1586,7 @@
       "offset_bytes": 24,
       "unit": "enum uint8",
       "meaning": "Empty/Requested/Settled; maturity derived by time, completed data may be deleted",
-      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "writer": "Vault shared request helper implemented; settle/claim helpers remain stub",
       "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
       "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
     },
@@ -1763,7 +1765,7 @@
       "relative_slot": "37",
       "offset_bytes": 0,
       "unit": "mapping controller=>count",
-      "meaning": "normal request count only; never used to reject safe admission",
+      "meaning": "all live unique Positions; only ordinary new-position admission requires count < 24; safe never uses an admission limit",
       "writer": "Vault only; nested writers as specified",
       "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
       "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
@@ -2016,7 +2018,7 @@
       "offset_bytes": 0,
       "unit": "share raw18",
       "meaning": "sole entitlement for (controller,dueAt), combined before settlement",
-      "writer": "Vault shared request/claim helpers (stub)",
+      "writer": "Vault shared request helper implemented; claim helper remains stub",
       "reset_conditions": "delete after all requested shares consumed; no new request into settled epoch; event history only",
       "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
     },
@@ -2028,7 +2030,7 @@
       "offset_bytes": 16,
       "unit": "share raw18",
       "meaning": "cumulative consumed share amount; no burn or asset entitlement mirror",
-      "writer": "Vault shared request/claim helpers (stub)",
+      "writer": "Vault shared request helper implemented; claim helper remains stub",
       "reset_conditions": "delete after all requested shares consumed; no new request into settled epoch; event history only",
       "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
     },

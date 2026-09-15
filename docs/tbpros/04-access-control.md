@@ -6,7 +6,7 @@ Model A 已由用户确认：root trusted。以下是当前权限规范，替代
 | 入口 | 授权 | 延迟 / 暂停边界 |
 | --- | --- | --- |
 | safeRequestRedeem(q) | owner=msg.sender，controller=msg.sender | 无 pause；无operator/spender；不读Oracle/Reserve/余额，不付款 |
-| requestRedeem(q,c,o) | owner/operator/ERC20 allowance + controller规则 | complexRequestsPaused或Insolvency可阻止；复用同一 _requestAccounting |
+| requestRedeem(q,c,o) | owner直接；否则controller=owner，owner operator优先，其次OZ allowance | complexRequestsPaused或Insolvency可阻止；复用同一 _requestAccounting |
 | syncSolvency / restoreSolvency | anyone | 只依实际资产余额，无任意loss/clear参数；本地重入锁，无Oracle/Reserve/SLP |
 | checkpointYield | anyone | Solvent足额；当前有效收益价格、H足额、无成熟backlog；无资金补发权限 |
 | settleMaturedEpochs | anyone | 只在Solvent足额模式；无收益Oracle/Reserve/Keeper，最多12节点；Insolvency禁止burn |
@@ -22,7 +22,7 @@ Model A 已由用户确认：root trusted。以下是当前权限规范，替代
 
 Guardian 不持 TL CANCELLER。NAV 热钥不再决定“一次发一天”的收益数量；公共checkpoint使用已批准current-price realization，成功时点可改变stPROS数量。Gateway 锁覆盖所有带外部资金调用的入口；普通状态写入口仍共享本地 nonReentrant，避免回调改配置/转份额。safeRequest 没有 external calls，不需要进入外部 Gateway，仍受本地写锁防回调跨函数。
 
-**H-01 bounded admission**：当用户余额q>0、地址能发送上链交易、Gregorian时间有效时，safeRequest只执行本地检查、最多一次队列append/同epoch合并和内部share transfer，不扫历史、不付钱、不等TL。24 position上限必须只约束普通复杂请求；safe入口不得因24已满被拒，而应允许追加同一份账本中的第25个及以后节点。这不是绕过 escrow invariant：count不再是核心安全上限，所有链表操作仍O(1)。Lens分页仍<=24。用户自己承担存储gas，不能把满额变成冻结最后退出路径。
+**H-01 bounded admission**：当用户余额q>0、地址能发送上链交易、Gregorian时间有效时，safeRequest只执行本地检查、最多一次队列append/同epoch合并和内部share transfer，不扫历史、不付钱、不等TL。24 position上限只约束普通复杂请求创建新唯一Position，同Position合并不受限；safe入口不得因24已满被拒，而应允许追加同一份账本中的第25个及以后节点。这不是绕过 escrow invariant：count不再是核心安全上限，所有链表操作仍O(1)。Lens分页仍<=24。用户自己承担存储gas，不能把满额变成冻结最后退出路径。
 
 正常足额模式下，请求在严格下月1日进入成熟态（<=31天）后可由任意人结算；Insolvency不封safe登记，但停止settlement/Claim，不保证正常月度付款时限。**有界时间以公平 inclusion 为前提，不能给无条件区块秒数保证**；token可支付与root不恶意升级是Model A退出前提。unsafe Gregorian或生产未实现不能被probe中传epoch测试掩盖。
 
@@ -35,3 +35,20 @@ Guardian 不持 TL CANCELLER。NAV 热钥不再决定“一次发一天”的收
 setYieldRefundReceiver仅TL；closePlan只按13的客观结束条件及来源remaining，不提供补收益权限。APR_BPS=500不可用风险setter改变。普通ERC20 transfer/transferFrom/approve不checkpoint、不跑backlog。
 
 Guardian/TL没有setInsolvent、任意lossAmount或直接clear入口。纯配置、角色和既有延迟升级路径可用；任何需要经济checkpoint、改变资金分类/当前计划/付款的配置在mode中停止。Model A恶意root仍可换代码，INS-06仅描述诚实审查的当前实现。详16 selector矩阵。
+
+## 19 · 已冻结的 Request 授权与计数
+
+owner 是 share source；controller 拥有新增的月度赎回权利。
+
+| caller 分支（按优先级） | controller | allowance |
+| --- | --- | --- |
+| caller=owner | 可选择不同合法账户 | 不消耗 |
+| `operators[owner][caller]` | 必须=owner，否则 Unauthorized | 不消耗，即使已有额度 |
+| 其他 delegated caller | 必须=owner，否则 Unauthorized | OZ `_spendAllowance(owner,caller,shares)`；不足原子失败 |
+
+不从 controller 侧权限推导 owner 份额处置权限。owner/controller 不得为零或 Vault。
+safe 固定三者都是 caller，既不看 operator 也不扣 allowance。
+
+`openPositionCount` 记录所有 live unique Position，safe 可以读写用于统计。只有 ordinary
+**新建**时要求 count<24；任何来源的同月 merge 不重复计数，count>=24 也可 ordinary merge。
+未来 Claim 完成且删除 Position 才减一；本轮不实现 Claim，不新增 provenance 字段。

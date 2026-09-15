@@ -104,7 +104,7 @@ contract GatewayHarness is UpgradeGateway {
     }
 }
 
-contract CoreSkeletonTest is Test {
+abstract contract CoreFixture is Test {
     VaultHarness v;
     VaultHarness implementation;
     GatewayHarness gate;
@@ -117,12 +117,12 @@ contract CoreSkeletonTest is Test {
     address bob = address(0x1003);
     bytes32 constant ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103;
 
-    function setUp() public {
+    function setUp() public virtual {
         // This test contract stands for the authority solely for unit tests; no production TL claim.
         BrokenDependencies wpros = new BrokenDependencies(address(0));
         BrokenDependencies usdc = new BrokenDependencies(address(0));
         token = new BrokenDependencies(address(wpros));
-        gate = new GatewayHarness(address(this));
+        gate = _newGateway();
         sub = new ProsReserve(address(this), address(wpros), address(0xF0), IProsReserve.Purpose.Subscription);
         yieldReserve = new ProsReserve(address(this), address(wpros), address(0xF0), IProsReserve.Purpose.Yield);
         config.dependencies = T.Dependencies(
@@ -144,7 +144,7 @@ contract CoreSkeletonTest is Test {
         config.risk.maxFastFeeBps = 100;
         config.risk.fastFeeBps = 1;
         config.risk.maxPlanDuration = 365 days;
-        implementation = new VaultHarness();
+        implementation = _newImplementation();
         v = VaultHarness(
             address(
                 new TransparentUpgradeableProxy(
@@ -157,6 +157,16 @@ contract CoreSkeletonTest is Test {
         yieldReserve.bindVault(address(v));
     }
 
+    function _newImplementation() internal virtual returns (VaultHarness) {
+        return new VaultHarness();
+    }
+
+    function _newGateway() internal virtual returns (GatewayHarness) {
+        return new GatewayHarness(address(this));
+    }
+}
+
+contract CoreSkeletonTest is CoreFixture {
     function testActualProductionImplementationProxyInitializes() public {
         TbPROSVault prod = new TbPROSVault();
         // Fresh reserves/gateway are required for a second proxy binding candidate.
@@ -296,15 +306,15 @@ contract CoreSkeletonTest is Test {
         // Hook test does NOT claim the future queue/escrow accounting invariant is implemented.
     }
 
-    function testSafeHasOnlyLocalLockBeforeSkeleton() public {
+    function testSafeHasOnlyLocalLockAndEscrows() public {
         v.setTestMode(true);
-        v.setTestBacklogAndCount(alice);
+        v.seedShares(alice, 100);
         token.breakBalance();
         vm.prank(alice);
-        vm.expectRevert(ITbPROSVault.SkeletonOnly.selector);
-        v.safeRequestRedeem(10);
-        assertEq(v.openPositionCount(alice), 25);
-        assertEq(v.totalSupply(), 0);
+        uint64 dueAt = v.safeRequestRedeem(10);
+        assertEq(v.openPositionCount(alice), 1);
+        assertEq(v.position(alice, dueAt).requestedShares, 10);
+        assertEq(v.totalSupply(), 100);
     }
 
     function testModeCheckedBeforeBackingAndProgress() public {
@@ -331,26 +341,24 @@ contract CoreSkeletonTest is Test {
     function testFinancialEndpointsExplicitlyUnimplemented() public {
         v.unpause();
         v.setRequestsPaused(false);
-        bytes[] memory calls = new bytes[](19);
+        bytes[] memory calls = new bytes[](17);
         calls[0] = abi.encodeCall(v.subscribe, (1, 1));
         calls[1] = abi.encodeCall(v.fastRedeem, (1, 0));
         calls[2] = abi.encodeCall(v.claimRedeem, (uint64(1), 1, alice, alice));
         calls[3] = abi.encodeCall(v.checkpointYield, ());
         calls[4] = abi.encodeCall(v.settleMaturedEpochs, (1));
-        calls[5] = abi.encodeCall(v.safeRequestRedeem, (1));
-        calls[6] = abi.encodeCall(v.requestRedeem, (1, alice, alice));
-        calls[7] = abi.encodeCall(v.syncSolvency, ());
-        calls[8] = abi.encodeCall(v.restoreSolvency, ());
-        calls[9] = abi.encodeCall(v.fundPlan, (1, T.PlanTerms(100, 1, 2)));
-        calls[10] = abi.encodeCall(v.activatePlan, (uint128(1)));
-        calls[11] = abi.encodeCall(v.closePlan, (uint128(1)));
-        calls[12] = abi.encodeCall(v.schedulePenaltyPlan, (1, T.PlanTerms(100, 1, 2)));
-        calls[13] = abi.encodeCall(v.syncSurplus, (1));
-        calls[14] = abi.encodeCall(v.setPrincipalCap, (uint128(100)));
-        calls[15] = abi.encodeCall(v.tightenMintLossBound, (uint16(1)));
-        calls[16] = abi.encodeCall(v.setFastFee, (uint16(1)));
-        calls[17] = abi.encodeCall(v.setMaxPlanDuration, (uint64(100)));
-        calls[18] = abi.encodeCall(v.setBucketConfig, (uint8(0), T.BucketConfig(1, 1)));
+        calls[5] = abi.encodeCall(v.syncSolvency, ());
+        calls[6] = abi.encodeCall(v.restoreSolvency, ());
+        calls[7] = abi.encodeCall(v.fundPlan, (1, T.PlanTerms(100, 1, 2)));
+        calls[8] = abi.encodeCall(v.activatePlan, (uint128(1)));
+        calls[9] = abi.encodeCall(v.closePlan, (uint128(1)));
+        calls[10] = abi.encodeCall(v.schedulePenaltyPlan, (1, T.PlanTerms(100, 1, 2)));
+        calls[11] = abi.encodeCall(v.syncSurplus, (1));
+        calls[12] = abi.encodeCall(v.setPrincipalCap, (uint128(100)));
+        calls[13] = abi.encodeCall(v.tightenMintLossBound, (uint16(1)));
+        calls[14] = abi.encodeCall(v.setFastFee, (uint16(1)));
+        calls[15] = abi.encodeCall(v.setMaxPlanDuration, (uint64(100)));
+        calls[16] = abi.encodeCall(v.setBucketConfig, (uint8(0), T.BucketConfig(1, 1)));
         for (uint256 i; i < calls.length; ++i) {
             (bool ok, bytes memory result) = address(v).call(calls[i]);
             assertFalse(ok);

@@ -32,3 +32,5 @@ shared source identity, proposal expiry/non-replay, uint256 aggregate bounds and
 Fraction-based conservative risk reconfiguration. Full discovery now runs 85
 tests (76 retained + 9 new). These are schema/reference results, not production
 money logic or Gateway execution. See `docs/tbpros/18-core-skeleton-hardening.md`.
+
+Request增量独立参考：`request_accounting_model.py` 使用Python datetime、事务副本提交和dictionary聚合，覆盖授权、计数、碎片化和随机序列；不声称真实依赖fork或完整赎回实现。

@@ -709,10 +709,11 @@ separate gates. No full funds logic or deployment is authorized by that stage.
 
 # 29. Core skeleton boundary
 
-Current production-shaped sources freeze inheritance, namespace, ABI and compile
-baseline only. All financial/request/incident business endpoints and Reserve /
-Gateway business operations remain explicit SkeletonOnly. Do not describe safe
-request or restore as operational until their complete state transitions exist.
+Document 19 authorizes only Request Accounting beyond the hardened skeleton.
+safeRequestRedeem/requestRedeem share the implemented request writer and local
+escrow. All other financial/incident business endpoints and Reserve/Gateway
+business operations remain explicit SkeletonOnly. Request admission is not
+settlement, Claim, restore, or a complete cash exit.
 S is only OZ totalSupply. Do not create an independent supply/H/Claim ledger.
 
 Use the isolated FOUNDRY_PROFILE=tbpros and hardhat.tbpros.config.ts profiles;
@@ -720,9 +721,10 @@ solc0.8.28, optimizer200, viaIR=false, Cancun. Preserve abi-v1.json and
 storage-layout-v1.json as upgrade baselines. Schema diffs must inspect nested
 mapping values and fixed-array stride, not just ordinary forge storage output.
 Any future business increment must remeasure runtime against 20,480 bytes.
-Current skeleton has only 5,018 bytes headroom; no full-business size promise.
-This authorized stage ends after the skeleton freeze; do not autonomously
-continue complete business implementation.
+The hardened pre-request baseline had 6,244 bytes headroom; document 19 and the
+latest local checks record the measured increment. No full-business size promise.
+This authorized stage ends after Request Accounting; do not autonomously continue
+other business implementation.
 
 # 30. English code documentation (permanent)
 
@@ -792,3 +794,24 @@ production logic, Reserve/Gateway, Subscription, Redemption/Claim, Yield/Fast,
 Release Candidate, Pre-audit and Pre-deployment. Users may request a run at any
 time. Future dependency installation fixes must use public HTTPS and reproducible
 resolution, not private SSH credentials.
+
+# 33. Request authorization and unified position counting
+
+Owner supplies shares; controller owns the resulting (controller, dueAt) right.
+Owner may directly choose another valid controller, without spending allowance.
+For delegated requests, controller MUST equal owner or revert Unauthorized.
+Check operators[owner][caller] first; custom operators never consume allowance.
+Only otherwise use OZ _spendAllowance(owner, caller, shares). Controller-side-only
+permission never authorizes movement of another owner's shares. Reject zero or
+Vault owner/controller. Both request entries retain the local nonReentrant guard.
+
+openPositionCount counts ALL live unique Positions. A new Position uses checked
+uint128 increment; merges never increment. Only an ordinary NEW Position requires
+count < 24. Safe may read/update count for bookkeeping but never uses it as an
+admission limit. Future lawful Claim completion/deletion decrements once; Request
+never decrements. Do not add provenance flags or a second claim representation.
+
+Safe performs no dependency call, mode/pause check, asset-balance read, Gateway
+interaction or backlog barrier. Ordinary retains normalState's existing stPROS
+balanceOf STATICCALL and requestsOpen; no additional dependency is introduced.
+Strict next UTC month and O(1) queue admission share the existing MonthMath.

@@ -6,9 +6,9 @@
 
 当前以[16 Insolvency Freeze](16-insolvency-mode-architecture-freeze.md)为准：正常自动吸损F→H，穿透则进入客观Insolvency Mode；无live R/P haircut。LOSS-MATH-01按产品范围缩减关闭，Core READY；APR已关闭，DEP-01仍为生产集成门槛，Production NO-GO。
 
-当前结构入口：[18 · Core Skeleton Hardening](18-core-skeleton-hardening.md)。58个Vault函数、独立ABI DTO、每plan冻结Ucap、proxy initial-only YEAR、proposal expiry。实际runtime14,236 bytes，剩6,244；31项结构/schema测试、64项历史回归、85项Python测试通过。自动ABI/storage/selector/size/NatSpec guard已加入；业务均保持SkeletonOnly。Core Skeleton HARDENED / READY FOR INCREMENTAL CORE LOGIC / Production NO-GO。[17](17-core-skeleton-freeze.md)保留为旧基线。
+18轮历史结构基线：[18 · Core Skeleton Hardening](18-core-skeleton-hardening.md)。58个Vault函数、独立ABI DTO、每plan冻结Ucap、proxy initial-only YEAR、proposal expiry。实际runtime14,236 bytes，剩6,244；31项结构/schema测试、64项历史回归、85项Python测试通过。自动ABI/storage/selector/size/NatSpec guard已加入；该轮业务均保持SkeletonOnly。Core Skeleton HARDENED / READY FOR INCREMENTAL CORE LOGIC / Production NO-GO。[17](17-core-skeleton-freeze.md)保留为旧基线。
 
-当前Request增量状态：[19 · Request Accounting preflight](19-request-accounting-implementation.md)为 **REQUEST ACCOUNTING BLOCKED**：ordinary授权矩阵和Position计数语义待明确。未修改生产代码，safe/ordinary仍stub，不能视为最小赎回准入已完成。
+当前Request增量：[19 · Request Accounting](19-request-accounting-implementation.md)。用户已裁决owner/operator/allowance优先级及全体live Position统一计数；两个Request selector现有完整登记与内部escrow实现。REQUEST ACCOUNTING IMPLEMENTED / VERIFIED；61 Core、64历史回归、90 Python及全部guards通过；Vault runtime16,737，剩3,743 bytes。实际验证见[本地摘要](verification/latest-local-checks.md)。其他业务仍stub，不能视为完整赎回。
 
 ## 建议审阅顺序
 
@@ -46,7 +46,7 @@
 - [固定区块Pharos probe](verification/pharos-fork-output.txt)：4项通过；1153节点执行支持已验，真实目标SLP版本缺失仍BLOCKED。
 - [16轮验证记录](verification/insolvency-test-results.json)及[Mode packing实验](verification/insolvency-storage-layout.json)。A/B/C原源码与15轮hash一致；旧C硬验收FAIL是保留的negative evidence，不是当前Core gate。
 
-模型成功不能替代生产I01..24/E01..05全量stateful、V1自定义ABI/未支持ID负向测试、完整目标依赖Pharos fork、storage升级兼容、gas/bytecode、ownership handoff与外审。**18轮完成后停留在Core Skeleton Hardening，不自动开始完整业务Solidity实现。**
+模型成功不能替代生产I01..24/E01..05全量stateful、V1自定义ABI/未支持ID负向测试、完整目标依赖Pharos fork、storage升级兼容、gas/bytecode、ownership handoff与外审。**当前授权止于19轮Request Accounting，不自动继续其他业务。**
 
 ## 增量开发验证节奏
 

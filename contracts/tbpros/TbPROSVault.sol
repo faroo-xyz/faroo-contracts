@@ -10,9 +10,10 @@ import {IStPROS} from "./interfaces/IStPROS.sol";
 import {IUpgradeGateway} from "./interfaces/IUpgradeGateway.sol";
 import {IProsReserve} from "./interfaces/IProsReserve.sol";
 import {TbPROSTypes as T} from "./TbPROSTypes.sol";
+import {MonthMath} from "./libraries/MonthMath.sol";
 import {TbPROSStorage as S} from "./TbPROSStorage.sol";
 
-/// @notice STORAGE / ABI SKELETON ONLY. No production funds operation is implemented.
+/// @notice Share request accounting with local escrow; other financial operations remain explicit skeletons.
 contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGuardTransient, ITbPROSVault {
     /// @notice OZ role for emergency pause tightening only; Timelock appoints/revokes.
     bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
@@ -207,18 +208,77 @@ contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGu
         if (from == address(0) && value > type(uint128).max - totalSupply()) revert InvalidAmount();
         super._update(from, to, value);
     }
-    /// @dev Only the future shared request accounting helper may call this, after recording rights.
-    /// No external calls, extra token or writable bypass flag. A test-only harness exercises it.
+    /// @dev Move raw18 shares through OZ storage after recording the unique request right. No burn,
+    /// external callback or persistent bypass flag; insufficient balance reverts all earlier writes.
 
-    /// @dev Move shares internally into Vault escrow without burning or an external call. Only the future common request helper may call after recording the unique right; reject zero/self owner or zero amount. No writable bypass flag.
     function _escrowShares(address owner, uint256 shares) internal {
         if (owner == address(0) || owner == address(this) || shares == 0) revert InvalidAmount();
         super._update(owner, address(this), shares);
     }
 
-    /// @dev SKELETON ONLY. Future sole request writer records one controller/month share right then internally escrows; no burn or U/B change, Oracle/Reserve/balance call, or second queue. Safe caller authorization is fixed by its entry point.
-    function _requestAccounting(address, address, uint256) internal pure returns (uint64) {
-        revert SkeletonOnly();
+    /// @dev Sole request writer: one controller/month right, no burn or asset calculation and no
+    /// change to S/U/B/R/P/F/H/C. Strict-next-month keys must exceed the settlement watermark.
+    /// Queue admission/merge is O(1), without settling or scanning backlog. All live unique positions
+    /// count; only ordinary NEW positions face the approved limit of 24. Safe has no count limit.
+    /// Checked raw18 additions do not round. Rights/count/queue are written before internal OZ escrow;
+    /// any failure rolls back those writes and allowance spending. No external dependency is called.
+    /// @param owner Share source; safe fixes this to caller.
+    /// @param controller Recipient of the sole share right; only owner may choose a different recipient.
+    /// @param shares Nonzero raw18 shares, checked into uint128 and against the owner's OZ balance.
+    /// @param safe True only for the owner-only entry, bypassing delegated authority and count admission.
+    /// @return Strict next UTC month timestamp identifying the shared epoch.
+    function _requestAccounting(address owner, address controller, uint256 shares, bool safe)
+        internal
+        returns (uint64)
+    {
+        if (shares == 0) revert InvalidAmount();
+        if (owner == address(0) || controller == address(0) || owner == address(this) || controller == address(this)) {
+            revert InvalidAddress();
+        }
+        uint128 amount = SafeCast.toUint128(shares);
+        uint64 dueAt = MonthMath.nextMonth(SafeCast.toUint64(block.timestamp));
+        S.Layout storage s = S.layout();
+        if (!safe && msg.sender != owner) {
+            // Disposition authority comes from owner, never merely from the entitlement controller.
+            if (controller != owner) revert Unauthorized();
+            if (!s.operators[owner][msg.sender]) _spendAllowance(owner, msg.sender, shares);
+        }
+        _admitRequestEpoch(s, dueAt);
+        S.Position storage p = s.positions[controller][dueAt];
+        if (p.requestedShares == 0) {
+            if (!safe && s.openPositionCount[controller] >= 24) revert InvalidState();
+            s.openPositionCount[controller] += 1;
+        }
+        p.requestedShares += amount;
+        s.epochs[dueAt].totalRequestedShares += amount;
+        _escrowShares(owner, shares);
+        return dueAt;
+    }
+
+    /// @dev Admit one nonempty Requested epoch without reading the backlog. Reject settled/replayed
+    /// keys, backwards time and inconsistent local endpoints. Same-tail merges never append a node;
+    /// a later Empty epoch links only the old tail. Settlement terms and watermark remain untouched.
+    /// @param s Authoritative namespaced state, never a second ledger.
+    /// @param dueAt Strict next UTC month key, greater than the persistent settlement watermark.
+    function _admitRequestEpoch(S.Layout storage s, uint64 dueAt) private {
+        if (dueAt <= s.lastSettledDueAt) revert InvalidEpoch();
+        S.Epoch storage e = s.epochs[dueAt];
+        if (e.status == S.EpochStatus.Settled) revert AlreadySettled();
+        uint64 tail = s.queueTail;
+        if (tail == 0) {
+            if (s.queueHead != 0 || e.status != S.EpochStatus.Empty) revert InvalidEpoch();
+            s.queueHead = dueAt;
+        } else {
+            if (s.queueHead == 0 || dueAt < tail) revert InvalidEpoch();
+            S.Epoch storage previous = s.epochs[tail];
+            if (previous.status != S.EpochStatus.Requested || previous.nextDueAt != 0) revert InvalidEpoch();
+            if (dueAt == tail) return;
+            if (e.status != S.EpochStatus.Empty) revert InvalidEpoch();
+            previous.nextDueAt = dueAt;
+        }
+        e.status = S.EpochStatus.Requested;
+        e.nextDueAt = 0;
+        s.queueTail = dueAt;
     }
 
     /// @notice Subscribes with USDC and receives tbPROS shares backed by actual stPROS.
@@ -238,19 +298,21 @@ contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGu
     }
 
     /// @notice Registers the caller's shares in the sole monthly redemption queue.
-    /// @dev SKELETON ONLY: shared request helper reverts. Future admission escrows without burning, forces caller as owner/controller, and ignores pause, insolvency, backlog and normal position limits. No Oracle, Reserve, Gateway or asset-balance call.
+    /// @dev Escrows without burning, forces caller as owner/controller, and ignores pause, insolvency, backlog and ordinary new-position limits. Counts every new unique Position, never limiting safe admission. No Oracle, Reserve, Gateway or asset-balance call.
     /// @param shares tbPROS shares in raw18 for this operation.
-    /// @return UTC monthly epoch key; unreachable in this skeleton.
+    /// @return Strict next UTC month key for this request.
     function safeRequestRedeem(uint256 shares) external nonReentrant returns (uint64) {
-        return _requestAccounting(msg.sender, msg.sender, shares);
+        uint64 dueAt = _requestAccounting(msg.sender, msg.sender, shares, true);
+        emit SafeRedeemRequested(msg.sender, dueAt, shares);
+        return dueAt;
     }
 
     /// @notice Registers an authorized owner's shares for monthly redemption.
-    /// @dev SKELETON ONLY: uses the same helper as safe admission. Future implementation checks controller/operator/allowance authority and escrows without changing S/U/B; normal mode and complex-request pause guards apply.
+    /// @dev Uses the same request writer as safe admission. Owner may choose another controller; delegated callers must keep controller equal to owner. Owner operator authorization precedes OZ allowance spending. Normal mode checks actual stPROS backing by STATICCALL before request writes; complex-request pause applies. No funds interaction, burn or S/U/B change.
     /// @param shares tbPROS shares in raw18 for this operation.
     /// @param controller Account owning the custom redemption entitlement.
     /// @param owner Account whose tbPROS shares are escrowed or transferred.
-    /// @return UTC monthly epoch key; unreachable in this skeleton.
+    /// @return Strict next UTC month key for this request.
     function requestRedeem(uint256 shares, address controller, address owner)
         external
         nonReentrant
@@ -258,7 +320,9 @@ contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGu
         requestsOpen
         returns (uint64)
     {
-        return _requestAccounting(owner, controller, shares);
+        uint64 dueAt = _requestAccounting(owner, controller, shares, false);
+        emit RedeemRequested(owner, controller, dueAt, shares);
+        return dueAt;
     }
 
     /// @notice Commits objective F/H deficit absorption and, if necessary, insolvency entry.
@@ -475,7 +539,7 @@ contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGu
     }
 
     /// @notice Sets the caller's custom request/claim delegation.
-    /// @dev Reject zero or self operator. Writes only this controller's authorization; this is not an ERC20 allowance or a second claim right.
+    /// @dev Reject zero or self operator. Writes caller-owned delegation: request operators may consume caller shares only into caller rights; future claim delegation controls caller rights. This is not ERC20 allowance or a second right.
     /// @param operator Account delegated custom redemption authority.
     /// @param approved Whether the caller grants that delegation.
     function setOperator(address operator, bool approved) external nonReentrant {
@@ -607,7 +671,7 @@ contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGu
     }
 
     /// @notice Returns the controller's current position count.
-    /// @dev Normal admission may use an approved bound; safe admission must not fail because this count is full.
+    /// @dev Counts all live unique Positions, including safe-created rights. Only ordinary new-position admission requires count < 24; merges do not increment and safe never applies that limit.
     /// @param controller Account owning the custom redemption entitlement.
     /// @return Current controller position count.
     function openPositionCount(address controller) external view returns (uint128) {
@@ -622,7 +686,7 @@ contract TbPROSVault is ERC20Upgradeable, AccessControlUpgradeable, ReentrancyGu
     }
 
     /// @notice Returns custom delegation from a controller to an operator.
-    /// @dev Read-only authorization for future delegated paths; distinct from ERC20 allowance.
+    /// @dev Request checks the share owner here and gives operator authority priority over ERC20 allowance; future Claim checks the right controller.
     /// @param controller Account owning the custom redemption entitlement.
     /// @param operator Account delegated custom redemption authority.
     /// @return Whether custom delegation is enabled.

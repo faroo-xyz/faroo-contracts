@@ -84,7 +84,7 @@ Core namespace为`faroo.tbpros.storage.Core`，ERC-7201公式实算地址：
 | lastSettledDueAt | 34 | 单调结算高水位 | 删除完成epoch后仍防重新结算；不是可任意重设的epoch price |
 | epochs | 35 | mapping(uint64 dueAt=>Epoch) | dueAt即唯一epochId；严格下一UTC月初，无重复时间字段 |
 | positions | 36 | mapping(controller=>dueAt=>Position) | 一份share权利；完成后delete，无第二asset提款余额 |
-| openPositionCount | 37 | mapping(controller=>uint128) | 仅普通复杂请求count；safe不读它，24不成为安全上限 |
+| openPositionCount | 37 | mapping(controller=>uint128) | 历史解释已由19覆盖：所有live unique Position统一计数；safe可读写，24只限ordinary新建 |
 | operators | 38 | mapping(controller=>operator=>bool) | 用户授权，只供custom request/claim；不替代ERC20 allowance |
 
 `S`只对应OZ `_totalSupply/totalSupply()`，不在Core另存。S的存储类型仍为OZ uint256；未来mint入口和已实现_update的mint边界共同维持协议uint128金额域。

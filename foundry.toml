@@ -18,3 +18,8 @@ fs_permissions = [{ access = "read", path = "reference/tbpros/calendar-fixtures.
 
 [profile.tbpros.fuzz]
 runs = 1024
+
+[profile.tbpros.invariant]
+runs = 128
+depth = 64
+fail_on_revert = true

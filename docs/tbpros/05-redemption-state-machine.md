@@ -4,9 +4,9 @@
 
 ## 最小退出路径
 
-`safeRequestRedeem(uint256 shares)` 不接owner/controller/epoch参数；全部由msg.sender与MonthMath派生。入口仅本地写锁、非零余额检查、严格下一UTC月初、调用唯一`_requestAccounting(owner,controller,q,epoch)`。无Oracle、Reserve、asset payout、外部资金交互或Gateway调用，不读两个pause，不执行matured backlog barrier，也不因普通位置数限制失败。
+`safeRequestRedeem(uint256 shares)` 不接owner/controller/epoch参数；全部由msg.sender与MonthMath派生。入口仅本地写锁、非零余额检查、严格下一UTC月初、调用唯一`_requestAccounting(owner,controller,q,safe)（helper内部派生dueAt）`。无Oracle、Reserve、asset payout、外部资金交互或Gateway调用，不读两个pause，不执行matured backlog barrier，也不因普通位置数限制失败。
 
-共享同一Epoch/Position/escrow；普通复杂请求可受pause/计数限制，safe不得另建逃生queue。regression ExitModel由测试注入epoch，不能作为生产ABI。前端之外用户应能直接调用settleMaturedEpochs/claimRedeem，不依赖Keeper。
+共享同一Epoch/Position/escrow；普通复杂请求受normalState及request pause；仅新Position受24计数上限，safe不得另建逃生queue。regression ExitModel由测试注入epoch，不能作为生产ABI。前端之外用户应能直接调用settleMaturedEpochs/claimRedeem，不依赖Keeper。
 
 ## 正常状态机与时间顺序
 
@@ -54,3 +54,13 @@ fastFeeBps与hard maximum需校准及明确批准，不推定0或任何非零值
 普通share转让不checkpoint。唯一Claim入口claimRedeem(epoch,q,receiver,controller)，独立checkpointYield()与settleMaturedEpochs(maxNodes)；删除redeem别名、额外settle便利别名和adminCatchUp，保留上述独立settlement入口。事件使用RedeemRequested/SafeRedeemRequested/EpochSettled/RedeemClaimed/FastRedeemed。yield依赖当前有效价格；settlement/locked Claim不依赖收益价格。APR-01已关闭，详见14。
 
 [16 Insolvency Freeze](16-insolvency-mode-architecture-freeze.md)正式替代实时haircut范围；LOSS-MATH-01 CLOSED BY PRODUCT SCOPE REDUCTION，Core READY，Production NO-GO。15保留历史反例，不恢复其阻断结论。
+
+## 19 · Requested 已实现范围
+
+两个 Request 共用一份 `(controller,dueAt)` 权利。safe/ordinary 初建都增加全体live Position计数，
+交叉merge只增加shares；ordinary count>=24可merge但不能新建，safe没有该准入上限。
+授权优先级与controller限制见[04](04-access-control.md)。Empty→Requested；Requested同月合并；
+Settled、dueAt<=watermark或dueAt<tail拒绝。新月只链接旧tail，不推进matured backlog。
+Escrow不足回滚Position、Epoch、queue、count及本次allowance消费；成功事件shares为本次增量。
+
+Settlement/Claim仍SkeletonOnly。safe成功只表示最小赎回登记完成，不代表已兑现资产或实现付款时限。

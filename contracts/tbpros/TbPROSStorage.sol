@@ -184,7 +184,7 @@ library TbPROSStorage {
         mapping(uint64 dueAt => Epoch) epochs;
         /// @dev single share right, no caller-supplied asset balance. Units: mapping controller=>dueAt=>Position.
         mapping(address controller => mapping(uint64 dueAt => Position)) positions;
-        /// @dev normal request count only; never used to reject safe admission. Units: mapping controller=>count.
+        /// @dev all live unique Positions; only ordinary new-position admission is limited; never used to reject safe admission. Units: mapping controller=>count.
         mapping(address controller => uint128) openPositionCount;
         /// @dev explicit delegated custom request/claim authority. Units: mapping controller=>operator=>bool.
         mapping(address controller => mapping(address operator => bool)) operators;
