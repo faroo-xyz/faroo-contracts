@@ -45,3 +45,9 @@
 - [16轮验证记录](verification/insolvency-test-results.json)及[Mode packing实验](verification/insolvency-storage-layout.json)。A/B/C原源码与15轮hash一致；旧C硬验收FAIL是保留的negative evidence，不是当前Core gate。
 
 模型成功不能替代生产I01..24/E01..05全量stateful、V1自定义ABI/未支持ID负向测试、完整目标依赖Pharos fork、storage升级兼容、gas/bytecode、ownership handoff与外审。**18轮完成后停留在Core Skeleton Hardening，不自动开始完整业务Solidity实现。**
+
+## 增量开发验证节奏
+
+GitHub Actions暂时仅手动触发，所有guards保留；每个production Solidity/storage/ABI/tests改动的commit在提交前仍必须完整跑本地 `TBPROS_SOLC=<exact-solc-0.8.28-path> bash tools/tbpros/ci.sh`，并更新[latest-local-checks.md](verification/latest-local-checks.md)。不提交大量临时cache/log，不把失败写为PASS。
+
+当前hosted记录：`ebab5d7` 已尝试运行，在 `pnpm install --frozen-lockfile` 因forge-std SSH URL及runner缺少SSH key失败，后续协议验证未执行（用户提供记录）。GitHub hosted execution attempted; dependency installation failed before protocol verification steps. 进入audit、release candidate、deployment前或用户要求时必须再次执行hosted检查；其余手动milestones见[18](18-core-skeleton-hardening.md)。

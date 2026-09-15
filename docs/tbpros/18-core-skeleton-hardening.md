@@ -24,7 +24,7 @@ PRODUCTION NO-GO
 | public ABI 直接引用 storage struct | 独立 TbPROSTypes + 明确复制，删除四个 full getter | 真实 D/F variant、wire/storage snapshots |
 | Q 上界证明错误 | 从“四个 uint128 桶”修正为七个 uint128 项 | 最大边界 + fuzz + Python 大整数 |
 | runtime 15,462，余量有限 | 14,236，减少 1,226；仍有体积压力 | 同 solc/profile 双工具链和 variant builds |
-| 本地报告没有自动拒绝漂移机制 | CI 脚本、GitHub Actions、五项负向控制 | 本地完整 CI 等价命令通过；远端 job 未运行 |
+| 本地报告没有自动拒绝漂移机制 | CI 脚本、GitHub Actions、五项负向控制 | 本地完整 CI 等价命令通过；hosted已尝试，依赖安装失败，协议验证未执行 |
 | 后续代码缺少统一审计注释要求 | root router + 完整永久 English NatSpec rule | 改动组件人工检查 + compiler AST gate |
 
 ## B. Gateway deadline decision
@@ -185,7 +185,7 @@ APR numerator：U≤A、elapsed≤2^64−1、YEAR正uint64、carry<10000×YEAR�
 
 ## J. CI status
 
-新增 [.github/workflows/tbpros-skeleton.yml](../../.github/workflows/tbpros-skeleton.yml)，PR/push/workflow_dispatch自动运行，read-only permissions，不用RPC/private key secret、不部署。[ci.sh](../../tools/tbpros/ci.sh)是本地等价入口，使用安装好的精确0.8.28编译器：
+新增 [.github/workflows/tbpros-skeleton.yml](../../.github/workflows/tbpros-skeleton.yml)，增量开发阶段仅保留 `workflow_dispatch`，移除 push/pull_request 自动触发；所有 job/step/guard 保留。这只是 hosted execution cadence change，验证要求不降低。read-only permissions，不用RPC/private key secret、不部署。[ci.sh](../../tools/tbpros/ci.sh)是本地等价入口，使用安装好的精确0.8.28编译器：
 
 ```sh
 TBPROS_SOLC=/absolute/path/to/solc-0.8.28 bash tools/tbpros/ci.sh
@@ -203,11 +203,15 @@ TBPROS_SOLC=/absolute/path/to/solc-0.8.28 bash tools/tbpros/ci.sh
 | Runtime/initcode hard limits | PASS | 20,480 Vault不抬限，业务总gas未验 |
 | English comments | PASS | 121个本地compiler function AST occurrence；修改/新增生产文件的函数、helper、struct/field、enum、event/error、modifier检查 |
 | Guard拒绝能力 | PASS | 人为ABI漂移、storage漂移、20,481-byte超限、deposit selector、缺NatSpec均被拒绝；finally恢复原文件 |
-| GitHub hosted execution | **NOT RUN** | workflow已加入；无推送、无远端job成功声明 |
+| GitHub hosted execution | **FAIL — dependency installation** | GitHub hosted execution attempted; dependency installation failed before protocol verification steps. |
 
-[负向控制记录](verification/hardening-guard-negative-controls.json)、[本轮证据汇总](verification/hardening-test-results.json)。CI选用固定Foundry v1.3.6；本地安装的是0.3.0(5a8bd89)，同solc及profile的本地流程已跑通，Linux runner仍需首次托管验证。workflow输入依据官方[Foundry toolchain action](https://github.com/foundry-rs/foundry-toolchain/blob/master/action.yml)、[pnpm action](https://github.com/pnpm/action-setup/blob/master/action.yml)；不把工具链安装成功预先当成证据。
+[负向控制记录](verification/hardening-guard-negative-controls.json)、[本轮证据汇总](verification/hardening-test-results.json)。CI选用固定Foundry v1.3.6；本地安装的是0.3.0(5a8bd89)，同solc及profile的本地流程已跑通，`ebab5d794bade22353211899f6554ded6cafc11f` 的 hosted run 已在 `pnpm install --frozen-lockfile` 失败（用户提供的运行记录）：forge-std被解析为 `git@github.com:foundry-rs/forge-std.git`，runner没有SSH key。后续协议检查未执行，因此不是Solidity/test failure；不能记为hosted通过或从未尝试。未来修复须使用public HTTPS及可复现依赖解析，不要求私有SSH凭证。本轮没有修复依赖安装或重新触发hosted run。workflow输入依据官方[Foundry toolchain action](https://github.com/foundry-rs/foundry-toolchain/blob/master/action.yml)、[pnpm action](https://github.com/pnpm/action-setup/blob/master/action.yml)；不把工具链安装成功预先当成证据。
 
 English永久规则已写入两份AGENTS。所有本轮改动生产组件均补英文NatSpec：未来stub职责、units、经济字段/来源、mode隔离、数学floor/carry及外部锁顺序。自动gate检查结构覆盖，不替代人工审阅语义；本轮同时检查无中文生产注释、无旧YEAR/global Ucap/fullgetter描述继续误导。保留未使用stub参数的编译警告，用具名参数支持可审阅NatSpec；无compile errors。
+
+后续每个修改production Solidity/storage/ABI/tests的commit，提交前仍须完整执行上面的本地命令，并更新[latest-local-checks.md](verification/latest-local-checks.md)。只保存简洁摘要，临时日志留在ignored cache；失败明确记FAIL，禁止通过改snapshot、删回归、抬limit、改编译profile或隐藏warning/error绕过。摘要记录真实source revision，不预填未来commit hash。
+
+建议手动hosted milestones：Core Request Accounting complete、Insolvency production logic complete、Reserve/Gateway complete、Subscription complete、Redemption/Claim complete、Yield/Fast complete、Release Candidate、Pre-audit、Pre-deployment。进入audit、release candidate、deployment前或用户要求时，hosted CI重新成为必需验证；用户随时可手动触发。
 
 ## K. Ready for Business Logic?
 

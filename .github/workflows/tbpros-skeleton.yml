@@ -1,31 +1,6 @@
 name: tbPROS skeleton guards
+# Incremental development: hosted cadence only; every local verification gate remains mandatory.
 on:
-  pull_request:
-    paths:
-      - 'contracts/tbpros/**'
-      - 'test/tbpros/**'
-      - 'reference/**'
-      - 'tools/tbpros/**'
-      - 'docs/tbpros/**'
-      - 'foundry.toml'
-      - 'hardhat.tbpros.config.ts'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - '**/AGENTS.md'
-      - '.github/workflows/tbpros-skeleton.yml'
-  push:
-    paths:
-      - 'contracts/tbpros/**'
-      - 'test/tbpros/**'
-      - 'reference/**'
-      - 'tools/tbpros/**'
-      - 'docs/tbpros/**'
-      - 'foundry.toml'
-      - 'hardhat.tbpros.config.ts'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - '**/AGENTS.md'
-      - '.github/workflows/tbpros-skeleton.yml'
   workflow_dispatch:
 permissions:
   contents: read

@@ -757,3 +757,38 @@ terms. IDs are allocated by the protocol. Global Policy.uCap is reserved legacy
 storage and must never be reused or interpreted as live coverage. Q is uint256,
 bounded by 7 * (2^128 - 1), not four uint128 buckets. Gateway proposals have an
 inclusive eta/expiresAt execution window and are consumed before interaction.
+
+# 32. Incremental development verification cadence
+
+During incremental development, GitHub hosted CI may be manual-only to conserve
+runner quota. This does not relax verification requirements.
+
+Every substantive tbPROS Solidity change MUST run the complete local verification
+suite before being presented as passing, and MUST update the concise local
+verification summary.
+
+Hosted CI becomes mandatory again before audit, release candidate, deployment,
+or whenever the user requests it.
+
+Before each commit changing production Solidity, storage, ABI or tests, run:
+`TBPROS_SOLC=<exact-solc-0.8.28-path> bash tools/tbpros/ci.sh`.
+Keep solc 0.8.28, optimizer 200, viaIR=false and Cancun. Do not skip build,
+unit tests, historical security regressions (including negative models), Python
+references, ABI/storage snapshots, forbidden selectors, bytecode limits or
+English NatSpec guards.
+
+Update `docs/tbpros/verification/latest-local-checks.md` with actual results,
+compiler/profile, source revision or hashes, all runtime/headroom values,
+ABI/storage/product changes and known warnings/limitations. Keep routine logs in
+ignored cache; do not add bulk temporary logs to commits. Do not invent a future
+commit hash or claim a post-commit rerun that did not happen.
+
+A failed gate MUST be recorded as FAIL, never PASS. Do not refresh snapshots to
+hide failure, remove failing regressions, raise size limits, change optimizer or
+viaIR, omit warnings/errors, or skip historical negative tests to obtain PASS.
+
+Recommended manual hosted milestones: Core Request Accounting, Insolvency
+production logic, Reserve/Gateway, Subscription, Redemption/Claim, Yield/Fast,
+Release Candidate, Pre-audit and Pre-deployment. Users may request a run at any
+time. Future dependency installation fixes must use public HTTPS and reproducible
+resolution, not private SSH credentials.

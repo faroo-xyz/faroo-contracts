@@ -19,7 +19,7 @@
     "evmVersion": "cancun"
   },
   "local_foundry": "forge 0.3.0 (5a8bd89 2024-12-20T08:45:53.204298000Z)",
-  "ci_configured_foundry": "v1.3.6; hosted job not run",
+  "ci_configured_foundry": "v1.3.6; hosted dependency installation failed before verification",
   "core": {
     "tests": 31,
     "suites": 3,
@@ -68,7 +68,7 @@
     }
   ],
   "local_ci_equivalent": "PASS",
-  "hosted_ci": "NOT RUN",
+  "hosted_ci": "GitHub hosted execution attempted; dependency installation failed before protocol verification steps.",
   "ordinary_v18_upgrade_probe": "PASS; same schema/year/carry/balances/mode; not production Gateway execution",
   "v17_to_v18_semantic_migration": "NOT VERIFIED; cannot assume zero new fields/legacy Ucap safe",
   "production_fork_gas_handoff_external_audit": "NOT VERIFIED; production gates remain",
@@ -134,5 +134,14 @@
     "tools/tbpros/hardening-guards.py": "ff5bfe6e3d645d3f65c4f5a5b01a7588d8cfe496071d0c39c433592b6fb7ead7",
     "tools/tbpros/size-variants.py": "e2eda62ebfb2fc07db786f0e48ae95543b8a1478747fd69693a111eddcf0e0c9",
     "tools/tbpros/storage-manifest.py": "f3d6605ea5ea99f93bb9d0c3ad633b5fbce0ebf255c3ab29313d97af4478e8a0"
-  }
+  },
+  "hosted_failure": {
+    "commit": "ebab5d794bade22353211899f6554ded6cafc11f",
+    "status": "FAIL",
+    "step": "pnpm install --frozen-lockfile",
+    "cause": "forge-std resolved to git@github.com:foundry-rs/forge-std.git; hosted runner has no SSH key",
+    "protocol_verification_steps": "NOT EXECUTED",
+    "evidence_source": "User-provided hosted run report; no independent hosted rerun in this adjustment"
+  },
+  "historical_local_evidence_note": "Existing local results, logs and source_sha256 describe the original hardening run before ebab5d7; hashes are retained as historical evidence, not regenerated to describe this cadence change. See latest-local-checks.md for the current local run."
 }

@@ -61,4 +61,10 @@ Vault runtime15,462 / 20,480，剩5,018 bytes，体积压力HIGH；没有生产�
 - D-21 Amount domain：Q派生uint256，最多7×(2^128−1)<2^131；不假定聚合H为uint128。
 - D-22 Engineering：英文代码注释永久规则；自动ABI/storage/selector/size/NatSpec检查；同profile runtime14,236（原15,462），剩6,244，资金逻辑未计入。
 
-**CORE SKELETON HARDENED / READY FOR INCREMENTAL CORE LOGIC / PRODUCTION NO-GO。** 31项结构测试、64项历史回归、85项Python通过；远端GitHub job未运行、真实fork/storage迁移/生产gas/handoff/audit gates仍待验。完成后停止，不自动开始业务。
+**CORE SKELETON HARDENED / READY FOR INCREMENTAL CORE LOGIC / PRODUCTION NO-GO。** 31项结构测试、64项历史回归、85项Python通过；hosted已尝试但依赖安装失败，后续协议验证未执行；真实fork/storage迁移/生产gas/handoff/audit gates仍待验。完成后停止，不自动开始业务。
+
+## Incremental hosted execution cadence
+
+GitHub workflow仅手动 `workflow_dispatch`；不减少任何验证要求。每个改变tbPROS生产Solidity/storage/ABI/tests的commit，提交前完整执行 `tools/tbpros/ci.sh`，记录[简洁本地摘要](verification/latest-local-checks.md)。失败必须记FAIL，不允许调整snapshot/limit/profile或删除回归掩盖。
+
+`ebab5d794bade22353211899f6554ded6cafc11f`：GitHub hosted execution attempted; dependency installation failed before protocol verification steps. 据用户提供记录，`pnpm install --frozen-lockfile` 将forge-std解析为SSH URL，而runner无SSH key；不是Solidity/test failure。本轮仅调整运行节奏，未修复依赖或重跑hosted；未来安装修复须采用public HTTPS/可复现解析。audit、release candidate、deployment前或用户要求时必须执行hosted验证，其他建议milestones见18。本轮不开始业务实现。

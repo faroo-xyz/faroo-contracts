@@ -10,7 +10,7 @@
     "viaIR": false,
     "evmVersion": "cancun",
     "source_sha256": {
-      ".github/workflows/tbpros-skeleton.yml": "0e565ee822714b33758110d54035ded6fd8e65ceb25a54f008d15f3ce795de51",
+      ".github/workflows/tbpros-skeleton.yml": "96df4c06e164bc058a88340f9ad9fc30a91df7a7e00b8a6ae4dd57f09673a859",
       "contracts/tbpros/TbPROSStorage.sol": "04f5cbc9798fdf56bc849b1dff98fa7534a14dec3d168bae2489ebacb5ccb407",
       "contracts/tbpros/TbPROSTypes.sol": "e978c1e73d7f70eac733706b426419d952eeb688e66667210d87bfeab772ae9c",
       "contracts/tbpros/TbPROSVault.sol": "2847f09742abc824694aec5cace64474c49197ddabf05bf1c5f8745912a64a3d",
