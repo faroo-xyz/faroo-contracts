@@ -68,3 +68,7 @@ Vault runtime15,462 / 20,480，剩5,018 bytes，体积压力HIGH；没有生产�
 GitHub workflow仅手动 `workflow_dispatch`；不减少任何验证要求。每个改变tbPROS生产Solidity/storage/ABI/tests的commit，提交前完整执行 `tools/tbpros/ci.sh`，记录[简洁本地摘要](verification/latest-local-checks.md)。失败必须记FAIL，不允许调整snapshot/limit/profile或删除回归掩盖。
 
 `ebab5d794bade22353211899f6554ded6cafc11f`：GitHub hosted execution attempted; dependency installation failed before protocol verification steps. 据用户提供记录，`pnpm install --frozen-lockfile` 将forge-std解析为SSH URL，而runner无SSH key；不是Solidity/test failure。本轮仅调整运行节奏，未修复依赖或重跑hosted；未来安装修复须采用public HTTPS/可复现解析。audit、release candidate、deployment前或用户要求时必须执行hosted验证，其他建议milestones见18。本轮不开始业务实现。
+
+## 19 · Request Accounting preflight（当前增量）
+
+**REQUEST ACCOUNTING BLOCKED**，详见[19 阻断记录](19-request-accounting-implementation.md)。ordinary owner/controller/operator/allowance精确矩阵尚未定义；openPositionCount的“普通请求专用”与“全部唯一Position”语义也未统一。本轮用户明确要求不得猜测，因此未修改生产Solidity/tests/ABI/storage，Request仍SkeletonOnly。此前Skeleton Hardened结果不撤销，但不代表该增量已实现。需裁决后继续；Production NO-GO。

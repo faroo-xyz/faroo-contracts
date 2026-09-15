@@ -8,6 +8,8 @@
 
 当前结构入口：[18 · Core Skeleton Hardening](18-core-skeleton-hardening.md)。58个Vault函数、独立ABI DTO、每plan冻结Ucap、proxy initial-only YEAR、proposal expiry。实际runtime14,236 bytes，剩6,244；31项结构/schema测试、64项历史回归、85项Python测试通过。自动ABI/storage/selector/size/NatSpec guard已加入；业务均保持SkeletonOnly。Core Skeleton HARDENED / READY FOR INCREMENTAL CORE LOGIC / Production NO-GO。[17](17-core-skeleton-freeze.md)保留为旧基线。
 
+当前Request增量状态：[19 · Request Accounting preflight](19-request-accounting-implementation.md)为 **REQUEST ACCOUNTING BLOCKED**：ordinary授权矩阵和Position计数语义待明确。未修改生产代码，safe/ordinary仍stub，不能视为最小赎回准入已完成。
+
 ## 建议审阅顺序
 
 1. [00 · 当前决策、冲突处理与未决细节](00-decision-register.md)

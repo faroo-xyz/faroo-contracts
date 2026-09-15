@@ -1,5 +1,7 @@
 # Latest local tbPROS checks
 
+Current Request increment preflight: **REQUEST ACCOUNTING BLOCKED** at parent `e707c297dcd52a86576add034193762a374d8ae9`. Ordinary authorization and open-position count semantics require clarification; see [19](../19-request-accounting-implementation.md). No Solidity/test/ABI/storage changes, new Request test run or full local CI run in this preflight. Results below are the retained previous execution, not Request implementation verification.
+
 Commit / source revision: working tree after hosted-cadence adjustment, before any commit; parent `ebab5d794bade22353211899f6554ded6cafc11f`.
 Date: 2026-09-15T05:28:35+00:00
 Compiler: 0.8.28+commit.7893614a (native executable verified)
