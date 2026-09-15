@@ -1,6 +1,6 @@
 # 00 · tbPROS Decision Register
 
-2026-09-15。当前产品V1；Architecture Remediation V2是设计修订编号。最新工程状态见本页23及[State Partition Study](23-multi-contract-state-partition-study.md)：全部已批准V1功能保留；完整拆分probe最小Core24,682，仍未满足20,480硬门槛与16,000目标，生产架构继续NO-GO。权威规则：[Protocol Hard Rules](../../contracts/tbpros/AGENTS.md)、本表、[14 APR Finalization](14-core-architecture-finalization.md)及[16 Insolvency Freeze](16-insolvency-mode-architecture-freeze.md)。根目录[AGENTS router](../../AGENTS.md)已创建；contracts/tbpros已实现19 Request与20客观模式，其余主要资金业务仍为stub。
+2026-09-15。当前产品V1；Architecture Remediation V2是设计修订编号。最新工程状态见本页24及[Core Microkernel Study](24-core-microkernel-operation-partition-study.md)：全部V1功能保留；M6 Core27,452，typed context/check增加抵消了流程迁出的节省，复杂YM仍阻断Claim/sync；生产架构继续NO-GO。权威规则：[Protocol Hard Rules](../../contracts/tbpros/AGENTS.md)、本表、[14 APR Finalization](14-core-architecture-finalization.md)及[16 Insolvency Freeze](16-insolvency-mode-architecture-freeze.md)。根目录[AGENTS router](../../AGENTS.md)已创建；contracts/tbpros已实现19 Request与20客观模式，其余主要资金业务仍为stub。
 
 | ID | 当前决定 | 替代/澄清 | 状态 |
 | --- | --- | --- | --- |
@@ -114,7 +114,7 @@ D-32：基于`f3187659eb19a464abfc5bc93e15a3d4e73c7e2b`完成[22研究](22-stati
 **NO — still not credible。STATICCALL MODULE SAVINGS INSUFFICIENT / SINGLE-VAULT FULL-V1 PATH REMAINS BLOCKED / NEW ARCHITECTURE DECISION REQUIRED / PRODUCTION NO-GO。** 本轮完成后停止；不自动迁移、不删功能、不开始Settlement/Claim/Subscription。
 
 
-## 23 · Multi-Contract State Partition Study（当前工程结论）
+## 23 · Multi-Contract State Partition Study（前一轮工程结论）
 
 D-33：用户仅授权研究把“Vault所有状态唯一writer”替换为“每个authoritative state domain恰好一个writer”。生产Hard Rules、Solidity、ABI/storage保持原状；不批准新Token/Manager/Gateway生产代码、迁移或部署。固定普通CALL组件、无duplicate S/H/rights、无delegatecall业务模块/任意executor；全部V1功能保留。
 
@@ -123,3 +123,14 @@ D-34：基于`35bea52ec5fe509ead650288ffff9431c2dc4c32`完成[23研究](23-multi
 D-35：跨域35项隔离tests（含128×64 stateful与256 fuzz）、新增6项独立Python reference覆盖所测same-preburn本金、escrow/rights/P、累计Claim、F/H/mode回滚与Risk历史；真实发现并修复隔离façade锁死。raw read一致性、Yield故障后的正常solvency liveness、multi-proxy Gateway/升级语义/handoff及真实依赖fork未关闭。immutable组件不可自动迁移state；U2共同TL/Gateway Transparent只作为未来研究方向，不批准采用。完整本地结果/历史失败和warnings以[latest-local-checks](verification/latest-local-checks.md)为准。
 
 **NO — partition still does not solve architecture。MULTI-CONTRACT ARCHITECTURE NOT CREDIBLE / SINGLE-VAULT FULL-V1 PATH REMAINS BLOCKED / NEW ARCHITECTURE DECISION REQUIRED / PRODUCTION NO-GO。** 若无有用户状态的生产proxy，未来获批新架构优先fresh而非语义迁移；repo缺少tbPROS部署记录不证明链上不存在。当前研究完成后停止，不自动提交/push、改生产或继续业务实现。
+
+
+## 24 · Core Microkernel / Economic Operation Partition（当前工程结论）
+
+D-36：基于`60f73de98c468c8f28027f8ea0994c070fd390c6`仅研究业务orchestration外移；生产唯一writer规则/ABI/storage不变，保留全部V1功能。Sub/RM/YM直接入口、固定caller closed primitives及Core固定transient事实均仅存在ignored cache probe，无generic applyDelta/executor、pending经济账本或业务delegatecall。
+
+D-37：完成[24研究](24-core-microkernel-operation-partition-study.md)9组同profile实编译。M0复现24682；共同context/read control26148。相对control，Sub/Yield/Fast独立移动分别反增2812/1773/1944；共享完整流程M5为27319，完整rights-frame fence M6为27452，仍超20480为6972、超16000为11452。最大Manager YM14067；M6含两个Reserve及当前单proxy Gateway/Lens总runtime79368（不含proxy/admin/adapter及未来Gateway增量）。由于Core硬门槛失败，按条件未做MultiProxyGateway实编译，六slot bundle仅设计，不用2835冒充最终Gateway。
+
+D-38：23项隔离tests、128×64 full-operation ghost、6项新Python reference与完整本地Core91/历史64/Python109/guards通过。safe保持RM→Token；Claim实测可独立于Risk/Token/Oracle/Reserve，M6官方Lens拒绝经济帧聚合read，raw跨域读取明确非atomic value view。Y-A仍依赖复杂YM，破坏YM后Claim/normal sync失败；Y-B双账本拒绝，Y-C最小H writer仅未实现研究方向。恶意Sub错价/跳risk、RM错误支P、YM谎报H均稳定复现；begin-only transient expiry也不意味着已转资金回滚。未关闭这些信任/liveness/gateway门槛，不采纳生产架构。
+
+**NO — this split still does not solve the protocol。CORE MICROKERNEL STUDY COMPLETE / FULL-V1 ARCHITECTURE STILL BLOCKED / NEW ARCHITECTURE DECISION REQUIRED / PRODUCTION NO-GO。** 当前轮完成后停止，不自动提交/push、改生产、升级Gateway、迁移或部署。

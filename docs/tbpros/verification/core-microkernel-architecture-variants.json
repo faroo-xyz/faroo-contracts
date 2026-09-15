@@ -1,0 +1,2862 @@
+{
+  "source_basis": "60f73de98c468c8f28027f8ea0994c070fd390c6",
+  "compiler": "solc, the solidity compiler commandline interface\nVersion: 0.8.28+commit.7893614a.Darwin.appleclang",
+  "profile": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "viaIR": false,
+    "evmVersion": "cancun"
+  },
+  "tool_sha256": "81f14138f0813722a2712029a0249ecd0abb86ff2166e7878142e2c0960fdfcd",
+  "templates_sha256": "2f55ee9c7d850dd6931d9e347f53fb7e7c8e88d7df9b9aa5f6774935bb7abf9c",
+  "variants": [
+    {
+      "variant": "M0-previous-p9",
+      "flags": null,
+      "runtime": {
+        "Core": 24682,
+        "Token": 4217,
+        "Subscription": 0,
+        "Redemption": 9200,
+        "Yield": 8104,
+        "Risk": 3166,
+        "Reserve": 4588,
+        "Gateway": 2835,
+        "Lens": 3185
+      },
+      "headroom_20480": {
+        "Core": -4202,
+        "Token": 16263,
+        "Redemption": 11280,
+        "Yield": 12376,
+        "Risk": 17314,
+        "Reserve": 15892,
+        "Gateway": 17645,
+        "Lens": 17295
+      },
+      "core_headroom_16000": -8682,
+      "core_saving_vs_M0": 0,
+      "runtime_surface_excluding_proxies_admins_adapter": 64565,
+      "compiler_input_sha256": "23927bc6d3d259dcd0a00d49b1af53708cc61a673462c2330e37434749167a9c",
+      "abi_routes": {
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "checkpointYield",
+          "closePlan",
+          "executeClaim",
+          "executeSettlement",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "pause",
+          "pauseState",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "schedulePenaltyPlan",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "subscribe",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "claimRedeem",
+          "core",
+          "endPhase",
+          "epoch",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "settleMaturedEpochs",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activate",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "close",
+          "core",
+          "eligible",
+          "endPhase",
+          "nextPlanId",
+          "recordFunding",
+          "release",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ],
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ]
+      },
+      "opcodes": {
+        "Core": {
+          "CALL": 28,
+          "STATICCALL": 40
+        },
+        "Token": {},
+        "Redemption": {
+          "CALL": 4,
+          "STATICCALL": 2
+        },
+        "Yield": {},
+        "Risk": {},
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        }
+      },
+      "warnings": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "gas": {
+        "checkpoint": 49652,
+        "subscribe": 180073,
+        "safe": 145367,
+        "fast": 73321,
+        "settle": 76371,
+        "claim": 48234,
+        "sync": 19606
+      },
+      "recommended": false,
+      "reason": "Y-A still requires complex Yield for Q; Claim and normal sync liveness blocked if Yield fails. Not production verified.",
+      "state_ownership": {
+        "Core": "R/P/F/U/B/C/Mode/custody/config; transaction-local fixed operation facts",
+        "Token": "OZ S/balances/allowances",
+        "Redemption": "Epoch/Position/queue/count/operators",
+        "Yield": "Plan/Source/H/cursor/carry",
+        "Risk": "Bucket[2]",
+        "Subscription": "immutable bindings only; no persistent economic ledger"
+      },
+      "dependencies": {
+        "safeRequest": [
+          "Redemption",
+          "Token"
+        ],
+        "Claim": [
+          "Redemption",
+          "Core",
+          "stPROS",
+          "Yield(totalH)",
+          "Gateway",
+          "Token/Risk phase (previous P9 only)"
+        ],
+        "Settlement": [
+          "Redemption",
+          "Core",
+          "Token",
+          "Yield(totalH/burnCarry)"
+        ],
+        "sync": [
+          "Core",
+          "stPROS",
+          "Yield(totalH/absorbLoss)"
+        ],
+        "subscription": [
+          "Subscription or Core",
+          "Core",
+          "Token",
+          "Yield",
+          "Risk",
+          "Oracle",
+          "Subscription Reserve",
+          "USDC",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ],
+        "yield": [
+          "Yield or Core",
+          "Core",
+          "Redemption backlog read",
+          "Oracle",
+          "Gateway"
+        ],
+        "plan funding": [
+          "Yield or Core",
+          "Core",
+          "Yield Reserve",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ]
+      },
+      "trust_assumptions": [
+        "Redemption is authoritative rights truth: compromised writer can drain P within bounds",
+        "Subscription price/risk workflow remains trusted despite Core actual receipt and E01 checks",
+        "Yield totalH is authoritative: malicious source reporting defeats Q and H-delta checks",
+        "Fixed bindings and Model A root; existing Gateway is not a multi-proxy upgrade implementation",
+        "Raw getters are not callback-atomic value quotes; M6 Core frame fences aggregate Lens"
+      ],
+      "gateway_probe_status": "NOT BUILT: full Core runtime gate fails; current Gateway included only as skeleton baseline cost. Coupled topology is design-only.",
+      "core_hard_gate": "FAIL",
+      "paired_control": "M0-previous-p9",
+      "saving_vs_context_control": null
+    },
+    {
+      "variant": "M0-context-control",
+      "flags": {},
+      "runtime": {
+        "Core": 26148,
+        "Token": 4217,
+        "Subscription": 0,
+        "Redemption": 9200,
+        "Yield": 8104,
+        "Risk": 3166,
+        "Reserve": 4746,
+        "Gateway": 2835,
+        "Lens": 3185
+      },
+      "headroom_20480": {
+        "Core": -5668,
+        "Token": 16263,
+        "Redemption": 11280,
+        "Yield": 12376,
+        "Risk": 17314,
+        "Reserve": 15734,
+        "Gateway": 17645,
+        "Lens": 17295
+      },
+      "core_headroom_16000": -10148,
+      "core_saving_vs_M0": -1466,
+      "runtime_surface_excluding_proxies_admins_adapter": 66347,
+      "compiler_input_sha256": "acb35004e270620edec6aa78eee5495b9d6ab1187c3068913e9fbc03ba676179",
+      "abi_routes": {
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "checkpointYield",
+          "closePlan",
+          "dependencies",
+          "executeClaim",
+          "executeSettlement",
+          "fastRedeem",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "operationKind",
+          "pause",
+          "pauseState",
+          "policy",
+          "redemption",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "schedulePenaltyPlan",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "subscribe",
+          "subscription",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause",
+          "yieldManager"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "claimRedeem",
+          "core",
+          "endPhase",
+          "epoch",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "settleMaturedEpochs",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activate",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "close",
+          "core",
+          "eligible",
+          "endPhase",
+          "nextPlanId",
+          "recordFunding",
+          "release",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ],
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ]
+      },
+      "opcodes": {
+        "Core": {
+          "STATICCALL": 40,
+          "CALL": 20
+        },
+        "Token": {},
+        "Redemption": {
+          "CALL": 4,
+          "STATICCALL": 2
+        },
+        "Yield": {},
+        "Risk": {},
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        }
+      },
+      "warnings": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "gas": {
+        "checkpoint": 41432,
+        "subscribe": 172292,
+        "safe": 145367,
+        "fast": 65210,
+        "settle": 68282,
+        "claim": 40101,
+        "sync": 11384
+      },
+      "recommended": false,
+      "reason": "Y-A still requires complex Yield for Q; Claim and normal sync liveness blocked if Yield fails. Not production verified.",
+      "state_ownership": {
+        "Core": "R/P/F/U/B/C/Mode/custody/config; transaction-local fixed operation facts",
+        "Token": "OZ S/balances/allowances",
+        "Redemption": "Epoch/Position/queue/count/operators",
+        "Yield": "Plan/Source/H/cursor/carry",
+        "Risk": "Bucket[2]",
+        "Subscription": "immutable bindings only; no persistent economic ledger"
+      },
+      "dependencies": {
+        "safeRequest": [
+          "Redemption",
+          "Token"
+        ],
+        "Claim": [
+          "Redemption",
+          "Core",
+          "stPROS",
+          "Yield(totalH)",
+          "Gateway"
+        ],
+        "Settlement": [
+          "Redemption",
+          "Core",
+          "Token",
+          "Yield(totalH/burnCarry)"
+        ],
+        "sync": [
+          "Core",
+          "stPROS",
+          "Yield(totalH/absorbLoss)"
+        ],
+        "subscription": [
+          "Subscription or Core",
+          "Core",
+          "Token",
+          "Yield",
+          "Risk",
+          "Oracle",
+          "Subscription Reserve",
+          "USDC",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ],
+        "yield": [
+          "Yield or Core",
+          "Core",
+          "Redemption backlog read",
+          "Oracle",
+          "Gateway"
+        ],
+        "plan funding": [
+          "Yield or Core",
+          "Core",
+          "Yield Reserve",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ]
+      },
+      "trust_assumptions": [
+        "Redemption is authoritative rights truth: compromised writer can drain P within bounds",
+        "Subscription price/risk workflow remains trusted despite Core actual receipt and E01 checks",
+        "Yield totalH is authoritative: malicious source reporting defeats Q and H-delta checks",
+        "Fixed bindings and Model A root; existing Gateway is not a multi-proxy upgrade implementation",
+        "Raw getters are not callback-atomic value quotes; M6 Core frame fences aggregate Lens"
+      ],
+      "gateway_probe_status": "NOT BUILT: full Core runtime gate fails; current Gateway included only as skeleton baseline cost. Coupled topology is design-only.",
+      "core_hard_gate": "FAIL",
+      "paired_control": "M0-previous-p9",
+      "saving_vs_context_control": null
+    },
+    {
+      "variant": "M1-subscription",
+      "flags": {
+        "sub": true
+      },
+      "runtime": {
+        "Core": 28960,
+        "Token": 4217,
+        "Subscription": 4004,
+        "Redemption": 9200,
+        "Yield": 8104,
+        "Risk": 3355,
+        "Reserve": 4887,
+        "Gateway": 2835,
+        "Lens": 3185
+      },
+      "headroom_20480": {
+        "Core": -8480,
+        "Token": 16263,
+        "Subscription": 16476,
+        "Redemption": 11280,
+        "Yield": 12376,
+        "Risk": 17125,
+        "Reserve": 15593,
+        "Gateway": 17645,
+        "Lens": 17295
+      },
+      "core_headroom_16000": -12960,
+      "core_saving_vs_M0": -4278,
+      "runtime_surface_excluding_proxies_admins_adapter": 73634,
+      "compiler_input_sha256": "4064a40b1b62cfd6e4bf0e51398e4bd113ead52fa9254f03142b688afc1f37ef",
+      "abi_routes": {
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "beginSubscription",
+          "checkpointYield",
+          "closePlan",
+          "dependencies",
+          "executeClaim",
+          "executeSettlement",
+          "fastRedeem",
+          "finalizeSubscription",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "operationKind",
+          "pause",
+          "pauseState",
+          "policy",
+          "redemption",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "schedulePenaltyPlan",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "subscription",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause",
+          "yieldManager"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Subscription": [
+          "beginPhase",
+          "core",
+          "endPhase",
+          "risk",
+          "subscribe",
+          "timelock"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "claimRedeem",
+          "core",
+          "endPhase",
+          "epoch",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "settleMaturedEpochs",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activate",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "close",
+          "core",
+          "eligible",
+          "endPhase",
+          "nextPlanId",
+          "recordFunding",
+          "release",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ],
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ]
+      },
+      "opcodes": {
+        "Core": {
+          "STATICCALL": 43,
+          "CALL": 23
+        },
+        "Token": {},
+        "Subscription": {
+          "STATICCALL": 9,
+          "CALL": 8
+        },
+        "Redemption": {
+          "CALL": 4,
+          "STATICCALL": 2
+        },
+        "Yield": {},
+        "Risk": {
+          "STATICCALL": 1
+        },
+        "Reserve": {
+          "STATICCALL": 7,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        }
+      },
+      "warnings": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "gas": {
+        "checkpoint": 41454,
+        "subscribe": 215093,
+        "safe": 145367,
+        "fast": 65100,
+        "settle": 68171,
+        "claim": 40101,
+        "sync": 11406
+      },
+      "recommended": false,
+      "reason": "Y-A still requires complex Yield for Q; Claim and normal sync liveness blocked if Yield fails. Not production verified.",
+      "state_ownership": {
+        "Core": "R/P/F/U/B/C/Mode/custody/config; transaction-local fixed operation facts",
+        "Token": "OZ S/balances/allowances",
+        "Redemption": "Epoch/Position/queue/count/operators",
+        "Yield": "Plan/Source/H/cursor/carry",
+        "Risk": "Bucket[2]",
+        "Subscription": "immutable bindings only; no persistent economic ledger"
+      },
+      "dependencies": {
+        "safeRequest": [
+          "Redemption",
+          "Token"
+        ],
+        "Claim": [
+          "Redemption",
+          "Core",
+          "stPROS",
+          "Yield(totalH)",
+          "Gateway"
+        ],
+        "Settlement": [
+          "Redemption",
+          "Core",
+          "Token",
+          "Yield(totalH/burnCarry)"
+        ],
+        "sync": [
+          "Core",
+          "stPROS",
+          "Yield(totalH/absorbLoss)"
+        ],
+        "subscription": [
+          "Subscription or Core",
+          "Core",
+          "Token",
+          "Yield",
+          "Risk",
+          "Oracle",
+          "Subscription Reserve",
+          "USDC",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ],
+        "yield": [
+          "Yield or Core",
+          "Core",
+          "Redemption backlog read",
+          "Oracle",
+          "Gateway"
+        ],
+        "plan funding": [
+          "Yield or Core",
+          "Core",
+          "Yield Reserve",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ]
+      },
+      "trust_assumptions": [
+        "Redemption is authoritative rights truth: compromised writer can drain P within bounds",
+        "Subscription price/risk workflow remains trusted despite Core actual receipt and E01 checks",
+        "Yield totalH is authoritative: malicious source reporting defeats Q and H-delta checks",
+        "Fixed bindings and Model A root; existing Gateway is not a multi-proxy upgrade implementation",
+        "Raw getters are not callback-atomic value quotes; M6 Core frame fences aggregate Lens"
+      ],
+      "gateway_probe_status": "NOT BUILT: full Core runtime gate fails; current Gateway included only as skeleton baseline cost. Coupled topology is design-only.",
+      "core_hard_gate": "FAIL",
+      "paired_control": "M0-context-control",
+      "saving_vs_context_control": -2812
+    },
+    {
+      "variant": "M2-yield",
+      "flags": {
+        "yield_": true
+      },
+      "runtime": {
+        "Core": 27921,
+        "Token": 4217,
+        "Subscription": 0,
+        "Redemption": 9200,
+        "Yield": 14067,
+        "Risk": 3166,
+        "Reserve": 4887,
+        "Gateway": 2835,
+        "Lens": 3185
+      },
+      "headroom_20480": {
+        "Core": -7441,
+        "Token": 16263,
+        "Redemption": 11280,
+        "Yield": 6413,
+        "Risk": 17314,
+        "Reserve": 15593,
+        "Gateway": 17645,
+        "Lens": 17295
+      },
+      "core_headroom_16000": -11921,
+      "core_saving_vs_M0": -3239,
+      "runtime_surface_excluding_proxies_admins_adapter": 74365,
+      "compiler_input_sha256": "4ea66085f890dac54287733287cfbab76c78ac7e98afb42637cb3aff525c96b5",
+      "abi_routes": {
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "beginPenaltySchedule",
+          "beginPlanActivation",
+          "beginPlanClose",
+          "beginPlanFunding",
+          "beginYield",
+          "dependencies",
+          "executeClaim",
+          "executeSettlement",
+          "fastRedeem",
+          "finalizePenaltySchedule",
+          "finalizePlanActivation",
+          "finalizePlanClose",
+          "finalizePlanFunding",
+          "finalizeYield",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "operationKind",
+          "pause",
+          "pauseState",
+          "policy",
+          "redemption",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "subscribe",
+          "subscription",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause",
+          "yieldManager"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "claimRedeem",
+          "core",
+          "endPhase",
+          "epoch",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "settleMaturedEpochs",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activatePlan",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "checkpointFor",
+          "checkpointYield",
+          "closePlan",
+          "core",
+          "eligible",
+          "endPhase",
+          "fundPlan",
+          "nextPlanId",
+          "schedulePenaltyPlan",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ],
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ]
+      },
+      "opcodes": {
+        "Core": {
+          "STATICCALL": 46,
+          "CALL": 20
+        },
+        "Token": {},
+        "Redemption": {
+          "CALL": 4,
+          "STATICCALL": 2
+        },
+        "Yield": {
+          "CALL": 13,
+          "STATICCALL": 19
+        },
+        "Risk": {},
+        "Reserve": {
+          "STATICCALL": 7,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        }
+      },
+      "warnings": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "gas": {
+        "checkpoint": 71524,
+        "subscribe": 206782,
+        "safe": 145367,
+        "fast": 98401,
+        "settle": 68327,
+        "claim": 40170,
+        "sync": 11428
+      },
+      "recommended": false,
+      "reason": "Y-A still requires complex Yield for Q; Claim and normal sync liveness blocked if Yield fails. Not production verified.",
+      "state_ownership": {
+        "Core": "R/P/F/U/B/C/Mode/custody/config; transaction-local fixed operation facts",
+        "Token": "OZ S/balances/allowances",
+        "Redemption": "Epoch/Position/queue/count/operators",
+        "Yield": "Plan/Source/H/cursor/carry",
+        "Risk": "Bucket[2]",
+        "Subscription": "immutable bindings only; no persistent economic ledger"
+      },
+      "dependencies": {
+        "safeRequest": [
+          "Redemption",
+          "Token"
+        ],
+        "Claim": [
+          "Redemption",
+          "Core",
+          "stPROS",
+          "Yield(totalH)",
+          "Gateway"
+        ],
+        "Settlement": [
+          "Redemption",
+          "Core",
+          "Token",
+          "Yield(totalH/burnCarry)"
+        ],
+        "sync": [
+          "Core",
+          "stPROS",
+          "Yield(totalH/absorbLoss)"
+        ],
+        "subscription": [
+          "Subscription or Core",
+          "Core",
+          "Token",
+          "Yield",
+          "Risk",
+          "Oracle",
+          "Subscription Reserve",
+          "USDC",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ],
+        "yield": [
+          "Yield or Core",
+          "Core",
+          "Redemption backlog read",
+          "Oracle",
+          "Gateway"
+        ],
+        "plan funding": [
+          "Yield or Core",
+          "Core",
+          "Yield Reserve",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ]
+      },
+      "trust_assumptions": [
+        "Redemption is authoritative rights truth: compromised writer can drain P within bounds",
+        "Subscription price/risk workflow remains trusted despite Core actual receipt and E01 checks",
+        "Yield totalH is authoritative: malicious source reporting defeats Q and H-delta checks",
+        "Fixed bindings and Model A root; existing Gateway is not a multi-proxy upgrade implementation",
+        "Raw getters are not callback-atomic value quotes; M6 Core frame fences aggregate Lens"
+      ],
+      "gateway_probe_status": "NOT BUILT: full Core runtime gate fails; current Gateway included only as skeleton baseline cost. Coupled topology is design-only.",
+      "core_hard_gate": "FAIL",
+      "paired_control": "M0-context-control",
+      "saving_vs_context_control": -1773
+    },
+    {
+      "variant": "M3-redemption-fast",
+      "flags": {
+        "fast": true
+      },
+      "runtime": {
+        "Core": 28092,
+        "Token": 4217,
+        "Subscription": 0,
+        "Redemption": 9740,
+        "Yield": 8104,
+        "Risk": 3166,
+        "Reserve": 4746,
+        "Gateway": 2835,
+        "Lens": 3185
+      },
+      "headroom_20480": {
+        "Core": -7612,
+        "Token": 16263,
+        "Redemption": 10740,
+        "Yield": 12376,
+        "Risk": 17314,
+        "Reserve": 15734,
+        "Gateway": 17645,
+        "Lens": 17295
+      },
+      "core_headroom_16000": -12092,
+      "core_saving_vs_M0": -3410,
+      "runtime_surface_excluding_proxies_admins_adapter": 68831,
+      "compiler_input_sha256": "5014ea40da6f1d537f9d12ceb16af49e6a36a93a0ab655a6fe3ebff53141529a",
+      "abi_routes": {
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "beginFast",
+          "checkpointYield",
+          "closePlan",
+          "dependencies",
+          "executeClaim",
+          "executeSettlement",
+          "finalizeFast",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "operationKind",
+          "pause",
+          "pauseState",
+          "policy",
+          "redemption",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "schedulePenaltyPlan",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "subscribe",
+          "subscription",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause",
+          "yieldManager"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "claimRedeem",
+          "core",
+          "endPhase",
+          "epoch",
+          "fastRedeem",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "settleMaturedEpochs",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activate",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "close",
+          "core",
+          "eligible",
+          "endPhase",
+          "nextPlanId",
+          "recordFunding",
+          "release",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ],
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ]
+      },
+      "opcodes": {
+        "Core": {
+          "STATICCALL": 43,
+          "CALL": 24
+        },
+        "Token": {},
+        "Redemption": {
+          "CALL": 7,
+          "STATICCALL": 2
+        },
+        "Yield": {},
+        "Risk": {},
+        "Reserve": {
+          "STATICCALL": 6,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        }
+      },
+      "warnings": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "gas": {
+        "checkpoint": 41432,
+        "subscribe": 172292,
+        "safe": 145389,
+        "fast": 91534,
+        "settle": 68282,
+        "claim": 40101,
+        "sync": 11384
+      },
+      "recommended": false,
+      "reason": "Y-A still requires complex Yield for Q; Claim and normal sync liveness blocked if Yield fails. Not production verified.",
+      "state_ownership": {
+        "Core": "R/P/F/U/B/C/Mode/custody/config; transaction-local fixed operation facts",
+        "Token": "OZ S/balances/allowances",
+        "Redemption": "Epoch/Position/queue/count/operators",
+        "Yield": "Plan/Source/H/cursor/carry",
+        "Risk": "Bucket[2]",
+        "Subscription": "immutable bindings only; no persistent economic ledger"
+      },
+      "dependencies": {
+        "safeRequest": [
+          "Redemption",
+          "Token"
+        ],
+        "Claim": [
+          "Redemption",
+          "Core",
+          "stPROS",
+          "Yield(totalH)",
+          "Gateway"
+        ],
+        "Settlement": [
+          "Redemption",
+          "Core",
+          "Token",
+          "Yield(totalH/burnCarry)"
+        ],
+        "sync": [
+          "Core",
+          "stPROS",
+          "Yield(totalH/absorbLoss)"
+        ],
+        "subscription": [
+          "Subscription or Core",
+          "Core",
+          "Token",
+          "Yield",
+          "Risk",
+          "Oracle",
+          "Subscription Reserve",
+          "USDC",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ],
+        "yield": [
+          "Yield or Core",
+          "Core",
+          "Redemption backlog read",
+          "Oracle",
+          "Gateway"
+        ],
+        "plan funding": [
+          "Yield or Core",
+          "Core",
+          "Yield Reserve",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ]
+      },
+      "trust_assumptions": [
+        "Redemption is authoritative rights truth: compromised writer can drain P within bounds",
+        "Subscription price/risk workflow remains trusted despite Core actual receipt and E01 checks",
+        "Yield totalH is authoritative: malicious source reporting defeats Q and H-delta checks",
+        "Fixed bindings and Model A root; existing Gateway is not a multi-proxy upgrade implementation",
+        "Raw getters are not callback-atomic value quotes; M6 Core frame fences aggregate Lens"
+      ],
+      "gateway_probe_status": "NOT BUILT: full Core runtime gate fails; current Gateway included only as skeleton baseline cost. Coupled topology is design-only.",
+      "core_hard_gate": "FAIL",
+      "paired_control": "M0-context-control",
+      "saving_vs_context_control": -1944
+    },
+    {
+      "variant": "M4-subscription-redemption",
+      "flags": {
+        "sub": true,
+        "fast": true
+      },
+      "runtime": {
+        "Core": 28909,
+        "Token": 4217,
+        "Subscription": 4004,
+        "Redemption": 9740,
+        "Yield": 8104,
+        "Risk": 3355,
+        "Reserve": 4887,
+        "Gateway": 2835,
+        "Lens": 3185
+      },
+      "headroom_20480": {
+        "Core": -8429,
+        "Token": 16263,
+        "Subscription": 16476,
+        "Redemption": 10740,
+        "Yield": 12376,
+        "Risk": 17125,
+        "Reserve": 15593,
+        "Gateway": 17645,
+        "Lens": 17295
+      },
+      "core_headroom_16000": -12909,
+      "core_saving_vs_M0": -4227,
+      "runtime_surface_excluding_proxies_admins_adapter": 74123,
+      "compiler_input_sha256": "df25fa0c612419155dfe4a49d9216924b2ecc93fa56856847a5c58016ce4d2f2",
+      "abi_routes": {
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "activatePlan",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "beginFast",
+          "beginSubscription",
+          "checkpointYield",
+          "closePlan",
+          "dependencies",
+          "executeClaim",
+          "executeSettlement",
+          "finalizeFast",
+          "finalizeSubscription",
+          "fundPlan",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "operationKind",
+          "pause",
+          "pauseState",
+          "policy",
+          "redemption",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "schedulePenaltyPlan",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "subscription",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause",
+          "yieldManager"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Subscription": [
+          "beginPhase",
+          "core",
+          "endPhase",
+          "risk",
+          "subscribe",
+          "timelock"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "claimRedeem",
+          "core",
+          "endPhase",
+          "epoch",
+          "fastRedeem",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "settleMaturedEpochs",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activate",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "close",
+          "core",
+          "eligible",
+          "endPhase",
+          "nextPlanId",
+          "recordFunding",
+          "release",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ],
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ]
+      },
+      "opcodes": {
+        "Core": {
+          "STATICCALL": 43,
+          "CALL": 22
+        },
+        "Token": {},
+        "Subscription": {
+          "STATICCALL": 9,
+          "CALL": 8
+        },
+        "Redemption": {
+          "CALL": 7,
+          "STATICCALL": 2
+        },
+        "Yield": {},
+        "Risk": {
+          "STATICCALL": 1
+        },
+        "Reserve": {
+          "STATICCALL": 7,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        }
+      },
+      "warnings": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "gas": {
+        "checkpoint": 41476,
+        "subscribe": 215115,
+        "safe": 145389,
+        "fast": 91656,
+        "settle": 68193,
+        "claim": 40101,
+        "sync": 11428
+      },
+      "recommended": false,
+      "reason": "Y-A still requires complex Yield for Q; Claim and normal sync liveness blocked if Yield fails. Not production verified.",
+      "state_ownership": {
+        "Core": "R/P/F/U/B/C/Mode/custody/config; transaction-local fixed operation facts",
+        "Token": "OZ S/balances/allowances",
+        "Redemption": "Epoch/Position/queue/count/operators",
+        "Yield": "Plan/Source/H/cursor/carry",
+        "Risk": "Bucket[2]",
+        "Subscription": "immutable bindings only; no persistent economic ledger"
+      },
+      "dependencies": {
+        "safeRequest": [
+          "Redemption",
+          "Token"
+        ],
+        "Claim": [
+          "Redemption",
+          "Core",
+          "stPROS",
+          "Yield(totalH)",
+          "Gateway"
+        ],
+        "Settlement": [
+          "Redemption",
+          "Core",
+          "Token",
+          "Yield(totalH/burnCarry)"
+        ],
+        "sync": [
+          "Core",
+          "stPROS",
+          "Yield(totalH/absorbLoss)"
+        ],
+        "subscription": [
+          "Subscription or Core",
+          "Core",
+          "Token",
+          "Yield",
+          "Risk",
+          "Oracle",
+          "Subscription Reserve",
+          "USDC",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ],
+        "yield": [
+          "Yield or Core",
+          "Core",
+          "Redemption backlog read",
+          "Oracle",
+          "Gateway"
+        ],
+        "plan funding": [
+          "Yield or Core",
+          "Core",
+          "Yield Reserve",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ]
+      },
+      "trust_assumptions": [
+        "Redemption is authoritative rights truth: compromised writer can drain P within bounds",
+        "Subscription price/risk workflow remains trusted despite Core actual receipt and E01 checks",
+        "Yield totalH is authoritative: malicious source reporting defeats Q and H-delta checks",
+        "Fixed bindings and Model A root; existing Gateway is not a multi-proxy upgrade implementation",
+        "Raw getters are not callback-atomic value quotes; M6 Core frame fences aggregate Lens"
+      ],
+      "gateway_probe_status": "NOT BUILT: full Core runtime gate fails; current Gateway included only as skeleton baseline cost. Coupled topology is design-only.",
+      "core_hard_gate": "FAIL",
+      "paired_control": "M0-context-control",
+      "saving_vs_context_control": -2761
+    },
+    {
+      "variant": "M5-all-operations",
+      "flags": {
+        "sub": true,
+        "fast": true,
+        "yield_": true
+      },
+      "runtime": {
+        "Core": 27319,
+        "Token": 4217,
+        "Subscription": 4131,
+        "Redemption": 9893,
+        "Yield": 14067,
+        "Risk": 3355,
+        "Reserve": 4951,
+        "Gateway": 2835,
+        "Lens": 3185
+      },
+      "headroom_20480": {
+        "Core": -6839,
+        "Token": 16263,
+        "Subscription": 16349,
+        "Redemption": 10587,
+        "Yield": 6413,
+        "Risk": 17125,
+        "Reserve": 15529,
+        "Gateway": 17645,
+        "Lens": 17295
+      },
+      "core_headroom_16000": -11319,
+      "core_saving_vs_M0": -2637,
+      "runtime_surface_excluding_proxies_admins_adapter": 78904,
+      "compiler_input_sha256": "e099f9a233fb1eb5672b2987bde3efb68d19a3a7856af6ff992c587d84a025d7",
+      "abi_routes": {
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "beginFast",
+          "beginPenaltySchedule",
+          "beginPlanActivation",
+          "beginPlanClose",
+          "beginPlanFunding",
+          "beginSubscription",
+          "beginYield",
+          "dependencies",
+          "executeClaim",
+          "executeSettlement",
+          "finalizeFast",
+          "finalizePenaltySchedule",
+          "finalizePlanActivation",
+          "finalizePlanClose",
+          "finalizePlanFunding",
+          "finalizeSubscription",
+          "finalizeYield",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "operationKind",
+          "pause",
+          "pauseState",
+          "policy",
+          "redemption",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "subscription",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause",
+          "yieldManager"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Subscription": [
+          "beginPhase",
+          "core",
+          "endPhase",
+          "risk",
+          "subscribe",
+          "timelock"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "claimRedeem",
+          "core",
+          "endPhase",
+          "epoch",
+          "fastRedeem",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "settleMaturedEpochs",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activatePlan",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "checkpointFor",
+          "checkpointYield",
+          "closePlan",
+          "core",
+          "eligible",
+          "endPhase",
+          "fundPlan",
+          "nextPlanId",
+          "schedulePenaltyPlan",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ],
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ]
+      },
+      "opcodes": {
+        "Core": {
+          "STATICCALL": 41,
+          "CALL": 12
+        },
+        "Token": {},
+        "Subscription": {
+          "STATICCALL": 10,
+          "CALL": 8
+        },
+        "Redemption": {
+          "CALL": 7,
+          "STATICCALL": 3
+        },
+        "Yield": {
+          "CALL": 13,
+          "STATICCALL": 19
+        },
+        "Risk": {
+          "STATICCALL": 1
+        },
+        "Reserve": {
+          "STATICCALL": 8,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        }
+      },
+      "warnings": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "gas": {
+        "checkpoint": 71727,
+        "subscribe": 246064,
+        "safe": 145389,
+        "fast": 122174,
+        "settle": 68261,
+        "claim": 40136,
+        "sync": 11472
+      },
+      "recommended": false,
+      "reason": "Y-A still requires complex Yield for Q; Claim and normal sync liveness blocked if Yield fails. Not production verified.",
+      "state_ownership": {
+        "Core": "R/P/F/U/B/C/Mode/custody/config; transaction-local fixed operation facts",
+        "Token": "OZ S/balances/allowances",
+        "Redemption": "Epoch/Position/queue/count/operators",
+        "Yield": "Plan/Source/H/cursor/carry",
+        "Risk": "Bucket[2]",
+        "Subscription": "immutable bindings only; no persistent economic ledger"
+      },
+      "dependencies": {
+        "safeRequest": [
+          "Redemption",
+          "Token"
+        ],
+        "Claim": [
+          "Redemption",
+          "Core",
+          "stPROS",
+          "Yield(totalH)",
+          "Gateway"
+        ],
+        "Settlement": [
+          "Redemption",
+          "Core",
+          "Token",
+          "Yield(totalH/burnCarry)"
+        ],
+        "sync": [
+          "Core",
+          "stPROS",
+          "Yield(totalH/absorbLoss)"
+        ],
+        "subscription": [
+          "Subscription or Core",
+          "Core",
+          "Token",
+          "Yield",
+          "Risk",
+          "Oracle",
+          "Subscription Reserve",
+          "USDC",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ],
+        "yield": [
+          "Yield or Core",
+          "Core",
+          "Redemption backlog read",
+          "Oracle",
+          "Gateway"
+        ],
+        "plan funding": [
+          "Yield or Core",
+          "Core",
+          "Yield Reserve",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ]
+      },
+      "trust_assumptions": [
+        "Redemption is authoritative rights truth: compromised writer can drain P within bounds",
+        "Subscription price/risk workflow remains trusted despite Core actual receipt and E01 checks",
+        "Yield totalH is authoritative: malicious source reporting defeats Q and H-delta checks",
+        "Fixed bindings and Model A root; existing Gateway is not a multi-proxy upgrade implementation",
+        "Raw getters are not callback-atomic value quotes; M6 Core frame fences aggregate Lens"
+      ],
+      "gateway_probe_status": "NOT BUILT: full Core runtime gate fails; current Gateway included only as skeleton baseline cost. Coupled topology is design-only.",
+      "core_hard_gate": "FAIL",
+      "paired_control": "M0-context-control",
+      "saving_vs_context_control": -1171
+    },
+    {
+      "variant": "M6-context-fence",
+      "flags": {
+        "sub": true,
+        "fast": true,
+        "yield_": true,
+        "fence": true
+      },
+      "runtime": {
+        "Core": 27452,
+        "Token": 4217,
+        "Subscription": 4131,
+        "Redemption": 10224,
+        "Yield": 14067,
+        "Risk": 3355,
+        "Reserve": 4951,
+        "Gateway": 2835,
+        "Lens": 3185
+      },
+      "headroom_20480": {
+        "Core": -6972,
+        "Token": 16263,
+        "Subscription": 16349,
+        "Redemption": 10256,
+        "Yield": 6413,
+        "Risk": 17125,
+        "Reserve": 15529,
+        "Gateway": 17645,
+        "Lens": 17295
+      },
+      "core_headroom_16000": -11452,
+      "core_saving_vs_M0": -2770,
+      "runtime_surface_excluding_proxies_admins_adapter": 79368,
+      "compiler_input_sha256": "ed693b510909a8ec5d9ed430f1235d14b76151b1a789d902618c89df3d76f1dd",
+      "abi_routes": {
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "beginClaim",
+          "beginFast",
+          "beginPenaltySchedule",
+          "beginPlanActivation",
+          "beginPlanClose",
+          "beginPlanFunding",
+          "beginSettlement",
+          "beginSubscription",
+          "beginYield",
+          "dependencies",
+          "endClaim",
+          "endSettlement",
+          "executeClaim",
+          "executeSettlement",
+          "finalizeFast",
+          "finalizePenaltySchedule",
+          "finalizePlanActivation",
+          "finalizePlanClose",
+          "finalizePlanFunding",
+          "finalizeSubscription",
+          "finalizeYield",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "operationKind",
+          "pause",
+          "pauseState",
+          "policy",
+          "redemption",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "subscription",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause",
+          "yieldManager"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Subscription": [
+          "beginPhase",
+          "core",
+          "endPhase",
+          "risk",
+          "subscribe",
+          "timelock"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "claimRedeem",
+          "core",
+          "endPhase",
+          "epoch",
+          "fastRedeem",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "settleMaturedEpochs",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activatePlan",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "checkpointFor",
+          "checkpointYield",
+          "closePlan",
+          "core",
+          "eligible",
+          "endPhase",
+          "fundPlan",
+          "nextPlanId",
+          "schedulePenaltyPlan",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ],
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ]
+      },
+      "opcodes": {
+        "Core": {
+          "STATICCALL": 41,
+          "CALL": 10
+        },
+        "Token": {},
+        "Subscription": {
+          "STATICCALL": 10,
+          "CALL": 8
+        },
+        "Redemption": {
+          "CALL": 11,
+          "STATICCALL": 2
+        },
+        "Yield": {
+          "CALL": 13,
+          "STATICCALL": 19
+        },
+        "Risk": {
+          "STATICCALL": 1
+        },
+        "Reserve": {
+          "STATICCALL": 8,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        }
+      },
+      "warnings": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 7,
+        "5574": 1
+      },
+      "gas": {
+        "checkpoint": 71528,
+        "subscribe": 245669,
+        "safe": 145389,
+        "fast": 121909,
+        "settle": 84483,
+        "claim": 46404,
+        "sync": 11428
+      },
+      "recommended": false,
+      "reason": "Y-A still requires complex Yield for Q; Claim and normal sync liveness blocked if Yield fails. Not production verified.",
+      "state_ownership": {
+        "Core": "R/P/F/U/B/C/Mode/custody/config; transaction-local fixed operation facts",
+        "Token": "OZ S/balances/allowances",
+        "Redemption": "Epoch/Position/queue/count/operators",
+        "Yield": "Plan/Source/H/cursor/carry",
+        "Risk": "Bucket[2]",
+        "Subscription": "immutable bindings only; no persistent economic ledger"
+      },
+      "dependencies": {
+        "safeRequest": [
+          "Redemption",
+          "Token"
+        ],
+        "Claim": [
+          "Redemption",
+          "Core",
+          "stPROS",
+          "Yield(totalH)",
+          "Gateway"
+        ],
+        "Settlement": [
+          "Redemption",
+          "Core",
+          "Token",
+          "Yield(totalH/burnCarry)",
+          "Gateway"
+        ],
+        "sync": [
+          "Core",
+          "stPROS",
+          "Yield(totalH/absorbLoss)"
+        ],
+        "subscription": [
+          "Subscription or Core",
+          "Core",
+          "Token",
+          "Yield",
+          "Risk",
+          "Oracle",
+          "Subscription Reserve",
+          "USDC",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ],
+        "yield": [
+          "Yield or Core",
+          "Core",
+          "Redemption backlog read",
+          "Oracle",
+          "Gateway"
+        ],
+        "plan funding": [
+          "Yield or Core",
+          "Core",
+          "Yield Reserve",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ]
+      },
+      "trust_assumptions": [
+        "Redemption is authoritative rights truth: compromised writer can drain P within bounds",
+        "Subscription price/risk workflow remains trusted despite Core actual receipt and E01 checks",
+        "Yield totalH is authoritative: malicious source reporting defeats Q and H-delta checks",
+        "Fixed bindings and Model A root; existing Gateway is not a multi-proxy upgrade implementation",
+        "Raw getters are not callback-atomic value quotes; M6 Core frame fences aggregate Lens"
+      ],
+      "gateway_probe_status": "NOT BUILT: full Core runtime gate fails; current Gateway included only as skeleton baseline cost. Coupled topology is design-only.",
+      "core_hard_gate": "FAIL",
+      "paired_control": "M0-context-control",
+      "saving_vs_context_control": -1304
+    },
+    {
+      "variant": "M6-core-consumer",
+      "flags": {
+        "sub": true,
+        "fast": true,
+        "yield_": true,
+        "fence": true,
+        "core_consumer": true
+      },
+      "runtime": {
+        "Core": 27711,
+        "Token": 4217,
+        "Subscription": 4163,
+        "Redemption": 10224,
+        "Yield": 14067,
+        "Risk": 3355,
+        "Reserve": 4887,
+        "Gateway": 2835,
+        "Lens": 3185
+      },
+      "headroom_20480": {
+        "Core": -7231,
+        "Token": 16263,
+        "Subscription": 16317,
+        "Redemption": 10256,
+        "Yield": 6413,
+        "Risk": 17125,
+        "Reserve": 15593,
+        "Gateway": 17645,
+        "Lens": 17295
+      },
+      "core_headroom_16000": -11711,
+      "core_saving_vs_M0": -3029,
+      "runtime_surface_excluding_proxies_admins_adapter": 79531,
+      "compiler_input_sha256": "a7da5a6026dd9d1f7be9bfd232822286a44c549752453393e05f6f699151bb5a",
+      "abi_routes": {
+        "Core": [
+          "APR_BPS",
+          "DEFAULT_ADMIN_ROLE",
+          "GUARDIAN_ROLE",
+          "YEAR",
+          "accounting",
+          "assertClaimAllowed",
+          "assertRequestAllowed",
+          "backingAsset",
+          "beginClaim",
+          "beginFast",
+          "beginPenaltySchedule",
+          "beginPlanActivation",
+          "beginPlanClose",
+          "beginPlanFunding",
+          "beginSettlement",
+          "beginSubscription",
+          "beginYield",
+          "consumeSubscriptionReserve",
+          "dependencies",
+          "endClaim",
+          "endSettlement",
+          "executeClaim",
+          "executeSettlement",
+          "finalizeFast",
+          "finalizePenaltySchedule",
+          "finalizePlanActivation",
+          "finalizePlanClose",
+          "finalizePlanFunding",
+          "finalizeSubscription",
+          "finalizeYield",
+          "getRoleAdmin",
+          "governanceBinding",
+          "grantRole",
+          "hasRole",
+          "initialize",
+          "mode",
+          "operationKind",
+          "pause",
+          "pauseState",
+          "policy",
+          "redemption",
+          "renounceRole",
+          "restoreSolvency",
+          "revokeRole",
+          "setFastFee",
+          "setFoundationReceiver",
+          "setMaxPlanDuration",
+          "setOracle",
+          "setPrincipalCap",
+          "setRequestsPaused",
+          "setYieldRefundReceiver",
+          "subscription",
+          "supportsInterface",
+          "syncSolvency",
+          "syncSurplus",
+          "tightenMintLossBound",
+          "transitionActive",
+          "unpause",
+          "yieldManager"
+        ],
+        "Token": [
+          "allowance",
+          "approve",
+          "balanceOf",
+          "beginPhase",
+          "core",
+          "decimals",
+          "endPhase",
+          "name",
+          "protocolBurnEscrow",
+          "protocolBurnOwner",
+          "protocolEscrow",
+          "protocolMint",
+          "redemption",
+          "spendRequestAllowance",
+          "symbol",
+          "totalSupply",
+          "transfer",
+          "transferFrom"
+        ],
+        "Subscription": [
+          "beginPhase",
+          "core",
+          "endPhase",
+          "risk",
+          "subscribe",
+          "timelock"
+        ],
+        "Redemption": [
+          "beginPhase",
+          "claimRedeem",
+          "core",
+          "endPhase",
+          "epoch",
+          "fastRedeem",
+          "isOperator",
+          "nextSettlement",
+          "openPositionCount",
+          "position",
+          "queueState",
+          "requestFor",
+          "requestRedeem",
+          "safeFor",
+          "safeRequestRedeem",
+          "setOperator",
+          "settleMaturedEpochs",
+          "timelock",
+          "token"
+        ],
+        "Yield": [
+          "absorbLoss",
+          "activatePlan",
+          "beginPhase",
+          "burnCarry",
+          "checkCap",
+          "checkpointFor",
+          "checkpointYield",
+          "closePlan",
+          "core",
+          "eligible",
+          "endPhase",
+          "fundPlan",
+          "nextPlanId",
+          "schedulePenaltyPlan",
+          "sourceRemaining",
+          "timelock",
+          "totalH"
+        ],
+        "Risk": [
+          "beginPhase",
+          "bucket",
+          "consume",
+          "core",
+          "endPhase",
+          "setBucketConfig",
+          "timelock"
+        ],
+        "Reserve": [
+          "authorizePeriod",
+          "available",
+          "bindVault",
+          "boundVault",
+          "consume",
+          "fund",
+          "fundingReceiver",
+          "period",
+          "purpose",
+          "timelock",
+          "withdrawUncommitted",
+          "wpros"
+        ],
+        "Gateway": [
+          "bind",
+          "boundVault",
+          "busy",
+          "cancelUpgrade",
+          "delayFloor",
+          "enter",
+          "executeUpgrade",
+          "leave",
+          "proposal",
+          "proxyAdmin",
+          "queueUpgrade",
+          "timelock",
+          "upgrading"
+        ],
+        "Lens": [
+          "core",
+          "position",
+          "protocolComponents",
+          "redemption",
+          "risk",
+          "solvency",
+          "token",
+          "yieldManager"
+        ]
+      },
+      "opcodes": {
+        "Core": {
+          "STATICCALL": 41,
+          "CALL": 11
+        },
+        "Token": {},
+        "Subscription": {
+          "STATICCALL": 10,
+          "CALL": 8
+        },
+        "Redemption": {
+          "CALL": 11,
+          "STATICCALL": 2
+        },
+        "Yield": {
+          "CALL": 13,
+          "STATICCALL": 19
+        },
+        "Risk": {
+          "STATICCALL": 1
+        },
+        "Reserve": {
+          "STATICCALL": 7,
+          "CALL": 2
+        },
+        "Gateway": {
+          "STATICCALL": 2
+        },
+        "Lens": {
+          "STATICCALL": 9
+        }
+      },
+      "warnings": {
+        "1878": 12,
+        "2394": 1,
+        "5740": 2,
+        "5667": 8,
+        "5574": 1
+      },
+      "gas": {
+        "checkpoint": 71580,
+        "subscribe": 266643,
+        "safe": 145389,
+        "fast": 121968,
+        "settle": 84512,
+        "claim": 46367,
+        "sync": 11428
+      },
+      "recommended": false,
+      "reason": "Y-A still requires complex Yield for Q; Claim and normal sync liveness blocked if Yield fails. Not production verified.",
+      "state_ownership": {
+        "Core": "R/P/F/U/B/C/Mode/custody/config; transaction-local fixed operation facts",
+        "Token": "OZ S/balances/allowances",
+        "Redemption": "Epoch/Position/queue/count/operators",
+        "Yield": "Plan/Source/H/cursor/carry",
+        "Risk": "Bucket[2]",
+        "Subscription": "immutable bindings only; no persistent economic ledger"
+      },
+      "dependencies": {
+        "safeRequest": [
+          "Redemption",
+          "Token"
+        ],
+        "Claim": [
+          "Redemption",
+          "Core",
+          "stPROS",
+          "Yield(totalH)",
+          "Gateway"
+        ],
+        "Settlement": [
+          "Redemption",
+          "Core",
+          "Token",
+          "Yield(totalH/burnCarry)",
+          "Gateway"
+        ],
+        "sync": [
+          "Core",
+          "stPROS",
+          "Yield(totalH/absorbLoss)"
+        ],
+        "subscription": [
+          "Subscription or Core",
+          "Core",
+          "Token",
+          "Yield",
+          "Risk",
+          "Oracle",
+          "Subscription Reserve",
+          "USDC",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ],
+        "yield": [
+          "Yield or Core",
+          "Core",
+          "Redemption backlog read",
+          "Oracle",
+          "Gateway"
+        ],
+        "plan funding": [
+          "Yield or Core",
+          "Core",
+          "Yield Reserve",
+          "WPROS",
+          "stPROS",
+          "Gateway"
+        ]
+      },
+      "trust_assumptions": [
+        "Redemption is authoritative rights truth: compromised writer can drain P within bounds",
+        "Subscription price/risk workflow remains trusted despite Core actual receipt and E01 checks",
+        "Yield totalH is authoritative: malicious source reporting defeats Q and H-delta checks",
+        "Fixed bindings and Model A root; existing Gateway is not a multi-proxy upgrade implementation",
+        "Raw getters are not callback-atomic value quotes; M6 Core frame fences aggregate Lens"
+      ],
+      "gateway_probe_status": "NOT BUILT: full Core runtime gate fails; current Gateway included only as skeleton baseline cost. Coupled topology is design-only.",
+      "core_hard_gate": "FAIL",
+      "paired_control": "M0-context-control",
+      "saving_vs_context_control": -1563
+    }
+  ],
+  "test_result": {
+    "status": "PASS",
+    "summary": [
+      "Ran 2 test suites in 5.28s (5.32s CPU time): 23 tests passed, 0 failed, 0 skipped (23 total tests)"
+    ],
+    "gas_samples": 63,
+    "source_sha256": {
+      "test/tbpros/core-microkernel-study/MicroFixture.t.sol": "c499dc9d223dc8d85edfef53174e3512c62328bf26b15dc16bf92d3fc76c5419",
+      "test/tbpros/core-microkernel-study/MicroInvariant.t.sol": "b529dae046b1594560c5b98dfa80c1c5c85831d9a8d875849c7755e504adf435",
+      "test/tbpros/core-microkernel-study/MicroStudy.t.sol": "e14c8dc15d1af999a90f951f6e8175031be172632aa384904d535c46adef6ac4"
+    },
+    "reference_sha256": "a471ff7ec11173e4ea9277bed6cae6670eff2eb709e559a6c5bbf453fb4c53d8"
+  }
+}

@@ -67,6 +67,8 @@
       "tools/tbpros/bytecode-architecture-review.py": "9f5a7d486333c2af589d403ca9a9d61e70576a43bc4704715c8789a5da94b211",
       "tools/tbpros/ci.sh": "48e5883135296f12ea2e9c40362ac17e44ff506243ebee48378bff0f64a397c8",
       "tools/tbpros/core-manifests.mjs": "1a8fa50019997fb9fab25762ff377d5f29b8e1c281fed9e2ae596bdc94421f49",
+      "tools/tbpros/core-microkernel-architecture-study.py": "81f14138f0813722a2712029a0249ecd0abb86ff2166e7878142e2c0960fdfcd",
+      "tools/tbpros/core-microkernel-study-templates.py": "2f55ee9c7d850dd6931d9e347f53fb7e7c8e88d7df9b9aa5f6774935bb7abf9c",
       "tools/tbpros/guard-selftest.py": "722d9ddfd19ca3b1dec8b33c4172990314a728222997ce33634c2b9df67bf149",
       "tools/tbpros/hardening-guards.py": "014ea9c35b2f67c5b0e1d20b7ac2d30040cb2ef4c7bcc15a7da2696a1b5bd4b6",
       "tools/tbpros/multi-contract-architecture-study.py": "f2a98a966560f156c372ce9070e5b150b92f5df85f32cf5e3cee4bb278d3a222",
