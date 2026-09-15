@@ -1,0 +1,692 @@
+# tbPROS Protocol Hard Rules
+
+These rules apply to all files under `contracts/tbpros/`.
+
+Before editing tbPROS contracts, also read the current specification entrypoint:
+
+`docs/tbpros/README.md`
+
+and:
+
+`docs/tbpros/00-decision-register.md`
+
+If implementation and current specification disagree, do not silently choose one. Report the conflict.
+
+---
+
+# 1. Product boundary
+
+V1 product entry is:
+
+```text
+USDC subscribe
+→ Foundation receives USDC
+→ Subscription Reserve provides PROS/WPROS
+→ stPROS is minted
+→ tbPROS shares are minted
+```
+
+There is no direct user stPROS deposit/mint path in V1.
+
+Do not add one merely for ERC-4626/ERC-7540 compatibility.
+
+V1 does not claim full ERC-7540 compatibility.
+
+Do not register or advertise unsupported standard interface IDs.
+
+---
+
+# 2. Single accounting writer
+
+`TbPROSVault` is the sole writer of core economic state.
+
+There must not be a second independently writable copy of:
+
+* share supply
+* released assets
+* pending redemption assets
+* penalty assets
+* unreleased funded yield
+* USDC principal
+* PROS principal
+* epoch entitlement
+* user claim progress
+
+Do not introduce an accounting manager, delegate module, or secondary ledger that can diverge from the Vault.
+
+---
+
+# 3. Core asset buckets
+
+The economic buckets are:
+
+```text
+R = released active stPROS
+P = settled but unpaid redemption stPROS
+F = penalty / protocol residual stPROS
+H = funded but unreleased yield stPROS
+```
+
+Healthy custody requires:
+
+```text
+L >= R + P + F + H
+```
+
+where:
+
+```text
+L = stPROS.balanceOf(Vault)
+```
+
+Surplus and deficit are explicit derived concepts.
+
+Never silently absorb a direct token donation into R.
+
+Never use actual token balance as active NAV.
+
+---
+
+# 4. H source ownership
+
+H may be aggregated for solvency checks, but economic source ownership must remain recoverable.
+
+At minimum distinguish:
+
+```text
+baseYieldH
+penaltyH
+```
+
+or an equivalent per-plan source representation.
+
+Unused Foundation-funded yield:
+
+```text
+→ stPROS-compatible yieldRefundReceiver (never either WPROS Reserve)
+```
+
+Unused penalty-origin yield:
+
+```text
+→ F
+```
+
+Do not lose this distinction through a single anonymous H balance.
+
+H-layer losses are pro-rata across all current legal sources (at most active/next × base/penalty). Reduce real remaining plan coverage at the same time. Never release or refund lost assets.
+
+yieldRefundReceiver is configured through Timelock, nonzero, not Vault or either Reserve, and emits a configuration event. Refund only unused base H as stPROS; never redeem it to WPROS or touch R/P/F. Unused penalty H moves internally to F.
+
+---
+
+# 5. Realized Yield Checkpoint
+
+APR_BPS=500 defines successful on-chain yield realization. It is not an
+unconditional continuously accruing USD debt. YEAR is a fixed approved protocol
+time constant. APR changes require a product version change, not a risk setter.
+
+At a successful checkpoint, use U_before × 500 × eligible elapsed / 10_000 / YEAR
+and the validated CURRENT PROS/USD and stPROS/PROS price to determine stPROS.
+Only real source remaining H may move to R; insufficient H or invalid price
+reverts atomically without advancing the successful cursor. No historical price
+integral, fixed stPROS rate substitute, off-chain debt or temporary Reserve loan.
+Unreleased H is a funded budget, not an already earned user claim.
+
+Yield checkpoint MAY depend on validated price inputs. Matured redemption
+settlement and locked Claim MUST NOT depend on those price inputs or Reserve
+funding. Use separate permissionless checkpointYield() and bounded
+settleMaturedEpochs(maxNodes). Never reintroduce adminCatchUp or its aliases.
+
+At now >= earliest matured dueAt, yield realization must reject until ALL matured
+backlog is settled. Settlement uses already realized R; it does not checkpoint,
+backdate realization or repay a missed yield interval. A matured epoch receives
+only yield successfully materialized before dueAt. Locked P never receives later
+yield. See docs/tbpros/14-core-architecture-finalization.md for cursor semantics.
+
+Subscribe/fast/plan transitions must successfully handle eligible yield before
+changing the economic base and may fail closed. Safe request never checkpoints.
+Partial settlement reduces U/S but does not pretend a successful yield checkpoint
+occurred; later realization uses remaining U, never the burned principal. Full
+burn retires old plan eligibility and isolates old H/cursor from a new generation.
+
+Ordinary ERC20 transfer/transferFrom/approve MUST NOT require checkpoint or backlog
+progress. They preserve S/U/B and R/P/F/H. Shares are fungible bearer rights;
+there are no holder yield lots, coupons or TWAB. Local reentrancy protection stays.
+
+Observe/reconcile actual losses against current realized buckets BEFORE a new
+yield realization, never first materialize hypothetical past debt to escape H loss.
+Only a successful H→R transition changes that asset's loss layer.
+
+---
+
+# 6. Subscription mint fairness
+
+For S > 0 and R > 0:
+
+```text
+q = floor(a * S / R)
+```
+
+must satisfy the approved E-01 economic rounding-loss bound.
+
+`q > 0` and `minSharesOut` are not sufficient protection.
+
+Use full-precision math.
+
+Perform a pre-interaction estimate where useful, but always validate again using actual stPROS received.
+
+If the final economic-loss bound fails, revert the entire transaction.
+
+Never weaken E-01 merely to improve deposit availability.
+
+---
+
+# 7. Principal accounting
+
+`U` is nominal USDC principal.
+
+`B` is PROS principal outstanding.
+
+Only real share mint/burn events change principal.
+
+Requests and Claims do not change U/B.
+
+For a burn of q shares from pre-burn `(S,U,B)`:
+
+```text
+du = q == S ? U : floor(U*q/S)
+db = q == S ? B : floor(B*q/S)
+```
+
+Compute both from the same pre-burn snapshot before mutating S/U/B.
+
+---
+
+# 8. Redemption lifecycle
+
+Normal redemption is share-based:
+
+```text
+Requested
+→ Matured
+→ Settled
+→ PartiallyClaimed
+→ FullyClaimed
+```
+
+Request:
+
+* escrows shares
+* does not burn
+* does not precompute user asset amount
+
+Settlement:
+
+* is the only normal-redemption burn
+* locks one exact rational price for the epoch
+* moves R → P
+* updates U/B from the burn snapshot
+
+Claim:
+
+* never burns shares again
+* never changes U/B
+* never reads PROS/USD
+* never reads USDC/USD
+* never depends on Reserve funding
+* never depends on a Keeper
+
+Do not add exact-assets `withdraw` or a second claim-right representation in V1.
+
+---
+
+# 9. Claim mathematics
+
+Use one claim right per `(controller, epoch)`.
+
+For healthy pure share-based claims (before loss):
+
+```text
+entitled(x) = floor(x * num / den)
+
+payout =
+entitled(oldClaimedShares + deltaShares)
+-
+entitled(oldClaimedShares)
+```
+
+Fragmenting a claim must not increase total payout.
+
+The last claimant must not receive global rounding dust as a bonus.
+
+Final epoch dust moves P to F, never as a last-claimant bonus.
+
+Loss recovery is separate from immutable epoch num/den. Partial claims must not claw back earlier payouts. New P must not bear pre-settlement losses. Exact zero recovery must permit share consumption, zero-value settlement and cleanup. Internal normalization/remainders are not additional user claim rights. No unbounded epoch/position traversal on loss. The rational reference does not approve fixed-ray underflow or an unproved production LossMath.
+
+---
+
+# 10. Safe request is non-pausable
+
+`safeRequestRedeem(shares)` is a protocol liveness property.
+
+It must:
+
+* only act for `msg.sender`
+* force owner/controller to `msg.sender`
+* use no operator
+* use no ERC20 allowance delegation
+* perform no Oracle call
+* perform no Reserve call
+* perform no asset payout
+* perform no external funds interaction
+* ignore risk pause
+* ignore complex-request pause
+* not run the matured backlog barrier
+* not fail because a normal-position count limit has been reached
+* reuse the same internal request accounting as the ordinary path
+
+Do not create a second escape queue.
+
+Guardian must not be able to remove the final path by which an active holder enters the monthly redemption state machine.
+
+---
+
+# 11. Pause isolation
+
+Risk pause may stop:
+
+* subscribe
+* fastRedeem
+* other new risk-increasing operations
+
+Complex-request pause may stop the delegated/advanced request path.
+
+Neither may stop:
+
+* safeRequestRedeem
+* independent epoch progress
+* healthy locked Claim
+
+Do not inherit a global ERC20 pause mechanism that unintentionally freezes these paths.
+
+---
+
+# 12. Loss waterfall
+
+On an approved observed stPROS deficit, the V1 loss priority is:
+
+```text
+F
+→ H
+→ R and P pro-rata
+```
+
+Do not implement R-first/P-senior behavior as the default.
+
+A loss must be reconciled from one deterministic observation point.
+
+Transaction ordering after that observation must not change users' relative recovery.
+
+Multiple-loss behavior, partial claims, new epochs, and loss-version/index behavior must follow the current approved specification and corresponding reference model.
+
+Never “fix” insolvency by simply deleting backing checks and allowing first-come-first-served withdrawals.
+
+---
+
+# 13. USDC depeg policy
+
+U remains nominal USDC accounting.
+
+USDC/USD is a circuit breaker for new USDC subscription risk, not a core redemption dependency.
+
+If the peg guard fails:
+
+```text
+new subscribe fails closed
+```
+
+It must not block:
+
+* safeRequest
+* settlement
+* locked Claim
+* local share/stPROS accounting
+
+Do not convert all historical U into mark-to-market USD value.
+
+---
+
+# 14. Oracle isolation
+
+PROS/USD is used only where the product genuinely needs USDC↔PROS conversion.
+
+Validate:
+
+* source identity
+* decimals
+* positive price
+* timestamp
+* freshness
+* configured bounds
+* source independence when dual-source mode is enabled
+
+A fresh price is not automatically an economically correct price.
+
+Never use Oracle availability as a condition for an already locked Claim.
+
+---
+
+# 15. Inventory risk buckets
+
+Outstanding principal cap and price-risk flow limits are different controls.
+
+Subscription Reserve consumption must also consume the approved price-risk bucket(s).
+
+The following must not restore risk credit:
+
+* user redemption
+* B reduction
+* Reserve funding
+* Reserve period rollover
+* Oracle replacement
+* cap increase
+
+Parameter changes must preserve previously consumed risk history according to the approved bucket model.
+
+---
+
+# 16. Fast redemption
+
+Fast redemption is optional convenience, not the user's only exit right.
+
+Its fee is:
+
+```text
+fixed capped service fee
+```
+
+not historical expected yield.
+
+Do not reintroduce:
+
+* 30-day NAV fee history
+* days-to-next-epoch yield compensation
+* historical average fee math
+
+Formula:
+
+```text
+gross = current active entitlement
+fee = ceil(gross * fastFeeBps / 10_000)
+net = gross - fee
+```
+
+Fee goes to F.
+
+`fastFeeBps` and its hard maximum are production parameters and must not be invented from fixtures.
+
+---
+
+# 17. Reserve isolation
+
+Subscription and Yield Reserves are distinct.
+
+Each period authorization has explicit:
+
+```text
+periodId
+start
+expiry
+limit
+spent
+```
+
+Expired authorization becomes zero.
+
+Funding a Reserve after expiry must not reactivate the expired authorization.
+
+A Reserve may not provide:
+
+* arbitrary recipient transfers
+* arbitrary calls
+* arbitrary spender approvals
+* cross-purpose consumption
+
+Vault-to-stPROS WPROS approval should be exact and temporary where feasible.
+
+---
+
+# 18. Governance model
+
+V1 uses Model A:
+
+```text
+Governance Multisig
+→ Timelock
+→ fixed UpgradeGateway
+→ dedicated OZ5 ProxyAdmin
+→ Vault Proxy
+```
+
+Governance is a trusted root.
+
+Do not claim the protocol survives malicious governance.
+
+The Gateway must not provide:
+
+* arbitrary execute
+* owner transfer to EOA
+* unrestricted admin migration
+* force-unlock
+* emergency bypass around the required delay
+
+The Gateway's callback/upgrade interlock protects honest reviewed upgrades from mid-call version mixing.
+
+It is not protection against a malicious replacement implementation.
+
+---
+
+# 19. External funds interaction lock
+
+Every Vault entry point that can make an external funds interaction must participate in the approved Gateway/busy interlock.
+
+A missed selector is a security bug.
+
+Fixed-block Pharos RPC confirms EIP-1153 execution support (verification/pharos-rpc.json). Prefer transient busy latch; do not implement theoretical fallback. Only if a target is confirmed unsupported may same-block upgrade-fence research start; it is NOT an approved fallback. Do not default to persistent enter/leave bool busy or add forceUnlock. Real target stPROS/SLP integration is a production integration gate, not by itself a Core accounting skeleton blocker.
+
+Failure must atomically revert lock state.
+
+---
+
+# 20. No dangerous generic admin functions
+
+Do not add without explicit architecture approval:
+
+* arbitrary call
+* arbitrary delegatecall
+* generic sweep
+* emergency withdraw of R/P/H
+* force mint
+* force burn
+* set epoch price
+* rewrite settled claim entitlement
+* reset loss index
+* reset risk buckets
+* hidden emergency admin
+* alternate upgrade path
+
+---
+
+# 21. OpenZeppelin first
+
+Use the pinned repository OpenZeppelin version wherever appropriate.
+
+Do not hand-roll:
+
+* ERC20 behavior
+* SafeERC20 semantics
+* generic AccessControl
+* generic Timelock
+* standard proxy machinery
+* standard math primitives
+
+without a documented incompatibility.
+
+---
+
+# 22. Upgrade/storage rules
+
+Never reuse removed storage for a new semantic meaning.
+
+ERC-7201 namespacing does not by itself prove compatibility.
+
+For every upgrade inspect:
+
+* field offset
+* field type
+* field unit
+* nested struct layout
+* fixed-array stride
+* mapping value layout
+* partially completed Position semantics
+* pending/settled Claim rights
+* R/P/F/H/U/B
+* loss versions
+* funded plans
+* Reserve/risk credits
+
+Type-compatible but meaning-incompatible changes are still breaking changes.
+
+---
+
+# 23. Bytecode discipline
+
+Target production Vault runtime budget:
+
+```text
+<= 20,480 bytes
+```
+
+until the current architecture explicitly changes that gate.
+
+If size is too large, first:
+
+1. remove non-core views
+2. move aggregation to Lens
+3. move history/reporting off-chain
+4. remove redundant ABI
+5. defer optional features
+
+Do not solve size by:
+
+* unlimited-contract-size settings
+* unsafe delegatecall modules
+* duplicating accounting
+* reducing security checks without review
+
+---
+
+# 24. Parameter discipline
+
+Never invent production values for:
+
+* mint-loss epsilon
+* peg band
+* price-risk bucket capacities/rates
+* fast fee
+* fee hard maximum
+* Oracle heartbeat
+* Oracle deviation
+* plan duration
+* Ucap
+* upgrade delay floor
+
+Fixtures demonstrate properties only.
+
+Production values require calibration and explicit approval.
+
+---
+
+# 25. Accounting-change definition of done
+
+Any change touching:
+
+```text
+R/P/F/H
+S/U/B
+Plan
+Epoch
+Position
+Loss
+Risk Bucket
+Reserve consumption
+Claim math
+```
+
+must include all applicable:
+
+1. state-transition matrix update
+2. invariant update
+3. unit test
+4. boundary test
+5. adversarial regression
+6. fuzz/property test
+7. independent reference-model update where applicable
+
+Do not merge an accounting change based only on happy-path unit tests.
+
+---
+
+# 26. Security evidence language
+
+Never convert:
+
+```text
+MODEL VERIFIED
+```
+
+into:
+
+```text
+PRODUCTION VERIFIED
+```
+
+without real evidence.
+
+Keep separate:
+
+* architecture decision
+* mathematical model
+* prototype
+* production implementation
+* Foundry test
+* stateful invariant
+* fixed-block Pharos fork
+* storage-upgrade replay
+* production bytecode/gas
+* deployment handoff
+* external audit
+
+Only claim the level actually achieved.
+
+# 27. Custom naming and minimal ABI
+
+Use Subscribed, RedeemRequested, SafeRedeemRequested, EpochSettled, RedeemClaimed and FastRedeemed. Do not expose standard-looking withdraw semantics V1 does not implement. Keep one explicit epoch share Claim entry point; delete duplicate redeem/claim conveniences. Yield realization and matured settlement use separate permissionless checkpointYield and settleMaturedEpochs entries; this separation is required for Oracle-independent exits. Views/history that do not enforce money rights belong in Lens/events, not growing Vault storage.
+
+# 28. Loss representation gate
+
+A/B finite-width loss candidates, C1/C2 scaled-index candidates and their rounding repairs are NOT approved.
+Internal P pool units are an allowed accounting research representation, never a
+second token or independently spendable user right. Only claimRedeem(epoch,shares,...)
+may consume the single user claim. Do not freeze production LossMath/storage while
+LOSS-MATH-01 remains BLOCKED in the Decision Register. Checks that prevent overflow
+by permanently rejecting existing matured exits are not a liveness proof.
+
+No False Zero is measured at token precision: if the unchanged exact Fraction
+oracle pays at least 1 raw stPROS, returning zero or representation-reverting is
+a failure. Mathematical values below 1 raw may round to zero. Do not invent an
+additional loss dust tolerance, change the approved waterfall, or modify the
+oracle to make a candidate pass. See docs/tbpros/15-loss-math-finalization.md.
+LOSS-MATH-01 remains BLOCKED / PRODUCT COMPLEXITY DECISION REQUIRED. Do not
+continue with Model D/E/F or Core implementation without the next user decision.

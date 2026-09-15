@@ -1,0 +1,186 @@
+{
+  "timestamp_utc": "2026-09-14T17:41:01.990907+00:00",
+  "scope": "Storage / ABI / Compile First; no complete financial logic, production fork, deployment or mainnet action",
+  "profile": {
+    "compiler": "0.8.28+commit.7893614a",
+    "openzeppelin": "5.6.1",
+    "openzeppelin_upgradeable": "5.6.1",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "viaIR": false,
+    "evmVersion": "cancun",
+    "source_sha256": {
+      "contracts/tbpros/TbPROSStorage.sol": "8252547cb33737b740accb3523e07a4c4e1b10854a8021651748181ce524c6f4",
+      "contracts/tbpros/TbPROSVault.sol": "023c64961daca83d56d2a68bd06204068f4eb131b26b15ec5402b076474830fa",
+      "contracts/tbpros/governance/UpgradeGateway.sol": "8ad03dde8421f397e47fd6b61c70ecc5e104eb0801423f694acd9225b8136c34",
+      "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+      "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+      "contracts/tbpros/interfaces/ITbPROSOracleAdapter.sol": "0537236d23d7d620a41c818cecd62ab8c2e527f7b02e65560cbc309568189302",
+      "contracts/tbpros/interfaces/ITbPROSVault.sol": "1cf1453d4de2cb443de0d9a27da58a222cd89954c5b0d19f54899b7aab65f796",
+      "contracts/tbpros/interfaces/IUpgradeGateway.sol": "8938375ce307720e20943169634e7e01e497b703631681af149a929686fbc45a",
+      "contracts/tbpros/lens/TbPROSLens.sol": "16ddacacf22aabc001b40f3231495675513509bf060e83ee8c638b2abff70b4a",
+      "contracts/tbpros/libraries/AccountingMath.sol": "02cf4c95e2401b862133bb0827765ceab91ca65fd4a041626bd70ccaa0015852",
+      "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af",
+      "contracts/tbpros/libraries/PlanMath.sol": "d6f060ef1e614f861722357d716ab66b7e8dabe5a29f647cd6a8af6d127098a4",
+      "contracts/tbpros/reserves/ProsReserve.sol": "697c155f99bc8983021e7f984d4fcdc8bfe4a607c395dc4a8342d74f5b154a28",
+      "foundry.toml": "1a4cc73733f8d503377ec597e79fd18fd38b2659d6b2fcc311a221e8adfadbc5",
+      "hardhat.tbpros.config.ts": "3c6cb554f891b5e90f40324389d9554f9d4ba84ab333b0413f7c5e2a6d774766",
+      "node_modules/@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol": "b6fcfbabb4fb0f0b23b018ed667a5302adcda512ce635c52b50ee2704609fdb7",
+      "node_modules/@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol": "96832b6e848020275ca4f4ef1ba32b7d2b541dc0daf26bca19ea8d0b1b3df68e",
+      "node_modules/@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol": "caf06b4c93bbc1d54eb772e76e949bd4a2520c535cc591d07e57cbafaf90b2fd",
+      "node_modules/@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol": "73882072b1bd2744526f0ea1456ae0a53ae867d971ddf744d46b4a7c3c8eee57",
+      "node_modules/@openzeppelin/contracts/access/IAccessControl.sol": "140304b7e99d517c57a13f391dfd3b550ca633a507f7b2af130f391b6cd89cc5",
+      "node_modules/@openzeppelin/contracts/access/Ownable.sol": "38578bd71c0a909840e67202db527cc6b4e6b437e0f39f0c909da32c1e30cb81",
+      "node_modules/@openzeppelin/contracts/interfaces/IERC1967.sol": "c4e901318ab6d4963582c62c62ce988a34c68dbae71846b67decacde79e9a317",
+      "node_modules/@openzeppelin/contracts/interfaces/draft-IERC6093.sol": "fa7068f56bc180571a6095be6eaef06d51dbe81e30cb128397d993c9599ecc30",
+      "node_modules/@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol": "41a3040398d53999dea3251ff8906e11ec1a699362a1d8f4a55bfc7709cc00f3",
+      "node_modules/@openzeppelin/contracts/proxy/ERC1967/ERC1967Utils.sol": "a89ba2032ab25959c6fde1e508ebf8f966ff632703d3ef79684f578a8fa8033f",
+      "node_modules/@openzeppelin/contracts/proxy/Proxy.sol": "fa8aae37b2939371fcbce48b814c0d5c7e57e3e267f348459f29941937746c98",
+      "node_modules/@openzeppelin/contracts/proxy/beacon/IBeacon.sol": "c1c9726bbb0ec4c540c7c98059dcded69a8586b46c168036672381033ee76239",
+      "node_modules/@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol": "4da9a90b1c8b45fdab7d73d8cf81f51cf7d990657ee4e3f943492c3bf0e4c2f1",
+      "node_modules/@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol": "58c759fe76057e1cefa8909b446357aae5cac8a8ba7e6401650208d1b0481508",
+      "node_modules/@openzeppelin/contracts/proxy/utils/Initializable.sol": "f527a063813c2bf60c153fb08e38539578935402894fcc36fac42324ca325d3b",
+      "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": "01b6f5c4fa45fd38822b286ecef6daf983d27306dd6362496fa71b3e4600b72c",
+      "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": "0b7132f17d14d1d84b41b0bb429be62dafdff00fd3470f68724d8018eb07f57a",
+      "node_modules/@openzeppelin/contracts/utils/Address.sol": "73e54e15285455f0e01e136c3663732641537614723ae5dbd820eb3cb036b1fd",
+      "node_modules/@openzeppelin/contracts/utils/Context.sol": "847fda5460fee70f56f4200f59b82ae622bb03c79c77e67af010e31b7e2cc5b6",
+      "node_modules/@openzeppelin/contracts/utils/Errors.sol": "0704b9d6c032cca8512a3bc3f30f49f86f1f03102d2896a3d23e794b82efea66",
+      "node_modules/@openzeppelin/contracts/utils/LowLevelCall.sol": "e128cbe9c6c406d5a42c26e4079c0a95b369ce552f2d0c3dfd2fcb836c5708f2",
+      "node_modules/@openzeppelin/contracts/utils/Panic.sol": "270fc8401c1a13fae6a7a4a2dd6e381b95d658896701e51f0d3e2688acab3dec",
+      "node_modules/@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol": "cff7c20aed945d939b764d876adbd42e1b7725d62d5b1f2bd303db237567b575",
+      "node_modules/@openzeppelin/contracts/utils/StorageSlot.sol": "75704538dcb223239280c6726d9a31cf769a7816718517c997fc7d63bdb70778",
+      "node_modules/@openzeppelin/contracts/utils/TransientSlot.sol": "ea92f361d697ba8b1fbd322b4d84b989998862c21fbebfa4b45289dc94a9eea2",
+      "node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": "9055c2994b37dea1a41b7b7926dcb510f05dbe2540b0aafc5fbee9558fffd0ca",
+      "node_modules/@openzeppelin/contracts/utils/math/Math.sol": "bdfdbe133991c0c78042957ff5cd97167926fcaf6d15664f3835a076cb066457",
+      "node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol": "5779bc848bde39f1ad7bc02b4f708a0040888e0083b1a33f119cd94639350134",
+      "pnpm-lock.yaml": "5b5ba09fdf1b387fb3087d3f0bc53b166e84e6ab9395c2ef5cc09627eb3880b5",
+      "reference/tbpros/calendar-fixtures.json": "bbb335b415775eb73259fa32a1b1108546a698a5b239c3b3471c05979eab9b73",
+      "test/tbpros/core-skeleton/CoreSkeleton.t.sol": "af90e6cf5cf70cee8929d67a468e8e7858665de18633393bcfb16f5226796e5a"
+    }
+  },
+  "compiler_binary_sha256": "81515b0e53deaa266d549545ccaac0a5a96e6d4e8201c77f673b2c710976d9ea",
+  "commands": [
+    {
+      "command": "FOUNDRY_PROFILE=tbpros forge build --use /Users/wangningbo/Library/Caches/hardhat-nodejs/compilers-v3/macosx-amd64/solc-macosx-amd64-v0.8.28+commit.7893614a --offline --force",
+      "exit_code": 0,
+      "output": "core-foundry-build.txt",
+      "output_sha256": "40c539a605eb2740ce3944de2cb1839f19c3f234ae7d7a35a0920cf4c4aa7373"
+    },
+    {
+      "command": "FOUNDRY_PROFILE=tbpros forge test --use /Users/wangningbo/Library/Caches/hardhat-nodejs/compilers-v3/macosx-amd64/solc-macosx-amd64-v0.8.28+commit.7893614a --offline -vv",
+      "exit_code": 0,
+      "output": "core-foundry-tests.txt",
+      "output_sha256": "7fe1fd93abc0bd03626f58c6016db3dbba1a877c9532e92cc89f69a446c497a9"
+    },
+    {
+      "command": "TBPROS_SOLC=/Users/wangningbo/Library/Caches/hardhat-nodejs/compilers-v3/macosx-amd64/solc-macosx-amd64-v0.8.28+commit.7893614a node node_modules/hardhat/dist/src/cli.js --config hardhat.tbpros.config.ts compile --build-profile production --force",
+      "exit_code": 0,
+      "output": "core-hardhat-output.txt",
+      "output_sha256": "057fbf4be54eecc0d7de1f320f4f533702e5792ab8f234be1cf2dd92b27cc728"
+    },
+    {
+      "command": "FOUNDRY_PROFILE=tbpros forge inspect TbPROSVault storage-layout --json --use /Users/wangningbo/Library/Caches/hardhat-nodejs/compilers-v3/macosx-amd64/solc-macosx-amd64-v0.8.28+commit.7893614a --offline",
+      "exit_code": 0,
+      "output": "core-vault-ordinary-layout.json",
+      "output_sha256": "5007e3b784841c1839d50e1c7c327054fd93a236126542d5218ef7d82f30c563"
+    },
+    {
+      "command": "FOUNDRY_PROFILE=tbpros forge inspect CoreLayoutIntrospection storage-layout --json --use /Users/wangningbo/Library/Caches/hardhat-nodejs/compilers-v3/macosx-amd64/solc-macosx-amd64-v0.8.28+commit.7893614a --offline",
+      "exit_code": 0,
+      "output": "core-namespace-types-compiler.json",
+      "output_sha256": "57005628c7f4d6b343829932ae6d9b2a4228cd89a14c33105b045adcfbcc6a55"
+    },
+    {
+      "command": "FOUNDRY_PROFILE=tbpros forge inspect TbPROSVault abi --json --use /Users/wangningbo/Library/Caches/hardhat-nodejs/compilers-v3/macosx-amd64/solc-macosx-amd64-v0.8.28+commit.7893614a --offline",
+      "exit_code": 0,
+      "output": "core-vault-abi-compiler.json",
+      "output_sha256": "94888c12319b1fedf6eb1c9ac1dd83f4bce9db2883430953bdfaae4f006f87b2"
+    },
+    {
+      "command": "forge test --root test/tbpros/security-regression --use /Users/wangningbo/Library/Caches/hardhat-nodejs/compilers-v3/macosx-amd64/solc-macosx-amd64-v0.8.28+commit.7893614a --offline -vv",
+      "exit_code": 0,
+      "output": "core-historical-foundry.txt",
+      "output_sha256": "0305994b56b7fd57134c1d275735931fbcac1c9d4437680cd39724f5da38dc1b"
+    },
+    {
+      "command": "python3 -m unittest discover -s reference -p '*_model.py' -v",
+      "exit_code": 0,
+      "output": "core-historical-python.txt",
+      "output_sha256": "126cbf195638cb9f08708f1b9f2d1afa209b4b25a8d22d4e4d4bde355e80ba70"
+    },
+    {
+      "command": "node tools/tbpros/core-manifests.mjs",
+      "exit_code": 0,
+      "output": "core-manifest-checks.txt",
+      "output_sha256": "7266e6e2276bc2c70c7de9d40069bbf3736d171c7d1ec9779dd7cfc1e5f018d8"
+    },
+    {
+      "command": "python3 tools/tbpros/storage-manifest.py",
+      "exit_code": 0,
+      "checked_field_count": 90
+    }
+  ],
+  "tests": {
+    "core_foundry": {
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "suites": 2,
+      "fuzz_tests": 2,
+      "runs_each": 1024,
+      "independent_calendar_fixtures": 360
+    },
+    "historical_foundry": {
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0
+    },
+    "historical_python": {
+      "passed": 76,
+      "failed": 0
+    },
+    "negative_models_and_probes_hashes_unchanged": true
+  },
+  "artifacts_sha256": {
+    "core-abi.json": "8dc29f92e1e1bbc1dd3e28b3bb6d8956c5e630157b9513d2817414f97062b704",
+    "core-storage-layout.json": "467681ef7ece3de36b8a3fadea3fccaeee08b224e112e2826d2b6159d09bf360",
+    "abi-v1.json": "06284d6cf776fea04e904d74869ecf955168742d3ef771e2603faa589b382877",
+    "storage-layout-v1.json": "467681ef7ece3de36b8a3fadea3fccaeee08b224e112e2826d2b6159d09bf360",
+    "excluded-selectors.json": "6886419f3b3a2b79006ae26a7892729bc682523694c18d7998d7b5b848cb36f4",
+    "core-bytecode.json": "997682a2cc2699b5b13fe5ce185b4a0cb93e12d24492433648b19d25769241f4",
+    "core-selector-inventory.md": "09c8c9e16d324cd5c3efcb9681673b52a83881b986748be19287d83eac16ef73",
+    "core-storage-fields.md": "386e946902493709fd0af65bb21ca584f1a373fb03c4a817bc8db9980ca053e9"
+  },
+  "tool_source_sha256": {
+    "tools/tbpros/storage-manifest.py": "26956926243e3404ce5de15a90c0dd271386c3aec24a79ad77a9e3a61e0fce2f",
+    "tools/tbpros/core-manifests.mjs": "d537356f8f2084714c46b669b349e61dd6ea09f750a5746237447bfec3a88436"
+  },
+  "unverified": [
+    "full I01..I24/E01..E05/INS production stateful",
+    "DEP-01 target stPROS/SLP/feed/fixed production fork",
+    "numeric production parameters",
+    "full Gateway proposal lifecycle and actual proxy-admin binding handoff",
+    "storage upgrade replay",
+    "complete business bytecode and gas",
+    "deployment ownership handoff",
+    "external audit"
+  ],
+  "warnings": {
+    "5740": "Expected unreachable modifier epilogues after explicit SkeletonOnly revert; transient writes roll back, tested. Not waived for future implemented business functions.",
+    "EIP1153": "Local guard and gateway latch have explicit clear on successful implemented paths; transaction scope and revert rollback tested."
+  },
+  "build_notes": [
+    "Root isolated Foundry tbpros profile avoids old Forge external-root source resolution and duplicate AST identities.",
+    "Hardhat uses direct installed CLI, isolated sources and no historical Solidity test scan; user compiler cache access auto-approved.",
+    "ABI arrays have tool-specific ordering; sorted ABI matches. Only source-path/remapping CBOR metadata differs between toolchains; executable runtime/initcode match.",
+    "Always clean-build before generating inheritance AST manifest; incremental artifact AST IDs can differ.",
+    "Existing V1 baselines are preserved by regeneration scripts."
+  ],
+  "status": {
+    "architecture": "ARCHITECTURE FROZEN FOR CORE V1",
+    "core": "CORE SKELETON READY",
+    "production": "PRODUCTION NO-GO"
+  }
+}

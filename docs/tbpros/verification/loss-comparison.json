@@ -1,0 +1,54 @@
+{
+  "scope": "Rejected candidate experiments, not universal error bounds",
+  "trace_count": 3447,
+  "seed": 1407540,
+  "models": {
+    "A": {
+      "max_absolute_cash_error": "2",
+      "max_relative_cash_error": "1",
+      "max_absolute_bucket_error": "9745/997",
+      "false_zero_payments": 537,
+      "overpaid_calls": 251,
+      "reverts": {
+        "POSITIVE_G_UNDERFLOW": 1
+      },
+      "completed_traces": 3446
+    },
+    "B": {
+      "max_absolute_cash_error": "3",
+      "max_relative_cash_error": "1",
+      "max_absolute_bucket_error": "16176293/2741750",
+      "false_zero_payments": 187,
+      "overpaid_calls": 432,
+      "reverts": {
+        "UNITS_OVERFLOW": 1
+      },
+      "completed_traces": 3446
+    },
+    "B_safe": {
+      "max_absolute_cash_error": "2",
+      "max_relative_cash_error": "1",
+      "max_absolute_bucket_error": "15757/883",
+      "false_zero_payments": 725,
+      "overpaid_calls": 146,
+      "reverts": {
+        "ZERO_DENOMINATOR": 1,
+        "UNITS_OVERFLOW": 1
+      },
+      "completed_traces": 3445
+    },
+    "B_ceil": {
+      "max_absolute_cash_error": "3",
+      "max_relative_cash_error": "1",
+      "max_absolute_bucket_error": "15757/883",
+      "false_zero_payments": 727,
+      "overpaid_calls": 174,
+      "reverts": {
+        "ZERO_DENOMINATOR": 1,
+        "UNITS_OVERFLOW": 1
+      },
+      "completed_traces": 3445
+    }
+  },
+  "production_loss_math": "BLOCKED"
+}

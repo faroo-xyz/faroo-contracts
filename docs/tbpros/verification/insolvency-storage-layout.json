@@ -1,0 +1,367 @@
+{
+  "storage": [
+    {
+      "astId": 1226,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "_balances",
+      "offset": 0,
+      "slot": "0",
+      "type": "t_mapping(t_address,t_uint256)"
+    },
+    {
+      "astId": 1232,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "_allowances",
+      "offset": 0,
+      "slot": "1",
+      "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))"
+    },
+    {
+      "astId": 1234,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "_totalSupply",
+      "offset": 0,
+      "slot": "2",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 1236,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "_name",
+      "offset": 0,
+      "slot": "3",
+      "type": "t_string_storage"
+    },
+    {
+      "astId": 1238,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "_symbol",
+      "offset": 0,
+      "slot": "4",
+      "type": "t_string_storage"
+    },
+    {
+      "astId": 50508,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "mode",
+      "offset": 0,
+      "slot": "5",
+      "type": "t_struct(Mode)50482_storage"
+    },
+    {
+      "astId": 50513,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "sources",
+      "offset": 0,
+      "slot": "6",
+      "type": "t_array(t_struct(Source)50487_storage)4_storage"
+    },
+    {
+      "astId": 50517,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "realizedYield",
+      "offset": 0,
+      "slot": "10",
+      "type": "t_array(t_uint256)4_storage"
+    },
+    {
+      "astId": 50522,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "epochs",
+      "offset": 0,
+      "slot": "14",
+      "type": "t_mapping(t_uint256,t_struct(Epoch)50500_storage)"
+    },
+    {
+      "astId": 50529,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "positions",
+      "offset": 0,
+      "slot": "15",
+      "type": "t_mapping(t_uint256,t_mapping(t_address,t_struct(Position)50505_storage))"
+    },
+    {
+      "astId": 50535,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "R",
+      "offset": 0,
+      "slot": "16",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 50538,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "P",
+      "offset": 0,
+      "slot": "17",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 50541,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "F",
+      "offset": 0,
+      "slot": "18",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 50544,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "U",
+      "offset": 0,
+      "slot": "19",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 50547,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "B",
+      "offset": 0,
+      "slot": "20",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 50549,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "touches",
+      "offset": 0,
+      "slot": "21",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 50553,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "riskPaused",
+      "offset": 0,
+      "slot": "22",
+      "type": "t_bool"
+    },
+    {
+      "astId": 50555,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "requestsPaused",
+      "offset": 1,
+      "slot": "22",
+      "type": "t_bool"
+    },
+    {
+      "astId": 50557,
+      "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+      "label": "ordinaryCountFull",
+      "offset": 2,
+      "slot": "22",
+      "type": "t_bool"
+    }
+  ],
+  "types": {
+    "t_address": {
+      "encoding": "inplace",
+      "label": "address",
+      "numberOfBytes": "20"
+    },
+    "t_array(t_struct(Source)50487_storage)4_storage": {
+      "encoding": "inplace",
+      "label": "struct InsolvencyModeProbe.Source[4]",
+      "numberOfBytes": "128",
+      "base": "t_struct(Source)50487_storage"
+    },
+    "t_array(t_uint256)4_storage": {
+      "encoding": "inplace",
+      "label": "uint256[4]",
+      "numberOfBytes": "128",
+      "base": "t_uint256"
+    },
+    "t_bool": {
+      "encoding": "inplace",
+      "label": "bool",
+      "numberOfBytes": "1"
+    },
+    "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => mapping(address => uint256))",
+      "numberOfBytes": "32",
+      "value": "t_mapping(t_address,t_uint256)"
+    },
+    "t_mapping(t_address,t_struct(Position)50505_storage)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => struct InsolvencyModeProbe.Position)",
+      "numberOfBytes": "32",
+      "value": "t_struct(Position)50505_storage"
+    },
+    "t_mapping(t_address,t_uint256)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => uint256)",
+      "numberOfBytes": "32",
+      "value": "t_uint256"
+    },
+    "t_mapping(t_uint256,t_mapping(t_address,t_struct(Position)50505_storage))": {
+      "encoding": "mapping",
+      "key": "t_uint256",
+      "label": "mapping(uint256 => mapping(address => struct InsolvencyModeProbe.Position))",
+      "numberOfBytes": "32",
+      "value": "t_mapping(t_address,t_struct(Position)50505_storage)"
+    },
+    "t_mapping(t_uint256,t_struct(Epoch)50500_storage)": {
+      "encoding": "mapping",
+      "key": "t_uint256",
+      "label": "mapping(uint256 => struct InsolvencyModeProbe.Epoch)",
+      "numberOfBytes": "32",
+      "value": "t_struct(Epoch)50500_storage"
+    },
+    "t_string_storage": {
+      "encoding": "bytes",
+      "label": "string",
+      "numberOfBytes": "32"
+    },
+    "t_struct(Epoch)50500_storage": {
+      "encoding": "inplace",
+      "label": "struct InsolvencyModeProbe.Epoch",
+      "numberOfBytes": "192",
+      "members": [
+        {
+          "astId": 50489,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "num",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint256"
+        },
+        {
+          "astId": 50491,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "den",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint256"
+        },
+        {
+          "astId": 50493,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "requested",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_uint256"
+        },
+        {
+          "astId": 50495,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "claimed",
+          "offset": 0,
+          "slot": "3",
+          "type": "t_uint256"
+        },
+        {
+          "astId": 50497,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "remaining",
+          "offset": 0,
+          "slot": "4",
+          "type": "t_uint256"
+        },
+        {
+          "astId": 50499,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "settled",
+          "offset": 0,
+          "slot": "5",
+          "type": "t_bool"
+        }
+      ]
+    },
+    "t_struct(Mode)50482_storage": {
+      "encoding": "inplace",
+      "label": "struct InsolvencyModeProbe.Mode",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 50477,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "insolvent",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_bool"
+        },
+        {
+          "astId": 50479,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "incidentId",
+          "offset": 1,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 50481,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "enteredAt",
+          "offset": 17,
+          "slot": "0",
+          "type": "t_uint64"
+        }
+      ]
+    },
+    "t_struct(Position)50505_storage": {
+      "encoding": "inplace",
+      "label": "struct InsolvencyModeProbe.Position",
+      "numberOfBytes": "64",
+      "members": [
+        {
+          "astId": 50502,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "requested",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint256"
+        },
+        {
+          "astId": 50504,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "claimed",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint256"
+        }
+      ]
+    },
+    "t_struct(Source)50487_storage": {
+      "encoding": "inplace",
+      "label": "struct InsolvencyModeProbe.Source",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 50484,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "remaining",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 50486,
+          "contract": "InsolvencyMode.t.sol:InsolvencyModeProbe",
+          "label": "realizedLoss",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        }
+      ]
+    },
+    "t_uint128": {
+      "encoding": "inplace",
+      "label": "uint128",
+      "numberOfBytes": "16"
+    },
+    "t_uint256": {
+      "encoding": "inplace",
+      "label": "uint256",
+      "numberOfBytes": "32"
+    },
+    "t_uint64": {
+      "encoding": "inplace",
+      "label": "uint64",
+      "numberOfBytes": "8"
+    }
+  }
+}

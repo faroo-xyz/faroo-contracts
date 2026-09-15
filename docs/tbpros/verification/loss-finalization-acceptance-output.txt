@@ -1,0 +1,2 @@
+/Volumes/project/workspace/faroo-contracts/docs/tbpros/verification/scaled-loss-comparison.json
+LOSS-MATH-01 hard acceptance gate: FAIL

@@ -1,0 +1,51 @@
+{
+  "package": "@openzeppelin/contracts",
+  "version": "5.6.1",
+  "source": "Existing pinned repository dependency, not a new protocol code transplant",
+  "files": [
+    {
+      "path": "node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol",
+      "sha256": "50f34ae16a067a41c2c1091445d11d63788e54c717677cb6d6b0e4cdea2ad21d",
+      "license": "MIT"
+    },
+    {
+      "path": "node_modules/@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol",
+      "sha256": "c2394cb2a327f234711da34884947f4aa0f6dd2791d1d6303a0c7acfaf81bca3",
+      "license": "MIT"
+    },
+    {
+      "path": "node_modules/@openzeppelin/contracts/utils/math/Math.sol",
+      "sha256": "bdfdbe133991c0c78042957ff5cd97167926fcaf6d15664f3835a076cb066457",
+      "license": "MIT"
+    },
+    {
+      "path": "node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol",
+      "sha256": "5779bc848bde39f1ad7bc02b4f708a0040888e0083b1a33f119cd94639350134",
+      "license": "MIT"
+    },
+    {
+      "path": "node_modules/@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol",
+      "sha256": "cff7c20aed945d939b764d876adbd42e1b7725d62d5b1f2bd303db237567b575",
+      "license": "MIT"
+    },
+    {
+      "path": "node_modules/@openzeppelin/contracts/governance/TimelockController.sol",
+      "sha256": "50265193f9ded275033a7b87cd4f6d883f77154b000bf1c5ca7b805052b855c4",
+      "license": "MIT"
+    },
+    {
+      "path": "node_modules/@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol",
+      "sha256": "4da9a90b1c8b45fdab7d73d8cf81f51cf7d990657ee4e3f943492c3bf0e4c2f1",
+      "license": "MIT"
+    },
+    {
+      "path": "node_modules/@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol",
+      "sha256": "58c759fe76057e1cefa8909b446357aae5cac8a8ba7e6401650208d1b0481508",
+      "license": "MIT"
+    }
+  ],
+  "lockfile_sha256": {
+    "pnpm-lock.yaml": "5b5ba09fdf1b387fb3087d3f0bc53b166e84e6ab9395c2ef5cc09627eb3880b5"
+  },
+  "production_audit_match": "UNVERIFIED"
+}

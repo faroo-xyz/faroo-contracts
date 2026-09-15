@@ -1,0 +1,14 @@
+[profile.default]
+src = "models"
+test = "."
+out = "../../../cache/tbpros-pharos/out"
+cache_path = "../../../cache/tbpros-pharos/forge"
+libs = ["../../../node_modules"]
+remappings = ["regression/=../security-regression/", "forge-std/=../../../node_modules/forge-std/src/", "@openzeppelin/=../../../node_modules/@openzeppelin/"]
+solc = "0.8.28"
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+via_ir = false
+[rpc_endpoints]
+pharos = "${PHAROS_MAINNET_RPC_URL}"

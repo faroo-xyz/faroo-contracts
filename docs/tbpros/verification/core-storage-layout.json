@@ -1,0 +1,2200 @@
+{
+  "profile": {
+    "compiler": "0.8.28+commit.7893614a",
+    "openzeppelin": "5.6.1",
+    "openzeppelin_upgradeable": "5.6.1",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "viaIR": false,
+    "evmVersion": "cancun",
+    "source_sha256": {
+      "contracts/tbpros/TbPROSStorage.sol": "8252547cb33737b740accb3523e07a4c4e1b10854a8021651748181ce524c6f4",
+      "contracts/tbpros/TbPROSVault.sol": "023c64961daca83d56d2a68bd06204068f4eb131b26b15ec5402b076474830fa",
+      "contracts/tbpros/governance/UpgradeGateway.sol": "8ad03dde8421f397e47fd6b61c70ecc5e104eb0801423f694acd9225b8136c34",
+      "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+      "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+      "contracts/tbpros/interfaces/ITbPROSOracleAdapter.sol": "0537236d23d7d620a41c818cecd62ab8c2e527f7b02e65560cbc309568189302",
+      "contracts/tbpros/interfaces/ITbPROSVault.sol": "1cf1453d4de2cb443de0d9a27da58a222cd89954c5b0d19f54899b7aab65f796",
+      "contracts/tbpros/interfaces/IUpgradeGateway.sol": "8938375ce307720e20943169634e7e01e497b703631681af149a929686fbc45a",
+      "contracts/tbpros/lens/TbPROSLens.sol": "16ddacacf22aabc001b40f3231495675513509bf060e83ee8c638b2abff70b4a",
+      "contracts/tbpros/libraries/AccountingMath.sol": "02cf4c95e2401b862133bb0827765ceab91ca65fd4a041626bd70ccaa0015852",
+      "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af",
+      "contracts/tbpros/libraries/PlanMath.sol": "d6f060ef1e614f861722357d716ab66b7e8dabe5a29f647cd6a8af6d127098a4",
+      "contracts/tbpros/reserves/ProsReserve.sol": "697c155f99bc8983021e7f984d4fcdc8bfe4a607c395dc4a8342d74f5b154a28",
+      "foundry.toml": "1a4cc73733f8d503377ec597e79fd18fd38b2659d6b2fcc311a221e8adfadbc5",
+      "hardhat.tbpros.config.ts": "3c6cb554f891b5e90f40324389d9554f9d4ba84ab333b0413f7c5e2a6d774766",
+      "node_modules/@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol": "b6fcfbabb4fb0f0b23b018ed667a5302adcda512ce635c52b50ee2704609fdb7",
+      "node_modules/@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol": "96832b6e848020275ca4f4ef1ba32b7d2b541dc0daf26bca19ea8d0b1b3df68e",
+      "node_modules/@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol": "caf06b4c93bbc1d54eb772e76e949bd4a2520c535cc591d07e57cbafaf90b2fd",
+      "node_modules/@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol": "73882072b1bd2744526f0ea1456ae0a53ae867d971ddf744d46b4a7c3c8eee57",
+      "node_modules/@openzeppelin/contracts/access/IAccessControl.sol": "140304b7e99d517c57a13f391dfd3b550ca633a507f7b2af130f391b6cd89cc5",
+      "node_modules/@openzeppelin/contracts/access/Ownable.sol": "38578bd71c0a909840e67202db527cc6b4e6b437e0f39f0c909da32c1e30cb81",
+      "node_modules/@openzeppelin/contracts/interfaces/IERC1967.sol": "c4e901318ab6d4963582c62c62ce988a34c68dbae71846b67decacde79e9a317",
+      "node_modules/@openzeppelin/contracts/interfaces/draft-IERC6093.sol": "fa7068f56bc180571a6095be6eaef06d51dbe81e30cb128397d993c9599ecc30",
+      "node_modules/@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol": "41a3040398d53999dea3251ff8906e11ec1a699362a1d8f4a55bfc7709cc00f3",
+      "node_modules/@openzeppelin/contracts/proxy/ERC1967/ERC1967Utils.sol": "a89ba2032ab25959c6fde1e508ebf8f966ff632703d3ef79684f578a8fa8033f",
+      "node_modules/@openzeppelin/contracts/proxy/Proxy.sol": "fa8aae37b2939371fcbce48b814c0d5c7e57e3e267f348459f29941937746c98",
+      "node_modules/@openzeppelin/contracts/proxy/beacon/IBeacon.sol": "c1c9726bbb0ec4c540c7c98059dcded69a8586b46c168036672381033ee76239",
+      "node_modules/@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol": "4da9a90b1c8b45fdab7d73d8cf81f51cf7d990657ee4e3f943492c3bf0e4c2f1",
+      "node_modules/@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol": "58c759fe76057e1cefa8909b446357aae5cac8a8ba7e6401650208d1b0481508",
+      "node_modules/@openzeppelin/contracts/proxy/utils/Initializable.sol": "f527a063813c2bf60c153fb08e38539578935402894fcc36fac42324ca325d3b",
+      "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": "01b6f5c4fa45fd38822b286ecef6daf983d27306dd6362496fa71b3e4600b72c",
+      "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": "0b7132f17d14d1d84b41b0bb429be62dafdff00fd3470f68724d8018eb07f57a",
+      "node_modules/@openzeppelin/contracts/utils/Address.sol": "73e54e15285455f0e01e136c3663732641537614723ae5dbd820eb3cb036b1fd",
+      "node_modules/@openzeppelin/contracts/utils/Context.sol": "847fda5460fee70f56f4200f59b82ae622bb03c79c77e67af010e31b7e2cc5b6",
+      "node_modules/@openzeppelin/contracts/utils/Errors.sol": "0704b9d6c032cca8512a3bc3f30f49f86f1f03102d2896a3d23e794b82efea66",
+      "node_modules/@openzeppelin/contracts/utils/LowLevelCall.sol": "e128cbe9c6c406d5a42c26e4079c0a95b369ce552f2d0c3dfd2fcb836c5708f2",
+      "node_modules/@openzeppelin/contracts/utils/Panic.sol": "270fc8401c1a13fae6a7a4a2dd6e381b95d658896701e51f0d3e2688acab3dec",
+      "node_modules/@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol": "cff7c20aed945d939b764d876adbd42e1b7725d62d5b1f2bd303db237567b575",
+      "node_modules/@openzeppelin/contracts/utils/StorageSlot.sol": "75704538dcb223239280c6726d9a31cf769a7816718517c997fc7d63bdb70778",
+      "node_modules/@openzeppelin/contracts/utils/TransientSlot.sol": "ea92f361d697ba8b1fbd322b4d84b989998862c21fbebfa4b45289dc94a9eea2",
+      "node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": "9055c2994b37dea1a41b7b7926dcb510f05dbe2540b0aafc5fbee9558fffd0ca",
+      "node_modules/@openzeppelin/contracts/utils/math/Math.sol": "bdfdbe133991c0c78042957ff5cd97167926fcaf6d15664f3835a076cb066457",
+      "node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol": "5779bc848bde39f1ad7bc02b4f708a0040888e0083b1a33f119cd94639350134",
+      "pnpm-lock.yaml": "5b5ba09fdf1b387fb3087d3f0bc53b166e84e6ab9395c2ef5cc09627eb3880b5",
+      "reference/tbpros/calendar-fixtures.json": "bbb335b415775eb73259fa32a1b1108546a698a5b239c3b3471c05979eab9b73",
+      "test/tbpros/core-skeleton/CoreSkeleton.t.sol": "af90e6cf5cf70cee8929d67a468e8e7858665de18633393bcfb16f5226796e5a"
+    }
+  },
+  "schema": "V1 candidate baseline, not an upgrade-compatibility proof",
+  "namespaces": [
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "slot": "0x7def806360c36a43f97881f41b9e336dc21f4bcdb6a0635f38229e4d0cd22100",
+      "type": "t_struct(Layout)218_storage"
+    },
+    {
+      "namespace": "openzeppelin.storage.ERC20",
+      "slot": "0x52c63247e1f47db19d5ce0460030c497f067ca4cebf71ba98eeadabe20bace00",
+      "type": "t_struct(ERC20Storage)4176_storage"
+    },
+    {
+      "namespace": "openzeppelin.storage.AccessControl",
+      "slot": "0x02dd7bc7dec4dceedda775e58dd541e08a116c6c53815c0bd028192f7b626800",
+      "type": "t_struct(AccessControlStorage)3808_storage"
+    },
+    {
+      "namespace": "openzeppelin.storage.Initializable",
+      "slot": "0xf0c57e16840df040f15088dc2f81fe391c3923bec73e23a9662efc9c229c6a00",
+      "type": "t_struct(InitializableStorage)5995_storage"
+    }
+  ],
+  "types": {
+    "t_address": {
+      "encoding": "inplace",
+      "label": "address",
+      "numberOfBytes": "20"
+    },
+    "t_array(t_struct(Bucket)91_storage)2_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Bucket[2]",
+      "numberOfBytes": "128",
+      "base": "t_struct(Bucket)91_storage"
+    },
+    "t_array(t_struct(Plan)59_storage)2_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Plan[2]",
+      "numberOfBytes": "448",
+      "base": "t_struct(Plan)59_storage"
+    },
+    "t_array(t_struct(Source)40_storage)2_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Source[2]",
+      "numberOfBytes": "128",
+      "base": "t_struct(Source)40_storage"
+    },
+    "t_bool": {
+      "encoding": "inplace",
+      "label": "bool",
+      "numberOfBytes": "1"
+    },
+    "t_bytes32": {
+      "encoding": "inplace",
+      "label": "bytes32",
+      "numberOfBytes": "32"
+    },
+    "t_enum(EpochStatus)11": {
+      "encoding": "inplace",
+      "label": "enum TbPROSStorage.EpochStatus",
+      "numberOfBytes": "1"
+    },
+    "t_enum(PlanStatus)7": {
+      "encoding": "inplace",
+      "label": "enum TbPROSStorage.PlanStatus",
+      "numberOfBytes": "1"
+    },
+    "t_mapping(t_address,t_bool)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => bool)",
+      "numberOfBytes": "32",
+      "value": "t_bool"
+    },
+    "t_mapping(t_address,t_mapping(t_address,t_bool))": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => mapping(address => bool))",
+      "numberOfBytes": "32",
+      "value": "t_mapping(t_address,t_bool)"
+    },
+    "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => mapping(address => uint256))",
+      "numberOfBytes": "32",
+      "value": "t_mapping(t_address,t_uint256)"
+    },
+    "t_mapping(t_address,t_mapping(t_uint64,t_struct(Position)80_storage))": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => mapping(uint64 => struct TbPROSStorage.Position))",
+      "numberOfBytes": "32",
+      "value": "t_mapping(t_uint64,t_struct(Position)80_storage)"
+    },
+    "t_mapping(t_address,t_uint128)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => uint128)",
+      "numberOfBytes": "32",
+      "value": "t_uint128"
+    },
+    "t_mapping(t_address,t_uint256)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => uint256)",
+      "numberOfBytes": "32",
+      "value": "t_uint256"
+    },
+    "t_mapping(t_bytes32,t_struct(RoleData)3798_storage)": {
+      "encoding": "mapping",
+      "key": "t_bytes32",
+      "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+      "numberOfBytes": "32",
+      "value": "t_struct(RoleData)3798_storage"
+    },
+    "t_mapping(t_uint64,t_struct(Epoch)75_storage)": {
+      "encoding": "mapping",
+      "key": "t_uint64",
+      "label": "mapping(uint64 => struct TbPROSStorage.Epoch)",
+      "numberOfBytes": "32",
+      "value": "t_struct(Epoch)75_storage"
+    },
+    "t_mapping(t_uint64,t_struct(Position)80_storage)": {
+      "encoding": "mapping",
+      "key": "t_uint64",
+      "label": "mapping(uint64 => struct TbPROSStorage.Position)",
+      "numberOfBytes": "32",
+      "value": "t_struct(Position)80_storage"
+    },
+    "t_string_storage": {
+      "encoding": "bytes",
+      "label": "string",
+      "numberOfBytes": "32"
+    },
+    "t_struct(AccessControlStorage)3808_storage": {
+      "encoding": "inplace",
+      "label": "struct AccessControlUpgradeable.AccessControlStorage",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 3807,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_roles",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_mapping(t_bytes32,t_struct(RoleData)3798_storage)"
+        }
+      ]
+    },
+    "t_struct(Accounting)24_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Accounting",
+      "numberOfBytes": "96",
+      "members": [
+        {
+          "astId": 13,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "R",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 15,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "P",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 17,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "F",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 19,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "U",
+          "offset": 16,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 21,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "B",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 23,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "C",
+          "offset": 16,
+          "slot": "2",
+          "type": "t_uint128"
+        }
+      ]
+    },
+    "t_struct(Bucket)91_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Bucket",
+      "numberOfBytes": "64",
+      "members": [
+        {
+          "astId": 82,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "capacity",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 84,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "credit",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 86,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "refillRateWad",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 88,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "lastUpdate",
+          "offset": 16,
+          "slot": "1",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 90,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "remainder",
+          "offset": 24,
+          "slot": "1",
+          "type": "t_uint64"
+        }
+      ]
+    },
+    "t_struct(Dependencies)135_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Dependencies",
+      "numberOfBytes": "320",
+      "members": [
+        {
+          "astId": 116,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "timelock",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_address"
+        },
+        {
+          "astId": 118,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "usdc",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_address"
+        },
+        {
+          "astId": 120,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "wpros",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_address"
+        },
+        {
+          "astId": 122,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "stpros",
+          "offset": 0,
+          "slot": "3",
+          "type": "t_address"
+        },
+        {
+          "astId": 124,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "subscriptionReserve",
+          "offset": 0,
+          "slot": "4",
+          "type": "t_address"
+        },
+        {
+          "astId": 126,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "yieldReserve",
+          "offset": 0,
+          "slot": "5",
+          "type": "t_address"
+        },
+        {
+          "astId": 128,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "oracle",
+          "offset": 0,
+          "slot": "6",
+          "type": "t_address"
+        },
+        {
+          "astId": 130,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "gateway",
+          "offset": 0,
+          "slot": "7",
+          "type": "t_address"
+        },
+        {
+          "astId": 132,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "foundationReceiver",
+          "offset": 0,
+          "slot": "8",
+          "type": "t_address"
+        },
+        {
+          "astId": 134,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "yieldRefundReceiver",
+          "offset": 0,
+          "slot": "9",
+          "type": "t_address"
+        }
+      ]
+    },
+    "t_struct(ERC20Storage)4176_storage": {
+      "encoding": "inplace",
+      "label": "struct ERC20Upgradeable.ERC20Storage",
+      "numberOfBytes": "160",
+      "members": [
+        {
+          "astId": 4163,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_balances",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_mapping(t_address,t_uint256)"
+        },
+        {
+          "astId": 4169,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_allowances",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))"
+        },
+        {
+          "astId": 4171,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_totalSupply",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_uint256"
+        },
+        {
+          "astId": 4173,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_name",
+          "offset": 0,
+          "slot": "3",
+          "type": "t_string_storage"
+        },
+        {
+          "astId": 4175,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_symbol",
+          "offset": 0,
+          "slot": "4",
+          "type": "t_string_storage"
+        }
+      ]
+    },
+    "t_struct(Epoch)75_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Epoch",
+      "numberOfBytes": "96",
+      "members": [
+        {
+          "astId": 61,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "totalRequestedShares",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 63,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "totalClaimedShares",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 65,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "num",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 67,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "den",
+          "offset": 16,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 69,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "remainingAssets",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 71,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "nextDueAt",
+          "offset": 16,
+          "slot": "2",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 74,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "status",
+          "offset": 24,
+          "slot": "2",
+          "type": "t_enum(EpochStatus)11"
+        }
+      ]
+    },
+    "t_struct(InitializableStorage)5995_storage": {
+      "encoding": "inplace",
+      "label": "struct Initializable.InitializableStorage",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 5991,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_initialized",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 5994,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "_initializing",
+          "offset": 8,
+          "slot": "0",
+          "type": "t_bool"
+        }
+      ]
+    },
+    "t_struct(Layout)218_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Layout",
+      "numberOfBytes": "1248",
+      "members": [
+        {
+          "astId": 168,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "accounting",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_struct(Accounting)24_storage"
+        },
+        {
+          "astId": 171,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "mode",
+          "offset": 0,
+          "slot": "3",
+          "type": "t_struct(Mode)31_storage"
+        },
+        {
+          "astId": 174,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "dependencies",
+          "offset": 0,
+          "slot": "4",
+          "type": "t_struct(Dependencies)135_storage"
+        },
+        {
+          "astId": 177,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "policy",
+          "offset": 0,
+          "slot": "14",
+          "type": "t_struct(Policy)150_storage"
+        },
+        {
+          "astId": 182,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "plans",
+          "offset": 0,
+          "slot": "15",
+          "type": "t_array(t_struct(Plan)59_storage)2_storage"
+        },
+        {
+          "astId": 187,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "riskBuckets",
+          "offset": 0,
+          "slot": "29",
+          "type": "t_array(t_struct(Bucket)91_storage)2_storage"
+        },
+        {
+          "astId": 189,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "nextPlanId",
+          "offset": 0,
+          "slot": "33",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 191,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "queueHead",
+          "offset": 16,
+          "slot": "33",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 193,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "queueTail",
+          "offset": 24,
+          "slot": "33",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 195,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "lastSettledDueAt",
+          "offset": 0,
+          "slot": "34",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 200,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "epochs",
+          "offset": 0,
+          "slot": "35",
+          "type": "t_mapping(t_uint64,t_struct(Epoch)75_storage)"
+        },
+        {
+          "astId": 207,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "positions",
+          "offset": 0,
+          "slot": "36",
+          "type": "t_mapping(t_address,t_mapping(t_uint64,t_struct(Position)80_storage))"
+        },
+        {
+          "astId": 211,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "openPositionCount",
+          "offset": 0,
+          "slot": "37",
+          "type": "t_mapping(t_address,t_uint128)"
+        },
+        {
+          "astId": 217,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "operators",
+          "offset": 0,
+          "slot": "38",
+          "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
+        }
+      ]
+    },
+    "t_struct(Mode)31_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Mode",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 26,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "insolvent",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_bool"
+        },
+        {
+          "astId": 28,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "incidentId",
+          "offset": 1,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 30,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "enteredAt",
+          "offset": 17,
+          "slot": "0",
+          "type": "t_uint64"
+        }
+      ]
+    },
+    "t_struct(Plan)59_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Plan",
+      "numberOfBytes": "224",
+      "members": [
+        {
+          "astId": 42,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "id",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 44,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "start",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 46,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "end",
+          "offset": 24,
+          "slot": "0",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 48,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "cursor",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 51,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "status",
+          "offset": 8,
+          "slot": "1",
+          "type": "t_enum(PlanStatus)7"
+        },
+        {
+          "astId": 53,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "numeratorRemainder",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_uint256"
+        },
+        {
+          "astId": 58,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "sources",
+          "offset": 0,
+          "slot": "3",
+          "type": "t_array(t_struct(Source)40_storage)2_storage"
+        }
+      ]
+    },
+    "t_struct(Policy)150_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Policy",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 137,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "uCap",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 139,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "maxMintLossBps",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint16"
+        },
+        {
+          "astId": 141,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "fastFeeBps",
+          "offset": 18,
+          "slot": "0",
+          "type": "t_uint16"
+        },
+        {
+          "astId": 143,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "maxFastFeeBps",
+          "offset": 20,
+          "slot": "0",
+          "type": "t_uint16"
+        },
+        {
+          "astId": 145,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "maxPlanDuration",
+          "offset": 22,
+          "slot": "0",
+          "type": "t_uint64"
+        },
+        {
+          "astId": 147,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "riskPaused",
+          "offset": 30,
+          "slot": "0",
+          "type": "t_bool"
+        },
+        {
+          "astId": 149,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "requestsPaused",
+          "offset": 31,
+          "slot": "0",
+          "type": "t_bool"
+        }
+      ]
+    },
+    "t_struct(Position)80_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Position",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 77,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "requestedShares",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 79,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "claimedShares",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        }
+      ]
+    },
+    "t_struct(RoleData)3798_storage": {
+      "encoding": "inplace",
+      "label": "struct AccessControlUpgradeable.RoleData",
+      "numberOfBytes": "64",
+      "members": [
+        {
+          "astId": 3795,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "hasRole",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_mapping(t_address,t_bool)"
+        },
+        {
+          "astId": 3797,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "adminRole",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_bytes32"
+        }
+      ]
+    },
+    "t_struct(Source)40_storage": {
+      "encoding": "inplace",
+      "label": "struct TbPROSStorage.Source",
+      "numberOfBytes": "64",
+      "members": [
+        {
+          "astId": 33,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "remaining",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 35,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "realizedYield",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 37,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "realizedLoss",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 39,
+          "contract": "test/tbpros/core-skeleton/CoreSkeleton.t.sol:CoreLayoutIntrospection",
+          "label": "funded",
+          "offset": 16,
+          "slot": "1",
+          "type": "t_uint128"
+        }
+      ]
+    },
+    "t_uint128": {
+      "encoding": "inplace",
+      "label": "uint128",
+      "numberOfBytes": "16"
+    },
+    "t_uint16": {
+      "encoding": "inplace",
+      "label": "uint16",
+      "numberOfBytes": "2"
+    },
+    "t_uint256": {
+      "encoding": "inplace",
+      "label": "uint256",
+      "numberOfBytes": "32"
+    },
+    "t_uint64": {
+      "encoding": "inplace",
+      "label": "uint64",
+      "numberOfBytes": "8"
+    }
+  },
+  "ordinary_storage": {
+    "TbPROSVault": {
+      "storage": [],
+      "types": {}
+    },
+    "ProsReserve": {
+      "storage": [
+        {
+          "astId": 3521,
+          "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
+          "label": "boundVault",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_address"
+        },
+        {
+          "astId": 3524,
+          "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
+          "label": "_period",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_struct(Period)2334_storage"
+        }
+      ],
+      "types": {
+        "t_address": {
+          "encoding": "inplace",
+          "label": "address",
+          "numberOfBytes": "20"
+        },
+        "t_struct(Period)2334_storage": {
+          "encoding": "inplace",
+          "label": "struct IProsReserve.Period",
+          "numberOfBytes": "64",
+          "members": [
+            {
+              "astId": 2325,
+              "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
+              "label": "id",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_uint128"
+            },
+            {
+              "astId": 2327,
+              "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
+              "label": "start",
+              "offset": 16,
+              "slot": "0",
+              "type": "t_uint64"
+            },
+            {
+              "astId": 2329,
+              "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
+              "label": "expiry",
+              "offset": 24,
+              "slot": "0",
+              "type": "t_uint64"
+            },
+            {
+              "astId": 2331,
+              "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
+              "label": "limit",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint128"
+            },
+            {
+              "astId": 2333,
+              "contract": "contracts/tbpros/reserves/ProsReserve.sol:ProsReserve",
+              "label": "spent",
+              "offset": 16,
+              "slot": "1",
+              "type": "t_uint128"
+            }
+          ]
+        },
+        "t_uint128": {
+          "encoding": "inplace",
+          "label": "uint128",
+          "numberOfBytes": "16"
+        },
+        "t_uint64": {
+          "encoding": "inplace",
+          "label": "uint64",
+          "numberOfBytes": "8"
+        }
+      }
+    },
+    "UpgradeGateway": {
+      "storage": [
+        {
+          "astId": 1991,
+          "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
+          "label": "boundVault",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_address"
+        },
+        {
+          "astId": 1993,
+          "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
+          "label": "proxyAdmin",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_address"
+        },
+        {
+          "astId": 1996,
+          "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
+          "label": "_proposal",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_struct(Proposal)2975_storage"
+        }
+      ],
+      "types": {
+        "t_address": {
+          "encoding": "inplace",
+          "label": "address",
+          "numberOfBytes": "20"
+        },
+        "t_bool": {
+          "encoding": "inplace",
+          "label": "bool",
+          "numberOfBytes": "1"
+        },
+        "t_bytes32": {
+          "encoding": "inplace",
+          "label": "bytes32",
+          "numberOfBytes": "32"
+        },
+        "t_struct(Proposal)2975_storage": {
+          "encoding": "inplace",
+          "label": "struct IUpgradeGateway.Proposal",
+          "numberOfBytes": "96",
+          "members": [
+            {
+              "astId": 2966,
+              "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
+              "label": "nonce",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_uint128"
+            },
+            {
+              "astId": 2968,
+              "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
+              "label": "eta",
+              "offset": 16,
+              "slot": "0",
+              "type": "t_uint64"
+            },
+            {
+              "astId": 2970,
+              "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
+              "label": "canceled",
+              "offset": 24,
+              "slot": "0",
+              "type": "t_bool"
+            },
+            {
+              "astId": 2972,
+              "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
+              "label": "implementation",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_address"
+            },
+            {
+              "astId": 2974,
+              "contract": "contracts/tbpros/governance/UpgradeGateway.sol:UpgradeGateway",
+              "label": "dataHash",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_bytes32"
+            }
+          ]
+        },
+        "t_uint128": {
+          "encoding": "inplace",
+          "label": "uint128",
+          "numberOfBytes": "16"
+        },
+        "t_uint64": {
+          "encoding": "inplace",
+          "label": "uint64",
+          "numberOfBytes": "8"
+        }
+      }
+    },
+    "TbPROSLens": {
+      "storage": [],
+      "types": {}
+    }
+  },
+  "materialization": "Compiler harness uses the actual imported production/OZ struct types. Its ordinary root slots are NOT production namespace locations; only compiler member offsets/types/array strides are used.",
+  "transient": {
+    "vault_local": "OZ ReentrancyGuardTransient namespace; no initializer or persistent status",
+    "gateway_busy": "0x9a1c5226cee100675b15a83a58c797013378a80085251d580242a4ae5dc55fe3",
+    "gateway_upgrading": "0xe04bd8d335f0e9437a2103703be049cea55779b8fc9eab5e587661e89b66bb32"
+  },
+  "mode_packing_verified": true,
+  "field_semantics": [
+    {
+      "namespace": "openzeppelin.storage.AccessControl",
+      "field": "AccessControlStorage._roles",
+      "type": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "mapping bytes32=>RoleData",
+      "meaning": "OZ role registry; fixed default admin TL, managed Guardian",
+      "writer": "OZ internal init; TL grant/revoke Guardian; self Guardian renounce",
+      "reset_conditions": "cannot grant/revoke/renounce default admin through exposed methods",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Accounting.R",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "stPROS raw18",
+      "meaning": "released active assets; excludes P/F/H",
+      "writer": "Vault business helpers; C init/TL config",
+      "reset_conditions": "R/U/B clear only at full burn; P after all claims/dust; F only approved classification/payout/absorption",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Accounting.P",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 16,
+      "unit": "stPROS raw18",
+      "meaning": "unpaid settled base entitlement plus epoch rounding residue",
+      "writer": "Vault business helpers; C init/TL config",
+      "reset_conditions": "R/U/B clear only at full burn; P after all claims/dust; F only approved classification/payout/absorption",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Accounting.F",
+      "type": "uint128",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "stPROS raw18",
+      "meaning": "penalty/protocol residual; first loss buffer",
+      "writer": "Vault business helpers; C init/TL config",
+      "reset_conditions": "R/U/B clear only at full burn; P after all claims/dust; F only approved classification/payout/absorption",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Accounting.U",
+      "type": "uint128",
+      "relative_slot": "1",
+      "offset_bytes": 16,
+      "unit": "USDC raw6",
+      "meaning": "nominal outstanding subscription principal",
+      "writer": "Vault business helpers; C init/TL config",
+      "reset_conditions": "R/U/B clear only at full burn; P after all claims/dust; F only approved classification/payout/absorption",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Accounting.B",
+      "type": "uint128",
+      "relative_slot": "2",
+      "offset_bytes": 0,
+      "unit": "PROS raw18",
+      "meaning": "outstanding subscribed PROS principal",
+      "writer": "Vault business helpers; C init/TL config",
+      "reset_conditions": "R/U/B clear only at full burn; P after all claims/dust; F only approved classification/payout/absorption",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Accounting.C",
+      "type": "uint128",
+      "relative_slot": "2",
+      "offset_bytes": 16,
+      "unit": "PROS raw18",
+      "meaning": "outstanding principal cap; distinct from flow credits",
+      "writer": "Vault business helpers; C init/TL config",
+      "reset_conditions": "R/U/B clear only at full burn; P after all claims/dust; F only approved classification/payout/absorption",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Bucket.capacity",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "PROS raw18",
+      "meaning": "burst capacity, separate for each of two buckets",
+      "writer": "Vault init/consume/refill/TL conservative reconfiguration",
+      "reset_conditions": "init credit/remainder=0; refill/cap clipping materialize before config; saturation clears unused remainder; no free top-up",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Bucket.credit",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 16,
+      "unit": "PROS raw18",
+      "meaning": "remaining flow allowance; never restored by burn/funding/config switch",
+      "writer": "Vault init/consume/refill/TL conservative reconfiguration",
+      "reset_conditions": "init credit/remainder=0; refill/cap clipping materialize before config; saturation clears unused remainder; no free top-up",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Bucket.refillRateWad",
+      "type": "uint128",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "PROS raw18 * 1e18 / second",
+      "meaning": "exact fixed-denominator rate representation; rho numeric value pending",
+      "writer": "Vault init/consume/refill/TL conservative reconfiguration",
+      "reset_conditions": "init credit/remainder=0; refill/cap clipping materialize before config; saturation clears unused remainder; no free top-up",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Bucket.lastUpdate",
+      "type": "uint64",
+      "relative_slot": "1",
+      "offset_bytes": 16,
+      "unit": "UTC seconds",
+      "meaning": "last materialized refill/consumption time; initializes to current timestamp",
+      "writer": "Vault init/consume/refill/TL conservative reconfiguration",
+      "reset_conditions": "init credit/remainder=0; refill/cap clipping materialize before config; saturation clears unused remainder; no free top-up",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Bucket.remainder",
+      "type": "uint64",
+      "relative_slot": "1",
+      "offset_bytes": 24,
+      "unit": "numerator modulo 1e18",
+      "meaning": "fractional PROS raw carry, 0<=r<1e18; no independent allowance",
+      "writer": "Vault init/consume/refill/TL conservative reconfiguration",
+      "reset_conditions": "init credit/remainder=0; refill/cap clipping materialize before config; saturation clears unused remainder; no free top-up",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Dependencies.timelock",
+      "type": "address",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "fixed core governance root",
+      "writer": "Vault initializer; only oracle/receivers have fixed-TL setters",
+      "reset_conditions": "fixed bindings never reset; mutable references only documented setters",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Dependencies.usdc",
+      "type": "address",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "subscription payment token, expected 6 decimals",
+      "writer": "Vault initializer; only oracle/receivers have fixed-TL setters",
+      "reset_conditions": "fixed bindings never reset; mutable references only documented setters",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Dependencies.wpros",
+      "type": "address",
+      "relative_slot": "2",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "fixed conversion asset and reserve custody, expected 18 decimals",
+      "writer": "Vault initializer; only oracle/receivers have fixed-TL setters",
+      "reset_conditions": "fixed bindings never reset; mutable references only documented setters",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Dependencies.stpros",
+      "type": "address",
+      "relative_slot": "3",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "fixed payout/custody token, expected 18 decimals; asset()=WPROS",
+      "writer": "Vault initializer; only oracle/receivers have fixed-TL setters",
+      "reset_conditions": "fixed bindings never reset; mutable references only documented setters",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Dependencies.subscriptionReserve",
+      "type": "address",
+      "relative_slot": "4",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "fixed subscription-purpose WPROS reserve",
+      "writer": "Vault initializer; only oracle/receivers have fixed-TL setters",
+      "reset_conditions": "fixed bindings never reset; mutable references only documented setters",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Dependencies.yieldReserve",
+      "type": "address",
+      "relative_slot": "5",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "fixed yield-purpose WPROS reserve",
+      "writer": "Vault initializer; only oracle/receivers have fixed-TL setters",
+      "reset_conditions": "fixed bindings never reset; mutable references only documented setters",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Dependencies.oracle",
+      "type": "address",
+      "relative_slot": "6",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "replaceable immutable-code adapter; provider deferred",
+      "writer": "Vault initializer; only oracle/receivers have fixed-TL setters",
+      "reset_conditions": "fixed bindings never reset; mutable references only documented setters",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Dependencies.gateway",
+      "type": "address",
+      "relative_slot": "7",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "fixed upgrade/funds interlock",
+      "writer": "Vault initializer; only oracle/receivers have fixed-TL setters",
+      "reset_conditions": "fixed bindings never reset; mutable references only documented setters",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Dependencies.foundationReceiver",
+      "type": "address",
+      "relative_slot": "8",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "USDC subscription recipient",
+      "writer": "Vault initializer; only oracle/receivers have fixed-TL setters",
+      "reset_conditions": "fixed bindings never reset; mutable references only documented setters",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Dependencies.yieldRefundReceiver",
+      "type": "address",
+      "relative_slot": "9",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "unused base stPROS refund recipient; neither Reserve nor Vault",
+      "writer": "Vault initializer; only oracle/receivers have fixed-TL setters",
+      "reset_conditions": "fixed bindings never reset; mutable references only documented setters",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "openzeppelin.storage.ERC20",
+      "field": "ERC20Storage._balances",
+      "type": "mapping(address => uint256)",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "share raw18",
+      "meaning": "only wallet and Vault escrow share balances",
+      "writer": "OZ ERC20 through guarded Vault transfer/mint/burn/escrow",
+      "reset_conditions": "supply changes only future subscribe/settle/fast; balances naturally zero; metadata never reset",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "openzeppelin.storage.ERC20",
+      "field": "ERC20Storage._allowances",
+      "type": "mapping(address => mapping(address => uint256))",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "share raw18",
+      "meaning": "ordinary spend allowance, not Claim authorization",
+      "writer": "OZ ERC20 through guarded Vault transfer/mint/burn/escrow",
+      "reset_conditions": "supply changes only future subscribe/settle/fast; balances naturally zero; metadata never reset",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "openzeppelin.storage.ERC20",
+      "field": "ERC20Storage._totalSupply",
+      "type": "uint256",
+      "relative_slot": "2",
+      "offset_bytes": 0,
+      "unit": "share raw18",
+      "meaning": "sole S, OZ uint256 storage with protocol mint bound uint128",
+      "writer": "OZ ERC20 through guarded Vault transfer/mint/burn/escrow",
+      "reset_conditions": "supply changes only future subscribe/settle/fast; balances naturally zero; metadata never reset",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "openzeppelin.storage.ERC20",
+      "field": "ERC20Storage._name",
+      "type": "string",
+      "relative_slot": "3",
+      "offset_bytes": 0,
+      "unit": "string",
+      "meaning": "immutable metadata tbPROS",
+      "writer": "OZ ERC20 through guarded Vault transfer/mint/burn/escrow",
+      "reset_conditions": "supply changes only future subscribe/settle/fast; balances naturally zero; metadata never reset",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "openzeppelin.storage.ERC20",
+      "field": "ERC20Storage._symbol",
+      "type": "string",
+      "relative_slot": "4",
+      "offset_bytes": 0,
+      "unit": "string",
+      "meaning": "immutable metadata tbPROS",
+      "writer": "OZ ERC20 through guarded Vault transfer/mint/burn/escrow",
+      "reset_conditions": "supply changes only future subscribe/settle/fast; balances naturally zero; metadata never reset",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Epoch.totalRequestedShares",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "share raw18",
+      "meaning": "aggregate escrow admission; immutable once settled",
+      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Epoch.totalClaimedShares",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 16,
+      "unit": "share raw18",
+      "meaning": "aggregate consumed rights, used for final dust completion",
+      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Epoch.num",
+      "type": "uint128",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "stPROS raw18",
+      "meaning": "immutable pre-settlement R numerator",
+      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Epoch.den",
+      "type": "uint128",
+      "relative_slot": "1",
+      "offset_bytes": 16,
+      "unit": "share raw18",
+      "meaning": "immutable pre-settlement ERC20 totalSupply denominator",
+      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Epoch.remainingAssets",
+      "type": "uint128",
+      "relative_slot": "2",
+      "offset_bytes": 0,
+      "unit": "stPROS raw18",
+      "meaning": "O(1) unpaid epoch budget including unresolved floor dust; no independently withdrawable right",
+      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Epoch.nextDueAt",
+      "type": "uint64",
+      "relative_slot": "2",
+      "offset_bytes": 16,
+      "unit": "UTC seconds/key",
+      "meaning": "next nonempty unsettled node; zero sentinel",
+      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Epoch.status",
+      "type": "enum TbPROSStorage.EpochStatus",
+      "relative_slot": "2",
+      "offset_bytes": 24,
+      "unit": "enum uint8",
+      "meaning": "Empty/Requested/Settled; maturity derived by time, completed data may be deleted",
+      "writer": "Vault shared request/settle/claim helpers (stub)",
+      "reset_conditions": "delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "openzeppelin.storage.Initializable",
+      "field": "InitializableStorage._initialized",
+      "type": "uint64",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "version uint64",
+      "meaning": "OZ initializer version; implementation disabled at max; proxy initializes at 1",
+      "writer": "OZ Initializable only",
+      "reset_conditions": "version never decreases; initializing cleared on completed initializer or rollback",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "openzeppelin.storage.Initializable",
+      "field": "InitializableStorage._initializing",
+      "type": "bool",
+      "relative_slot": "0",
+      "offset_bytes": 8,
+      "unit": "bool",
+      "meaning": "OZ initializer call-frame state",
+      "writer": "OZ Initializable only",
+      "reset_conditions": "version never decreases; initializing cleared on completed initializer or rollback",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.accounting",
+      "type": "struct TbPROSStorage.Accounting",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "struct",
+      "meaning": "sole core economic aggregate; S is exclusively OZ totalSupply",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.mode",
+      "type": "struct TbPROSStorage.Mode",
+      "relative_slot": "3",
+      "offset_bytes": 0,
+      "unit": "struct",
+      "meaning": "one-slot objective incident record",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.dependencies",
+      "type": "struct TbPROSStorage.Dependencies",
+      "relative_slot": "4",
+      "offset_bytes": 0,
+      "unit": "struct",
+      "meaning": "bindings/configuration references",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.policy",
+      "type": "struct TbPROSStorage.Policy",
+      "relative_slot": "14",
+      "offset_bytes": 0,
+      "unit": "struct",
+      "meaning": "limits and isolated pause bits",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.plans",
+      "type": "struct TbPROSStorage.Plan[2]",
+      "relative_slot": "15",
+      "offset_bytes": 0,
+      "unit": "Plan[2]",
+      "meaning": "active,next, each with base,penalty; fixed current state, no history",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.riskBuckets",
+      "type": "struct TbPROSStorage.Bucket[2]",
+      "relative_slot": "29",
+      "offset_bytes": 0,
+      "unit": "Bucket[2]",
+      "meaning": "independent short/long flow envelopes",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.nextPlanId",
+      "type": "uint128",
+      "relative_slot": "33",
+      "offset_bytes": 0,
+      "unit": "counter",
+      "meaning": "next monotonic ID, initial 1, never reused",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.queueHead",
+      "type": "uint64",
+      "relative_slot": "33",
+      "offset_bytes": 16,
+      "unit": "UTC seconds/key",
+      "meaning": "earliest nonempty unsettled epoch, zero empty",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.queueTail",
+      "type": "uint64",
+      "relative_slot": "33",
+      "offset_bytes": 24,
+      "unit": "UTC seconds/key",
+      "meaning": "last nonempty unsettled epoch, zero empty",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.lastSettledDueAt",
+      "type": "uint64",
+      "relative_slot": "34",
+      "offset_bytes": 0,
+      "unit": "UTC seconds/key",
+      "meaning": "monotonic settlement high-water mark; prevents replay after deleting completed epoch",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.epochs",
+      "type": "mapping(uint64 => struct TbPROSStorage.Epoch)",
+      "relative_slot": "35",
+      "offset_bytes": 0,
+      "unit": "mapping dueAt=>Epoch",
+      "meaning": "unique strict-next-UTC-month identity; no separate epochId/dueAt mirror",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.positions",
+      "type": "mapping(address => mapping(uint64 => struct TbPROSStorage.Position))",
+      "relative_slot": "36",
+      "offset_bytes": 0,
+      "unit": "mapping controller=>dueAt=>Position",
+      "meaning": "single share right, no caller-supplied asset balance",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.openPositionCount",
+      "type": "mapping(address => uint128)",
+      "relative_slot": "37",
+      "offset_bytes": 0,
+      "unit": "mapping controller=>count",
+      "meaning": "normal request count only; never used to reject safe admission",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Layout.operators",
+      "type": "mapping(address => mapping(address => bool))",
+      "relative_slot": "38",
+      "offset_bytes": 0,
+      "unit": "mapping controller=>operator=>bool",
+      "meaning": "explicit delegated custom request/claim authority",
+      "writer": "Vault only; nested writers as specified",
+      "reset_conditions": "no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Mode.insolvent",
+      "type": "bool",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "bool",
+      "meaning": "committed objective incident flag, not a privilege pause",
+      "writer": "Vault sync/restore only (both stub now)",
+      "reset_conditions": "restore clears bool only; never reset counter/time; F/H do not resurrect",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Mode.incidentId",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 1,
+      "unit": "counter",
+      "meaning": "monotonic incident entry number; does not increment for repeated sync in one incident",
+      "writer": "Vault sync/restore only (both stub now)",
+      "reset_conditions": "restore clears bool only; never reset counter/time; F/H do not resurrect",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Mode.enteredAt",
+      "type": "uint64",
+      "relative_slot": "0",
+      "offset_bytes": 17,
+      "unit": "UTC seconds",
+      "meaning": "last incident entry time; not cleared by restore",
+      "writer": "Vault sync/restore only (both stub now)",
+      "reset_conditions": "restore clears bool only; never reset counter/time; F/H do not resurrect",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Plan.id",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "counter",
+      "meaning": "monotonic plan identity; identifies source with base/penalty array slot",
+      "writer": "Vault funded-plan/checkpoint/close helpers (stub)",
+      "reset_conditions": "reuse fixed active/next only after close completes or safe atomic promotion; full burn retires; cursor/carry cannot pass to new holders",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Plan.start",
+      "type": "uint64",
+      "relative_slot": "0",
+      "offset_bytes": 16,
+      "unit": "UTC seconds",
+      "meaning": "inclusive future eligibility start",
+      "writer": "Vault funded-plan/checkpoint/close helpers (stub)",
+      "reset_conditions": "reuse fixed active/next only after close completes or safe atomic promotion; full burn retires; cursor/carry cannot pass to new holders",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Plan.end",
+      "type": "uint64",
+      "relative_slot": "0",
+      "offset_bytes": 24,
+      "unit": "UTC seconds",
+      "meaning": "exclusive eligibility end",
+      "writer": "Vault funded-plan/checkpoint/close helpers (stub)",
+      "reset_conditions": "reuse fixed active/next only after close completes or safe atomic promotion; full burn retires; cursor/carry cannot pass to new holders",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Plan.cursor",
+      "type": "uint64",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "UTC seconds",
+      "meaning": "last successful checkpoint clipped to eligible interval; not advanced by partial settlement",
+      "writer": "Vault funded-plan/checkpoint/close helpers (stub)",
+      "reset_conditions": "reuse fixed active/next only after close completes or safe atomic promotion; full burn retires; cursor/carry cannot pass to new holders",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Plan.status",
+      "type": "enum TbPROSStorage.PlanStatus",
+      "relative_slot": "1",
+      "offset_bytes": 8,
+      "unit": "enum uint8",
+      "meaning": "Empty/Funded/Active/Retired; retired after full burn prevents old H entering new supply",
+      "writer": "Vault funded-plan/checkpoint/close helpers (stub)",
+      "reset_conditions": "reuse fixed active/next only after close completes or safe atomic promotion; full burn retires; cursor/carry cannot pass to new holders",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Plan.numeratorRemainder",
+      "type": "uint256",
+      "relative_slot": "2",
+      "offset_bytes": 0,
+      "unit": "USD18 * 10000 * YEAR numerator units",
+      "meaning": "APR division carry <10000*YEAR; not a USD claim; burn scales down, full burn clears",
+      "writer": "Vault funded-plan/checkpoint/close helpers (stub)",
+      "reset_conditions": "reuse fixed active/next only after close completes or safe atomic promotion; full burn retires; cursor/carry cannot pass to new holders",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Plan.sources",
+      "type": "struct TbPROSStorage.Source[2]",
+      "relative_slot": "3",
+      "offset_bytes": 0,
+      "unit": "Source[2]",
+      "meaning": "base then penalty; distributable is derived sum of remaining",
+      "writer": "Vault funded-plan/checkpoint/close helpers (stub)",
+      "reset_conditions": "reuse fixed active/next only after close completes or safe atomic promotion; full burn retires; cursor/carry cannot pass to new holders",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Policy.uCap",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "USDC raw6",
+      "meaning": "maximum nominal U for funded plan scope",
+      "writer": "Vault init/TL config; Guardian only tightens pause",
+      "reset_conditions": "no reset of accepted risk history; hard fee maximum requires product-version change",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Policy.maxMintLossBps",
+      "type": "uint16",
+      "relative_slot": "0",
+      "offset_bytes": 16,
+      "unit": "bps",
+      "meaning": "E01 relative rounding-loss bound; injected, not calibrated",
+      "writer": "Vault init/TL config; Guardian only tightens pause",
+      "reset_conditions": "no reset of accepted risk history; hard fee maximum requires product-version change",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Policy.fastFeeBps",
+      "type": "uint16",
+      "relative_slot": "0",
+      "offset_bytes": 18,
+      "unit": "bps",
+      "meaning": "fixed capped service fee",
+      "writer": "Vault init/TL config; Guardian only tightens pause",
+      "reset_conditions": "no reset of accepted risk history; hard fee maximum requires product-version change",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Policy.maxFastFeeBps",
+      "type": "uint16",
+      "relative_slot": "0",
+      "offset_bytes": 20,
+      "unit": "bps",
+      "meaning": "hard maximum for service fee in this product version",
+      "writer": "Vault init/TL config; Guardian only tightens pause",
+      "reset_conditions": "no reset of accepted risk history; hard fee maximum requires product-version change",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Policy.maxPlanDuration",
+      "type": "uint64",
+      "relative_slot": "0",
+      "offset_bytes": 22,
+      "unit": "seconds",
+      "meaning": "allowed funded-plan duration bound",
+      "writer": "Vault init/TL config; Guardian only tightens pause",
+      "reset_conditions": "no reset of accepted risk history; hard fee maximum requires product-version change",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Policy.riskPaused",
+      "type": "bool",
+      "relative_slot": "0",
+      "offset_bytes": 30,
+      "unit": "bool",
+      "meaning": "blocks subscribe/fast only, no global share pause",
+      "writer": "Vault init/TL config; Guardian only tightens pause",
+      "reset_conditions": "no reset of accepted risk history; hard fee maximum requires product-version change",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Policy.requestsPaused",
+      "type": "bool",
+      "relative_slot": "0",
+      "offset_bytes": 31,
+      "unit": "bool",
+      "meaning": "blocks complex request only; safe ignores",
+      "writer": "Vault init/TL config; Guardian only tightens pause",
+      "reset_conditions": "no reset of accepted risk history; hard fee maximum requires product-version change",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Position.requestedShares",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "share raw18",
+      "meaning": "sole entitlement for (controller,dueAt), combined before settlement",
+      "writer": "Vault shared request/claim helpers (stub)",
+      "reset_conditions": "delete after all requested shares consumed; no new request into settled epoch; event history only",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Position.claimedShares",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 16,
+      "unit": "share raw18",
+      "meaning": "cumulative consumed share amount; no burn or asset entitlement mirror",
+      "writer": "Vault shared request/claim helpers (stub)",
+      "reset_conditions": "delete after all requested shares consumed; no new request into settled epoch; event history only",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "openzeppelin.storage.AccessControl",
+      "field": "RoleData.hasRole",
+      "type": "mapping(address => bool)",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "mapping address=>bool",
+      "meaning": "role membership; no enumeration history",
+      "writer": "OZ via constrained Vault roles",
+      "reset_conditions": "Guardian membership removable; root/adminRole immutable in this implementation",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "openzeppelin.storage.AccessControl",
+      "field": "RoleData.adminRole",
+      "type": "bytes32",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "bytes32",
+      "meaning": "role administration identity; default admin fixed, no external setter",
+      "writer": "OZ via constrained Vault roles",
+      "reset_conditions": "Guardian membership removable; root/adminRole immutable in this implementation",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Source.remaining",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "stPROS raw18",
+      "meaning": "real unspent funded budget; all H=sum four remaining",
+      "writer": "Vault plan/checkpoint/sync/close helpers (stub)",
+      "reset_conditions": "zero/delete only after refund/return fully accounted and source events emitted; no revival",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Source.realizedYield",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 16,
+      "unit": "stPROS raw18",
+      "meaning": "cumulative successful H->R for this current source",
+      "writer": "Vault plan/checkpoint/sync/close helpers (stub)",
+      "reset_conditions": "zero/delete only after refund/return fully accounted and source events emitted; no revival",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Source.realizedLoss",
+      "type": "uint128",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "stPROS raw18",
+      "meaning": "cumulative F/H-layer source write-down; never user haircut units",
+      "writer": "Vault plan/checkpoint/sync/close helpers (stub)",
+      "reset_conditions": "zero/delete only after refund/return fully accounted and source events emitted; no revival",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "faroo.tbpros.storage.Core",
+      "field": "Source.funded",
+      "type": "uint128",
+      "relative_slot": "1",
+      "offset_bytes": 16,
+      "unit": "stPROS raw18",
+      "meaning": "actual funded baseline for current source conservation; never a second entitlement",
+      "writer": "Vault plan/checkpoint/sync/close helpers (stub)",
+      "reset_conditions": "zero/delete only after refund/return fully accounted and source events emitted; no revival",
+      "upgrade_rule": "Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse. Fixed-array stride MUST NOT change by appending fields."
+    },
+    {
+      "namespace": "ProsReserve ordinary storage",
+      "field": "Period.id",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "counter",
+      "meaning": "explicit monotonically increasing period ID",
+      "writer": "Reserve TL authorization/onlyVault consumption (stub)",
+      "reset_conditions": "new explicit nonoverlapping expired period only; no spent reset while active",
+      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
+    },
+    {
+      "namespace": "ProsReserve ordinary storage",
+      "field": "Period.start",
+      "type": "uint64",
+      "relative_slot": "0",
+      "offset_bytes": 16,
+      "unit": "UTC seconds",
+      "meaning": "inclusive authorization start",
+      "writer": "Reserve TL authorization/onlyVault consumption (stub)",
+      "reset_conditions": "new explicit nonoverlapping expired period only; no spent reset while active",
+      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
+    },
+    {
+      "namespace": "ProsReserve ordinary storage",
+      "field": "Period.expiry",
+      "type": "uint64",
+      "relative_slot": "0",
+      "offset_bytes": 24,
+      "unit": "UTC seconds",
+      "meaning": "exclusive expiry; later funding does not revive",
+      "writer": "Reserve TL authorization/onlyVault consumption (stub)",
+      "reset_conditions": "new explicit nonoverlapping expired period only; no spent reset while active",
+      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
+    },
+    {
+      "namespace": "ProsReserve ordinary storage",
+      "field": "Period.limit",
+      "type": "uint128",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "WPROS raw18",
+      "meaning": "maximum allowance this period, not derived from balance",
+      "writer": "Reserve TL authorization/onlyVault consumption (stub)",
+      "reset_conditions": "new explicit nonoverlapping expired period only; no spent reset while active",
+      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
+    },
+    {
+      "namespace": "ProsReserve ordinary storage",
+      "field": "Period.spent",
+      "type": "uint128",
+      "relative_slot": "1",
+      "offset_bytes": 16,
+      "unit": "WPROS raw18",
+      "meaning": "actual consume counter; no mid-period reset",
+      "writer": "Reserve TL authorization/onlyVault consumption (stub)",
+      "reset_conditions": "new explicit nonoverlapping expired period only; no spent reset while active",
+      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
+    },
+    {
+      "namespace": "ProsReserve ordinary storage",
+      "field": "boundVault",
+      "type": "address",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "one-time bound Vault/admin",
+      "writer": "ProsReserve fixed TL authority",
+      "reset_conditions": "binding never; record only specified lifecycle",
+      "upgrade_rule": "immutable-code contract; no ownership transfer/rebind/upgrade selector"
+    },
+    {
+      "namespace": "ProsReserve ordinary storage",
+      "field": "_period",
+      "type": "struct IProsReserve.Period",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "struct",
+      "meaning": "single current lifecycle record, no history",
+      "writer": "ProsReserve fixed TL authority",
+      "reset_conditions": "binding never; record only specified lifecycle",
+      "upgrade_rule": "immutable-code contract; no ownership transfer/rebind/upgrade selector"
+    },
+    {
+      "namespace": "UpgradeGateway ordinary storage",
+      "field": "Proposal.nonce",
+      "type": "uint128",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "counter",
+      "meaning": "monotonic proposal/replay identity; persist after consume/cancel",
+      "writer": "Gateway onlyTL queue/cancel/executeUpgrade (stub)",
+      "reset_conditions": "single proposal slot; consumed/canceled nonce not reusable; no proposal history array",
+      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
+    },
+    {
+      "namespace": "UpgradeGateway ordinary storage",
+      "field": "Proposal.eta",
+      "type": "uint64",
+      "relative_slot": "0",
+      "offset_bytes": 16,
+      "unit": "UTC seconds",
+      "meaning": "queue time + immutable Gateway delay floor",
+      "writer": "Gateway onlyTL queue/cancel/executeUpgrade (stub)",
+      "reset_conditions": "single proposal slot; consumed/canceled nonce not reusable; no proposal history array",
+      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
+    },
+    {
+      "namespace": "UpgradeGateway ordinary storage",
+      "field": "Proposal.canceled",
+      "type": "bool",
+      "relative_slot": "0",
+      "offset_bytes": 24,
+      "unit": "bool",
+      "meaning": "cancel marker for current nonce",
+      "writer": "Gateway onlyTL queue/cancel/executeUpgrade (stub)",
+      "reset_conditions": "single proposal slot; consumed/canceled nonce not reusable; no proposal history array",
+      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
+    },
+    {
+      "namespace": "UpgradeGateway ordinary storage",
+      "field": "Proposal.implementation",
+      "type": "address",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "exact implementation target for bound proxy only",
+      "writer": "Gateway onlyTL queue/cancel/executeUpgrade (stub)",
+      "reset_conditions": "single proposal slot; consumed/canceled nonce not reusable; no proposal history array",
+      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
+    },
+    {
+      "namespace": "UpgradeGateway ordinary storage",
+      "field": "Proposal.dataHash",
+      "type": "bytes32",
+      "relative_slot": "2",
+      "offset_bytes": 0,
+      "unit": "bytes32",
+      "meaning": "keccak256 migration calldata; never arbitrary executor payload",
+      "writer": "Gateway onlyTL queue/cancel/executeUpgrade (stub)",
+      "reset_conditions": "single proposal slot; consumed/canceled nonce not reusable; no proposal history array",
+      "upgrade_rule": "Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture."
+    },
+    {
+      "namespace": "UpgradeGateway ordinary storage",
+      "field": "boundVault",
+      "type": "address",
+      "relative_slot": "0",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "one-time bound Vault/admin",
+      "writer": "UpgradeGateway fixed TL authority",
+      "reset_conditions": "binding never; record only specified lifecycle",
+      "upgrade_rule": "immutable-code contract; no ownership transfer/rebind/upgrade selector"
+    },
+    {
+      "namespace": "UpgradeGateway ordinary storage",
+      "field": "proxyAdmin",
+      "type": "address",
+      "relative_slot": "1",
+      "offset_bytes": 0,
+      "unit": "address",
+      "meaning": "one-time bound Vault/admin",
+      "writer": "UpgradeGateway fixed TL authority",
+      "reset_conditions": "binding never; record only specified lifecycle",
+      "upgrade_rule": "immutable-code contract; no ownership transfer/rebind/upgrade selector"
+    },
+    {
+      "namespace": "UpgradeGateway ordinary storage",
+      "field": "_proposal",
+      "type": "struct IUpgradeGateway.Proposal",
+      "relative_slot": "2",
+      "offset_bytes": 0,
+      "unit": "struct",
+      "meaning": "single current lifecycle record, no history",
+      "writer": "UpgradeGateway fixed TL authority",
+      "reset_conditions": "binding never; record only specified lifecycle",
+      "upgrade_rule": "immutable-code contract; no ownership transfer/rebind/upgrade selector"
+    }
+  ]
+}

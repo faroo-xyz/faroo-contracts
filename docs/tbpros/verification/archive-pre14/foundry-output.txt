@@ -1,0 +1,55 @@
+Compiling 1 files with Solc 0.8.28
+Solc 0.8.28 finished in 1.05s
+Compiler run successful!
+
+Ran 1 test for H05_USDCDepeg.t.sol:H05USDCDepegTest
+[PASS] testFaceValueExtractionAndCircuitBreaker() (gas: 795640)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 5.66ms (2.23ms CPU time)
+
+Ran 1 test for H04_LaggedOracle.t.sol:H04LaggedOracleTest
+[PASS] testBurnRestoresPrincipalNotFlowBudget() (gas: 816551)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 5.97ms (2.54ms CPU time)
+
+Ran 2 tests for H03_YieldSandwich.t.sol:H03YieldSandwichTest
+[PASS] testLastSecondAndTransferCarryExistingNAV() (gas: 588587)
+[PASS] testOriginalOrderingProfitsFixedSameTimestampDoesNot() (gas: 1117350)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 6.03ms (2.57ms CPU time)
+
+Ran 2 tests for UpgradeDuringCallback.t.sol:UpgradeDuringCallbackTest
+[PASS] testGatewayRejectsMidCallButAllowsQuietUpgrade() (gas: 1581653)
+[PASS] testLegacyRealProxyUpgradesInsideOldCallFrame() (gas: 1105255)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 6.03ms (2.37ms CPU time)
+
+Ran 2 tests for H01_GuardianExit.t.sol:H01GuardianExitTest
+[PASS] testBothPausesAndNoTimelockResponse() (gas: 393890)
+[PASS] testSafeAdmissionBeyondOrdinary24PositionLimit() (gas: 1536890)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 6.91ms (3.48ms CPU time)
+
+Ran 9 tests for ProductSemantics.t.sol:ProductSemanticsTest
+[PASS] testBaseRefundActualTokenOnlyUnusedHAndReceiverGuards() (gas: 889161)
+[PASS] testCheckpointFrequencyAndHistoricalPriceBoundary() (gas: 17594)
+[PASS] testFThenHFourSourcesNoGhostAndBaseRefundIsolation() (gas: 9544)
+[PASS] testFixedPrecisionBlockerCannotSilentlyWipe() (gas: 656077)
+[PASS] testFixedStRateDoublesUsdRateWhenPriceDoubles() (gas: 4287)
+[PASS] testLossAPartialBAndImmutableBasePrice() (gas: 517698)
+[PASS] testLossCAndDNewPOnlyBearsLaterLoss() (gas: 630985)
+[PASS] testLossFZeroPayoutStillConsumesAndSettles() (gas: 610679)
+[PASS] testTransferWithBacklogDoesNotCheckpointAndCarriesAllRights() (gas: 1067466)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 7.01ms (3.92ms CPU time)
+
+Ran 3 tests for H02_LowSupplyMint.t.sol:H02LowSupplyMintTest
+[PASS] testFuzzE01(uint64,uint64,uint64) (runs: 1024, μ: 556275, ~: 541474)
+[PASS] testLegacy119RoundAmplificationVictimBlocked() (gas: 3900235)
+[PASS] testLegacyExtractionAndFixedPreTransferGate() (gas: 1107212)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 60.92ms (65.00ms CPU time)
+
+Ran 2 tests for H06_DeficitWaterfall.t.sol:H06DeficitWaterfallTest
+[PASS] testFuzzSnapshotOrderIndependent(uint8) (runs: 1024, μ: 948698, ~: 988112)
+[PASS] testOneUnitDeficitAbsorbedByF() (gas: 513765)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 88.04ms (88.10ms CPU time)
+
+Ran 1 test for SecurityInvariant.t.sol:SecurityInvariantTest
+[PASS] invariant_E01AndE05BoundedModels() (runs: 128, calls: 8192, reverts: 0)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 772.62ms (768.63ms CPU time)
+
+Ran 9 test suites in 777.12ms (959.19ms CPU time): 23 tests passed, 0 failed, 0 skipped (23 total tests)

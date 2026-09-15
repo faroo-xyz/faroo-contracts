@@ -1,0 +1,29 @@
+{
+  "block": {
+    "number": "0x10c96dd",
+    "hash": "0x9ff5b9730b664be2066d0a7ae5a9481caf2f4efaa4c9e34644155c102266154d",
+    "timestamp": "0x6aa7f72c"
+  },
+  "chainId": "0x688",
+  "stPROS": "0x6b0a44c64190279f7034b77c13a566e914fe5ec4",
+  "stateOverride": {
+    "control": "0x0000000000000000000000000000000000000000000000000000000000000042",
+    "transient": "0x0000000000000000000000000000000000000000000000000000000000000042",
+    "fresh": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "getters": {
+    "asset": "0x52c48d4213107b20bc583832b0d951fb9ca8f0b0",
+    "slp": {
+      "error": 3,
+      "message": "execution reverted: "
+    },
+    "oracle": "0x051713fd66845a13bf23baca008c5c22c27ccb58",
+    "paused": false
+  },
+  "production_slp_integration_verified": false,
+  "creationControl": "0x",
+  "implementation": "0x000000000000000000000000c096f8e4b1cc222899752a5504fde557a147c57b",
+  "stPROSCodeBytes": 2739,
+  "assetCodeBytes": 3249,
+  "oracleCodeBytes": 2739
+}

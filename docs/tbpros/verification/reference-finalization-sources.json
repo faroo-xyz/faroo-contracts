@@ -1,0 +1,18 @@
+{
+  "morpho": {
+    "repository": "morpho-blue",
+    "commit": "d09dd1c4b9c7d9d05f976faa7ebfdc424dae5e8c",
+    "file": "src/libraries/SharesMathLib.sol",
+    "sha256": "4580deb1b1a3f2ea0b60f2305708428975613d1e94d404d647bcc573a7b2a2f0",
+    "license": "GPL-2.0-or-later",
+    "code_copied": false
+  },
+  "liquity": {
+    "source": "https://raw.githubusercontent.com/liquity/bold/main/contracts/src/StabilityPool.sol",
+    "commit": "UNPINNED_EXPLORATORY_MAIN",
+    "license": "BUSL-1.1",
+    "production_reuse": false,
+    "code_copied": false,
+    "audit_deployment_match": "UNVERIFIED"
+  }
+}

@@ -1,0 +1,45 @@
+# tbPROS · Architecture Remediation V2
+
+2026-09-15 · **NO-GO for production**。当前交付是架构修复、adversarial复审、本地协议参考研究和最小攻击回归；没有完整tbPROS Solidity产品实现。
+
+当前权威决策为[00 Decision Register](00-decision-register.md)及[Protocol Hard Rules](../../contracts/tbpros/AGENTS.md)。产品V1采用USDC-only subscribe和自定义share-based异步赎回，不声称完整ERC7540，不提供直接stPROS入金或exact-assets withdraw。Model A与预资时间收益保持不变。
+
+当前增量以[15 Loss Finalization](15-loss-math-finalization.md)及[14 APR Finalization](14-core-architecture-finalization.md)为准：APR-01已按Realized Yield Checkpoint关闭；checkpointYield可依赖当前有效价格，settleMaturedEpochs/locked Claim不依赖；仅LOSS-MATH-01阻挡Core；DEP-01属于生产集成门槛。
+
+## 建议审阅顺序
+
+1. [00 · 当前决策、冲突处理与未决细节](00-decision-register.md)
+2. [15 · Loss C1/C2、scale证明、攻击结果与产品裁决](15-loss-math-finalization.md)；[14 · 已冻结APR及A/B负向研究](14-core-architecture-finalization.md)
+3. [13 · 历史评审与此前阻断](13-product-semantics-and-core-readiness.md)
+4. [11 · 修复决策与逐项状态](11-architecture-remediation-v2.md)
+5. [12 · 参考实现取舍](12-reference-implementation-study.md)：原9仓库及新增Euler/Morpho索引研究、13维语义对比、RD01..12、来源hash与未验证边界
+6. [10 · 敌意架构复审](10-architecture-security-review.md)：攻击前/中间/最终状态、修复再攻击、NO-GO门槛
+7. [12 · 正式标准差距](12-standard-conformance.md)
+8. [10 · 审计员异议](10-readiness-and-auditor-objections.md)
+
+保留两个12编号，以满足指定的reference文件名并保留已有标准文档链接；它们分别处理来源取舍与规范符合性，不存在规范优先级冲突。
+
+## 当前实施前规范
+
+| 文档 | 内容 |
+| --- | --- |
+| [01 Architecture](01-architecture.md) | 两治理模型、已选A、sole writer、拓扑/规模预算 |
+| [02 Responsibilities](02-contract-responsibilities.md) | 合约/ABI边界、Reserve period、view一致性 |
+| [03 Accounting/Invariants](03-accounting-and-invariants.md) | R/P/F/H、E01数学、收益/亏损、I01..24 |
+| [04 Access](04-access-control.md) | TL、Guardian明确例外、safe最小准入 |
+| [05 Redemption](05-redemption-state-machine.md) | 月度分段、Claim blocker、fee重设计 |
+| [06 Threat Model](06-threat-model.md) | C/H/M重新分类、oracle/库存分离、external graph |
+| [07 Tests](07-test-plan.md) | 已执行范围、生产测试缺口、形式工具评估 |
+| [08 Deployment](08-deployment-plan.md) | 绑定与handoff方案、manifest、升级演练 |
+| [09 Mainnet](09-mainnet-checklist.md) | 未完成gates、监控、emergency runbooks |
+
+发生冲突必须报告；以最新用户Hard Rules和00为准。不得从[V1档案](archive-v1/README.md)或[最初技术基线](../tbpros-technical-plan.md)恢复已撤销的历史NAV收费、任意catchup、完整7540目标或TL直接持admin路径。档案只用于复现旧攻击。
+
+## 可复跑证据
+
+- [Foundry回归说明](../../test/tbpros/security-regression/README.md)：41 tests、12 suites，3个fuzz各1024，两组局部stateful各128×64，0 failed/skipped。
+- [Python参考模型](../../reference/README.md)：56 tests通过。
+- [固定区块Pharos probe](verification/pharos-fork-output.txt)：4项通过；1153节点执行支持已验，真实目标SLP版本缺失仍BLOCKED。
+- [本轮验证记录](verification/loss-finalization-test-results.json)与[本轮来源](verification/scaled-loss-sources.json)。C硬验收命令退出码1（FAIL），3,467条差分不能通过No False Zero/overpay；此前[14验证记录](verification/test-results.json)保留历史身份。
+
+模型成功不能替代生产I01..24/E01..05全量stateful、V1自定义ABI/未支持ID负向测试、完整目标依赖Pharos fork、storage升级兼容、gas/bytecode、ownership handoff与外审。**本轮完成后停留在Architecture Review，不开始完整Solidity实现。**

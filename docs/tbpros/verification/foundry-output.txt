@@ -1,0 +1,66 @@
+No files changed, compilation skipped
+
+Ran 1 test for H04_LaggedOracle.t.sol:H04LaggedOracleTest
+[PASS] testBurnRestoresPrincipalNotFlowBudget() (gas: 816551)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 8.70ms (2.45ms CPU time)
+
+Ran 2 tests for H03_YieldSandwich.t.sol:H03YieldSandwichTest
+[PASS] testLastSecondAndTransferCarryExistingNAV() (gas: 588587)
+[PASS] testOriginalOrderingProfitsFixedSameTimestampDoesNot() (gas: 1117350)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 8.88ms (2.66ms CPU time)
+
+Ran 1 test for H05_USDCDepeg.t.sol:H05USDCDepegTest
+[PASS] testFaceValueExtractionAndCircuitBreaker() (gas: 795640)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 210.25µs (145.46µs CPU time)
+
+Ran 2 tests for H01_GuardianExit.t.sol:H01GuardianExitTest
+[PASS] testBothPausesAndNoTimelockResponse() (gas: 393890)
+[PASS] testSafeAdmissionBeyondOrdinary24PositionLimit() (gas: 1536890)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 9.38ms (3.13ms CPU time)
+
+Ran 2 tests for UpgradeDuringCallback.t.sol:UpgradeDuringCallbackTest
+[PASS] testGatewayRejectsMidCallButAllowsQuietUpgrade() (gas: 1581653)
+[PASS] testLegacyRealProxyUpgradesInsideOldCallFrame() (gas: 1105255)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 779.96µs (536.75µs CPU time)
+
+Ran 9 tests for ProductSemantics.t.sol:ProductSemanticsTest
+[PASS] testBaseRefundActualTokenOnlyUnusedHAndReceiverGuards() (gas: 889161)
+[PASS] testCheckpointFrequencyAndHistoricalPriceBoundary() (gas: 17594)
+[PASS] testFThenHFourSourcesNoGhostAndBaseRefundIsolation() (gas: 9544)
+[PASS] testFixedPrecisionBlockerCannotSilentlyWipe() (gas: 656077)
+[PASS] testFixedStRateDoublesUsdRateWhenPriceDoubles() (gas: 4287)
+[PASS] testLossAPartialBAndImmutableBasePrice() (gas: 517698)
+[PASS] testLossCAndDNewPOnlyBearsLaterLoss() (gas: 630985)
+[PASS] testLossFZeroPayoutStillConsumesAndSettles() (gas: 610679)
+[PASS] testTransferWithBacklogDoesNotCheckpointAndCarriesAllRights() (gas: 1067466)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 10.37ms (4.18ms CPU time)
+
+Ran 10 tests for RealizedYieldAndPoolUnits.t.sol:RealizedYieldAndPoolUnitsTest
+[PASS] testCurrentPriceAndSameTimestamp() (gas: 861353)
+[PASS] testDueAtForbidsLateCheckpointAndPDoesNotGainBackpay() (gas: 907392)
+[PASS] testFloorUnitMintRepeatedlyExtractsFromNewEpochs() (gas: 503849)
+[PASS] testInsufficientHDoesNotBlockSettlement() (gas: 809932)
+[PASS] testNewSubscriberCannotBuyRealizedPastYield() (gas: 881087)
+[PASS] testOutageBlocksYieldAndSubscriptionButNotSafetyExit() (gas: 869626)
+[PASS] testPoolUnitsLastClaimantRoundingCounterexample() (gas: 223790)
+[PASS] testPoolUnitsOverflowWithTwoLossesAndThreeEpochs() (gas: 266670)
+[PASS] testTransferDoesNotCheckpoint() (gas: 880934)
+[PASS] testTrueZeroPoolCanStartNewGeneration() (gas: 257124)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 11.53ms (6.59ms CPU time)
+
+Ran 3 tests for H02_LowSupplyMint.t.sol:H02LowSupplyMintTest
+[PASS] testFuzzE01(uint64,uint64,uint64) (runs: 1024, μ: 555441, ~: 541474)
+[PASS] testLegacy119RoundAmplificationVictimBlocked() (gas: 3900235)
+[PASS] testLegacyExtractionAndFixedPreTransferGate() (gas: 1107212)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 68.52ms (70.30ms CPU time)
+
+Ran 2 tests for H06_DeficitWaterfall.t.sol:H06DeficitWaterfallTest
+[PASS] testFuzzSnapshotOrderIndependent(uint8) (runs: 1024, μ: 949554, ~: 988112)
+[PASS] testOneUnitDeficitAbsorbedByF() (gas: 513765)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 100.62ms (94.53ms CPU time)
+
+Ran 1 test for SecurityInvariant.t.sol:SecurityInvariantTest
+[PASS] invariant_E01AndE05BoundedModels() (runs: 128, calls: 8192, reverts: 0)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 791.32ms (783.23ms CPU time)
+
+Ran 10 test suites in 797.73ms (1.01s CPU time): 33 tests passed, 0 failed, 0 skipped (33 total tests)

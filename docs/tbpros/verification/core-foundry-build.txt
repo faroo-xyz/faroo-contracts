@@ -1,0 +1,21 @@
+Compiling 66 files with Solc 0.8.28
+Solc 0.8.28 finished in 3.42s
+Compiler run successful with warnings:
+Warning (5740): Unreachable code.
+  --> contracts/tbpros/TbPROSVault.sol:51:9:
+   |
+51 |         gateway.leave();
+   |         ^^^^^^^^^^^^^^^
+
+Warning (5740): Unreachable code.
+  --> node_modules/@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol:39:9:
+   |
+39 |         _nonReentrantAfter();
+   |         ^^^^^^^^^^^^^^^^^^^^
+
+Warning (5740): Unreachable code.
+  --> contracts/tbpros/governance/UpgradeGateway.sol:55:9:
+   |
+55 |         UPGRADING_SLOT.asBoolean().tstore(false);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

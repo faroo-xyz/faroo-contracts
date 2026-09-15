@@ -1,0 +1,151 @@
+{
+  "scope": [
+    "TbPROSVault",
+    "ProsReserve",
+    "UpgradeGateway",
+    "TbPROSLens"
+  ],
+  "dependency_exception": "IStPROS.deposit is an external required conversion dependency, never a user Vault entry. OZ Proxy/Admin implicit upgrade surface is separately controlled by Gateway; not inherited by Vault.",
+  "banned_names_all_overloads": [
+    "deposit",
+    "mint",
+    "withdraw",
+    "claimWithdraw",
+    "claimAll",
+    "redeem",
+    "adminCatchUp",
+    "setInsolvent",
+    "clearInsolvent",
+    "setLossAmount",
+    "resetLossIndex",
+    "forceUnlock",
+    "sweep",
+    "execute",
+    "delegateExecute",
+    "emergencyWithdraw",
+    "claimUnits",
+    "recoveryShares",
+    "upgradeToAndCall",
+    "upgradeTo",
+    "proxiableUUID",
+    "transferOwnership",
+    "renounceOwnership"
+  ],
+  "signatures": [
+    {
+      "signature": "deposit(uint256,address)",
+      "selector": "0x6e553f65",
+      "absent": true
+    },
+    {
+      "signature": "mint(uint256,address)",
+      "selector": "0x94bf804d",
+      "absent": true
+    },
+    {
+      "signature": "withdraw(uint256,address,address)",
+      "selector": "0xb460af94",
+      "absent": true
+    },
+    {
+      "signature": "claimWithdraw(uint256,address,address)",
+      "selector": "0x2e9dbd37",
+      "absent": true
+    },
+    {
+      "signature": "claimAll(address)",
+      "selector": "0x77329f35",
+      "absent": true
+    },
+    {
+      "signature": "redeem(uint256,address,address)",
+      "selector": "0xba087652",
+      "absent": true
+    },
+    {
+      "signature": "adminCatchUp(uint256)",
+      "selector": "0x154295ae",
+      "absent": true
+    },
+    {
+      "signature": "setInsolvent(bool)",
+      "selector": "0x9b03a53b",
+      "absent": true
+    },
+    {
+      "signature": "clearInsolvent()",
+      "selector": "0xd3cd64ee",
+      "absent": true
+    },
+    {
+      "signature": "setLossAmount(uint256)",
+      "selector": "0xac798c8e",
+      "absent": true
+    },
+    {
+      "signature": "resetLossIndex(uint256)",
+      "selector": "0xb087be42",
+      "absent": true
+    },
+    {
+      "signature": "forceUnlock()",
+      "selector": "0x7965c967",
+      "absent": true
+    },
+    {
+      "signature": "sweep(address,address,uint256)",
+      "selector": "0x62c06767",
+      "absent": true
+    },
+    {
+      "signature": "execute(address,bytes)",
+      "selector": "0x1cff79cd",
+      "absent": true
+    },
+    {
+      "signature": "delegateExecute(address,bytes)",
+      "selector": "0xb10cc728",
+      "absent": true
+    },
+    {
+      "signature": "emergencyWithdraw(address,uint256)",
+      "selector": "0x95ccea67",
+      "absent": true
+    },
+    {
+      "signature": "claimUnits(uint256)",
+      "selector": "0xcf808a1c",
+      "absent": true
+    },
+    {
+      "signature": "recoveryShares(address)",
+      "selector": "0x5ecc7c21",
+      "absent": true
+    },
+    {
+      "signature": "upgradeToAndCall(address,bytes)",
+      "selector": "0x4f1ef286",
+      "absent": true
+    },
+    {
+      "signature": "upgradeTo(address)",
+      "selector": "0x3659cfe6",
+      "absent": true
+    },
+    {
+      "signature": "proxiableUUID()",
+      "selector": "0x52d1902d",
+      "absent": true
+    },
+    {
+      "signature": "transferOwnership(address)",
+      "selector": "0xf2fde38b",
+      "absent": true
+    },
+    {
+      "signature": "renounceOwnership()",
+      "selector": "0x715018a6",
+      "absent": true
+    }
+  ]
+}

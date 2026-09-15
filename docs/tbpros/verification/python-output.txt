@@ -1,0 +1,52 @@
+test_epoch_and_cumulative_claim (accounting_model.AccountingReferenceTests.test_epoch_and_cumulative_claim) ... ok
+test_models_differ_and_future_loss_is_not_order_independence (accounting_model.AccountingReferenceTests.test_models_differ_and_future_loss_is_not_order_independence) ... ok
+test_one_unit_old_freeze_new_waterfall (accounting_model.AccountingReferenceTests.test_one_unit_old_freeze_new_waterfall) ... ok
+test_order_at_fixed_snapshot (accounting_model.AccountingReferenceTests.test_order_at_fixed_snapshot) ... ok
+test_safe_calendar_admission_without_governance (accounting_model.AccountingReferenceTests.test_safe_calendar_admission_without_governance) ... ok
+test_backlog_does_not_accept_late_realization_between_batches (apr_model.AprTests.test_backlog_does_not_accept_late_realization_between_batches) ... ok
+test_case1_fixed_price_linear (apr_model.AprTests.test_case1_fixed_price_linear) ... ok
+test_case2_current_price_not_history (apr_model.AprTests.test_case2_current_price_not_history) ... ok
+test_case3_outage_isolates_exit (apr_model.AprTests.test_case3_outage_isolates_exit) ... ok
+test_case4_subscribe_realizes_before_mint (apr_model.AprTests.test_case4_subscribe_realizes_before_mint) ... ok
+test_case5_outage_subscribe_atomic (apr_model.AprTests.test_case5_outage_subscribe_atomic) ... ok
+test_case6_due_strict_and_no_backpay (apr_model.AprTests.test_case6_due_strict_and_no_backpay) ... ok
+test_case7_transfer_no_checkpoint (apr_model.AprTests.test_case7_transfer_no_checkpoint) ... ok
+test_case8_same_timestamp_zero (apr_model.AprTests.test_case8_same_timestamp_zero) ... ok
+test_insufficient_budget_keeps_cursor_and_exits (apr_model.AprTests.test_insufficient_budget_keeps_cursor_and_exits) ... ok
+test_exhaustive_source_conservation (h_source_model.HSourceTests.test_exhaustive_source_conservation) ... ok
+test_integer_rounding_order_and_error_bound (h_source_model.HSourceTests.test_integer_rounding_order_and_error_bound) ... ok
+test_proportional_four_sources_and_budget (h_source_model.HSourceTests.test_proportional_four_sources_and_budget) ... ok
+test_A_single_loss_false_zero_with_uint128_backing (loss_comparison_model.LossComparisonTests.test_A_single_loss_false_zero_with_uint128_backing) ... ok
+test_B_reachable_last_claimant_extracts_rounding (loss_comparison_model.LossComparisonTests.test_B_reachable_last_claimant_extracts_rounding) ... ok
+test_B_small_positive_and_nonreachable_high_price_fixture (loss_comparison_model.LossComparisonTests.test_B_small_positive_and_nonreachable_high_price_fixture) ... ok
+test_B_two_losses_three_epochs_overflow (loss_comparison_model.LossComparisonTests.test_B_two_losses_three_epochs_overflow) ... ok
+test_common_oracle_exhaustive_randomized_and_boundaries (loss_comparison_model.LossComparisonTests.test_common_oracle_exhaustive_randomized_and_boundaries) ... ok
+test_rounding_repairs_do_not_close_B (loss_comparison_model.LossComparisonTests.test_rounding_repairs_do_not_close_B) ... ok
+test_A_settle_loss_claim (loss_model.LossTests.test_A_settle_loss_claim) ... ok
+test_B_partial_no_clawback (loss_model.LossTests.test_B_partial_no_clawback) ... ok
+test_C_new_epoch_no_old_loss (loss_model.LossTests.test_C_new_epoch_no_old_loss) ... ok
+test_D_settlement_order_same_recovery (loss_model.LossTests.test_D_settlement_order_same_recovery) ... ok
+test_E_buffers_multiple_shocks_refund_isolation (loss_model.LossTests.test_E_buffers_multiple_shocks_refund_isolation) ... ok
+test_F_zero_factor_progress_and_new_generation (loss_model.LossTests.test_F_zero_factor_progress_and_new_generation) ... ok
+test_claim_order_and_partition_exhaustive (loss_model.LossTests.test_claim_order_and_partition_exhaustive) ... ok
+test_fixed_ray_can_erase_positive_recovery (loss_model.LossTests.test_fixed_ray_can_erase_positive_recovery) ... ok
+test_random_sequences_match_eager_oracle (loss_model.LossTests.test_random_sequences_match_eager_oracle) ... ok
+test_realized_before_loss_and_unrealized_h_are_different_buckets (loss_model.LossTests.test_realized_before_loss_and_unrealized_h_are_different_buckets) ... ok
+test_119_round_attack (mint_rounding_model.MintReferenceTests.test_119_round_attack) ... ok
+test_exact_integer_inequality_matches_rational_value (mint_rounding_model.MintReferenceTests.test_exact_integer_inequality_matches_rational_value) ... ok
+test_original_attack_and_gate (mint_rounding_model.MintReferenceTests.test_original_attack_and_gate) ... ok
+test_depeg_and_lag_loss_bound (price_exposure_model.ExposureReferenceTests.test_depeg_and_lag_loss_bound) ... ok
+test_every_subwindow_envelope (price_exposure_model.ExposureReferenceTests.test_every_subwindow_envelope) ... ok
+test_expired_permission_cannot_reactivate_by_funding (price_exposure_model.ExposureReferenceTests.test_expired_permission_cannot_reactivate_by_funding) ... ok
+test_repeated_exit_does_not_refill (price_exposure_model.ExposureReferenceTests.test_repeated_exit_does_not_refill) ... ok
+test_last_second_only_one_second (yield_model.YieldReferenceTests.test_last_second_only_one_second) ... ok
+test_original_sandwich (yield_model.YieldReferenceTests.test_original_sandwich) ... ok
+test_same_time_has_no_prior_reward (yield_model.YieldReferenceTests.test_same_time_has_no_prior_reward) ... ok
+test_split_checkpoint_and_funding_gap (yield_model.YieldReferenceTests.test_split_checkpoint_and_funding_gap) ... ok
+test_transfer_before_checkpoint_no_duplicate_coupon (yield_model.YieldReferenceTests.test_transfer_before_checkpoint_no_duplicate_coupon) ... ok
+test_transfer_carries_accrued_value_not_second_coupon (yield_model.YieldReferenceTests.test_transfer_carries_accrued_value_not_second_coupon) ... ok
+
+----------------------------------------------------------------------
+Ran 47 tests in 5.490s
+
+OK

@@ -1,0 +1,12 @@
+Compiling 49 files with Solc 0.8.28
+Solc 0.8.28 finished in 1.66s
+Compiler run successful!
+
+Ran 4 tests for PharosDependencies.t.sol:PharosDependenciesTest
+[PASS] testFixedBlockRealStPROSDepositThroughProxyAndLatch() (gas: 1523673)
+[PASS] testFixedBlockSlpGetterMissingIsRecordedDependencyGap() (gas: 13436)
+[PASS] testGatewayRejectsMidCallButAllowsQuietUpgrade() (gas: 1582077)
+[PASS] testLegacyRealProxyUpgradesInsideOldCallFrame() (gas: 1105429)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 1.32s (7.82ms CPU time)
+
+Ran 1 test suite in 1.33s (1.32s CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)

@@ -1,0 +1,31 @@
+{
+  "protocol_references": [
+    {
+      "repo": "euler-vault-kit",
+      "local_root": "/Volumes/project/research/euler-vault-kit",
+      "commit": "5b98b42048ba11ae82fb62dfec06d1010c8e41e6",
+      "file": "src/EVault/shared/BorrowUtils.sol",
+      "license": "GPL-2.0-or-later",
+      "sha256": "60d38739c1722a8a596cc8d1928eca6a9b7e7ea2433d0e5f33152b5370a8568b",
+      "matches_pinned_commit": true,
+      "code_copied": false,
+      "semantic_use": "global/anchor and asset-right separation only",
+      "deployment_audit_match": "UNVERIFIED"
+    },
+    {
+      "repo": "morpho-blue",
+      "local_root": "/Volumes/project/research/morpho-blue",
+      "commit": "d09dd1c4b9c7d9d05f976faa7ebfdc424dae5e8c",
+      "file": "src/libraries/SharesMathLib.sol",
+      "license": "GPL-2.0-or-later",
+      "sha256": "4580deb1b1a3f2ea0b60f2305708428975613d1e94d404d647bcc573a7b2a2f0",
+      "matches_pinned_commit": true,
+      "code_copied": false,
+      "semantic_use": "global/anchor and asset-right separation only",
+      "deployment_audit_match": "UNVERIFIED"
+    }
+  ],
+  "kb_context": "/Volumes/project/knowledge-base/wiki/设计模式/金库模式/份额会计.md",
+  "liquity": "No new pinned Liquity reference used; earlier unpinned main remains exploratory only",
+  "original_models": "Independent mathematical experiments, no protocol code copied"
+}

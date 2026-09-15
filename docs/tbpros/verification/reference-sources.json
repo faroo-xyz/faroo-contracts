@@ -1,0 +1,473 @@
+{
+  "date": "2026-09-14",
+  "purpose": "Local source provenance, not deployed/audit attestation",
+  "references": [
+    {
+      "name": "lagoon-v0",
+      "path": "/Volumes/project/research/lagoon-v0",
+      "head": "a8e73f5a5276aa4047b901083cbce127d7f7b470",
+      "shallow": "true",
+      "working_tree_dirty": false,
+      "files": [
+        {
+          "path": "src/v0.6.0/libraries/ERC7540Lib.sol",
+          "sha256": "d6ed82a0bd82561eddd878fb21a795dec09d0b6a3d38a4908518e576f1ac598e",
+          "spdx": "// SPDX-License-Identifier: BUSL-1.1",
+          "last_commit": "a8e73f5a5276aa4047b901083cbce127d7f7b470 2026-05-22 Merge pull request #311 from hopperlabsxyz/sync/from-internal-56b88f8-20260522-1410",
+          "differs_from_head": false
+        },
+        {
+          "path": "src/v0.6.0/primitives/VaultStorage.sol",
+          "sha256": "132768d2876a9868d7c70593f0f3f47c3ed934b216321da42287a4369d48a5e4",
+          "spdx": "// SPDX-License-Identifier: BUSL-1.1",
+          "last_commit": "a8e73f5a5276aa4047b901083cbce127d7f7b470 2026-05-22 Merge pull request #311 from hopperlabsxyz/sync/from-internal-56b88f8-20260522-1410",
+          "differs_from_head": false
+        },
+        {
+          "path": "src/proxy/DelayProxyAdmin.sol",
+          "sha256": "042c89be9544416193727a7d79e1bccdfca772bec1c6bc6cabffa0b1dbc874f4",
+          "spdx": "// SPDX-License-Identifier: BUSL-1.1",
+          "last_commit": "a8e73f5a5276aa4047b901083cbce127d7f7b470 2026-05-22 Merge pull request #311 from hopperlabsxyz/sync/from-internal-56b88f8-20260522-1410",
+          "differs_from_head": false
+        },
+        {
+          "path": "src/protocol-v3/OptinProxyFactory.sol",
+          "sha256": "2bd1620285583af2e1fd028254f307a1c1edfaa4b8f2a21012c915d65279b1f6",
+          "spdx": "// SPDX-License-Identifier: BUSL-1.1",
+          "last_commit": "a8e73f5a5276aa4047b901083cbce127d7f7b470 2026-05-22 Merge pull request #311 from hopperlabsxyz/sync/from-internal-56b88f8-20260522-1410",
+          "differs_from_head": false
+        },
+        {
+          "path": "test/v0.6.0/Withdraw.t.sol",
+          "sha256": "54bad2daed0edf25d61e723867b2992dbb206eee651ede73f29ba893ec700916",
+          "spdx": "// SPDX-License-Identifier: BUSL-1.1",
+          "last_commit": "a8e73f5a5276aa4047b901083cbce127d7f7b470 2026-05-22 Merge pull request #311 from hopperlabsxyz/sync/from-internal-56b88f8-20260522-1410",
+          "differs_from_head": false
+        },
+        {
+          "path": "README.md",
+          "sha256": "40c6af151b7487633663be3b6063e8a8446a4da543eb57decb14003b1c349ffa",
+          "spdx": null,
+          "last_commit": "a8e73f5a5276aa4047b901083cbce127d7f7b470 2026-05-22 Merge pull request #311 from hopperlabsxyz/sync/from-internal-56b88f8-20260522-1410",
+          "differs_from_head": false
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "c6f5d3cadb76c10059698acfef89408e44da0ab966f8a1f44625f6a1586695c6",
+          "spdx": null,
+          "last_commit": "a8e73f5a5276aa4047b901083cbce127d7f7b470 2026-05-22 Merge pull request #311 from hopperlabsxyz/sync/from-internal-56b88f8-20260522-1410",
+          "differs_from_head": false
+        }
+      ],
+      "audit_commit_mapping": "UNVERIFIED",
+      "deployed_implementation_match": "UNVERIFIED",
+      "code_copied": false,
+      "audit_files_present_not_content_verified": []
+    },
+    {
+      "name": "nest-protocol",
+      "path": "/Volumes/project/research/nest-protocol",
+      "head": "cb190cd212ac9cc62c071efbc73387961b2e5e88",
+      "shallow": "true",
+      "working_tree_dirty": false,
+      "files": [
+        {
+          "path": "contracts/NestVaultCore.sol",
+          "sha256": "885335b3b4b48fc19bf6cf8fdc69d3ee8397f07c7d6fa1f33be5fc88a4c64329",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0-only",
+          "last_commit": "cb190cd212ac9cc62c071efbc73387961b2e5e88 2026-07-06 Release v1.3.0",
+          "differs_from_head": false
+        },
+        {
+          "path": "contracts/interfaces/INestVaultCore.sol",
+          "sha256": "6a5b77786b3868c588addf49dceafd402623911bc0d025b816f39a455de0e4c7",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0-only",
+          "last_commit": "cb190cd212ac9cc62c071efbc73387961b2e5e88 2026-07-06 Release v1.3.0",
+          "differs_from_head": false
+        },
+        {
+          "path": "contracts/libraries/nest-vault/NestVaultRedeemLogic.sol",
+          "sha256": "ba36979c9b69710f47608f885fefb4aaa21768876d94a165e42453e83eec5191",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0-only",
+          "last_commit": "cb190cd212ac9cc62c071efbc73387961b2e5e88 2026-07-06 Release v1.3.0",
+          "differs_from_head": false
+        },
+        {
+          "path": "contracts/libraries/nest-vault/NestVaultCoreTypes.sol",
+          "sha256": "59994ea398bdbefac275e787c97d51e463fd1b017bba4fa1182613ecb87e40a3",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0-only",
+          "last_commit": "cb190cd212ac9cc62c071efbc73387961b2e5e88 2026-07-06 Release v1.3.0",
+          "differs_from_head": false
+        },
+        {
+          "path": "test/NestVaultFork.t.sol",
+          "sha256": "5707d7833cb9491b49a35faab275c807542e4646736db6e9230fb60068afd550",
+          "spdx": "// SPDX-License-Identifier: UNLICENSED",
+          "last_commit": "cb190cd212ac9cc62c071efbc73387961b2e5e88 2026-07-06 Release v1.3.0",
+          "differs_from_head": false
+        },
+        {
+          "path": "test/Helper.sol",
+          "sha256": "8d031baec7bfa51e5f6faa109118d37b5a3fd80266a042695e6c3698de1fd6ad",
+          "spdx": "// SPDX-License-Identifier: UNLICENSED",
+          "last_commit": "cb190cd212ac9cc62c071efbc73387961b2e5e88 2026-07-06 Release v1.3.0",
+          "differs_from_head": false
+        }
+      ],
+      "audit_commit_mapping": "UNVERIFIED",
+      "deployed_implementation_match": "UNVERIFIED",
+      "code_copied": false,
+      "audit_files_present_not_content_verified": [
+        "audits/report-cantinacode-plume-2511.pdf",
+        "audits/report-cantinacode-plume-pr11.pdf",
+        "audits/report_cantinacode_2601.pdf",
+        "audits/report_cantinacode_plume_2606.pdf"
+      ]
+    },
+    {
+      "name": "lido-core",
+      "path": "/Volumes/project/research/lido-core",
+      "head": "2da0f48f1a2a103a394dcf8760810fe9165697fb",
+      "shallow": "true",
+      "working_tree_dirty": false,
+      "files": [
+        {
+          "path": "contracts/0.8.9/WithdrawalQueueBase.sol",
+          "sha256": "68d8919f89198c3d39272b2259a3144bf87a4aa48c570624b025fd86da47d2bb",
+          "spdx": "// SPDX-License-Identifier: GPL-3.0",
+          "last_commit": "2da0f48f1a2a103a394dcf8760810fe9165697fb 2026-08-18 Merge pull request #1936 from lidofinance/develop",
+          "differs_from_head": false
+        },
+        {
+          "path": "contracts/0.8.9/WithdrawalQueue.sol",
+          "sha256": "efa5a32fbc99cafdb16a38d96a9bb5b29a62e60b5610e7c317711cc58402b131",
+          "spdx": "// SPDX-License-Identifier: GPL-3.0",
+          "last_commit": "2da0f48f1a2a103a394dcf8760810fe9165697fb 2026-08-18 Merge pull request #1936 from lidofinance/develop",
+          "differs_from_head": false
+        },
+        {
+          "path": "contracts/common/lib/RateLimit.sol",
+          "sha256": "c102dc48ae659a045c90cee749bbed8e9363fefadcd32e86f8b99fba701747d4",
+          "spdx": "// SPDX-License-Identifier: GPL-3.0",
+          "last_commit": "2da0f48f1a2a103a394dcf8760810fe9165697fb 2026-08-18 Merge pull request #1936 from lidofinance/develop",
+          "differs_from_head": false
+        },
+        {
+          "path": "test/common/lib/rateLimit.test.ts",
+          "sha256": "7ca05c3649c4ce028d00191a90683ab60a57447918323c52ca2eb5ec5f98d138",
+          "spdx": null,
+          "last_commit": "2da0f48f1a2a103a394dcf8760810fe9165697fb 2026-08-18 Merge pull request #1936 from lidofinance/develop",
+          "differs_from_head": false
+        },
+        {
+          "path": "scripts/scratch/steps/0083-deploy-core.ts",
+          "sha256": "8046854b7e59911f06fdd0f13c313be2888ffc202db1bdc583df671c84fa7954",
+          "spdx": null,
+          "last_commit": "2da0f48f1a2a103a394dcf8760810fe9165697fb 2026-08-18 Merge pull request #1936 from lidofinance/develop",
+          "differs_from_head": false
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "spdx": null,
+          "last_commit": "2da0f48f1a2a103a394dcf8760810fe9165697fb 2026-08-18 Merge pull request #1936 from lidofinance/develop",
+          "differs_from_head": false
+        }
+      ],
+      "audit_commit_mapping": "UNVERIFIED",
+      "deployed_implementation_match": "UNVERIFIED",
+      "code_copied": false,
+      "audit_files_present_not_content_verified": []
+    },
+    {
+      "name": "sky-susds",
+      "path": "/Volumes/project/research/sky-susds",
+      "head": "dfc7f41cb7599afcb0f0eb1ddaadbf9dd4015dce",
+      "shallow": "false",
+      "working_tree_dirty": false,
+      "files": [
+        {
+          "path": "src/SUsds.sol",
+          "sha256": "9fe0c713751142e75a1da60ad6c0127d5ad01cb6d24289183ac48b202f3c5d69",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0-or-later",
+          "last_commit": "e5660deac9434c79d48ecde879c29f37fb89f2dc 2024-08-27 sUSDS",
+          "differs_from_head": false
+        },
+        {
+          "path": "deploy/SUsdsInit.sol",
+          "sha256": "ca2370415738f452d10df15f3231c97bbca876edb25e2a0a4150e531a82e71b6",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0-or-later",
+          "last_commit": "e5660deac9434c79d48ecde879c29f37fb89f2dc 2024-08-27 sUSDS",
+          "differs_from_head": false
+        },
+        {
+          "path": "test/SUsds-invariants.t.sol",
+          "sha256": "f57f93b5c8b1c26af5081141e988326ea3b38251851f3a110c927d3c007ddab7",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0-or-later",
+          "last_commit": "e5660deac9434c79d48ecde879c29f37fb89f2dc 2024-08-27 sUSDS",
+          "differs_from_head": false
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+          "spdx": null,
+          "last_commit": "c928468ab614b11e4e55edb035899ccd29602f89 2022-11-11 add readme/license",
+          "differs_from_head": false
+        }
+      ],
+      "audit_commit_mapping": "UNVERIFIED",
+      "deployed_implementation_match": "UNVERIFIED",
+      "code_copied": false,
+      "audit_files_present_not_content_verified": [
+        "audit/20240926-cantina-report-maker-susds.pdf",
+        "audit/20240930-ChainSecurity_MakerDAO_Savings_USDS_audit.pdf"
+      ]
+    },
+    {
+      "name": "spark-vaults-v2",
+      "path": "/Volumes/project/research/spark-vaults-v2",
+      "head": "51c6d7a1da85944804ba87234f2eac13dba8330e",
+      "shallow": "true",
+      "working_tree_dirty": false,
+      "files": [
+        {
+          "path": "src/SparkVault.sol",
+          "sha256": "f34765be4b67b953131b0b8f1ad562a485a73474ba7400786fb0b497140c873d",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0-or-later",
+          "last_commit": "51c6d7a1da85944804ba87234f2eac13dba8330e 2025-12-10 fix: Update fuzzing and invariants (#48)",
+          "differs_from_head": false
+        },
+        {
+          "path": "script/Deploy.s.sol",
+          "sha256": "1e2f89f128c9d6f26afba9df674309b775f95ae6104f4e5ad0a415258542d5d9",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0-or-later",
+          "last_commit": "51c6d7a1da85944804ba87234f2eac13dba8330e 2025-12-10 fix: Update fuzzing and invariants (#48)",
+          "differs_from_head": false
+        },
+        {
+          "path": "test/ValueAccrual.t.sol",
+          "sha256": "4cc0e640238e4c43ffa51919b68d22c23ae85655cb2aa4027a2353706dbb8702",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0-or-later",
+          "last_commit": "51c6d7a1da85944804ba87234f2eac13dba8330e 2025-12-10 fix: Update fuzzing and invariants (#48)",
+          "differs_from_head": false
+        },
+        {
+          "path": "test/invariants/Invariants.t.sol",
+          "sha256": "66532de973e455fb91357a22f01863b28c72445df63ba08d8824ad1dcea4b4bb",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0-or-later",
+          "last_commit": "51c6d7a1da85944804ba87234f2eac13dba8330e 2025-12-10 fix: Update fuzzing and invariants (#48)",
+          "differs_from_head": false
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+          "spdx": null,
+          "last_commit": "51c6d7a1da85944804ba87234f2eac13dba8330e 2025-12-10 fix: Update fuzzing and invariants (#48)",
+          "differs_from_head": false
+        }
+      ],
+      "audit_commit_mapping": "UNVERIFIED",
+      "deployed_implementation_match": "UNVERIFIED",
+      "code_copied": false,
+      "audit_files_present_not_content_verified": [
+        "audits/v100-cantina.pdf",
+        "audits/v100-chainsecurity.pdf",
+        "audits/v101-cantina.pdf",
+        "audits/v101-chainsecurity.pdf"
+      ]
+    },
+    {
+      "name": "yearn-tokenized-strategy",
+      "path": "/Volumes/project/research/yearn-tokenized-strategy",
+      "head": "90514f120fc3f500a2c8796da45a267dff5b8dce",
+      "shallow": "false",
+      "working_tree_dirty": false,
+      "files": [
+        {
+          "path": "src/TokenizedStrategy.sol",
+          "sha256": "1023633f187e02b286c1d82a2c9ff1921395ec5109c7fec983ebb4294b759924",
+          "spdx": "// SPDX-License-Identifier: AGPL-3.0",
+          "last_commit": "90514f120fc3f500a2c8796da45a267dff5b8dce 2026-06-19 build: v3.1.0 (#112)",
+          "differs_from_head": false
+        },
+        {
+          "path": "src/test/ConstantAccrualInvariant.t.sol",
+          "sha256": "748821cf677d0b2dbe85141a2040f34148f59f3a3e85b3d961414c9e41ca0924",
+          "spdx": "// SPDX-License-Identifier: UNLICENSED",
+          "last_commit": "90514f120fc3f500a2c8796da45a267dff5b8dce 2026-06-19 build: v3.1.0 (#112)",
+          "differs_from_head": false
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+          "spdx": null,
+          "last_commit": "d001e9ce1f492ba5f6e0dad5ef332d9b50480f64 2023-04-06 build: Implementation slot (#22)",
+          "differs_from_head": false
+        }
+      ],
+      "audit_commit_mapping": "UNVERIFIED",
+      "deployed_implementation_match": "UNVERIFIED",
+      "code_copied": false,
+      "audit_files_present_not_content_verified": [
+        "audits/06-2023-Yearn-Vault-V3_yAcademy_Reports.pdf",
+        "audits/Yearn V3 report Statemind.pdf",
+        "audits/Yearn-Smart-Contract-Audit-_-Tokenized_Strategy_ChainSecurity.pdf"
+      ]
+    },
+    {
+      "name": "boring-vault",
+      "path": "/Volumes/project/research/boring-vault",
+      "head": "0e23e7fd3a9a7735bd3fea61dd33c1700e75c528",
+      "shallow": "true",
+      "working_tree_dirty": false,
+      "files": [
+        {
+          "path": "src/base/Roles/AccountantWithRateProviders.sol",
+          "sha256": "ee0be076b2eec33deb359f34fb79cb0fa2ac2566fc062a1c8a917b394e61bfd7",
+          "spdx": "// SPDX-License-Identifier: UNLICENSED",
+          "last_commit": "0e23e7fd3a9a7735bd3fea61dd33c1700e75c528 2024-12-18 Merge pull request #176 from Se7en-Seas/feat/sonic-decoder",
+          "differs_from_head": false
+        },
+        {
+          "path": "src/base/Roles/DelayedWithdraw.sol",
+          "sha256": "a2d268cbb28f656177aa00872f3200518b4f6196f68bb10b67825760f6d64082",
+          "spdx": "// SPDX-License-Identifier: UNLICENSED",
+          "last_commit": "0e23e7fd3a9a7735bd3fea61dd33c1700e75c528 2024-12-18 Merge pull request #176 from Se7en-Seas/feat/sonic-decoder",
+          "differs_from_head": false
+        },
+        {
+          "path": "test/DelayedWithdrawer.t.sol",
+          "sha256": "b30bf9afbcdbc7e5a973882e5b76a32ec0ec1c108fa65e37923d40743730e33f",
+          "spdx": "// SPDX-License-Identifier: UNLICENSED",
+          "last_commit": "0e23e7fd3a9a7735bd3fea61dd33c1700e75c528 2024-12-18 Merge pull request #176 from Se7en-Seas/feat/sonic-decoder",
+          "differs_from_head": false
+        },
+        {
+          "path": "script/ArchitectureDeployments/Mainnet/DeployLiquidEth.s.sol",
+          "sha256": "5d08fe567b1e7e2b892ca84d77fa1cc2abd980ad4851e722f1a5117535300102",
+          "spdx": "// SPDX-License-Identifier: UNLICENSED",
+          "last_commit": "0e23e7fd3a9a7735bd3fea61dd33c1700e75c528 2024-12-18 Merge pull request #176 from Se7en-Seas/feat/sonic-decoder",
+          "differs_from_head": false
+        }
+      ],
+      "audit_commit_mapping": "UNVERIFIED",
+      "deployed_implementation_match": "UNVERIFIED",
+      "code_copied": false,
+      "audit_files_present_not_content_verified": [
+        "audit/0xmacro-boring-vault-arctic-0.pdf",
+        "audit/0xmacro-boring-vault-arctic-1.pdf",
+        "audit/spearbit-boring-vault-arctic-0.pdf"
+      ]
+    },
+    {
+      "name": "midas-contracts",
+      "path": "/Volumes/project/research/midas-contracts",
+      "head": "ee9a199221472cb66b52746261524488932c2fc1",
+      "shallow": "false",
+      "working_tree_dirty": false,
+      "files": [
+        {
+          "path": "contracts/feeds/DataFeed.sol",
+          "sha256": "930436af3447660f209d3dd1c7f75a55c41a6db1ccfd63b6a50acdf8c8fda699",
+          "spdx": "// SPDX-License-Identifier: MIT",
+          "last_commit": "237c56a85e51560a977d9473ce3f939d877f2a4f 2025-09-04 feat: composite data feed",
+          "differs_from_head": false
+        },
+        {
+          "path": "contracts/interfaces/IDataFeed.sol",
+          "sha256": "019d10afb742c00838cddab0129f19815bd5b39651d7edbb14a05347ad04b587",
+          "spdx": "// SPDX-License-Identifier: MIT",
+          "last_commit": "18976b2dcbb2a5706f296889a0e70dc750c91602 2025-10-14 chore: draft lz",
+          "differs_from_head": false
+        },
+        {
+          "path": "test/unit/DataFeed.test.ts",
+          "sha256": "186b8ddf62d4a27367596704032690532f7da31dc73e383b3e06256832b5897e",
+          "spdx": null,
+          "last_commit": "fa129d61502b950280d22feeafcec2d44951b449 2025-11-12 fix: linter upgrade + lint fix",
+          "differs_from_head": false
+        },
+        {
+          "path": "scripts/deploy/common/data-feed.ts",
+          "sha256": "bb7ba333d4ce3b6e4b1414e22518f949ddf89a9a0f9a149e3b6ab45a19f3903b",
+          "spdx": null,
+          "last_commit": "f5f1b07ec0ab508e73ec1aa6483e7cde561b0458 2026-08-12 feat: add dedicated mGLOBAL, mWIN and mGLO vault profiles",
+          "differs_from_head": false
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "8b1ba204bb69a0ade2bfcf65ef294a920f6bb361b317dba43c7ef29d96332b9b",
+          "spdx": null,
+          "last_commit": "edfe80d7ecc4730cb63322b4cc7c0987c6f0f201 2023-05-22 Initial commit",
+          "differs_from_head": false
+        }
+      ],
+      "audit_commit_mapping": "UNVERIFIED",
+      "deployed_implementation_match": "UNVERIFIED",
+      "code_copied": false,
+      "audit_files_present_not_content_verified": []
+    },
+    {
+      "name": "usd-vault",
+      "path": "/Volumes/project/workspace/usd-vault",
+      "head": "cd74ef645f4c59b94a959cf103defce544a94d24",
+      "shallow": "false",
+      "working_tree_dirty": true,
+      "files": [
+        {
+          "path": "contracts/vaults/core/redemption/RedemptionQueue.sol",
+          "sha256": "69806e7b704ac883bc756cce6777e604b2a573168235ce9ddb8855ba1df0f756",
+          "spdx": "// SPDX-License-Identifier: MIT",
+          "last_commit": "5d45bf3ef85d6922635a9cf6dd6688c9caf87dc4 2026-09-02 feat: align vault naming with azUSD",
+          "differs_from_head": false
+        },
+        {
+          "path": "contracts/vaults/core/redemption/RedemptionEscrow.sol",
+          "sha256": "559e060396c355bb8a582f97d58fb999544e50fc80c4c27f20604e4c4d40b3cb",
+          "spdx": "// SPDX-License-Identifier: MIT",
+          "last_commit": "1a7f3eae0de35bd799a828c74febbdc5efa070db 2026-09-02 feat: unify insurance yield accounting",
+          "differs_from_head": false
+        },
+        {
+          "path": "contracts/storage/CoreVaultStorage.sol",
+          "sha256": "572b544f3ece2bf62152cc53ce97283d32d752d53316abb1b66e6f62afa764f9",
+          "spdx": "// SPDX-License-Identifier: MIT",
+          "last_commit": "bf9ec81890b0d5cd2af483a9df3b79d60bd423ae 2026-09-01 feat: add sanctioned position forced exits",
+          "differs_from_head": false
+        },
+        {
+          "path": "contracts/interfaces/IRedemptionReceipt.sol",
+          "sha256": "29dfbc6a6e73c476d292ed9fbf24e3a99c5f37fc3cd1b2be898e416ba24d26ca",
+          "spdx": "// SPDX-License-Identifier: MIT",
+          "last_commit": "b02d0ee7415955de7bb3bc488ac129060dd3d3ba 2026-09-01 feat: add bounded vault lens queries",
+          "differs_from_head": false
+        },
+        {
+          "path": "test/invariant/CoreVaultAccountingInvariant.t.sol",
+          "sha256": "02d9b996f4529de79e6bf8b80d8890269393a6e33ee1eaa981810b4cbdd0d8e6",
+          "spdx": "// SPDX-License-Identifier: MIT",
+          "last_commit": "1a7f3eae0de35bd799a828c74febbdc5efa070db 2026-09-02 feat: unify insurance yield accounting",
+          "differs_from_head": false
+        },
+        {
+          "path": "deploy/CoreVault.ts",
+          "sha256": "01a0059001deb67821e5b701c6f09b09aaf5fb63759d9c552ee11fb578adda00",
+          "spdx": null,
+          "last_commit": "9e348515b33e934a6dadae3c561dcfbb000b8beb 2026-09-08 feat: support dual-vault deposit routers and deploy Sepolia release 1.5.0",
+          "differs_from_head": false
+        },
+        {
+          "path": "deployments/README.md",
+          "sha256": "2c70854b882647c2591dd4b5e9ad5cabe8c61d7b5a68fa76b4e8cd4d6b29969e",
+          "spdx": null,
+          "last_commit": "0271b91bd52ddadd116440c4d01197d1c9b20b3c 2026-08-23 docs translate release guides to Chinese",
+          "differs_from_head": false
+        }
+      ],
+      "audit_commit_mapping": "UNVERIFIED",
+      "deployed_implementation_match": "UNVERIFIED",
+      "code_copied": false,
+      "audit_files_present_not_content_verified": []
+    }
+  ]
+}

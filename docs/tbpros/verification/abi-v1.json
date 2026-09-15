@@ -1,0 +1,3214 @@
+{
+  "profile": {
+    "compiler": "0.8.28+commit.7893614a",
+    "openzeppelin": "5.6.1",
+    "openzeppelin_upgradeable": "5.6.1",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "viaIR": false,
+    "evmVersion": "cancun",
+    "source_sha256": {
+      "contracts/tbpros/TbPROSStorage.sol": "8252547cb33737b740accb3523e07a4c4e1b10854a8021651748181ce524c6f4",
+      "contracts/tbpros/TbPROSVault.sol": "023c64961daca83d56d2a68bd06204068f4eb131b26b15ec5402b076474830fa",
+      "contracts/tbpros/governance/UpgradeGateway.sol": "8ad03dde8421f397e47fd6b61c70ecc5e104eb0801423f694acd9225b8136c34",
+      "contracts/tbpros/interfaces/IProsReserve.sol": "045aedfbae9b4c68cf8c232b1e8a73e69ae1fad777c2f67efb0af59d0d543fb6",
+      "contracts/tbpros/interfaces/IStPROS.sol": "896460345480357405374f761cb615f85188e75097fbb5b53a867c96c7d2d057",
+      "contracts/tbpros/interfaces/ITbPROSOracleAdapter.sol": "0537236d23d7d620a41c818cecd62ab8c2e527f7b02e65560cbc309568189302",
+      "contracts/tbpros/interfaces/ITbPROSVault.sol": "1cf1453d4de2cb443de0d9a27da58a222cd89954c5b0d19f54899b7aab65f796",
+      "contracts/tbpros/interfaces/IUpgradeGateway.sol": "8938375ce307720e20943169634e7e01e497b703631681af149a929686fbc45a",
+      "contracts/tbpros/lens/TbPROSLens.sol": "16ddacacf22aabc001b40f3231495675513509bf060e83ee8c638b2abff70b4a",
+      "contracts/tbpros/libraries/AccountingMath.sol": "02cf4c95e2401b862133bb0827765ceab91ca65fd4a041626bd70ccaa0015852",
+      "contracts/tbpros/libraries/MonthMath.sol": "c2a92a95640b778cd6e0ebc35452d8709897559f744874a9f73688e91323f3af",
+      "contracts/tbpros/libraries/PlanMath.sol": "d6f060ef1e614f861722357d716ab66b7e8dabe5a29f647cd6a8af6d127098a4",
+      "contracts/tbpros/reserves/ProsReserve.sol": "697c155f99bc8983021e7f984d4fcdc8bfe4a607c395dc4a8342d74f5b154a28",
+      "foundry.toml": "1a4cc73733f8d503377ec597e79fd18fd38b2659d6b2fcc311a221e8adfadbc5",
+      "hardhat.tbpros.config.ts": "3c6cb554f891b5e90f40324389d9554f9d4ba84ab333b0413f7c5e2a6d774766",
+      "node_modules/@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol": "b6fcfbabb4fb0f0b23b018ed667a5302adcda512ce635c52b50ee2704609fdb7",
+      "node_modules/@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol": "96832b6e848020275ca4f4ef1ba32b7d2b541dc0daf26bca19ea8d0b1b3df68e",
+      "node_modules/@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol": "caf06b4c93bbc1d54eb772e76e949bd4a2520c535cc591d07e57cbafaf90b2fd",
+      "node_modules/@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol": "73882072b1bd2744526f0ea1456ae0a53ae867d971ddf744d46b4a7c3c8eee57",
+      "node_modules/@openzeppelin/contracts/access/IAccessControl.sol": "140304b7e99d517c57a13f391dfd3b550ca633a507f7b2af130f391b6cd89cc5",
+      "node_modules/@openzeppelin/contracts/access/Ownable.sol": "38578bd71c0a909840e67202db527cc6b4e6b437e0f39f0c909da32c1e30cb81",
+      "node_modules/@openzeppelin/contracts/interfaces/IERC1967.sol": "c4e901318ab6d4963582c62c62ce988a34c68dbae71846b67decacde79e9a317",
+      "node_modules/@openzeppelin/contracts/interfaces/draft-IERC6093.sol": "fa7068f56bc180571a6095be6eaef06d51dbe81e30cb128397d993c9599ecc30",
+      "node_modules/@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol": "41a3040398d53999dea3251ff8906e11ec1a699362a1d8f4a55bfc7709cc00f3",
+      "node_modules/@openzeppelin/contracts/proxy/ERC1967/ERC1967Utils.sol": "a89ba2032ab25959c6fde1e508ebf8f966ff632703d3ef79684f578a8fa8033f",
+      "node_modules/@openzeppelin/contracts/proxy/Proxy.sol": "fa8aae37b2939371fcbce48b814c0d5c7e57e3e267f348459f29941937746c98",
+      "node_modules/@openzeppelin/contracts/proxy/beacon/IBeacon.sol": "c1c9726bbb0ec4c540c7c98059dcded69a8586b46c168036672381033ee76239",
+      "node_modules/@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol": "4da9a90b1c8b45fdab7d73d8cf81f51cf7d990657ee4e3f943492c3bf0e4c2f1",
+      "node_modules/@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol": "58c759fe76057e1cefa8909b446357aae5cac8a8ba7e6401650208d1b0481508",
+      "node_modules/@openzeppelin/contracts/proxy/utils/Initializable.sol": "f527a063813c2bf60c153fb08e38539578935402894fcc36fac42324ca325d3b",
+      "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": "01b6f5c4fa45fd38822b286ecef6daf983d27306dd6362496fa71b3e4600b72c",
+      "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": "0b7132f17d14d1d84b41b0bb429be62dafdff00fd3470f68724d8018eb07f57a",
+      "node_modules/@openzeppelin/contracts/utils/Address.sol": "73e54e15285455f0e01e136c3663732641537614723ae5dbd820eb3cb036b1fd",
+      "node_modules/@openzeppelin/contracts/utils/Context.sol": "847fda5460fee70f56f4200f59b82ae622bb03c79c77e67af010e31b7e2cc5b6",
+      "node_modules/@openzeppelin/contracts/utils/Errors.sol": "0704b9d6c032cca8512a3bc3f30f49f86f1f03102d2896a3d23e794b82efea66",
+      "node_modules/@openzeppelin/contracts/utils/LowLevelCall.sol": "e128cbe9c6c406d5a42c26e4079c0a95b369ce552f2d0c3dfd2fcb836c5708f2",
+      "node_modules/@openzeppelin/contracts/utils/Panic.sol": "270fc8401c1a13fae6a7a4a2dd6e381b95d658896701e51f0d3e2688acab3dec",
+      "node_modules/@openzeppelin/contracts/utils/ReentrancyGuardTransient.sol": "cff7c20aed945d939b764d876adbd42e1b7725d62d5b1f2bd303db237567b575",
+      "node_modules/@openzeppelin/contracts/utils/StorageSlot.sol": "75704538dcb223239280c6726d9a31cf769a7816718517c997fc7d63bdb70778",
+      "node_modules/@openzeppelin/contracts/utils/TransientSlot.sol": "ea92f361d697ba8b1fbd322b4d84b989998862c21fbebfa4b45289dc94a9eea2",
+      "node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": "9055c2994b37dea1a41b7b7926dcb510f05dbe2540b0aafc5fbee9558fffd0ca",
+      "node_modules/@openzeppelin/contracts/utils/math/Math.sol": "bdfdbe133991c0c78042957ff5cd97167926fcaf6d15664f3835a076cb066457",
+      "node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol": "5779bc848bde39f1ad7bc02b4f708a0040888e0083b1a33f119cd94639350134",
+      "pnpm-lock.yaml": "5b5ba09fdf1b387fb3087d3f0bc53b166e84e6ab9395c2ef5cc09627eb3880b5",
+      "reference/tbpros/calendar-fixtures.json": "bbb335b415775eb73259fa32a1b1108546a698a5b239c3b3471c05979eab9b73",
+      "test/tbpros/core-skeleton/CoreSkeleton.t.sol": "af90e6cf5cf70cee8929d67a468e8e7858665de18633393bcfb16f5226796e5a"
+    }
+  },
+  "contracts": {
+    "TbPROSVault": [
+      {
+        "type": "constructor",
+        "inputs": [
+          {
+            "name": "yearSeconds",
+            "type": "uint64",
+            "internalType": "uint64"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "APR_BPS",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "DEFAULT_ADMIN_ROLE",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "GUARDIAN_ROLE",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "YEAR",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint64",
+            "internalType": "uint64"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "accounting",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Accounting",
+            "components": [
+              {
+                "name": "R",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "P",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "F",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "U",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "B",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "C",
+                "type": "uint128",
+                "internalType": "uint128"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "activatePlan",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "allowance",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "spender",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "approve",
+        "inputs": [
+          {
+            "name": "spender",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "value",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "asset",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "balanceOf",
+        "inputs": [
+          {
+            "name": "account",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "checkpointYield",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "claimRedeem",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "closePlan",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "decimals",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint8",
+            "internalType": "uint8"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "dependencies",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Dependencies",
+            "components": [
+              {
+                "name": "timelock",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "usdc",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "wpros",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "stpros",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "subscriptionReserve",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "yieldReserve",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "oracle",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "gateway",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "foundationReceiver",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "yieldRefundReceiver",
+                "type": "address",
+                "internalType": "address"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "epoch",
+        "inputs": [
+          {
+            "name": "dueAt",
+            "type": "uint64",
+            "internalType": "uint64"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Epoch",
+            "components": [
+              {
+                "name": "totalRequestedShares",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "totalClaimedShares",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "num",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "den",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "remainingAssets",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "nextDueAt",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "status",
+                "type": "uint8",
+                "internalType": "enum TbPROSStorage.EpochStatus"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "fastRedeem",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "fundPlan",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          },
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.PlanTerms",
+            "components": [
+              {
+                "name": "start",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "end",
+                "type": "uint64",
+                "internalType": "uint64"
+              }
+            ]
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "getRoleAdmin",
+        "inputs": [
+          {
+            "name": "role",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "grantRole",
+        "inputs": [
+          {
+            "name": "role",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "account",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "hasRole",
+        "inputs": [
+          {
+            "name": "role",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "account",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "initialize",
+        "inputs": [
+          {
+            "name": "config",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.InitConfig",
+            "components": [
+              {
+                "name": "dependencies",
+                "type": "tuple",
+                "internalType": "struct TbPROSStorage.Dependencies",
+                "components": [
+                  {
+                    "name": "timelock",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "usdc",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "wpros",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "stpros",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "subscriptionReserve",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "yieldReserve",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "oracle",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "gateway",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "foundationReceiver",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "yieldRefundReceiver",
+                    "type": "address",
+                    "internalType": "address"
+                  }
+                ]
+              },
+              {
+                "name": "guardian",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "risk",
+                "type": "tuple",
+                "internalType": "struct TbPROSStorage.RiskConfig",
+                "components": [
+                  {
+                    "name": "principalCap",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  },
+                  {
+                    "name": "uCap",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  },
+                  {
+                    "name": "maxMintLossBps",
+                    "type": "uint16",
+                    "internalType": "uint16"
+                  },
+                  {
+                    "name": "fastFeeBps",
+                    "type": "uint16",
+                    "internalType": "uint16"
+                  },
+                  {
+                    "name": "maxFastFeeBps",
+                    "type": "uint16",
+                    "internalType": "uint16"
+                  },
+                  {
+                    "name": "maxPlanDuration",
+                    "type": "uint64",
+                    "internalType": "uint64"
+                  },
+                  {
+                    "name": "buckets",
+                    "type": "tuple[2]",
+                    "internalType": "struct TbPROSStorage.BucketConfig[2]",
+                    "components": [
+                      {
+                        "name": "capacity",
+                        "type": "uint128",
+                        "internalType": "uint128"
+                      },
+                      {
+                        "name": "refillRateWad",
+                        "type": "uint128",
+                        "internalType": "uint128"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "isOperator",
+        "inputs": [
+          {
+            "name": "controller",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "operator",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "mode",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Mode",
+            "components": [
+              {
+                "name": "insolvent",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "incidentId",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "enteredAt",
+                "type": "uint64",
+                "internalType": "uint64"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "name",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "nextPlanId",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "openPositionCount",
+        "inputs": [
+          {
+            "name": "controller",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "pause",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "plan",
+        "inputs": [
+          {
+            "name": "slot",
+            "type": "uint8",
+            "internalType": "uint8"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Plan",
+            "components": [
+              {
+                "name": "id",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "start",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "end",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "cursor",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "status",
+                "type": "uint8",
+                "internalType": "enum TbPROSStorage.PlanStatus"
+              },
+              {
+                "name": "numeratorRemainder",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "sources",
+                "type": "tuple[2]",
+                "internalType": "struct TbPROSStorage.Source[2]",
+                "components": [
+                  {
+                    "name": "remaining",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  },
+                  {
+                    "name": "realizedYield",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  },
+                  {
+                    "name": "realizedLoss",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  },
+                  {
+                    "name": "funded",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "policy",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Policy",
+            "components": [
+              {
+                "name": "uCap",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "maxMintLossBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "fastFeeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "maxFastFeeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "maxPlanDuration",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "riskPaused",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "requestsPaused",
+                "type": "bool",
+                "internalType": "bool"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "position",
+        "inputs": [
+          {
+            "name": "controller",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "dueAt",
+            "type": "uint64",
+            "internalType": "uint64"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Position",
+            "components": [
+              {
+                "name": "requestedShares",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "claimedShares",
+                "type": "uint128",
+                "internalType": "uint128"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "queueState",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "",
+            "type": "uint64",
+            "internalType": "uint64"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "renounceRole",
+        "inputs": [
+          {
+            "name": "role",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "confirmation",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "requestRedeem",
+        "inputs": [
+          {
+            "name": "shares",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "controller",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "owner",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint64",
+            "internalType": "uint64"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "restoreSolvency",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "revokeRole",
+        "inputs": [
+          {
+            "name": "role",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "account",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "riskBucket",
+        "inputs": [
+          {
+            "name": "slot",
+            "type": "uint8",
+            "internalType": "uint8"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.Bucket",
+            "components": [
+              {
+                "name": "capacity",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "credit",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "refillRateWad",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "lastUpdate",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "remainder",
+                "type": "uint64",
+                "internalType": "uint64"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "safeRequestRedeem",
+        "inputs": [
+          {
+            "name": "shares",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint64",
+            "internalType": "uint64"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "schedulePenaltyPlan",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.PlanTerms",
+            "components": [
+              {
+                "name": "start",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "end",
+                "type": "uint64",
+                "internalType": "uint64"
+              }
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "setFoundationReceiver",
+        "inputs": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "setOperator",
+        "inputs": [
+          {
+            "name": "operator",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "approved",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "setOracle",
+        "inputs": [
+          {
+            "name": "oracle",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "setRequestsPaused",
+        "inputs": [
+          {
+            "name": "paused",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "setRiskConfig",
+        "inputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct TbPROSStorage.RiskConfig",
+            "components": [
+              {
+                "name": "principalCap",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "uCap",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "maxMintLossBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "fastFeeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "maxFastFeeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "maxPlanDuration",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "buckets",
+                "type": "tuple[2]",
+                "internalType": "struct TbPROSStorage.BucketConfig[2]",
+                "components": [
+                  {
+                    "name": "capacity",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  },
+                  {
+                    "name": "refillRateWad",
+                    "type": "uint128",
+                    "internalType": "uint128"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "setYieldRefundReceiver",
+        "inputs": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "settleMaturedEpochs",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "subscribe",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "supportsInterface",
+        "inputs": [
+          {
+            "name": "interfaceId",
+            "type": "bytes4",
+            "internalType": "bytes4"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "symbol",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "syncSolvency",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "syncSurplus",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "totalSupply",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "transfer",
+        "inputs": [
+          {
+            "name": "to",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "value",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "transferFrom",
+        "inputs": [
+          {
+            "name": "from",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "to",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "value",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "unpause",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "event",
+        "name": "Approval",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "spender",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "value",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "BuffersAbsorbed",
+        "inputs": [
+          {
+            "name": "absorbedF",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "absorbedH",
+            "type": "uint256[4]",
+            "indexed": false,
+            "internalType": "uint256[4]"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "EpochSettled",
+        "inputs": [
+          {
+            "name": "epoch",
+            "type": "uint64",
+            "indexed": true,
+            "internalType": "uint64"
+          },
+          {
+            "name": "shares",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "assets",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "num",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "den",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "FastRedeemed",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "shares",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "gross",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "fee",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "net",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "FoundationReceiverChanged",
+        "inputs": [
+          {
+            "name": "oldReceiver",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "newReceiver",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "Initialized",
+        "inputs": [
+          {
+            "name": "version",
+            "type": "uint64",
+            "indexed": false,
+            "internalType": "uint64"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "InsolvencyEntered",
+        "inputs": [
+          {
+            "name": "incidentId",
+            "type": "uint256",
+            "indexed": true,
+            "internalType": "uint256"
+          },
+          {
+            "name": "actualBalance",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "R",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "P",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "absorbedF",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "absorbedH",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "residualDeficit",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "OperatorSet",
+        "inputs": [
+          {
+            "name": "controller",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "operator",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "approved",
+            "type": "bool",
+            "indexed": false,
+            "internalType": "bool"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "OracleChanged",
+        "inputs": [
+          {
+            "name": "oldOracle",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "newOracle",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "PenaltyPlanScheduled",
+        "inputs": [
+          {
+            "name": "planId",
+            "type": "uint128",
+            "indexed": true,
+            "internalType": "uint128"
+          },
+          {
+            "name": "assets",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "indexed": false,
+            "internalType": "uint64"
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "indexed": false,
+            "internalType": "uint64"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "PlanActivated",
+        "inputs": [
+          {
+            "name": "planId",
+            "type": "uint128",
+            "indexed": true,
+            "internalType": "uint128"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "PlanCheckpointed",
+        "inputs": [
+          {
+            "name": "planId",
+            "type": "uint128",
+            "indexed": true,
+            "internalType": "uint128"
+          },
+          {
+            "name": "cursor",
+            "type": "uint64",
+            "indexed": false,
+            "internalType": "uint64"
+          },
+          {
+            "name": "assets",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "observation",
+            "type": "bytes32",
+            "indexed": false,
+            "internalType": "bytes32"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "PlanClosed",
+        "inputs": [
+          {
+            "name": "planId",
+            "type": "uint128",
+            "indexed": true,
+            "internalType": "uint128"
+          },
+          {
+            "name": "receiver",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "baseRefund",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "penaltyReturned",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "PlanFunded",
+        "inputs": [
+          {
+            "name": "planId",
+            "type": "uint128",
+            "indexed": true,
+            "internalType": "uint128"
+          },
+          {
+            "name": "pros",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "assets",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "indexed": false,
+            "internalType": "uint64"
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "indexed": false,
+            "internalType": "uint64"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "RedeemClaimed",
+        "inputs": [
+          {
+            "name": "controller",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "epoch",
+            "type": "uint64",
+            "indexed": true,
+            "internalType": "uint64"
+          },
+          {
+            "name": "receiver",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "shares",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "assets",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "RedeemRequested",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "controller",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "epoch",
+            "type": "uint64",
+            "indexed": true,
+            "internalType": "uint64"
+          },
+          {
+            "name": "shares",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "RequestsPausedChanged",
+        "inputs": [
+          {
+            "name": "paused",
+            "type": "bool",
+            "indexed": false,
+            "internalType": "bool"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "RiskConfigChanged",
+        "inputs": [
+          {
+            "name": "oldConfigHash",
+            "type": "bytes32",
+            "indexed": false,
+            "internalType": "bytes32"
+          },
+          {
+            "name": "newConfigHash",
+            "type": "bytes32",
+            "indexed": false,
+            "internalType": "bytes32"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "RiskOutflowConsumed",
+        "inputs": [
+          {
+            "name": "pros",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "credit0",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "credit1",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "RiskPausedChanged",
+        "inputs": [
+          {
+            "name": "paused",
+            "type": "bool",
+            "indexed": false,
+            "internalType": "bool"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "RoleAdminChanged",
+        "inputs": [
+          {
+            "name": "role",
+            "type": "bytes32",
+            "indexed": true,
+            "internalType": "bytes32"
+          },
+          {
+            "name": "previousAdminRole",
+            "type": "bytes32",
+            "indexed": true,
+            "internalType": "bytes32"
+          },
+          {
+            "name": "newAdminRole",
+            "type": "bytes32",
+            "indexed": true,
+            "internalType": "bytes32"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "RoleGranted",
+        "inputs": [
+          {
+            "name": "role",
+            "type": "bytes32",
+            "indexed": true,
+            "internalType": "bytes32"
+          },
+          {
+            "name": "account",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "sender",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "RoleRevoked",
+        "inputs": [
+          {
+            "name": "role",
+            "type": "bytes32",
+            "indexed": true,
+            "internalType": "bytes32"
+          },
+          {
+            "name": "account",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "sender",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "SafeRedeemRequested",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "epoch",
+            "type": "uint64",
+            "indexed": true,
+            "internalType": "uint64"
+          },
+          {
+            "name": "shares",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "SolvencyRestored",
+        "inputs": [
+          {
+            "name": "incidentId",
+            "type": "uint256",
+            "indexed": true,
+            "internalType": "uint256"
+          },
+          {
+            "name": "actualBalance",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "accountedObligations",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "Subscribed",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "usdc",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "pros",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "assets",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "shares",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "observation",
+            "type": "bytes32",
+            "indexed": false,
+            "internalType": "bytes32"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "SurplusClassified",
+        "inputs": [
+          {
+            "name": "amount",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "Transfer",
+        "inputs": [
+          {
+            "name": "from",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "to",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "value",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "YieldRefundReceiverChanged",
+        "inputs": [
+          {
+            "name": "oldReceiver",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "newReceiver",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "error",
+        "name": "AccessControlBadConfirmation",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "AccessControlUnauthorizedAccount",
+        "inputs": [
+          {
+            "name": "account",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "neededRole",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          }
+        ]
+      },
+      {
+        "type": "error",
+        "name": "AlreadySettled",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "ClaimExceeded",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "DirectShareTransferToVault",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "ERC20InsufficientAllowance",
+        "inputs": [
+          {
+            "name": "spender",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "allowance",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "needed",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "type": "error",
+        "name": "ERC20InsufficientBalance",
+        "inputs": [
+          {
+            "name": "sender",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "balance",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "needed",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "type": "error",
+        "name": "ERC20InvalidApprover",
+        "inputs": [
+          {
+            "name": "approver",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "type": "error",
+        "name": "ERC20InvalidReceiver",
+        "inputs": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "type": "error",
+        "name": "ERC20InvalidSender",
+        "inputs": [
+          {
+            "name": "sender",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "type": "error",
+        "name": "ERC20InvalidSpender",
+        "inputs": [
+          {
+            "name": "spender",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "type": "error",
+        "name": "INSOLVENT",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "InvalidAddress",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "InvalidAmount",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "InvalidEpoch",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "InvalidInitialization",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "InvalidPlan",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "InvalidState",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "MATURED_FIRST",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "NotInitializing",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "OracleInvalid",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "ReentrancyGuardReentrantCall",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "RequestsPaused",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "ReserveInsufficient",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "RiskBudgetExceeded",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "RiskPaused",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "SOLVENCY_SYNC_REQUIRED",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "SafeCastOverflowedUintDowncast",
+        "inputs": [
+          {
+            "name": "bits",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
+            "name": "value",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "type": "error",
+        "name": "SkeletonOnly",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "UNDERBACKED",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "Unauthorized",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "UnfairMint",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "UnsupportedOperation",
+        "inputs": []
+      }
+    ],
+    "ProsReserve": [
+      {
+        "type": "constructor",
+        "inputs": [
+          {
+            "name": "tl",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "purpose_",
+            "type": "uint8",
+            "internalType": "enum IProsReserve.Purpose"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "authorizePeriod",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          },
+          {
+            "name": "",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "available",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "bindVault",
+        "inputs": [
+          {
+            "name": "v",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "boundVault",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "consume",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "fund",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "fundingReceiver",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "period",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct IProsReserve.Period",
+            "components": [
+              {
+                "name": "id",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "start",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "expiry",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "limit",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "spent",
+                "type": "uint128",
+                "internalType": "uint128"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "purpose",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint8",
+            "internalType": "enum IProsReserve.Purpose"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "timelock",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "withdrawUncommitted",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "wpros",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "event",
+        "name": "ReserveConsumed",
+        "inputs": [
+          {
+            "name": "periodId",
+            "type": "uint128",
+            "indexed": true,
+            "internalType": "uint128"
+          },
+          {
+            "name": "amount",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          },
+          {
+            "name": "spent",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "ReserveFunded",
+        "inputs": [
+          {
+            "name": "funder",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "amount",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "ReservePeriodChanged",
+        "inputs": [
+          {
+            "name": "periodId",
+            "type": "uint128",
+            "indexed": true,
+            "internalType": "uint128"
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "indexed": false,
+            "internalType": "uint64"
+          },
+          {
+            "name": "expiry",
+            "type": "uint64",
+            "indexed": false,
+            "internalType": "uint64"
+          },
+          {
+            "name": "limit",
+            "type": "uint128",
+            "indexed": false,
+            "internalType": "uint128"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "UncommittedWithdrawn",
+        "inputs": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "amount",
+            "type": "uint256",
+            "indexed": false,
+            "internalType": "uint256"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "VaultBound",
+        "inputs": [
+          {
+            "name": "vault",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "error",
+        "name": "InvalidBinding",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "ReentrancyGuardReentrantCall",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "SkeletonOnly",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "Unauthorized",
+        "inputs": []
+      }
+    ],
+    "UpgradeGateway": [
+      {
+        "type": "constructor",
+        "inputs": [
+          {
+            "name": "tl",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "floor_",
+            "type": "uint64",
+            "internalType": "uint64"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "bind",
+        "inputs": [
+          {
+            "name": "v",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "admin",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "boundVault",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "busy",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "cancelUpgrade",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "delayFloor",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint64",
+            "internalType": "uint64"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "enter",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "executeUpgrade",
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          },
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "",
+            "type": "bytes",
+            "internalType": "bytes"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "leave",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "proposal",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple",
+            "internalType": "struct IUpgradeGateway.Proposal",
+            "components": [
+              {
+                "name": "nonce",
+                "type": "uint128",
+                "internalType": "uint128"
+              },
+              {
+                "name": "eta",
+                "type": "uint64",
+                "internalType": "uint64"
+              },
+              {
+                "name": "canceled",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "implementation",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "dataHash",
+                "type": "bytes32",
+                "internalType": "bytes32"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "proxyAdmin",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "queueUpgrade",
+        "inputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint128",
+            "internalType": "uint128"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "timelock",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "upgrading",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "event",
+        "name": "GatewayBound",
+        "inputs": [
+          {
+            "name": "vault",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "admin",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "UpgradeCanceled",
+        "inputs": [
+          {
+            "name": "nonce",
+            "type": "uint128",
+            "indexed": true,
+            "internalType": "uint128"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "UpgradeExecuted",
+        "inputs": [
+          {
+            "name": "nonce",
+            "type": "uint128",
+            "indexed": true,
+            "internalType": "uint128"
+          },
+          {
+            "name": "implementation",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "dataHash",
+            "type": "bytes32",
+            "indexed": false,
+            "internalType": "bytes32"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "event",
+        "name": "UpgradeQueued",
+        "inputs": [
+          {
+            "name": "nonce",
+            "type": "uint128",
+            "indexed": true,
+            "internalType": "uint128"
+          },
+          {
+            "name": "implementation",
+            "type": "address",
+            "indexed": true,
+            "internalType": "address"
+          },
+          {
+            "name": "dataHash",
+            "type": "bytes32",
+            "indexed": false,
+            "internalType": "bytes32"
+          },
+          {
+            "name": "eta",
+            "type": "uint64",
+            "indexed": false,
+            "internalType": "uint64"
+          }
+        ],
+        "anonymous": false
+      },
+      {
+        "type": "error",
+        "name": "Busy",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "InvalidBinding",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "NotBusy",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "ReentrancyGuardReentrantCall",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "SkeletonOnly",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "Unauthorized",
+        "inputs": []
+      },
+      {
+        "type": "error",
+        "name": "Upgrading",
+        "inputs": []
+      }
+    ],
+    "TbPROSLens": [
+      {
+        "type": "function",
+        "name": "solvency",
+        "inputs": [
+          {
+            "name": "vault",
+            "type": "address",
+            "internalType": "contract ITbPROSVault"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "insolvent",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "obligations",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "balance",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "deficit",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "surplus",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      }
+    ]
+  }
+}

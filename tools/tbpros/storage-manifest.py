@@ -1,0 +1,69 @@
+"""Annotate compiler layouts with reviewed economic semantics; fail on unclassified fields."""
+from pathlib import Path
+import json
+
+root = Path('docs/tbpros/verification')
+j = json.loads((root/'core-storage-layout.json').read_text())
+# unit, meaning. Writers/reset/upgrade rules are attached per struct below.
+meaning = {
+'Accounting': {'R':('stPROS raw18','released active assets; excludes P/F/H'), 'P':('stPROS raw18','unpaid settled base entitlement plus epoch rounding residue'), 'F':('stPROS raw18','penalty/protocol residual; first loss buffer'), 'U':('USDC raw6','nominal outstanding subscription principal'), 'B':('PROS raw18','outstanding subscribed PROS principal'), 'C':('PROS raw18','outstanding principal cap; distinct from flow credits')},
+'Mode': {'insolvent':('bool','committed objective incident flag, not a privilege pause'), 'incidentId':('counter','monotonic incident entry number; does not increment for repeated sync in one incident'), 'enteredAt':('UTC seconds','last incident entry time; not cleared by restore')},
+'Dependencies': {k:('address',v) for k,v in {'timelock':'fixed core governance root','usdc':'subscription payment token, expected 6 decimals','wpros':'fixed conversion asset and reserve custody, expected 18 decimals','stpros':'fixed payout/custody token, expected 18 decimals; asset()=WPROS','subscriptionReserve':'fixed subscription-purpose WPROS reserve','yieldReserve':'fixed yield-purpose WPROS reserve','oracle':'replaceable immutable-code adapter; provider deferred','gateway':'fixed upgrade/funds interlock','foundationReceiver':'USDC subscription recipient','yieldRefundReceiver':'unused base stPROS refund recipient; neither Reserve nor Vault'}.items()},
+'Policy': {'uCap':('USDC raw6','maximum nominal U for funded plan scope'), 'maxMintLossBps':('bps','E01 relative rounding-loss bound; injected, not calibrated'), 'fastFeeBps':('bps','fixed capped service fee'), 'maxFastFeeBps':('bps','hard maximum for service fee in this product version'), 'maxPlanDuration':('seconds','allowed funded-plan duration bound'), 'riskPaused':('bool','blocks subscribe/fast only, no global share pause'), 'requestsPaused':('bool','blocks complex request only; safe ignores')},
+'Bucket': {'capacity':('PROS raw18','burst capacity, separate for each of two buckets'), 'credit':('PROS raw18','remaining flow allowance; never restored by burn/funding/config switch'), 'refillRateWad':('PROS raw18 * 1e18 / second','exact fixed-denominator rate representation; rho numeric value pending'), 'lastUpdate':('UTC seconds','last materialized refill/consumption time; initializes to current timestamp'), 'remainder':('numerator modulo 1e18','fractional PROS raw carry, 0<=r<1e18; no independent allowance')},
+'Plan': {'id':('counter','monotonic plan identity; identifies source with base/penalty array slot'), 'start':('UTC seconds','inclusive future eligibility start'), 'end':('UTC seconds','exclusive eligibility end'), 'cursor':('UTC seconds','last successful checkpoint clipped to eligible interval; not advanced by partial settlement'), 'status':('enum uint8','Empty/Funded/Active/Retired; retired after full burn prevents old H entering new supply'), 'numeratorRemainder':('USD18 * 10000 * YEAR numerator units','APR division carry <10000*YEAR; not a USD claim; burn scales down, full burn clears'), 'sources':('Source[2]','base then penalty; distributable is derived sum of remaining')},
+'Source': {'remaining':('stPROS raw18','real unspent funded budget; all H=sum four remaining'), 'realizedYield':('stPROS raw18','cumulative successful H->R for this current source'), 'realizedLoss':('stPROS raw18','cumulative F/H-layer source write-down; never user haircut units'), 'funded':('stPROS raw18','actual funded baseline for current source conservation; never a second entitlement')},
+'Epoch': {'totalRequestedShares':('share raw18','aggregate escrow admission; immutable once settled'), 'totalClaimedShares':('share raw18','aggregate consumed rights, used for final dust completion'), 'num':('stPROS raw18','immutable pre-settlement R numerator'), 'den':('share raw18','immutable pre-settlement ERC20 totalSupply denominator'), 'remainingAssets':('stPROS raw18','O(1) unpaid epoch budget including unresolved floor dust; no independently withdrawable right'), 'nextDueAt':('UTC seconds/key','next nonempty unsettled node; zero sentinel'), 'status':('enum uint8','Empty/Requested/Settled; maturity derived by time, completed data may be deleted')},
+'Position': {'requestedShares':('share raw18','sole entitlement for (controller,dueAt), combined before settlement'), 'claimedShares':('share raw18','cumulative consumed share amount; no burn or asset entitlement mirror')},
+'Layout': {'accounting':('struct','sole core economic aggregate; S is exclusively OZ totalSupply'), 'mode':('struct','one-slot objective incident record'), 'dependencies':('struct','bindings/configuration references'), 'policy':('struct','limits and isolated pause bits'), 'plans':('Plan[2]','active,next, each with base,penalty; fixed current state, no history'), 'riskBuckets':('Bucket[2]','independent short/long flow envelopes'), 'nextPlanId':('counter','next monotonic ID, initial 1, never reused'), 'queueHead':('UTC seconds/key','earliest nonempty unsettled epoch, zero empty'), 'queueTail':('UTC seconds/key','last nonempty unsettled epoch, zero empty'), 'lastSettledDueAt':('UTC seconds/key','monotonic settlement high-water mark; prevents replay after deleting completed epoch'), 'epochs':('mapping dueAt=>Epoch','unique strict-next-UTC-month identity; no separate epochId/dueAt mirror'), 'positions':('mapping controller=>dueAt=>Position','single share right, no caller-supplied asset balance'), 'openPositionCount':('mapping controller=>count','normal request count only; never used to reject safe admission'), 'operators':('mapping controller=>operator=>bool','explicit delegated custom request/claim authority')},
+'ERC20Storage': {'_balances':('share raw18','only wallet and Vault escrow share balances'), '_allowances':('share raw18','ordinary spend allowance, not Claim authorization'), '_totalSupply':('share raw18','sole S, OZ uint256 storage with protocol mint bound uint128'), '_name':('string','immutable metadata tbPROS'), '_symbol':('string','immutable metadata tbPROS')},
+'AccessControlStorage': {'_roles':('mapping bytes32=>RoleData','OZ role registry; fixed default admin TL, managed Guardian')},
+'RoleData': {'hasRole':('mapping address=>bool','role membership; no enumeration history'), 'adminRole':('bytes32','role administration identity; default admin fixed, no external setter')},
+'InitializableStorage': {'_initialized':('version uint64','OZ initializer version; implementation disabled at max; proxy initializes at 1'), '_initializing':('bool','OZ initializer call-frame state')},
+'Period': {'id':('counter','explicit monotonically increasing period ID'), 'start':('UTC seconds','inclusive authorization start'), 'expiry':('UTC seconds','exclusive expiry; later funding does not revive'), 'limit':('WPROS raw18','maximum allowance this period, not derived from balance'), 'spent':('WPROS raw18','actual consume counter; no mid-period reset')},
+'Proposal': {'nonce':('counter','monotonic proposal/replay identity; persist after consume/cancel'), 'eta':('UTC seconds','queue time + immutable Gateway delay floor'), 'canceled':('bool','cancel marker for current nonce'), 'implementation':('address','exact implementation target for bound proxy only'), 'dataHash':('bytes32','keccak256 migration calldata; never arbitrary executor payload')},
+}
+rules = {
+'Accounting':('Vault business helpers; C init/TL config','R/U/B clear only at full burn; P after all claims/dust; F only approved classification/payout/absorption'),
+'Mode':('Vault sync/restore only (both stub now)','restore clears bool only; never reset counter/time; F/H do not resurrect'),
+'Dependencies':('Vault initializer; only oracle/receivers have fixed-TL setters','fixed bindings never reset; mutable references only documented setters'),
+'Policy':('Vault init/TL config; Guardian only tightens pause','no reset of accepted risk history; hard fee maximum requires product-version change'),
+'Bucket':('Vault init/consume/refill/TL conservative reconfiguration','init credit/remainder=0; refill/cap clipping materialize before config; saturation clears unused remainder; no free top-up'),
+'Plan':('Vault funded-plan/checkpoint/close helpers (stub)','reuse fixed active/next only after close completes or safe atomic promotion; full burn retires; cursor/carry cannot pass to new holders'),
+'Source':('Vault plan/checkpoint/sync/close helpers (stub)','zero/delete only after refund/return fully accounted and source events emitted; no revival'),
+'Epoch':('Vault shared request/settle/claim helpers (stub)','delete completed epoch only after all shares claimed and remainingAssets->F; keep high-water replay guard'),
+'Position':('Vault shared request/claim helpers (stub)','delete after all requested shares consumed; no new request into settled epoch; event history only'),
+'Layout':('Vault only; nested writers as specified','no whole-layout reset; monotonic IDs/watermark never reset; completed economic data only per lifecycle'),
+'ERC20Storage':('OZ ERC20 through guarded Vault transfer/mint/burn/escrow','supply changes only future subscribe/settle/fast; balances naturally zero; metadata never reset'),
+'AccessControlStorage':('OZ internal init; TL grant/revoke Guardian; self Guardian renounce','cannot grant/revoke/renounce default admin through exposed methods'),
+'RoleData':('OZ via constrained Vault roles','Guardian membership removable; root/adminRole immutable in this implementation'),
+'InitializableStorage':('OZ Initializable only','version never decreases; initializing cleared on completed initializer or rollback'),
+'Period':('Reserve TL authorization/onlyVault consumption (stub)','new explicit nonoverlapping expired period only; no spent reset while active'),
+'Proposal':('Gateway onlyTL queue/cancel/executeUpgrade (stub)','single proposal slot; consumed/canceled nonce not reusable; no proposal history array'),
+}
+rows=[]
+def add(types,namespace):
+ for t in types.values():
+  if 'members' not in t: continue
+  kind=t['label'].split('.')[-1]
+  assert kind in meaning,kind
+  assert {m['label'] for m in t['members']}==set(meaning[kind]),kind
+  for m in t['members']:
+   field=m['label'];unit,desc=meaning[kind][field];writer,reset=rules[kind]
+   upgrade='Preserve slot/offset/type/unit and mapping keys; semantic changes require reviewed migration, not slot reuse.'
+   if kind in ('Source','Plan','Bucket'):upgrade+=' Fixed-array stride MUST NOT change by appending fields.'
+   if kind in ('Period','Proposal'):upgrade='Immutable-code contract: no storage upgrade path. Replacement requires separately reviewed rebinding/migration architecture.'
+   rows.append({'namespace':namespace if namespace!='by-type' else ('faroo.tbpros.storage.Core' if t['label'].startswith('struct TbPROSStorage.') else {'ERC20Storage':'openzeppelin.storage.ERC20','AccessControlStorage':'openzeppelin.storage.AccessControl','RoleData':'openzeppelin.storage.AccessControl','InitializableStorage':'openzeppelin.storage.Initializable'}[kind]),'field':kind+'.'+field,'type':types[m['type']]['label'],'relative_slot':m['slot'],'offset_bytes':m['offset'],'unit':unit,'meaning':desc,'writer':writer,'reset_conditions':reset,'upgrade_rule':upgrade})
+add(j['types'],'by-type')
+for contract in ('ProsReserve','UpgradeGateway'):
+ add(j['ordinary_storage'][contract]['types'],contract+' ordinary storage')
+ for f in j['ordinary_storage'][contract]['storage']:
+  typ=j['ordinary_storage'][contract]['types'][f['type']]['label']
+  rows.append({'namespace':contract+' ordinary storage','field':f['label'],'type':typ,'relative_slot':f['slot'],'offset_bytes':f['offset'],'unit':'address' if typ=='address' else 'struct','meaning':'one-time bound Vault/admin' if typ=='address' else 'single current lifecycle record, no history','writer':contract+' fixed TL authority','reset_conditions':'binding never; record only specified lifecycle','upgrade_rule':'immutable-code contract; no ownership transfer/rebind/upgrade selector'})
+for f in ['core-storage-layout.json','storage-layout-v1.json']:
+ d=json.loads((root/f).read_text())
+ if f=='storage-layout-v1.json' and 'field_semantics' in d: continue
+ d['field_semantics']=rows;(root/f).write_text(json.dumps(d,indent=2)+'\n')
+header='# Storage field manifest\n\nCompiler-derived fields, offsets and types; offsets are relative to their struct. Writers and reset rules describe the completed V1 contract; money writers remain SkeletonOnly. Nested structs are defined once and referenced by Layout/array/mapping.\n\n| Namespace | Field | Solidity Type | Relative slot:offset | Unit | Meaning | Writer | Can Reset? | Upgrade Rule |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n'
+(root/'core-storage-fields.md').write_text(header+'\n'.join('| '+' | '.join(str(r[k]) for k in ['namespace','field','type'])+f" | {r['relative_slot']}:{r['offset_bytes']} | "+' | '.join(r[k] for k in ['unit','meaning','writer','reset_conditions','upgrade_rule'])+' |' for r in rows)+'\n')
+print(f'{len(rows)} storage field annotations checked against compiler types.')

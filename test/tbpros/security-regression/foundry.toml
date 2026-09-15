@@ -1,0 +1,21 @@
+# Isolated architecture experiments. Use --root test/tbpros/security-regression from repository root.
+[profile.default]
+src = "models"
+test = "."
+out = "../../../cache/tbpros-security/out"
+cache_path = "../../../cache/tbpros-security/forge"
+libs = ["../../../node_modules"]
+remappings = ["forge-std/=../../../node_modules/forge-std/src/", "@openzeppelin/=../../../node_modules/@openzeppelin/"]
+solc = "0.8.28"
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+via_ir = false
+
+[profile.default.fuzz]
+runs = 1024
+
+[profile.default.invariant]
+runs = 128
+depth = 64
+fail_on_revert = true

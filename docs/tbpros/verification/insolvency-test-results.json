@@ -1,0 +1,98 @@
+{
+  "timestamp_utc": "2026-09-14T16:58:40.940623+00:00",
+  "scope": "Insolvency architecture model/probe, no production Vault",
+  "commands": [
+    {
+      "name": "foundry",
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "test/tbpros/security-regression",
+        "--use",
+        "/Users/wangningbo/Library/Caches/hardhat-nodejs/compilers-v3/macosx-amd64/solc-macosx-amd64-v0.8.28+commit.7893614a",
+        "--offline",
+        "-vv"
+      ],
+      "exit_code": 0,
+      "file": "insolvency-foundry-output.txt",
+      "sha256": "bb394ef606919dd19aff802fc67a74d037f4bdc05688b154b064c08603e68411"
+    },
+    {
+      "name": "python",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "reference",
+        "-p",
+        "*_model.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "file": "insolvency-python-output.txt",
+      "sha256": "d7fe47ae0cc174f9bd5373c955bed2ca6fbdeca095e24ae808ef4721b1b20dd0"
+    },
+    {
+      "name": "storage",
+      "command": [
+        "forge",
+        "inspect",
+        "--root",
+        "test/tbpros/security-regression",
+        "--use",
+        "/Users/wangningbo/Library/Caches/hardhat-nodejs/compilers-v3/macosx-amd64/solc-macosx-amd64-v0.8.28+commit.7893614a",
+        "--offline",
+        "InsolvencyModeProbe",
+        "storage-layout",
+        "--json",
+        "--no-cache",
+        "--extra-output",
+        "storageLayout"
+      ],
+      "exit_code": 0,
+      "file": "insolvency-storage-layout.json",
+      "sha256": "a29a019a7f3b44af26c864ae1cff152b9f1491457250eb6baa0d9cef0d6e9eba"
+    }
+  ],
+  "source_sha256": {
+    "reference/accounting_model.py": "163669537e886104621b92e089eab2ad7507886ff4b21ebb1e538b05f249dd54",
+    "reference/apr_model.py": "0d76a3fa5c3c07152189013cb5c42b2250f5123d819e0c54ad10d6630d27b56c",
+    "reference/h_source_model.py": "17bc53402d0ed5b3cff26b310d3719e6d146e3561996e4fd48688b5cb19471f6",
+    "reference/insolvency_model.py": "3797304e52c7203c1345b0c7b4a5ccbf6abd113e903a0e1ec01a0dffe06e2557",
+    "reference/loss_comparison_model.py": "377b8192683712aa6d922cc1148f0fe109a996221fa8c482fa2e435a3079cb5b",
+    "reference/loss_model.py": "0c641560e43c06cdd3f4c580684d45fc620e392602d0e95995f3b1175af4dc22",
+    "reference/mint_rounding_model.py": "d3ba7fb85802267b318e51f5cf9bf49ce0638a6d49a9982f9f4b0d942021c24d",
+    "reference/price_exposure_model.py": "5b71d463268a299434bd3191d3a3568952129716809b03ea5710059046f3b6c9",
+    "reference/scaled_loss_model.py": "594eb9dc1ef0ed4ee561386cc7ce41a1e8c2f3d050f1d55fbd6bcb454e83d074",
+    "reference/yield_model.py": "50bb9e7057f12df31f403fa11f3f227240e42902da0d4e57a3bfb95007507bf7",
+    "test/tbpros/pharos-fork/PharosDependencies.t.sol": "5089d633c766d669bace572b9a12de29083770e5de294f0c9fee3f137c0998c5",
+    "test/tbpros/pharos-fork/foundry.toml": "510a11df2e368f5e2ab565df022960716c7a7ceb6ea07f292e199695b21fd856",
+    "test/tbpros/security-regression/H01_GuardianExit.t.sol": "54bcc2ac5f4cb7445a5688ec764d8927b274f3c252d43390033ecc6181e03e01",
+    "test/tbpros/security-regression/H02_LowSupplyMint.t.sol": "bfff42fd2dfb02769e7edc271488376081759e1e48cffc322d571ea663c2da73",
+    "test/tbpros/security-regression/H03_YieldSandwich.t.sol": "a5d39a45c996b473eb83749bbef2f75cc2af9e2f6d1165ecde8f45567c2e38c4",
+    "test/tbpros/security-regression/H04_LaggedOracle.t.sol": "2add4ab414bb65fda7eadd2015556ccc96a609d70221d64ad864a89984bc19f8",
+    "test/tbpros/security-regression/H05_USDCDepeg.t.sol": "317357a1b946895fa59e0615ab738532e1f50aab2864c8a933519559432a322b",
+    "test/tbpros/security-regression/H06_DeficitWaterfall.t.sol": "cae965c11a6f27f4675d1f8417b8c5de4d6af3eb021a4c2bcd521b58f03b0739",
+    "test/tbpros/security-regression/InsolvencyMode.t.sol": "fd6a6166cc4325f04a83611bdb97e6fd5dc637884bf33cabeb71d1018b06ceda",
+    "test/tbpros/security-regression/ProductSemantics.t.sol": "79c6373503f070e790ee6805ddf48a32835f086ba267db27d8d96b8802e83bce",
+    "test/tbpros/security-regression/RealizedYieldAndPoolUnits.t.sol": "2716d9eac0661133fb3b5d3dd68639177b176fd40ee7d80b5509a634c0740f03",
+    "test/tbpros/security-regression/ScaledRecoveryIndex.t.sol": "285866a6d36bf8567d538ba3c7ceedeaf8356b370523a9d8ae08dfd612e9cbd7",
+    "test/tbpros/security-regression/SecurityInvariant.t.sol": "52dae4b41658b19005a923197f3d51415447104b231f18d7e9e480b2274a6aa6",
+    "test/tbpros/security-regression/UpgradeDuringCallback.t.sol": "25efcd95a058d925d67762c57fb4b5e2b35615faa479f0f9978255432431a37d",
+    "test/tbpros/security-regression/foundry.toml": "b028f0ae2c96db2777737ea7e3a3c28477f925714412527889dc05050b0949c8",
+    "test/tbpros/security-regression/models/RegressionModels.sol": "6b25079027f88fe955ef5bac2e3f32b7727f01750edd9daa808d3049a9ab4ba9"
+  },
+  "negative_evidence_unchanged": true,
+  "pharos_rerun": false,
+  "gates": {
+    "insolvency": "APPROVED_MODEL_VERIFIED",
+    "loss_math_01": "CLOSED_BY_PRODUCT_SCOPE_REDUCTION",
+    "core": "READY_FOR_IMPLEMENTATION_SKELETON",
+    "production": "NO_GO",
+    "dep_01": "PRODUCTION_INTEGRATION_BLOCKED"
+  },
+  "storage_inspection_note": "Initial cached inspect returned Could not get storage layout; recompiled with --no-cache --extra-output storageLayout. Test runs above passed against final source."
+}
